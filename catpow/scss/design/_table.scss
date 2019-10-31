@@ -1,0 +1,37 @@
+@mixin table_style_a($color:#666){
+	margin:10px;border-collapse:collapse;border-spacing:0px;
+	td,th{padding:3px 5px;font-size:14px;}
+	th{color:$color;font-weight:bold;}
+	&>tr{border-bottom:dotted #888 1px;}&>tr:last-child{border-bottom:none;}
+	tbody{tr{border-bottom:dotted #888 1px;}tr:last-child{border-bottom:none;}}
+	thead{tr:last-child{border-bottom:solid #888 1px;td,th{font-weight:bold}}}
+	tfoot{tr:first-child{border-top:solid #888 1px;td,th{font-weight:bold}}}
+}
+@mixin table_style_b($color:#666,$radius:5px,$space:0px){
+	margin:10px;border-collapse:separate;border-spacing:$space;@include box-shadow(0px 1px 3px 0px #000);@include border-radius($radius+$space);
+	&,tbody{th,td{color:#333;}}
+	td,th{
+		@include shade();padding:3px 5px;font-size:14px;
+		border-left:solid #CCC 1px;&:first-child{border-left:none;}
+	}
+	th{font-weight:bold;}
+	thead,tfoot{tr{th,td{color:$color;}}}
+	@include round_table($radius);
+}
+@mixin table_style_c($color:#666,$radius:5px,$space:0px){
+	margin:10px;border-collapse:separate;border-spacing:$space;@include box-shadow(0px 1px 3px 0px #000);@include border-radius($radius+$space);
+	&,tbody{
+		&>tr:nth-child(odd){
+			th{@include glass(tint($color,15%));}
+			td{@include glass(tint($color,5%));}
+		}
+		&>tr:nth-child(even){
+			th{@include glass(tint($color,20%));}
+			td{@include glass(tint($color,10%));}
+		}
+	}
+	td,th{padding:3px 5px;font-size:14px;border-left:solid #CCC 1px;&:first-child{border-left:none;}}
+	th{font-weight:bold;}
+	thead,tfoot{tr{th,td{@include glass($color);color:#FFF;}}}
+	@include round_table($radius);
+}

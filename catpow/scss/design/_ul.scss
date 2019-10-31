@@ -1,0 +1,128 @@
+@mixin menubar_list_style_a($color:#333,$radius:11px){
+	margin:10px;border:solid $color 1px;@include border-radius($radius);padding:0px $radius;height:20px;
+	li{list-style:none}
+	&>li{
+		position:relative;@include pull_left;height:20px;list-style:none;
+		&>a{
+			color:$color;font-weight:500;padding:4px 20px;line-height:12px;font-size:12px;
+			display:block;height:28px;text-align:center;height:20px;
+			small{margin-left:5px;color:#666;}
+		}
+	}
+	&>li:hover,&>li.active,&>li.current-menu-item{background-color:tint($color,20%);}
+	@include dropdown_list_style_a($color,20px);
+}
+@mixin menubar_list_style_b($color:#333,$radius:15px){
+	margin:10px;padding:0px $radius;height:30px;
+	@include gradient(#fff,#eee);@include box-shadow(0px 1px 3px 0px #000);@include border-radius($radius);
+	&>li{
+		border-color:transparent #CCC;border-width:1px;border-style:solid;height:28px;list-style:none;
+		position:relative;@include pull_left;
+		&>a{
+			color:#333;font-weight:500;padding:4px 20px;line-height:14px;font-size:14px;display:block;height:28px;text-align:center;
+			small{margin-left:5px;color:#666;}
+		}
+		@include text-shadow(-1px -1px 1px #CCC);
+		&>a:after{
+			margin-top:3px;content:" ";height:3px;display:block;
+			background-color:tint($color,30%);
+			@include box-shadow(inset 0px 1px 0px 0px #888);@include border-radius(2px);
+			
+		}
+	}
+	&>li:hover,&>li.active,&>li.current-menu-item{
+		&>a:after{
+			background-color:$color;
+		}
+	}
+	@include dropdown_list_style_b($color,30px);
+}
+@mixin menubar_list_style_c($color:#333,$radius:15px){
+	margin:10px;padding:0px $radius;height:30px;
+	@include glass($color);@include box-shadow(0px 1px 3px 0px $color);@include border-radius($radius);
+	&>li{
+		border-color:transparent tint($color,90%);border-width:1px;border-style:solid;height:28px;list-style:none;
+		position:relative;@include pull_left;
+		&>a{
+			color:#fff;font-weight:500;padding:6px 20px;line-height:14px;font-size:14px;display:block;height:28px;text-align:center;
+			small{margin-left:5px;color:tint($color,10%);}
+		}
+		@include text-shadow(-1px -1px 1px tint($color,80%));
+	}
+	&>li:hover,&>li.active,&>li.current-menu-item{
+		@include glass(lighten($color,10%));
+	}
+	@include dropdown_list_style_c($color,30px);
+}
+
+@mixin menupanel_list_style_b($color:#333,$radius:5px){
+	margin:10px;
+	@include box-shadow(0px 1px 3px 0px #000);@include border-radius($radius);
+	&>li{
+		height:28px;list-style:none;
+		position:relative;@include shade();
+		&>a{color:#333;font-weight:500;padding:10px 20px;line-height:14px;font-size:14px;display:block;height:28px;text-align:center;}
+		@include text-shadow(-1px -1px 1px #CCC);
+		&:first-child{@include border-radius($radius $radius 0px 0px);}
+		&:last-child{@include border-radius(0px 0px $radius $radius);}
+	}
+	&>li:hover,&>li.active,&>li.current-menu-item{
+		@include shade($color);
+		&>a{color:#FFF;}
+	}
+	@include dropdown_list_style_b($color,30px);
+}
+
+@mixin dropdown_list_style_a($color:#333,$top:30px){
+	&>li{
+		ul,ol{
+			position:absolute;z-index:999;top:$top;left:0px;display:none;width:100%;
+			li{
+				display:block;width:auto;width:100%;list-style:none;
+				&:first-child a{@include border-radius(10px 10px 0px 0px);border-width:2px 2px 0px 2px;}
+				&:last-child a{@include border-radius(0px 0px 10px 10px);border-width:1px 2px 2px 2px;}
+			}
+			a{
+				color:#333;background-color:#FFF;
+				padding:5px;font-size:12px;display:block;border:solid tint($color,50%);border-width:1px 2px 0px;
+				&:hover{color:$color;background-color:tint($color,20%);}
+			}
+			
+		}
+		&:hover{
+			ul,ol{display:block;}
+		}
+	}
+}
+@mixin dropdown_list_style_b($color:#333,$top:30px){
+	&>li{
+		ul,ol{
+			position:absolute;z-index:999;top:$top;left:0px;display:none;
+			@include box-shadow(0px 2px 5px 0px #333);width:100%;
+			li{display:block;width:auto;width:100%;list-style:none;}
+			a{
+				color:#333;padding:5px;font-size:12px;@include gradient(#fff,#eee);display:block;
+				&:hover{color:$color;@include shade(tint($color,20%));}
+			}
+		}
+		&:hover{
+			ul,ol{display:block;}
+		}
+	}
+}
+@mixin dropdown_list_style_c($color:#333,$top:30px){
+	&>li{
+		ul,ol{
+			position:absolute;z-index:999;top:$top;left:0px;display:none;
+			@include box-shadow(0px 2px 5px 0px #333);width:100%;
+			li{display:block;width:auto;width:100%;list-style:none;}
+			a{
+				color:#fff;padding:5px;font-size:12px;@include shade($color);display:block;
+				&:hover{@include shade(tint($color,70%));}
+			}
+		}
+		&:hover{
+			ul,ol{display:block;}
+		}
+	}
+}

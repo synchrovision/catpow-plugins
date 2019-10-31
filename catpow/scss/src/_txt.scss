@@ -1,0 +1,80 @@
+@mixin txt($txt){
+	$keys:(
+		i:text-indent,a:text-align,h:line-height,v:vertical-align,
+		f:font-family,p:font-size,
+		t:letter-spacing,ls:letter-spacing,c:color,
+		w:font-weight,fw:font-weight,fs:font-style,
+		td:text-decoration,to:text-oriantation,
+		l:list-style,
+		whs:white-space,wds:word-spacing,wb:word-break,b:word-break
+	);
+	$avals:(l:left,r:right,c:center,j:justify,n:nowrap);
+	$akeys:(l:a,r:a,c:a,j:a,n:whs);
+	$bvals:(k:keep-all,b:break-all,n:normal);
+	$vvals:(t:top,m:middle,b:bottom,l:baseline);
+	$svals:(r:normal,b:bold,l:lighter,i:italic,n:none,u:underline,o:overline,s:line-through);
+	$skeys:(r:fw,b:fw,l:fw,i:fs,n:td,u:td,o:td,s:td);
+	$wvals:(t:100,e:200,l:300,r:400,m:500,d:600,b:700,u:800,h:900);
+	$lvals:(n:none,ds:disc,cr:circle,sq:square,alp:upper-alpha,dec:decimal,rom:upper-roman,hira:hiragana);
+	$mvals:(h:horizontal-tb,vr:vertical-rl,vl:vertical-lr);
+	$tovals:(m:mixed,s:sideway,u:upright);
+	@each $key,$val in $txt{
+		@if $key == p or $key == h{$val:cp_get_size_value($val);}
+		@if $key == c{$val:cp_get_color($val);}
+		@if $key == f{$val:cp_get_font($val);}
+		@if $key == b{$val:replace_values($val,$bvals);}
+		@if $key == a{$key:replace_values($val,$akeys);$val:replace_values($val,$avals);}
+		@if $key == v{$val:replace_values($val,$vvals);}
+		@if $key == s{$key:replace_values($val,$skeys);$val:replace_values($val,$svals);}
+		@if $key == l{$val:replace_values($val,$lvals);}
+		@if $key == w{$val:replace_values($val,$wvals);}
+		@if $key == m{@include writing-mode(replace_values($val,$mvals));}
+		@if $key == t{$val:cp_get_size_value($val);}
+		@if $key == to{$val:replace_values($val,$tovals);}
+		@if map-has-key($keys,$key){#{map-get($keys,$key)}:$val;}
+	}
+}
+
+@mixin link-colors($args...){
+	&:normal{color:nth($args,1);}
+	&:hover{color:nth($args,2);}
+	&:active{color:nth($args,3);}
+	&:visited{color:nth($args,4);}
+	&:focus{color:nth($args,5);}
+}
+
+@mixin writing-mode($mode){
+	-webkit-writing-mode:$mode;
+	   -moz-writing-mode:$mode;
+	    -ms-writing-mode:$mode;
+	     -o-writing-mode:$mode;
+	        writing-mode:$mode;
+}
+
+@mixin paragraph_style($align:left,$lineheight:150%,$indent:0,$letterspacing:inherit,$wordspacing:inherit){
+	text-align:$align;line-height:$lineheight;text-indent:$indent;letter-spacing:$letterspacing;word-spacing:$wordspacing;
+}
+
+@mixin text_style($size:12px,$color:#888,$weight:normal,$font:inherit,$style:inherit,$decoration:inherit){
+	font-size:$size;color:$color;font-weight:$weight;font-style:$style;text-decoration:$decoration;font-family:$font;
+}
+@mixin placeholder_style($size:inherit,$color:#ccc,$weight:normal,$font:inherit,$style:inherit,$decoration:inherit,$opacity:1){
+	&:placeholder{
+		font-size:$size;color:$color;font-weight:$weight;font-style:$style;text-decoration:$decoration;font-family:$font;opacity:$opacity;
+	}
+	&::-webkit-input-placeholder{
+		font-size:$size;color:$color;font-weight:$weight;font-style:$style;text-decoration:$decoration;font-family:$font;opacity:$opacity;
+	}
+	&:-ms-input-placeholder{
+		font-size:$size;color:$color;font-weight:$weight;font-style:$style;text-decoration:$decoration;font-family:$font;opacity:$opacity;
+	}
+	&::-moz-placeholder{
+		font-size:$size;color:$color;font-weight:$weight;font-style:$style;text-decoration:$decoration;font-family:$font;opacity:$opacity;
+	}
+}
+
+@mixin text_combine(){
+	-webkit-text-combine: horizontal;
+	-ms-text-combine-horizontal: all;
+	text-combine-upright: all;
+}

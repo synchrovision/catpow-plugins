@@ -1,0 +1,21 @@
+<?php
+	$cp_ig_info=get_option('cp_ig_info');
+	if(!empty($cp_ig_info)){
+		$this_cp_ig_info=array(
+			$json->user->username=>array(
+				'user_id'=>$json->user->id,
+				'access_token'=>$json->access_token
+			)
+		);
+		update_option('cp_ig_info',array_merge($cp_ig_info,$this_cp_ig_info));
+	}else{
+		update_option('cp_ig_info',array(
+			$json->user->username=>array(
+				'user_id'=>$json->user->id,
+				'access_token'=>$json->access_token
+			)
+		));
+	//update_option('cp_ig_refresh_token',$json->refresh_token);
+	}
+?>
+アクセストークンが登録されました

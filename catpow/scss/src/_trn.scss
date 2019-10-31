@@ -1,0 +1,106 @@
+@mixin trn($trn){
+	$tfncs:(
+		x:translateX,y:translateY,z:translateZ,
+		r:rotateZ,rx:rotateX,ry:rotateY,
+		s:scale,sx:scaleX,sy:scaleY,
+		k:skew,kx:skewX,ky:skewY
+	);
+	$ffncs:(hue:hue-rotate,str:saturate,brt:brightness,inv:invert,shd:drop-shadow,blr:blur,cnt:contrast);
+	$bfvals:(h:hidden,v:visible);
+	$tf:();
+	@each $key,$val in $trn{
+		@if $key == 'x' or $key == 'y' or $key == 'z' or $key == 'p'{$val:cp_get_size_value($val);}
+		@if map-has-key($tfncs,$key){$tf:append($tf,(map-get($tfncs,$key) + '(' + $val + ')'));}
+		@if map-has-key($ffncs,$key){
+			@include filter(map-get($ffncs,$key) + '(' + $val + ')');
+		}
+		@if $key == 'p'{perspective:$val;}
+		@if $key == 'd'{transition-delay:$val;}
+		@if $key == 'e'{transition-timing-function:ease($val);}
+		@if $key == 'o'{@include opacity($val);}
+		@if $key == 't'{@include transition($val);}
+		@if $key == 'tb'{@include transition_by($val);}
+		@if $key == 'a'{@include animation($val);}
+		@if $key == 'bf'{@include backface-visibility(map-get(bfvals,$val));}
+		@if $key == 'to'{@include transform-origin($val);}
+	}
+	@if length($tf) > 0{
+		@include transform($tf);
+	}
+}
+
+@mixin transition($trn...){
+	-webkit-transition:$trn;
+	        transition:$trn;
+}
+@mixin transition_by($dur:.5s,$by:.1s,$ease:l,$dir:0s,$len:20){
+	@for $i from 1 through $len{
+		&:nth-of-type(n+#{$i}){
+			@include transition($dur $dir + $by * $i ease($ease));
+		}
+	}
+}
+
+@mixin transform($trn...){
+	transform:-webkit-$trn;
+	transform:        $trn;
+}
+
+@mixin translateX($trn...){
+	transform:-webkit-translateX($trn);
+	transform:        translateX($trn);
+}
+@mixin translateY($trn...){
+	transform:-webkit-translateY($trn);
+	transform:        translateY($trn);
+}
+@mixin translateZ($trn...){
+	transform:-webkit-translateZ($trn);
+	transform:        translateZ($trn);
+}
+@mixin translate3d($trn...){
+	transform:-webkit-translate3d($trn);
+	transform:        translate3d($trn);
+}
+@mixin rotateX($trn...){
+	transform:-webkit-rotateX($trn);
+	transform:        rotateX($trn);
+}
+@mixin rotateY($trn...){
+	transform:-webkit-rotateY($trn);
+	transform:        rotateY($trn);
+}
+@mixin rotateZ($trn...){
+	transform:-webkit-rotateZ($trn);
+	transform:        rotateZ($trn);
+}
+@mixin scale($trn...){
+	transform:-webkit-scale($trn);
+	transform:        scale($trn);
+}
+@mixin scaleX($trn...){
+	transform:-webkit-scaleX($trn);
+	transform:        scaleX($trn);
+}
+@mixin scaleY($trn...){
+	transform:-webkit-scaleY($trn);
+	transform:        scaleY($trn);
+}
+@mixin scaleZ($trn...){
+	transform:-webkit-scaleZ($trn);
+	transform:        scaleZ($trn);
+}
+@mixin transform-origin($org...){
+	-webkit-transform-origin:$org;
+	        transform-origin:$org;
+}
+
+@mixin backface-visibility($visibility){
+	-webkit-transform-origin:$visibility;
+	        transform-origin:$visibility;
+}
+
+@mixin filter($flt...){
+	-webkit-filter:$flt;
+	        filter:$flt;
+}

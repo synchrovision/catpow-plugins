@@ -1,0 +1,313 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css?family=Graduate|M+PLUS+1p:400,500,700,800,900');
+body ul.wp-block-catpow-slick.mainvisual button.slick-arrow {
+  z-index: 100; }
+  body ul.wp-block-catpow-slick.mainvisual button.slick-arrow.slick-prev {
+    left: 1rem; }
+  body ul.wp-block-catpow-slick.mainvisual button.slick-arrow.slick-next {
+    right: 1rem; }
+  body ul.wp-block-catpow-slick.mainvisual li.item {
+    min-height: 80vh;
+    height: auto;
+    background-position: center;
+    background-size: cover;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-align-content: center;
+    align-content: center; }
+  body ul.wp-block-catpow-slick.mainvisual li.item .text {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 10rem;
+    vertical-align: middle; }
+    body ul.wp-block-catpow-slick.mainvisual li.item .text h3 {
+      padding: 0px 4rem;
+      box-sizing: border-box; }
+      body ul.wp-block-catpow-slick.mainvisual li.item .text h3, body ul.wp-block-catpow-slick.mainvisual li.item .text h3 span {
+        text-align: center;
+        font-size: 12rem;
+        line-height: 1.5em;
+        font-family: 'times';
+        font-weight: 800;
+        font-weight: bold;
+        color: #fff;
+        word-break: keep-all;
+        text-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); }
+      body ul.wp-block-catpow-slick.mainvisual li.item .text h3 span {
+        display: inline-block; }
+      body ul.wp-block-catpow-slick.mainvisual li.item .text h3 span.letter0 {
+        font-size: 1.25em; }
+    body ul.wp-block-catpow-slick.mainvisual li.item .text h4 {
+      padding: 0px 4rem;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 2rem;
+      line-height: 1.5em;
+      font-family: "Segoe UI", Verdana, "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      font-weight: bold;
+      color: #fff;
+      word-break: keep-all;
+      text-shadow: 0 3px 3px rgba(0, 0, 0, 0.2); }
+    body ul.wp-block-catpow-slick.mainvisual li.item .text p {
+      padding: 0px 4rem;
+      box-sizing: border-box;
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 1.5em;
+      font-family: "Segoe UI", Verdana, "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      font-weight: normal;
+      color: #fff;
+      word-break: keep-all;
+      text-shadow: 0 2px 2px rgba(0, 0, 0, 0.2); }
+    @media (min-width:960px) {
+          body ul.wp-block-catpow-slick.mainvisual li.item .text h3, body ul.wp-block-catpow-slick.mainvisual li.item .text h3 span {
+            font-size: 22rem; } }
+  body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span {
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    -ms-opacity: 0;
+    -o-opacity: 0;
+    opacity: 0;
+    transform: -webkit- translateX(-4rem);
+    transform: translateX(-4rem); }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter0 {
+      -webkit-transition: 0.5s 0.2s;
+      transition: 0.5s 0.2s; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter1 {
+      -webkit-transition: 0.2s 0.86s linear;
+      transition: 0.2s 0.86s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter2 {
+      -webkit-transition: 0.2s 0.92s linear;
+      transition: 0.2s 0.92s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter3 {
+      -webkit-transition: 0.2s 0.98s linear;
+      transition: 0.2s 0.98s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter4 {
+      -webkit-transition: 0.2s 1.04s linear;
+      transition: 0.2s 1.04s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter5 {
+      -webkit-transition: 0.2s 1.1s linear;
+      transition: 0.2s 1.1s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter6 {
+      -webkit-transition: 0.2s 1.16s linear;
+      transition: 0.2s 1.16s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter7 {
+      -webkit-transition: 0.2s 1.22s linear;
+      transition: 0.2s 1.22s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter8 {
+      -webkit-transition: 0.2s 1.28s linear;
+      transition: 0.2s 1.28s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter9 {
+      -webkit-transition: 0.2s 1.34s linear;
+      transition: 0.2s 1.34s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter10 {
+      -webkit-transition: 0.2s 1.4s linear;
+      transition: 0.2s 1.4s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter11 {
+      -webkit-transition: 0.2s 1.46s linear;
+      transition: 0.2s 1.46s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter12 {
+      -webkit-transition: 0.2s 1.52s linear;
+      transition: 0.2s 1.52s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter13 {
+      -webkit-transition: 0.2s 1.58s linear;
+      transition: 0.2s 1.58s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter14 {
+      -webkit-transition: 0.2s 1.64s linear;
+      transition: 0.2s 1.64s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter15 {
+      -webkit-transition: 0.2s 1.7s linear;
+      transition: 0.2s 1.7s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter16 {
+      -webkit-transition: 0.2s 1.76s linear;
+      transition: 0.2s 1.76s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter17 {
+      -webkit-transition: 0.2s 1.82s linear;
+      transition: 0.2s 1.82s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter18 {
+      -webkit-transition: 0.2s 1.88s linear;
+      transition: 0.2s 1.88s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter19 {
+      -webkit-transition: 0.2s 1.94s linear;
+      transition: 0.2s 1.94s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter20 {
+      -webkit-transition: 0.2s 2s linear;
+      transition: 0.2s 2s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter21 {
+      -webkit-transition: 0.2s 2.06s linear;
+      transition: 0.2s 2.06s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter22 {
+      -webkit-transition: 0.2s 2.12s linear;
+      transition: 0.2s 2.12s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter23 {
+      -webkit-transition: 0.2s 2.18s linear;
+      transition: 0.2s 2.18s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter24 {
+      -webkit-transition: 0.2s 2.24s linear;
+      transition: 0.2s 2.24s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter25 {
+      -webkit-transition: 0.2s 2.3s linear;
+      transition: 0.2s 2.3s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter26 {
+      -webkit-transition: 0.2s 2.36s linear;
+      transition: 0.2s 2.36s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter27 {
+      -webkit-transition: 0.2s 2.42s linear;
+      transition: 0.2s 2.42s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter28 {
+      -webkit-transition: 0.2s 2.48s linear;
+      transition: 0.2s 2.48s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter29 {
+      -webkit-transition: 0.2s 2.54s linear;
+      transition: 0.2s 2.54s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h3 span.letter30 {
+      -webkit-transition: 0.2s 2.6s linear;
+      transition: 0.2s 2.6s linear; }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text h4 {
+      -webkit-transition: 0.5s 0.5s;
+      transition: 0.5s 0.5s;
+      -webkit-opacity: 0;
+      -moz-opacity: 0;
+      -ms-opacity: 0;
+      -o-opacity: 0;
+      opacity: 0;
+      transform: -webkit- translateY(-1rem);
+      transform: translateY(-1rem); }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide .text p {
+      -webkit-transition: 0.5s 0.5s;
+      transition: 0.5s 0.5s;
+      -webkit-opacity: 0;
+      -moz-opacity: 0;
+      -ms-opacity: 0;
+      -o-opacity: 0;
+      opacity: 0;
+      transform: -webkit- translateY(-1rem);
+      transform: translateY(-1rem); }
+    body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide.slick-current .text h3, body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide.slick-current .text h3 span, body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide.slick-current .text h4, body ul.wp-block-catpow-slick.mainvisual li.item.slick-slide.slick-current .text p {
+      -webkit-opacity: 1;
+      -moz-opacity: 1;
+      -ms-opacity: 1;
+      -o-opacity: 1;
+      opacity: 1;
+      transform: -webkit- translateY(0px);
+      transform: translateY(0px); }
+  body ul.wp-block-catpow-slick.staffs {
+    display: block;
+    max-width: 96rem;
+    width: 100%;
+    margin: 0px auto;
+    padding: 1rem 3rem; }
+  body ul.wp-block-catpow-slick.staffs button.slick-arrow {
+    z-index: 100; }
+  body ul.wp-block-catpow-slick.staffs button.slick-arrow.slick-prev::before, body ul.wp-block-catpow-slick.staffs button.slick-arrow.slick-next::before {
+    color: #000; }
+  body ul.wp-block-catpow-slick.staffs button.slick-arrow.slick-prev {
+    left: 1rem; }
+    body ul.wp-block-catpow-slick.staffs button.slick-arrow.slick-prev::before {
+      content: "\f053";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900; }
+  body ul.wp-block-catpow-slick.staffs button.slick-arrow.slick-next {
+    right: 1rem; }
+    body ul.wp-block-catpow-slick.staffs button.slick-arrow.slick-next::before {
+      content: "\f054";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900; }
+  body ul.wp-block-catpow-slick.staffs li.item {
+    position: relative; }
+  body ul.wp-block-catpow-slick.staffs li.item .image {
+    padding: 0.5rem;
+    box-sizing: border-box; }
+    body ul.wp-block-catpow-slick.staffs li.item .image img, body ul.wp-block-catpow-slick.staffs li.item .image video {
+      width: 100%;
+      height: auto; }
+  body ul.wp-block-catpow-slick.staffs li.item .text {
+    padding: 0.5rem;
+    box-sizing: border-box; }
+    body ul.wp-block-catpow-slick.staffs li.item .text h3 {
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-color: #e8390d;
+      text-align: center;
+      font-size: 1.5rem;
+      line-height: 1.5em;
+      font-family: "Segoe UI", Verdana, "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      font-weight: 400;
+      color: #000; }
+    body ul.wp-block-catpow-slick.staffs li.item .text p {
+      text-align: justify;
+      font-size: 1.2rem;
+      line-height: 1.5em;
+      font-family: "Segoe UI", Verdana, "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      font-weight: 300;
+      color: #000; }
+  body ul.wp-block-catpow-slick.staffs li.item .link {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: #e8390d;
+    -webkit-transition: 1s;
+    transition: 1s;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    -ms-opacity: 0;
+    -o-opacity: 0;
+    opacity: 0; }
+  body ul.wp-block-catpow-slick.articles {
+    display: block;
+    max-width: 96rem;
+    width: 100%;
+    margin: 0px auto;
+    padding: 1rem 3rem; }
+  body ul.wp-block-catpow-slick.articles button.slick-arrow {
+    z-index: 100; }
+  body ul.wp-block-catpow-slick.articles button.slick-arrow.slick-prev::before, body ul.wp-block-catpow-slick.articles button.slick-arrow.slick-next::before {
+    color: #000; }
+  body ul.wp-block-catpow-slick.articles button.slick-arrow.slick-prev {
+    left: 1rem; }
+    body ul.wp-block-catpow-slick.articles button.slick-arrow.slick-prev::before {
+      content: "\f053";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900; }
+  body ul.wp-block-catpow-slick.articles button.slick-arrow.slick-next {
+    right: 1rem; }
+    body ul.wp-block-catpow-slick.articles button.slick-arrow.slick-next::before {
+      content: "\f054";
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900; }
+  body ul.wp-block-catpow-slick.articles li.item {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-lines: multiple;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-align-items: center;
+    align-items: center; }
+  body ul.wp-block-catpow-slick.articles li.item .image {
+    -webkit-box-flex: 0;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 12rem;
+    padding: 1rem;
+    box-sizing: border-box; }
+    body ul.wp-block-catpow-slick.articles li.item .image img {
+      width: 10rem;
+      height: 10rem;
+      border-radius: 6rem; }
+  body ul.wp-block-catpow-slick.articles li.item .text {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 15rem;
+    padding: 1rem;
+    box-sizing: border-box; }

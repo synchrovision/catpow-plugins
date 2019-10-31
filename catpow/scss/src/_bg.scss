@@ -1,0 +1,32 @@
+@mixin bg($bg){
+	$keys:(
+		i:background-image,c:background-color,
+		r:background-repeat,a:background-attachment,
+		s:background-size,p:background-position
+	);
+	$rvals:(n:no-repeat,x:repeat-x,y:repeat-y,xy:repeat,r:repeat);
+	$avals:(f:fixed,s:scroll);
+	$svals:(fit:100% 100%,cnt:contain,cvr:cover,f:100% 100%,c:cover,i:contain);
+	$pvals:(l:left,r:right,t:top,b:bottom,c:center);
+	@each $key,$val in $bg{
+		@if $key == i{$val:cp_get_image($val);}
+		@if $key == c{$val:cp_get_color($val);}
+		@if $key == r{$val:map-get($rvals,$val);}
+		@if $key == a{$val:map-get($avals,$val);}
+		@if $key == s{
+			@if map-has-key($svals,$val){$val:map-get($svals,$val);}
+			@else {$val:cp_get_size_values($val);}
+		}
+		@if $key == g{
+			$mxn:nth($val,1);
+			@if length($val) == 2{$clr:cp_get_color(nth($val,2));}
+			@else if length($val) == 3{$clr:cp_get_color(nth($val,2) nth($val,3));}
+			@else if length($val) == 4{$clr:cp_get_color(nth($val,2) nth($val,3) nth($val,4));}
+			@if $mxn == s{@include shade($clr);}
+			@if $mxn == g{@include glass($clr);}
+			@if $mxn == m{@include mist($clr);}
+		}
+		@if $key == p{$val:replace_values($val,$pvals);$val:cp_get_size_values($val);}
+		@if map-has-key($keys,$key){#{map-get($keys,$key)}:$val;}
+	}
+}

@@ -1,0 +1,18 @@
+@mixin frame_style_a($color:#666,$radius:10px,$margin:10px,$padding:10px){
+	@include border-radius($radius);
+	border:solid $color 2px;
+	margin:$margin;padding:$padding;
+}
+@mixin frame_style_b($color:#666,$radius:10px,$margin:10px,$padding:10px){
+	@include border-radius($radius);
+	@include box-shadow(#666 0px 1px 3px,inset #888 0px 0px 3px);
+	@include gradient(#fff,#eee);
+	border:solid 1px $color;
+	margin:$margin;padding:$padding;
+}
+@mixin frame_style_c($color:#666,$radius:10px,$margin:10px,$padding:10px){
+	@include border-radius($radius);
+	@include box-shadow(#666 0px 1px 3px,inset #888 0px 0px 3px);
+	@include gradient(fade-out($color,0.5),fade-out(tint($color,120%),0.5));
+	margin:$margin;padding:$padding;
+}

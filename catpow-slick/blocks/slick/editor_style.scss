@@ -1,0 +1,20 @@
+@import 'admin_style_config.scss';
+
+ul.wp-block-catpow-slick{
+	@include flx((w:n));
+	&:hover{
+		@include bdr((c:#888));
+		@include bg((c:rgba(0,255,255,.1)));
+	}
+	li{
+		@include bnd((f:1 1 5rem));
+		@include bg((p:c,s:cvr));
+	}
+}
+
+.edit-post-sidebar{
+	.imageSelector{
+		@include bnd((w:10rem,h:10rem,mgb:2rem));
+		@include bg((p:c,s:cvr,c:#aaa));
+	}
+}

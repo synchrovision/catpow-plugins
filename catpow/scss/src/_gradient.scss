@@ -1,0 +1,42 @@
+@mixin gradient($colorA:#666,$colorB:#888,$orientation:vertical){
+	@if($orientation==vertical){
+		@include linear_gradient(180deg,$colorA,$colorB);
+	}@elseif($orientation==horizontal){
+		@include linear_gradient(90deg,$colorA,$colorB);
+	}@elseif($orientation==radial){
+		background-image:radial-gradient($colorA,$colorB);
+	}
+}
+@mixin linear_gradient($deg,$colors...){
+	$drcs:(0deg:top,90deg:left,180deg:bottom,270deg:right);
+	@if(map-has-key($drcs,$deg)){$drc:map-get($drcs,$deg);}
+	@else{$drc:top;}
+	background-image: -webkit-linear-gradient($drc,$colors);
+	background-image:    -moz-linear-gradient($drc,$colors);
+	background-image:     -ms-linear-gradient($drc,$colors);
+	background-image:      -o-linear-gradient($drc,$colors);
+	background-image:         linear-gradient($deg,$colors);
+}
+@mixin radial_gradient($prm,$colors){
+	background-image: -webkit-radial-gradient($prm,$colors);
+	background-image:    -moz-radial-gradient($prm,$colors);
+	background-image:     -ms-radial-gradient($prm,$colors);
+	background-image:      -o-radial-gradient($prm,$colors);
+	background-image:         radial-gradient($prm,$colors);
+	
+}
+@mixin shade($color:#fff,$contrust:6.25%){
+	@include linear_gradient(180deg,$color,darken($color,$contrust));
+}
+@mixin glass($color:#666,$contrust:40%){
+	@include linear_gradient(180deg,
+		tint($color,100%-$contrust),
+		tint($color,100%-$contrust/2) 49%,
+		$color 50%,
+		tint($color,100%-$contrust/2)
+	);
+}
+
+@mixin mist($color:#fff,$min:0.4,$max:0.8,$deg:90deg){
+	@include linear_gradient($deg,rgba($color,$max),rgba($color,$min),rgba($color,$max));
+}

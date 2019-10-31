@@ -1,0 +1,121 @@
+@mixin headline1_style_a($color:#666){
+	margin:10px;font-size:24px;font-weight:bolder;border-left:solid 10px tint($color,120%);border-bottom:solid 3px tint($color,120%);text-indent:10px;
+}
+@mixin headline1_style_b($color:#666,$radius:5px){
+	margin:10px;padding:5px;color:#333;font-size:24px;line-height:24px;position:relative;text-indent:30px;
+	@include gradient(#fff,#eee);@include box-shadow(0px 1px 3px 0px #000);@include border-radius($radius);
+	&:before{
+		vertical-align:middle;content:" ";display:block;position:absolute;top:7px;left:7px;height:20px;width:20px;
+		background-color:$color;
+		@include box-shadow(inset 0px 2px 3px 0px tint($color,120%));@include border-radius(2px);
+	}
+	&:after{
+		margin-top:4px;content:" ";height:6px;display:block;
+		@include gradient(tint($color,120%),tint($color,80%),horizontal);
+		@include box-shadow(inset 0px 1px 0px 0px #888);@include border-radius(3px);
+	}
+}
+@mixin headline1_style_c($color:#666,$radius:3px){
+	margin:10px;padding:5px;color:#fff;font-size:24px;line-height:24px;position:relative;text-indent:32px;
+	@include glass($color);@include box-shadow(0px 1px 3px 0px #000);@include border-radius($radius);
+	@include text-shadow(1px 1px 2px lighten($color,30%),-1px -1px 2px darken($color,30%));
+	&:before{
+		vertical-align:middle;content:" ";display:block;position:absolute;top:5px;left:5px;height:24px;width:24px;
+		@include glass(tint($color,120%),20%);
+		@include box-shadow(inset 0px -2px 5px 0px $color,0px 2px 2px 0px lighten($color,10%));@include border-radius(2px+$radius);
+	}
+	&:after{
+		vertical-align:middle;content:" ";display:block;position:absolute;top:7px;left:7px;height:10px;width:20px;
+		@include gradient(#fff,fade-out(#fff,1));
+		@include border-radius($radius);
+	}
+}
+
+@mixin headline2_style_a($color:#666){
+	margin:10px;font-size:20px;line-height:20px;padding:5px;
+	color:#333;font-weight:bolder;border:solid $color;border-width:2px 15px;
+	@include border-radius(15px);
+}
+@mixin headline2_style_b($color:#666,$radius:19px){
+	margin:10px;padding:5px;color:#333;font-size:20px;line-height:20px;position:relative;text-indent:12px+$radius;
+	@include gradient(#fff,#eee);@include box-shadow(0px 1px 3px 0px #000);@include border-radius($radius);
+	&:before{
+		vertical-align:middle;content:" ";display:block;position:absolute;top:9px;left:$radius;height:12px;width:12px;
+		background-color:$color;
+		@include box-shadow(inset 0px 1px 2px 0px tint($color,120%));@include border-radius(6px);
+	}
+	&:after{
+		margin:4px -5px+$radius 0px;content:" ";height:4px;display:block;
+		@include gradient(tint($color,120%),tint($color,80%),horizontal);
+		@include box-shadow(inset 0px 1px 0px 0px #888);@include border-radius(2px);
+	}
+}
+@mixin headline2_style_c($color:#666,$radius:8px){
+	margin:10px;padding:5px;color:#fff;font-size:20px;line-height:20px;position:relative;text-indent:28px;
+	@include glass($color);@include box-shadow(0px 1px 3px 0px #000);@include border-radius(7px+$radius);
+	@include text-shadow(1px 1px 2px lighten($color,30%),-1px -1px 2px darken($color,30%));
+	&:before{
+		vertical-align:middle;content:" ";display:block;position:absolute;top:5px;left:5px;height:20px;width:20px;
+		@include glass(tint($color,120%),20%);
+		@include box-shadow(inset 0px -2px 5px 0px $color,0px 2px 2px 0px lighten($color,10%));@include border-radius(2px+$radius);
+	}
+	&:after{
+		vertical-align:middle;content:" ";display:block;position:absolute;top:7px;left:8px;height:10px;width:14px;
+		@include gradient(#fff,fade-out(#fff,1));
+		@include border-radius(-1+$radius -1+$radius 9px-$radius 9px-$radius);
+	}
+}
+
+@mixin headline3_style_a($color:#666){
+	margin:10px;font-size:16px;color:#333;font-weight:bolder;border-bottom:solid 1px $color;
+	&:before{content:"■";color:tint($color,120%);}
+}
+@mixin headline3_style_b($color:#666,$radius:17px){
+	margin:10px;padding:5px;color:#333;font-size:16px;line-height:16px;position:relative;
+	@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius(4px);
+	&:after{
+		margin-top:4px;content:" ";height:3px;display:block;
+		@include gradient(tint($color,120%),tint($color,80%),horizontal);
+		@include box-shadow(inset 0px 1px 0px 0px #888);@include border-radius(1px);
+	}
+}
+@mixin headline3_style_c($color:#666,$radius:13px){
+	margin:10px;padding:5px;color:#fff;font-size:16px;line-height:16px;position:relative;text-indent:$radius;
+	@include glass($color);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+}
+
+@mixin headline4_style_a($color:#666){
+	margin:5px 10px;font-size:14px;line-height:14px;color:#333;font-weight:bolder;border-bottom:dotted 1px $color;
+	&:before{content:"■";color:tint($color,120%);font-size:10px;vertical-align:middle;margin:4px;}
+}
+@mixin headline4_style_b($color:#666,$radius:17px){
+	margin:5px 10px;padding:5px;color:#333;font-size:14px;line-height:14px;position:relative;
+	@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius(4px);
+	&:after{
+		margin-top:2px;content:" ";height:2px;display:block;
+		@include gradient(tint($color,120%),tint($color,80%),horizontal);
+	}
+}
+@mixin headline4_style_c($color:#666,$radius:13px){
+	margin:5px 10px;padding:5px;color:#fff;font-size:14px;line-height:14px;position:relative;text-indent:$radius;
+	@include glass($color);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+}
+
+@mixin headline5_style_a($color:#666){
+	margin:5px 10px;font-size:14px;line-height:14px;color:#333;font-weight:bolder;border-bottom:dotted 1px $color;
+	&:before{content:"■";color:tint($color,120%);font-size:10px;vertical-align:middle;margin:4px;}
+}
+@mixin headline5_style_b($color:#666,$radius:17px){
+	margin:5px 10px;padding:5px;color:#333;font-size:14px;line-height:14px;position:relative;
+	@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius(4px);
+	&:after{
+		margin-top:2px;content:" ";height:2px;display:block;
+		@include gradient(tint($color,120%),tint($color,80%),horizontal);
+	}
+}
+@mixin headline5_style_c($color:#666,$radius:13px){
+	margin:5px 10px;padding:5px;color:#fff;font-size:14px;line-height:14px;position:relative;text-indent:$radius;
+	@include glass($color);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+}
+
+

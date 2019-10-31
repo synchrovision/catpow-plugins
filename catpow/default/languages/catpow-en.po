@@ -1,0 +1,157 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: catpow\n"
+"POT-Creation-Date: 2018-11-30 18:35+0900\n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2\n"
+"X-Poedit-KeywordsList: _;_e;__\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: default/lib\n"
+
+#: classes/content/form.php:264
+msgid "不正なリクエストです"
+msgstr "invalid request"
+
+#: classes/content/form.php:270
+msgid "無効なリクエストです"
+msgstr "ineffective request"
+
+#: classes/meta/gmap.php:13
+msgid "gmapを使うにはGoogleAPIキーが必要です"
+msgstr "gmap neeeds GoogleAPI key"
+
+#: classes/meta/orders.php:10
+msgid "購入者"
+msgstr "customer"
+
+#: classes/meta/orders.php:11
+msgid "金額"
+msgstr "price"
+
+#: classes/meta/orders.php:12
+msgid "支払い方法"
+msgstr "payment type"
+
+#: classes/meta/orders.php:13
+msgid "進捗"
+msgstr "phase"
+
+#: classes/meta/wares.php:15
+msgid "品名"
+msgstr "name"
+
+#: classes/meta/wares.php:16
+msgid "価格"
+msgstr "price"
+
+#: classes/meta/wares.php:24
+msgid "注文情報"
+msgstr "orders"
+
+#: classes/validation/color.php:8
+msgid "色指定をHEX値で入力して下さい"
+msgstr "input color value with HEX"
+
+#: classes/validation/date.php:13
+msgid "日付として読み取れませんでした"
+msgstr "invalid date"
+
+#: classes/validation/email.php:8
+msgid "メールアドレスを入力してください"
+msgstr "input valid mailaddress"
+
+#: classes/validation/hankaku.php:8
+msgid "半角英数で入力してください"
+msgstr "input alphanumeric"
+
+#: classes/validation/hankaku_length.php:11
+#, php-format
+msgid "%d文字の半角英数で入力してください"
+msgstr "input  %d alphanumeric charactors"
+
+#: classes/validation/hiragana.php:8
+msgid "ひらがなで入力してください"
+msgstr "input with ひらがな"
+
+#: classes/validation/html.php:15
+msgid "HTML構文にエラーがあります"
+msgstr "html syntax error"
+
+#: classes/validation/katakana.php:8
+msgid "カタカナで入力してください"
+msgstr "input with カタカナ"
+
+#: classes/validation/number.php:8
+msgid "数字で入力してください"
+msgstr "input with numeric"
+
+#: classes/validation/number_length.php:12
+#, php-format
+msgid "%d桁の数字で入力してください"
+msgstr "input %d numeric"
+
+#: classes/validation/number_range.php:12
+#, php-format
+msgid "%d〜%dの数値で入力してください"
+msgstr "input %d ~ %d numeric"
+
+#: classes/validation/pattern.php:10
+msgid "入力形式が正しくありません"
+msgstr "invalid input pattern"
+
+#: classes/validation/post_exists.php:10
+msgid "投稿が存在しません"
+msgstr "article not exists"
+
+#: classes/validation/required.php:9
+msgid "入力して下さい"
+msgstr "required"
+
+#: classes/validation/selection.php:19
+msgid "選択項目にない値です"
+msgstr "out of selection"
+
+#: classes/validation/text.php:10
+msgid "不正な値です"
+msgstr "invalid input"
+
+#: classes/validation/text_length.php:11
+#, php-format
+msgid "%d文字で入力してください"
+msgstr "input  %d charactors"
+
+#: classes/validation/text_maxlength.php:11
+#, php-format
+msgid "%d文字以内で入力してください"
+msgstr "input less than %d charactors"
+
+#: classes/validation/unique.php:16
+msgid "この値はすでに使われています"
+msgstr "already used"
+
+#: classes/validation/user_email.php:14
+msgid "このメールアドレスはすでに使われています"
+msgstr "the mail address is already used"
+
+#: classes/validation/validation.php:31
+#, php-format
+msgid "%sの入力が正しくありません"
+msgstr "%s is invalid"
+
+#: classes/validation/zip.php:7
+msgid "郵便番号を入力してください（半角数字）"
+msgstr "invalid zip code (alphanumeric)"
+
+#: core/user.php:54
+msgid "ゲスト"
+msgstr "guest"
+
+#~ msgid "catpow"
+#~ msgstr "catpow"

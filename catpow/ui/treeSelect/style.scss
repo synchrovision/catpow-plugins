@@ -1,0 +1,14 @@
+@import 'admin_style_config.scss';
+
+
+ul.treeSelect{
+	li{
+		@include bnd((d:b,p:r,mg:10,pd:10));
+		@include bg((c:m));
+		@include txt((a:c,p:12,h:12,f:g,w:r,c:i));
+		@include trn((t:3s,x:0));
+		&.active{
+			@include trn((x:30));
+		}
+	}
+}

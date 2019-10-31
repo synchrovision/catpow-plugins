@@ -1,0 +1,17 @@
+@mixin bp($map){
+	@each $bp,$stls in $map{
+		@media(#{cp_get_breakpoint($bp)}){
+			@each $mx,$arg in $stls{
+				@if $mx == 'bnd'{@include bnd($arg);}
+				@if $mx == 'flx'{@include flx($arg);}
+				@if $mx == 'bdr'{@include bdr($arg);}
+				@if $mx == 'bg'{@include bg($arg);}
+				@if $mx == 'txt'{@include txt($arg);}
+				@if $mx == 'trn'{@include trn($arg);}
+				@if $mx == 'shd'{@include shd($arg);}
+				@if $mx == 'usr'{@include usr($arg);}
+				@if $mx == 'ico'{@include ico($arg);}
+			}
+		}
+	}
+}

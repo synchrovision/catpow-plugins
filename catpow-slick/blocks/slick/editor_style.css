@@ -1,0 +1,26 @@
+@charset "utf-8";
+ul.wp-block-catpow-slick {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-lines: single;
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap; }
+  ul.wp-block-catpow-slick:hover {
+    border-color: #888;
+    background-color: rgba(0, 255, 255, 0.1); }
+  ul.wp-block-catpow-slick li {
+    -webkit-box-flex: 1;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 5rem;
+    background-position: center;
+    background-size: cover; }
+
+.edit-post-sidebar .imageSelector {
+  width: 10rem;
+  height: 10rem;
+  margin-bottom: 2rem;
+  background-position: center;
+  background-size: cover;
+  background-color: #aaa; }

@@ -1,0 +1,204 @@
+@mixin form_style_a($color:#888,$radius:8px){
+	margin:10px;padding:10px;
+	fieldset{
+		@include border-radius($radius*2);border-width:1px;padding:10px;
+		legend{background:#FFF;color:#888;padding:3px 10px;line-height:14px;font-weight:bold;font-size:14px;}
+	}
+	.control-group{
+		padding-bottom:10px;margin:10px 0px 10px;border-bottom:solid #888 1px;
+		&:last-child{padding-bottom:0px;margin-bottom:0px;border-bottom:none;}
+		.control-label{
+			padding:4px;width:120px;display:block;font-size:14px;line-height:14px;font-weight:600;position:absolute;
+			color:$color;
+		}
+		.controls{
+			margin-left:160px;
+			label{display:inline-block;font-size:14px;}
+			textarea,select,input{margin:0px 5px;@include border-radius($radius);}
+			textarea,input[type='text']{@include box-shadow(inset 0px 1px 2px 0px #333);border:solid 1px #888;}
+			select{optgroup{color:#666;font-size:14px;padding:4px;}option{font-size:14px;margin:2px;}}
+		}
+		@media(max-width:480px){
+			.control-label{
+				position:relative;width:auto;
+			}
+			.controls{
+				margin:10px;width:auto;
+			}
+		}
+	}
+	input[type='submit'],button[type='submit']{
+		margin:5px;border:solid tint($color,90%) 2px;padding:5px 20px;font-weight:bold;position:relative;font-size:14px;line-height:14px;color:$color;
+		background-color:tint($color,10%);@include border-radius($radius);
+	}
+	input[type='reset'],button[type='reset']{
+		margin:5px;border:solid tint($color,70%) 2px;padding:5px 20px;font-weight:bold;position:relative;font-size:14px;line-height:14px;color:tint($color,80%);
+		background-color:tint($color,5%);@include border-radius($radius);
+	}
+}
+@mixin form_style_b($color:#888,$radius:8px){
+	@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius*2);
+	margin:10px;padding:10px;
+	fieldset{
+		@include border-radius($radius*2);border-width:1px;padding:10px;
+		legend{@include shade();color:#333;padding:5px 20px;line-height:14px;font-weight:bold;font-size:14px;@include border-radius(10px);}
+	}
+	.control-group{
+		margin:10px 0px 20px;
+		&:last-child{margin-bottom:0px;}
+		.control-label{
+			padding:4px;padding-left:22px;width:120px;display:block;font-size:14px;line-height:14px;font-weight:600;position:absolute;
+			@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+			&:before{
+				vertical-align:middle;content:" ";display:block;position:absolute;top:5px;left:5px;height:12px;width:12px;
+				background-color:$color;
+				@include box-shadow(inset 0px 1px 2px 0px tint($color,120%));@include border-radius(6px);
+			}
+		}
+		.controls{
+			margin-left:160px;
+			label{display:inline-block;font-size:14px;}
+			textarea,select,input{margin:0px 5px;@include border-radius($radius);}
+			textarea,input[type='text']{@include box-shadow(inset 0px 1px 2px 0px #333);border:solid 1px #888;}
+			select{optgroup{color:#666;font-size:14px;padding:4px;}option{font-size:14px;margin:2px;}}
+		}
+	}
+	input[type='submit'],button[type='submit']{
+		margin:5px;border:none;padding:10px 30px;font-weight:bold;position:relative;font-size:16px;line-height:16px;color:#333;
+		@include shade();@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+		&:before{content:" ";position:absolute;left:8px;top:8px;background-color:$color;display:inline-block;width:4px;height:20px;}
+	}
+	input[type='reset'],button[type='reset']{
+		margin:5px;border:none;padding:10px 30px;font-weight:bold;position:relative;font-size:16px;line-height:16px;color:#333;
+		@include shade();@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+		&:before{content:" ";position:absolute;left:8px;top:8px;background-color:tint($color,50%);display:inline-block;width:4px;height:20px;}
+	}
+}
+@mixin form_style_c($color:#888,$radius:8px){
+	@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius*2);
+	margin:10px;padding:10px;
+	fieldset{
+		@include border-radius($radius*2);border-width:1px;padding:10px;
+		legend{@include glass($color);color:#FFF;padding:3px 10px;line-height:14px;font-weight:bold;font-size:14px;@include border-radius(10px);}
+	}
+	.control-group{
+		margin:10px 0px 20px;
+		&:last-child{margin-bottom:0px;}
+		.control-label{
+			padding:4px;width:120px;display:block;font-size:14px;line-height:14px;font-weight:600;position:absolute;
+			color:#FFF;text-align:center;
+			@include glass($color);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+		}
+		.controls{
+			margin-left:160px;
+			label{display:inline-block;font-size:14px;}
+			textarea,select,input{margin:0px 5px;@include border-radius($radius);}
+			textarea,input[type='text']{@include box-shadow(inset 0px 1px 2px 0px #333);border:solid 1px #888;}
+			select{optgroup{color:#666;font-size:14px;padding:4px;}option{font-size:14px;margin:2px;}}
+		}
+		@media(max-width:480px){
+			.control-label{
+				position:relative;width:auto;
+			}
+			.controls{
+				margin:10px;width:auto;
+			}
+		}
+	}
+	input[type='submit'],button[type='submit']{
+		margin:5px;border:none;padding:10px 30px;font-weight:bold;position:relative;font-size:16px;line-height:16px;color:#FFF;
+		@include glass($color);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+	}
+	input[type='reset'],button[type='reset']{
+		margin:5px;border:none;padding:10px 30px;font-weight:bold;position:relative;font-size:16px;line-height:16px;color:#FFF;
+		@include glass(tint($color,70%));@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+	}
+}
+
+
+@mixin sideform_style_a($color:#888,$radius:4px){
+	margin:5px;padding:10px;
+	fieldset{
+		@include border-radius($radius*2);border-width:1px;padding:10px;
+		legend{background:#FFF;color:#888;padding:3px 10px;line-height:14px;font-weight:bold;font-size:14px;}
+	}
+	.control-group{
+		padding-bottom:10px;margin:10px 0px 10px;border-bottom:solid #888 1px;
+		&:last-child{padding-bottom:0px;margin-bottom:0px;border-bottom:none;}
+		.control-label{
+			padding:4px;display:block;font-size:14px;line-height:14px;font-weight:600;position:relative;width:auto;
+			color:$color;
+		}
+		.controls{
+			margin:10px;width:auto;
+			label{display:inline-block;font-size:14px;width:150px;}
+			textarea,select,input{margin:0px 5px;@include border-radius($radius);}
+			textarea,input[type='text']{@include box-shadow(inset 0px 1px 2px 0px #333);border:solid 1px #888;}
+			select{optgroup{color:#666;font-size:14px;padding:4px;}option{font-size:14px;margin:2px;}}
+		}
+	}
+	input[type='submit'],button[type='submit'],input[type='reset'],button[type='reset']{
+		display:block;margin:0 auto;border:none;padding:10px 30px;font-weight:bold;position:relative;font-size:16px;line-height:16px;color:#333;
+		@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+	}
+}
+@mixin sideform_style_b($color:#888,$radius:8px){
+	@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius*2);
+	margin:5px;padding:10px;
+	fieldset{
+		@include border-radius($radius*2);border-width:1px;padding:10px;
+		legend{background:$color;color:#FFF;padding:3px 10px;line-height:14px;font-weight:bold;font-size:14px;@include border-radius(10px);}
+	}
+	.control-group{
+		margin:10px 0px 20px;
+		&:last-child{margin-bottom:0px;}
+		.control-label{
+			padding:4px;padding-left:22px;display:block;font-size:14px;line-height:14px;font-weight:600;position:relative;width:auto;
+			@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+			&:before{
+				vertical-align:middle;content:" ";display:block;position:absolute;top:5px;left:5px;height:12px;width:12px;
+				background-color:$color;
+				@include box-shadow(inset 0px 1px 2px 0px tint($color,120%));@include border-radius(6px);
+			}
+		}
+		.controls{
+			margin:10px;width:auto;
+			label{display:inline-block;font-size:14px;width:150px;}
+			textarea,select,input{margin:0px 5px;@include border-radius($radius);}
+			textarea,input[type='text']{@include box-shadow(inset 0px 1px 2px 0px #333);border:solid 1px #888;}
+			select{optgroup{color:#666;font-size:14px;padding:4px;}option{font-size:14px;margin:2px;}}
+		}
+	}
+	input[type='submit'],button[type='submit'],input[type='reset'],button[type='reset']{
+		border:none;padding:10px 30px;font-weight:bold;position:relative;font-size:16px;line-height:16px;color:#333;display:block;margin:0px auto;
+		@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+		&:before{content:" ";position:absolute;left:8px;top:8px;background-color:$color;display:inline-block;width:4px;height:20px;}
+	}
+}
+@mixin sideform_style_c($color:#888,$radius:8px){
+	@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius*2);
+	margin:5px;padding:10px;
+	fieldset{
+		@include border-radius($radius*2);border-width:1px;padding:10px;
+		legend{background:$color;color:#FFF;padding:3px 10px;line-height:14px;font-weight:bold;font-size:14px;@include border-radius(10px);}
+	}
+	.control-group{
+		margin:10px 0px 20px;
+		&:last-child{margin-bottom:0px;}
+		.control-label{
+			color:#FFF;text-align:center;padding:4px;width:120px;display:block;font-size:14px;line-height:14px;font-weight:600;position:relative;width:auto;
+			@include glass($color);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+		}
+		.controls{
+			margin:10px;width:auto;
+			label{display:inline-block;font-size:14px;width:150px;}
+			textarea,select,input{margin:0px 5px;@include border-radius($radius);}
+			textarea,input[type='text']{@include box-shadow(inset 0px 1px 2px 0px #333);border:solid 1px #888;}
+			select{optgroup{color:#666;font-size:14px;padding:4px;}option{font-size:14px;margin:2px;}}
+		}
+	}
+	input[type='submit'],button[type='submit'],input[type='reset'],button[type='reset']{
+		border:none;padding:10px 30px;font-weight:bold;position:relative;font-size:16px;line-height:16px;color:#333;display:block;margin:0px auto;
+		@include gradient(#fff,#eee);@include box-shadow(0px 1px 2px 0px #888);@include border-radius($radius);
+	}
+}

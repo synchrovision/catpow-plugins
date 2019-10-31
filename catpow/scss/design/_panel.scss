@@ -1,0 +1,56 @@
+@mixin panel_style($color:#666){
+	@include border-radius(10px);
+	@include gradient(darken($color, 30%),darken($color, 10%));
+	@include background-image(linear-gradient(darken($color, 30%),darken($color, 10%)));
+	.header,.footer{
+		background-color:$color;
+		margin:0px;
+		padding:5px 10px;
+		@if( lightness($color)<60%){
+			color:#FFF;
+		}@else{
+			color:darken($color,50%);
+		}
+	}
+	.header{
+		@include border-radius(6px 6px 0px 0px);
+	}
+	.footer{
+		@include border-radius(0px 0px 6px 6px);
+		clear:both;
+	}
+	a{
+		padding:10px;
+		@include gradient(lighten($color, 10%),$color);
+		@include background-image(linear-gradient(lighten($color, 20%),$color));
+		@include box-shadow(inset darken($color,5%) 0px 0px 3px);
+		font-weight:500;
+		text-decoration:none;
+		float:left;
+		display:inline;
+		text-align:center;
+		@if( lightness($color)<60%){
+			@include link-colors(#FCFCFC,#FFF,#FFF, #FCFCFC, #FFF);
+			@include text-shadow(#666 0px -1px 2px);
+		}@else{
+			@include link-colors(#444,#333,#333, #555, #333);
+			@include text-shadow(#FFF 0px 1px 2px);
+		}
+	}
+	a:active,a.active{
+		@include gradient($color,lighten($color, 10%));
+		@include background-image(linear-gradient($color,lighten($color, 20%)));
+	}
+	a.disable{
+		@include box-shadow(inset grayscale(darken($color,5%)) 0px -1px 3px);
+		@if( lightness($color)<60%){
+			@include gradient(grayscale(lighten($color, 10%)),grayscale(lighten($color, 20%)));
+			@include background-image(linear-gradient(grayscale(lighten($color, 10%)),grayscale(lighten($color, 20%))));
+			@include link-colors(grayscale(lighten($color,30%)));
+		}@else{
+			@include gradient(grayscale(darken($color, 10%)),grayscale(darken($color, 20%)));
+			@include background-image(linear-gradient(grayscale(darken($color, 10%)),grayscale(darken($color, 20%))));
+			@include link-colors(grayscale(darken($color,30%)));
+		}
+	}
+}

@@ -1,0 +1,28 @@
+@mixin cnt($cnt:false){
+	$sel:'.counter';
+	$id:cnt;
+	$f:n;
+	$fmt:false;
+	@if type-of($cnt) == 'map'{
+		@each $key,$val in $cnt{
+			@if $key == s{$sel:$val;}
+			@if $key == i{$id:$val;}
+			@if $key == f{$f:$val;}
+		}
+	}
+	@if type-of($f) == 'list'{
+		@each $fi in $f{
+			@if $fi == n {$fi:counter(#{$id});}
+			@if type-of($fmt) == 'list'{$fmt:append($fmt,$fi);}
+			@else if $fmt == false{$fmt:$fi;}
+			@else {$fmt:$fmt $fi;}
+		}
+	}
+	@else {$fmt:counter(#{$id});}
+	counter-reset: $id;
+	#{$sel}::before{counter-increment:$id;content:$fmt;}
+}
+
+@mixin counter($id,$prefix:'',$suffix:''){
+	content:$prefix counter(#{$id}) $suffix;counter-increment:$id;
+}

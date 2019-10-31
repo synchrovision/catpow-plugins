@@ -1,0 +1,15 @@
+@mixin ol_style_a($color:#888){
+	padding:20px 40px;counter-reset:li;
+	list-style:none;
+	li{
+		@include text_style(13px,#666,normal,$gothic);
+		background:tint($color,10%);padding:5px;position:relative;margin:5px;
+		padding-left:40px;border-top:solid 1px $color;
+		&:before{
+			content:counter(li);counter-increment:li;display:block;
+			position:absolute;top:0;left:0;background:$color;
+			@include text_style(13px,#fff,bold,$gothic);text-align:center;padding:5px;
+			
+		}
+	}
+}

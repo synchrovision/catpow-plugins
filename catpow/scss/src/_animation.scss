@@ -1,0 +1,69 @@
+@mixin animation($anm){
+	-moz-animation:$anm;
+	-webkit-animation:$anm;
+	-o-animation:$anm;
+	-ms-animation:$anm;
+	animation:$anm;
+}
+@mixin keys($keys){
+	@each $name,$data in $keys{
+		@keyframes #{$name} {
+			@each $prg,$stls in $data{
+				#{$prg}{
+					@each $mx,$arg in $stls{
+						@if $mx == 'bnd'{@include bnd($arg);}
+						@if $mx == 'flx'{@include flx($arg);}
+						@if $mx == 'bdr'{@include bdr($arg);}
+						@if $mx == 'bg'{@include bg($arg);}
+						@if $mx == 'txt'{@include txt($arg);}
+						@if $mx == 'trn'{@include trn($arg);}
+						@if $mx == 'shd'{@include shd($arg);}
+						@if $mx == 'usr'{@include usr($arg);}
+						@if $mx == 'ico'{@include ico($arg);}
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin define_single_animation($name,$tgt,$prms){
+	@-webkit-keyframes #{$name} {
+		@each $prm in $prms{
+			#{nth($prm,1)} {
+				#{$tgt}:nth($prm,2);
+			}
+		}
+	}
+	@keyframes #{$name} {
+		@each $prm in $prms{
+			#{nth($prm,1)} {
+				#{$tgt}:nth($prm,2);
+			}
+		}
+	}
+}
+@mixin define_animation($name,$tgts,$prms){
+	@-webkit-keyframes #{$name} {
+		@each $prm in $prms{
+			#{nth($prm,1)} {
+				@for $i from 1 through length($tgts) {
+					#{nth($tgts,$i)}:nth($prm,$i+1);
+				}
+			}
+		}
+	}
+	@keyframes #{$name} {
+		@each $prm in $prms{
+			#{nth($prm,1)} {
+				@for $i from 1 through length($tgts) {
+					#{nth($tgts,$i)}:nth($prm,$i+1);
+				}
+			}
+		}
+	}
+}
+@mixin add_animation($name,$dur:1s,$ease:ease,$delay:0s,$time:1,$dir:normal){
+	-webkit-animation:$name $dur $ease $delay $time $dir;
+	animation:$name $dur $ease $delay $time $dir;
+}

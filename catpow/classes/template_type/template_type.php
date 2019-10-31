@@ -1,0 +1,140 @@
+<?php
+namespace Catpow\template_type;
+/**
+* テンプレートの情報
+* テンプレート生成・パーマリンク生成時に使用される
+*/
+
+abstract class template_type{
+	public static
+		$label=null,
+        $permalinks=[];
+	
+    public static function preview($path_data,$conf_data,$vars){
+        $file_name=$path_data['file_name'];
+        if(isset($path_data['file_slug'])){$file_name.='-'.$path_data['file_slug'];}
+        if(method_exists(static::class,'preview_'.$file_name)){
+            if(static::{'preview_'.$file_name}($conf_data,$vars)){return true;}
+        }
+        $template_files=static::get_template_files($conf_data);
+        
+        if(isset($template_files[$file_name.'.php'])){
+            $class_name=\cp::get_class_name('template_item','php');
+            $code_data=$template_files[$file_name.'.php'];
+            if(is_array($code_data)){
+                ob_start();
+                $class_name::render($path_data,$conf_data,$code_data);
+                $tmp=tempnam(sys_get_temp_dir(),'preview');
+                $fh=fopen($tmp,'w');
+                fwrite($fh,ob_get_clean());
+                if($vars){extract($vars);}
+                include $tmp;
+                unlink($tmp);
+                return true;
+            }
+            else{
+                if($code_data==='default'){
+                    if($f=CP::get_file_path(
+                        '[data_type]/[data_name]/'.$path_data['tmp_name'].'/'.$file_name.'.php',4
+                    )){
+                        include $f;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
+	public static function get_embeddables($conf_data){return [];}
+	public static function get_rest_routes($conf_data){return [];}
+	public static function get_menus($conf_data){return [];}
+    public static function get_template_files($conf_data){
+        return [
+            'loop.php'=>['','@catpow','@loop']
+        ];
+    }
+	public static function fill_conf_data(&$conf_data){}
+    public static function get_default_post_datas($conf_data){return [];}
+    public static function get_rewrite_rule($path){
+		if(empty(static::$permalinks)){return [];}
+		$rtn=[];
+		$path_data=\cp::parse_conf_data_path($path);
+        $tmp_name=static::get_template_name();
+		foreach(static::$permalinks as $permalink){
+			$link_data=explode('-',$permalink);
+			$reg='';
+			$rep="index.php?cp_mode={$tmp_name}&cp_data_type={$path_data['data_type']}";
+			$matches_index=1;
+			
+			switch($link_data[0]){
+				case 'task':
+					$reg.=$path_data['data_name'].'/'.$tmp_name.'/([0-9a-f]{16})\-([0-9a-f]{16})';
+					$rep.="&cp_page_type=task&cp_data_name={$path_data['data_name']}&cp_token=\$matches[{$matches_index}]";
+					$matches_index++;
+					$rep.="&cp_token_key=\$matches[{$matches_index}]";
+					$matches_index++;
+					break;
+				case 'single':
+					$reg.=$path_data['data_name'];
+                    if($tmp_name!=='single'){$reg.='/'.$tmp_name;}
+                    $reg.='/([0-9]+)';
+					$rep.="&cp_page_type=single&cp_data_name={$path_data['data_name']}&cp_data_id=\$matches[{$matches_index}]";
+					$matches_index++;
+					break;
+				case 'archive':
+					$reg.=$path_data['data_name'];
+                    if($tmp_name!=='archive'){$reg.='/'.$tmp_name;}
+					$rep.="&cp_page_type=archive&cp_data_name={$path_data['data_name']}";
+					break;
+                default:
+                    $rep.="&cp_page_type=me";
+                    $reg.=$tmp_name;
+			}
+			
+			if(!empty($path_data['meta_path'])){
+				foreach($path_data['meta_path'] as $i=>$meta){
+					$reg.='/'.$meta['meta_name'];
+					$rep.="&cp_meta_path[{$i}][meta_name]={$meta['meta_name']}";
+					if($link_data[0]==='single'){
+						$reg.='/([0-9]+)';
+						$rep.="&cp_meta_path[{$i}][meta_id]=\$matches[{$matches_index}]";
+						$matches_index++;
+					}
+				}
+			}
+			if(isset($link_data[1])){
+				$reg.='/'.$link_data[1];
+				$rep.='&cp_file_slug='.$link_data[1];
+			}
+			$rtn[]=compact('reg','rep');
+			if($link_data[0]==='archive'){
+				$reg.='/page/([0-9]+)';
+				$rep.="&paged=\$matches[{$matches_index}]";
+				$matches_index++;
+				$rtn[]=compact('reg','rep');
+			}
+		}
+		return $rtn;
+	}
+    
+    public static function get_template_name(){
+        return substr(static::class,strrpos(static::class,'\\')+1);
+    }
+    public static function get_form_type($file){
+        switch(true){
+            case strpos($file,'post')!==false:
+            case strpos($file,'add')!==false:
+            case strpos($file,'mail')!==false:
+                return 1;
+            case strpos($file,'edit')!==false:
+                return 2;
+            case strpos($file,'search')!==false:
+                return 4;
+            default:
+                return 8;
+        }
+    }
+}
+
+?>

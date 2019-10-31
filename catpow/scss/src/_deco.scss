@@ -1,0 +1,36 @@
+@mixin deco_before($img,$pos:0% 50%,$size:auto 100%){
+	&:before{
+		position: absolute;top:0;left:0;width:100%;height:100%;
+		content:' ';display: block;
+		background:url($img) $pos / $size no-repeat;
+		pointer-events: none;
+	}
+}
+@mixin deco_after($img,$pos:100% 50%,$size:auto 100%){
+	&:after{
+		position: absolute;top:0;right:0;width:100%;height:100%;
+		content:' ';display: block;
+		background:url($img) $pos / $size no-repeat;
+		pointer-events: none;
+	}
+}
+@mixin deco_left($img){
+	$w:image-width($fol+$img)/2;
+	$h:image-height($fol+$img)/2;
+	@include deco_before($img,0% 50%,$w $h);
+}
+@mixin deco_right($img){
+	$w:image-width($fol+$img)/2;
+	$h:image-height($fol+$img)/2;
+	@include deco_after($img,100% 50%,$w $h);
+}
+@mixin deco_top($img){
+	$w:image-width($fol+$img)/2;
+	$h:image-height($fol+$img)/2;
+	@include deco_before($img,50% 0%,$w $h);
+}
+@mixin deco_bottom($img){
+	$w:image-width($fol+$img)/2;
+	$h:image-height($fol+$img)/2;
+	@include deco_after($img,50% 100%,$w $h);
+}

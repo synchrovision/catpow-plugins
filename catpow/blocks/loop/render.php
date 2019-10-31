@@ -1,0 +1,13 @@
+<?php
+if(empty($attr['query'])){
+	$query=null;
+}
+else{
+	if($attr['query'][0]==='{'){
+		$query=json_decode($attr['query'],1)?:null;
+	}
+	else{
+		$query=wp_parse_args($attr['query']);
+	}
+}
+Catpow\loop($attr['content_path'],$query,['content'=>$content]);

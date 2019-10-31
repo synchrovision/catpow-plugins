@@ -1,0 +1,171 @@
+@mixin image($img,$padding:0px){
+	background-image:url($img);
+	padding:$padding;
+	$vp:0px;
+	$hp:0px;
+	@if length($padding)==4{
+		$vp:nth($padding,1)+nth($padding,3);
+		$hp:nth($padding,2)+nth($padding,4);
+	}@else if length($padding)==3{
+		$vp:nth($padding,1)+nth($padding,3);
+		$hp:nth($padding,2)*2;
+	}@else if length($padding)==2{
+		$vp:nth($padding,1)*2;
+		$hp:nth($padding,2)*2;
+	}@else{
+		$vp:$padding*2;
+		$hp:$padding*2;
+	}
+	width:image-width($fol+$img)-$hp;
+	height:image-height($fol+$img)-$vp;
+}
+@mixin image_x2($img,$padding:0){
+	$w:image-width($fol+$img)/2;
+	$h:image-height($fol+$img)/2;
+	$vp:0px;
+	$hp:0px;
+	@if length($padding)==4{
+		$vp:nth($padding,1)+nth($padding,3);
+		$hp:nth($padding,2)+nth($padding,4);
+	}@else if length($padding)==3{
+		$vp:nth($padding,1)+nth($padding,3);
+		$hp:nth($padding,2)*2;
+	}@else if length($padding)==2{
+		$vp:nth($padding,1)*2;
+		$hp:nth($padding,2)*2;
+	}@else{
+		$vp:$padding*2;
+		$hp:$padding*2;
+	}
+	@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min-device-pixel-ratio: 2) {
+		background: url($img); 
+		width:$w-$hp;
+		height:$h-$vp;
+		padding:$padding;
+		@include background-size($w $h);
+	}
+}
+@mixin flex_image($img){
+	$w:image-width($fol+$img);
+	$h:image-height($fol+$img);
+	background-image:url($img);
+	background-size:contain;
+	@include flex_box($w $h);
+}
+
+@mixin icon($img){
+	&:before{content:' ';display:inline-block;background:url($img);background-size:contain;width:image-width($img);height:image-height($img);}
+}
+@mixin icon_x2($img){
+	&:before{content:' ';display:inline-block;background:url($img);background-size:contain;width:image-width($img)/2;height:image-height($img)/2;}
+}
+
+@mixin image_bar($img1,$img2,$img3){
+	@include image_belt_x($img2);
+	margin:0 image-width($fol+$img3) 0 image-width($fol+$img1);
+	position:relative;
+	&:before{@include image($img1);content:" ";display:block;position:absolute;left:-1*image-width($fol+$img1);}
+	&:after{@include image($img3);content:" ";display:block;position:absolute;right:-1*image-width($fol+$img3);}
+}
+@mixin image_frame($img1,$img2,$img3){
+	@include image_belt_y($img2);
+	margin:image-height($fol+$img1) 0 image-height($fol+$img3) 0;
+	position:relative;
+	&:before{@include image($img1);display:block;content:" ";position:absolute;top:-1*image-height($fol+$img1);}
+	&:after{@include image($img3);display:block;content:" ";position:absolute;bottom:-1*image-height($fol+$img3);}
+}
+@mixin image_belt_x($img){
+	background-image:url($img);
+	width:auto;
+	height:image-height($fol+$img);
+	background-repeat:repeat-x;
+}
+@mixin image_belt_y($img){
+	background-image:url($img);
+	width:image-width($fol+$img);
+	height:auto;
+	background-repeat:repeat-y;
+}
+
+@mixin sprite_image($img,$sepx:1,$sepy:1,$nthx:0,$nthy:0){
+	$w:image-width($fol+$img);
+	$h:image-height($fol+$img);
+	background-image:url($img);
+	width:$w/$sepx;
+	height:$h/$sepy;
+	background-position:(-$w/$sepx*$nthx) (-$h/$sepy*$nthy);
+}
+@mixin sprite_images($sel,$img,$sepx:1,$sepy:1){
+	@for $j from 0 through (-1+$sepy){
+		@for $i from 0 through (-1+$sepx){
+			$nth:$j*$sepx+$i;
+			#{$sel+$nth}{@include sprite_image($img,$sepx,$sepy,$i,$j);}
+		}
+	}
+}
+
+@mixin sprite_image_x2($img,$sepx:1,$sepy:1,$nthx:0,$nthy:0){
+	$w:image-width($fol+$img)/2;
+	$h:image-height($fol+$img)/2;
+	@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min-device-pixel-ratio: 2) {
+		background-image:url($img);
+		width:$w/$sepx;
+		height:$h/$sepy;
+		-webkit-background-size:$w $h;
+		background-size:$w $h;
+		background-position:(-$w/$sepx*$nthx) (-$h/$sepy*$nthy);
+	}
+}
+@mixin sprite_images_x2($sel,$img,$sepx:1,$sepy:1){
+	@for $j from 0 through (-1+$sepy){
+		@for $i from 0 through (-1+$sepx){
+			$nth:$j*$sepx+$i;
+			#{$sel+$nth}{@include sprite_image_x2($img,$sepx,$sepy,$i,$j);}
+		}
+	}
+}
+
+@mixin sprite_button($img,$sepx:1,$sepy:1,$nthx:0,$nthy:0){
+	/*sprite_button*/
+	$w:image-width($fol+$img);
+	$h:image-height($fol+$img);
+	background-image:url($img);
+	width:$w/$sepx;
+	height:$h/3/$sepy;
+	background-position:(-$w/$sepx*$nthx) (-$h/$sepy*$nthy);
+	&:hover{background-position:(-$w/$sepx*$nthx) (-$h/$sepy*$nthy)-$h/3/$sepy;}
+	&:active,&.current-menu-item{background-position:(-$w/$sepx*$nthx) (-$h/$sepy*$nthy)-$h*2/3/$sepy;}
+}
+@mixin sprite_buttons($sel,$img,$sepx:1,$sepy:1){
+	@for $j from 0 through (-1+$sepy){
+		@for $i from 0 through (-1+$sepx){
+			$nth:$j*$sepx+$i;
+			#{$sel+$nth}{@include sprite_button($img,$sepx,$sepy,$i,$j);}
+		}
+	}
+}
+
+
+@mixin sprite_button_2x2($img,$sepx:1,$sepy:1,$nthx:0,$nthy:0){
+	/*sprite_button*/
+	$w:image-width($fol+$img)/2;
+	$h:image-height($fol+$img)/2;
+	@media only screen and (-webkit-min-device-pixel-ratio: 2),only screen and (min-device-pixel-ratio: 2) {
+		background-image:url($img);
+		width:$w/$sepx;
+		height:$h/3/$sepy;
+		-webkit-background-size:$w $h;
+		background-size:$w $h;
+		background-position:(-$w/$sepx*$nthx) (-$h/$sepy*$nthy);
+		&:hover{background-position:(-$w/$sepx*$nthx) (-$h/$sepy*$nthy)-$h/3/$sepy;}
+		&:active,&.current-menu-item{background-position:(-$w/$sepx*$nthx) (-$h/$sepy*$nthy)-$h*2/3/$sepy;}
+	}
+}
+@mixin sprite_buttons_2x2($sel,$img,$sepx:1,$sepy:1){
+	@for $j from 0 through (-1+$sepy){
+		@for $i from 0 through (-1+$sepx){
+			$nth:$j*$sepx+$i;
+			#{$sel+$nth}{@include sprite_button_2x2($img,$sepx,$sepy,$i,$j);}
+		}
+	}
+}

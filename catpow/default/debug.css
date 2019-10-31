@@ -1,0 +1,54 @@
+@charset "utf-8";
+html body #cp_log {
+  display: block;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  padding: 10px;
+  z-index: 100000;
+  min-height: auto;
+  max-height: 90%;
+  height: auto;
+  min-width: auto;
+  max-width: 90%;
+  width: auto;
+  overflow-y: auto;
+  text-align: left;
+  background-color: #ffe;
+  -webkit-opacity: 0.9;
+  -moz-opacity: 0.9;
+  -ms-opacity: 0.9;
+  -o-opacity: 0.9;
+  opacity: 0.9; }
+  html body #cp_log small {
+    color: #876; }
+  html body #cp_log table {
+    border-collapse: collapse;
+    border-spacing: 0px; }
+    html body #cp_log table tr th, html body #cp_log table tr td {
+      padding: 5px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: rgba(136, 119, 102, .5);
+      text-align: left;
+      line-height: 100%;
+      color: rgba(136, 119, 102, .8); }
+      html body #cp_log table tr th {
+        font-size: 10px;
+        font-weight: bold;
+        vertical-align: top;
+        background-color: rgba(51, 34, 17, .1);
+        cursor: pointer; }
+        html body #cp_log table tr th .type {
+          display: block;
+          font-size: 8px;
+          font-weight: normal; }
+      html body #cp_log table tr td {
+        font-size: 8px;
+        vertical-align: middle;
+        -webkit-transition: 0.5s;
+        transition: 0.5s; }
+      html body #cp_log table tr.close td::before {
+        content: '…'; }
+        html body #cp_log table tr.close td table {
+          display: none; }

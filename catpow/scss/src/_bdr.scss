@@ -1,0 +1,24 @@
+@mixin bdr($bdr){
+	$keys:(c:color,w:width,s:style,i:image);
+	$pvals:(l:left,r:right,t:top,b:bottom);
+	$svals:(n:none,h:hidden,s:solid,d:dotted,ds:dashed,w:double,r:ridge,g:groove,i:inset,o:outset);
+	$ivals:(s:stretch,r:round);
+	$ps:false;
+	@if map-has-key($bdr,p){$ps:replace_values(map-get($bdr,p),$pvals);}
+	@each $key,$val in $bdr{
+		@if $key == w{$val:cp_get_size_values($val);}
+		@if $key == c{$val:cp_get_color($val);}
+		@if $key == r{border-radius:cp_get_size_values($val);}
+		@if $key == s{$val:replace_values($val,$svals);}
+		@if $key == i{$val:cp_get_image(nth($val,1)) nth($val,2) map-get($ivals,nth($val,3));}
+		@if map-has-key($keys,$key){
+			@if $ps == false{border-#{map-get($keys,$key)}:$val;}
+			@else if type-of($ps) == 'list'{
+				@each $p in $ps{
+					border-#{$p}-#{map-get($keys,$key)}:$val;
+				}
+			}
+			@else {border-#{$ps}-#{map-get($keys,$key)}:$val;}
+		}
+	}
+}

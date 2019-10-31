@@ -1,0 +1,62 @@
+@mixin button_style_a($color:#666,$size:15px,$radius:5px) {
+	@include border-radius($radius);
+	@include gradient($color,lighten($color, 10%));
+	@include box-shadow($color 0px 1px 3px);
+	@include glass($color);
+	@include inline-block;
+	border:none;
+	font-family:$gothic;
+	font-size:$size;
+	line-height:$size;
+	padding:floor($size/2) floor($size);
+	margin:floor($size/4) floor($size/4);
+	font-weight:500;
+	text-decoration:none;
+	cursor:pointer;
+ 	@if( lightness(grayscale($color))<80%){
+		@include link-colors(tint($color,10%),#FFF,#FFF, tint($color,20%), #FFF);
+		@include text-shadow($color 0px -1px 2px);
+	}@else{
+		@include link-colors(#444,#333,#333, #555, #333);
+		@include text-shadow(#FFF 0px 1px 2px);
+	}
+}
+@mixin button_style_b($color:#666,$size:15px,$radius:5px) {
+	@include border-radius($radius);
+	@include gradient(#666,#fff);
+	@include box-shadow(#666 0px 1px 3px);
+	@include shade();
+	@include inline-block;
+	font-family:$gothic;
+	font-size:$size;
+	line-height:$size;
+	padding:floor($size/2) floor($size);
+	margin:floor($size/4) floor($size/4);
+	font-weight:500;
+	text-decoration:none;
+	cursor:pointer;
+	@include link-colors(#888,$color,#888,#888);
+	@include text-shadow(#666 0px -1px 1px);
+}
+@mixin button_style_c($color:#666,$size:15px,$radius:5px) {
+	@include border-radius($radius);
+	@include gradient($color,lighten($color, 10%));
+	@include box-shadow($color 0px 1px 3px);
+	@include glass($color);
+	@include inline-block;
+	font-family:$gothic;
+	font-size:$size;
+	line-height:$size;
+	padding:floor($size/2) floor($size);
+	margin:floor($size/4) floor($size/4);
+	font-weight:500;
+	text-decoration:none;
+	cursor:pointer;
+ 	@if( lightness(grayscale($color))<80%){
+		@include link-colors(tint($color,10),#FFF,#FFF, tint($color,20), #FFF);
+		@include text-shadow(#666 0px -1px 2px);
+	}@else{
+		@include link-colors(#444,#333,#333, #555, #333);
+		@include text-shadow(#FFF 0px 1px 2px);
+	}
+}

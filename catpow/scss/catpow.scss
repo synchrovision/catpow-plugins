@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+$gothic:'Helvetica Neue','Hiragino Kaku Gothic ProN','Yu Gothic',メイリオ,sans-serif;
+$mincho:Georgiam,'Hiragino Mincho ProN','Yu Mincho', serif;
+
+$shd:rgba(0,0,0,.3);
+
+@import "src/_basic.scss";
+
+@import "src/_bnd.scss";
+@import "src/_col.scss";
+@import "src/_bdr.scss";
+@import "src/_bg.scss";
+@import "src/_selector";
+@import "src/_txt.scss";
+
+@import "src/_usr.scss";
+
+@import "src/_counter.scss";
+
+@import "src/_fontawesome.scss";
+
+@import "src/_bp.scss";
+
+@import "src/_trn.scss";
+@import "src/_animation.scss";
+@import "src/_gradient.scss";
+@import "src/_shd.scss";
+
+@import "src/_tbl.scss";
+
+@import "src/_flx.scss";
+@import "src/_grd.scss";
+	
+@import "src/_image.scss";
+@import "src/_deco.scss";
+
+@import "src/_svg.scss";
+
+@import "src/wp/_admin.scss";

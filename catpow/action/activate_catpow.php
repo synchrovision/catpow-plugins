@@ -38,9 +38,3 @@ foreach(array('term','view') as $i=>$meta_type){
 	dbDelta( $sql );
 }
 
-
-/*default theme setup*/
-if(!file_exists(get_template_directory().'/config/site_config.php')){
-	dir_copy(dirname(__FILE__).'/theme_default',get_theme_root().'/catpow');
-	switch_theme('catpow');
-}

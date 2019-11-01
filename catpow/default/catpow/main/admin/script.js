@@ -1,8 +1,5 @@
-var wp_plugins_url=wp_plugins_url;
-
 jQuery(function($){
-	var url=wp_plugins_url+'/catpow/admin/action.php';
-    console.log(url);
+	var url=cp.plugins_url+'/catpow/admin/action.php';
 	$('form.catpow_admin_form').on('change','label.file',function(){
 		$('span',this).text($(':input',this).prop('files')[0].name);
 	});

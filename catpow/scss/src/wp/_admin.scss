@@ -1,9 +1,9 @@
 @mixin wp_admin_color($b:b,$m:m,$a:a,$t:t,$i:i){
 	
-	//$body-background:clr($b) !global;
+	$body-background:clr($b) !global;
 	
-	//$link:clr($m) !global;
-	//$link-focus:clr($a) !global;
+	$link:clr($m) !global;
+	$link-focus:clr($a) !global;
 	$form-checked:clr($m) !global;
 	$button-color:clr($m) !global;
 	$text-color:clr($t) !global;

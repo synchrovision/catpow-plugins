@@ -58,7 +58,8 @@
 			{label:'ヘッダ列',values:'hasHeaderColumn'},
 		];
 		var selectiveClasses=[
-			{label:'タイプ',values:['spec','sheet','plan']}
+			{label:'タイプ',values:['spec','sheet','plan']},
+			'color'
 		];
 		
 		

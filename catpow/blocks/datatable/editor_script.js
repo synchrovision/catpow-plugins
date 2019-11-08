@@ -55,7 +55,7 @@ registerBlockType('catpow/datatable', {
 		};
 
 		var statesClasses = [{ label: 'ヘッダ行', values: 'hasHeaderRow' }, { label: 'ヘッダ列', values: 'hasHeaderColumn' }];
-		var selectiveClasses = [{ label: 'タイプ', values: ['spec', 'sheet', 'plan'] }];
+		var selectiveClasses = [{ label: 'タイプ', values: ['spec', 'sheet', 'plan'] }, 'color'];
 
 		var rtn = [];
 		var headerRowCopy = headerRow.map(function (obj) {

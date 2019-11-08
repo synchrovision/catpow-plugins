@@ -86,6 +86,10 @@
 					{label:'レベル',values:{level1:'1',level2:'2',level3:'3',level4:'4',level5:'5',level6:'6'}},
 					{label:'見出しタイプ',values:{header:'ヘッダ',headline:'ヘッドライン',catch:'キャッチ'}},
 					{label:'リード',values:'hasRead'},
+					{label:'背景画像',values:'hasBackgroundImage',sub:[
+						{input:'image',keys:imageKeys.backgroundImage},
+						{label:'薄く',values:'paleBG'}
+					]},
 					{label:'背景色',values:'hasBackgroundColor'}
 				],
 				column:[

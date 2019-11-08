@@ -331,30 +331,32 @@
 			});
 		}
 		var $tgt=$(this);
-		$tgt.addClass('scrollspy');
 		if(thr instanceof jQuery){
-			var wh,ot,ob,oc,oh;
+			var wh,wc,bnd,t,b,rmv,add;
+			thr=thr.get(0);
 			$(window).on('load resize',function(){
 				wh=$(this).height();
-				ot=thr.offset().top;
-				oh=thr.outerHeight();
-				oc=thr.offset().top+oh/2;
-				ob=thr.offset().top+oh;
+				wc=wh/2;
 			});
 			$(window).on('load scroll',function(){
-				var s=$(this).scrollTop();
-				if(s>ot-wh && s<ob){
-					$tgt.addClass('visible');
-					if(s>ob-wh && s<ot){$tgt.addClass('apear');}else{$tgt.removeClass('apear');}
-					if(s>ot && s<ob-wh){$tgt.addClass('filled');}else{$tgt.removeClass('filled');}
-					if(s>ot-wh*0.5 && s<ob-wh*0.5){$tgt.addClass('active');}else{$tgt.removeClass('active');}
+				bnd=thr.getBoundingClientRect();
+				t=bnd.top;
+				b=bnd.bottom;
+				rmv='';
+				add='scrollspy';	
+				if(t<wh && b>0){
+					add+=' visible';
+					if(t>0 && b<wh){add+=' apear';}else{rmv+=' apear';}
+					if(t<0 && b>wh){add+=' filled';}else{rmv+=' filled';}
+					if(t<wc && b>wc){add+=' active';}else{rmv+=' active';}
 				}else{
-					$tgt.removeClass('visible apear filled active');
+					rmv='visible apear filled active';
 				}
-				if(s>=ot && s<ob){$tgt.addClass('lead');}else{$tgt.removeClass('lead');}
-				if(s>ob-wh){$tgt.addClass('complete');}else{$tgt.removeClass('complete');}
-				if(s>ot-wh*0.5){$tgt.addClass('actived');}else{$tgt.removeClass('actived');}
-				if(s>oc-wh*0.5){$tgt.addClass('upper').removeClass('below');}else{$tgt.addClass('below').removeClass('upper');}
+				if(t<0 && b>0){add+=' lead';}else{rmv+=' lead';}
+				if(b>wh){add+=' complete';}else{rmv+=' complete';}
+				if(t<wc){add+=' actived';}else{rmv+=' actived';}
+				if(t+b>wh){add+=' upper';rmv+=' below';}else{add+=' below';rmv+=' upper';}
+				$tgt.addClass(add).removeClass(rmv);
 			});
 		}else{
 			var crr=0;

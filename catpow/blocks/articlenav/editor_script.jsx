@@ -8,7 +8,7 @@
 			<div className={className}>
                 <ul class="article_nav">
 					<li>
-						<h3>ArticleNav</h3>
+						<h3>[ArticleNav]</h3>
 					</li>
 				</ul>
 			</div>

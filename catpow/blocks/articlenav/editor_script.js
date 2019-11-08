@@ -20,7 +20,7 @@ registerBlockType('catpow/articlenav', {
 					wp.element.createElement(
 						'h3',
 						null,
-						'ArticleNav'
+						'[ArticleNav]'
 					)
 				)
 			)

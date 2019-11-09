@@ -196,6 +196,25 @@
 		$lazy.update();
 		return $lazy;
 	},
+	//対象の各子要素をスクロールが到達するまで非表示
+	cp_lazy_render:function(){
+		var $lazy=$(this);
+		var lazyBox=$lazy.get(0);
+		var $tgts=$lazy.children();
+		$tgts.hide();
+		$lazy.addClass('lazy_render');
+		$lazy.update=function(){
+			$tgts=$tgts.filter(function(){
+				if(lazyBox.getBoundingClientRect().bottom<2000){
+					$(this).show();return false;
+				}
+				return true;
+			});
+		}
+		$(window).on('scroll',$lazy.update);
+		$lazy.update();
+		return $lazy;
+	},
 	//srcsetから要素のサイズに応じたファイルをsrcにセットする
 	//コントローラとなるオブジェクトを返す
 	//sizes属性に関係なく要素のサイズに基づいて判定する

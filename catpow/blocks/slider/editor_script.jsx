@@ -21,6 +21,9 @@
 				subTitle:{source:'children',selector:'.text h4'},
 				src:{source:'attribute',selector:'.image [src]',attribute:'src'},
 				alt:{source:'attribute',selector:'.image [src]',attribute:'alt'},
+				slideSrc:{source:'attribute',selector:'.slide [src]',attribute:'src'},
+				slideAlt:{source:'attribute',selector:'.slide [src]',attribute:'alt'},
+				slideSrcset:{source:'attribute',selector:'.slide [src]',attribute:'srcset'},
 				text:{source:'children',selector:'.text p'},
 				linkUrl:{source:'attribute',selector:'a',attribute:'href'},
 				backgroundImageSrc:{source:'attribute',selector:'.background [src]',attribute:'src'},
@@ -67,6 +70,7 @@
 			hasSubTitle:false,
 			hasText:false,
 			hasImage:false,
+			hasSlide:false,
 			hasBackgroundImage:false,
 			hasLink:false
 		}
@@ -102,7 +106,8 @@
 								{label:'色付き背景',values:'colorBG'}
 							]}
 						]},
-						{label:'画像',values:'hasImage',sub:[
+						{label:'スライド画像',values:'hasSlide'},
+						{label:'イメージ画像',values:'hasImage',sub:[
 							{label:'サムネール',values:'hasThumbnail'}
 						]},
 						{label:'背景画像',values:'hasBackgroundImage',sub:[
@@ -160,6 +165,7 @@
 		
 		const imageKeys={
 			image:{src:"src",alt:"alt",items:"items"},
+			slide:{src:"slideSrc",alt:"slideAlt",srscet:"slideSrcset",items:"items"},
 			backgroundImage:{src:"backgroundImageSrc",alt:"backgroundImageAlt",srcset:"backgroundImageSrcset",items:"items"}
 		};
 		const imageSizes={
@@ -197,6 +203,16 @@
 			itemClass=posClass+' image'+imageIndex+' thumb'+imageIndex;
 			rtn.push(
 				<Item tag='li' className={itemClass} set={setAttributes} items={itemsCopy} index={index}>
+					{states.hasSlide &&
+						<div className='slide'>
+							<SelectResponsiveImage
+								attr={attributes}
+								set={setAttributes}
+								keys={imageKeys.slide}
+								index={index}
+							/>
+						</div>
+					}
 					{states.hasImage &&
 						<div className='image'>
 							<SelectResponsiveImage
@@ -204,7 +220,6 @@
 								set={setAttributes}
 								keys={imageKeys.image}
 								index={index}
-								size={imageSizes.image}
 							/>
 						</div>
 					}
@@ -356,6 +371,7 @@
 			hasSubTitle:false,
 			hasText:false,
 			hasImage:false,
+			hasSlide:false,
 			hasBackgroundImage:false,
 			hasLink:false
 		};
@@ -374,6 +390,7 @@
 		
 		const imageKeys={
 			image:{src:"src",alt:"alt",items:"items"},
+			slide:{src:"slideSrc",alt:"slideAlt",srscet:"slideSrcset",items:"items"},
 			backgroundImage:{src:"backgroundImageSrc",alt:"backgroundImageAlt",srcset:"backgroundImageSrcset",items:"items"}
 		};
 		
@@ -382,6 +399,15 @@
 		items.map(function(item,index){
 			rtn.push(
 				<li className={item.classes}>
+					{states.hasSlide &&
+						<div className='slide'>
+							<ResponsiveImage
+								attr={attributes}
+								keys={imageKeys.slide}
+								index={index}
+							/>
+						</div>
+					}
 					{states.hasImage &&
 						<div className='image'>
 							<img src={item.src} alt={item.alt}/>

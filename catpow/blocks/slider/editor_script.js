@@ -21,6 +21,9 @@ registerBlockType('catpow/slider', {
 				subTitle: { source: 'children', selector: '.text h4' },
 				src: { source: 'attribute', selector: '.image [src]', attribute: 'src' },
 				alt: { source: 'attribute', selector: '.image [src]', attribute: 'alt' },
+				slideSrc: { source: 'attribute', selector: '.slide [src]', attribute: 'src' },
+				slideAlt: { source: 'attribute', selector: '.slide [src]', attribute: 'alt' },
+				slideSrcset: { source: 'attribute', selector: '.slide [src]', attribute: 'srcset' },
 				text: { source: 'children', selector: '.text p' },
 				linkUrl: { source: 'attribute', selector: 'a', attribute: 'href' },
 				backgroundImageSrc: { source: 'attribute', selector: '.background [src]', attribute: 'src' },
@@ -71,6 +74,7 @@ registerBlockType('catpow/slider', {
 			hasSubTitle: false,
 			hasText: false,
 			hasImage: false,
+			hasSlide: false,
 			hasBackgroundImage: false,
 			hasLink: false
 		};
@@ -80,7 +84,7 @@ registerBlockType('catpow/slider', {
 		var selectiveClasses = [{
 			label: 'タイプ', values: ['visual', 'story', 'articles', 'index'],
 			sub: {
-				visual: [{ label: '見出し', values: 'hasTitle', sub: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'テキスト', values: 'hasText' }, { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }] }, { label: '画像', values: 'hasImage', sub: [{ label: 'サムネール', values: 'hasThumbnail' }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '背景画像を薄く', values: 'paleBG' }] }, { label: 'リンク', values: 'hasLink' }],
+				visual: [{ label: '見出し', values: 'hasTitle', sub: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'テキスト', values: 'hasText' }, { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }] }, { label: 'スライド画像', values: 'hasSlide' }, { label: 'イメージ画像', values: 'hasImage', sub: [{ label: 'サムネール', values: 'hasThumbnail' }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '背景画像を薄く', values: 'paleBG' }] }, { label: 'リンク', values: 'hasLink' }],
 				story: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: '画像', values: 'hasImage', sub: [{ label: 'サムネール', values: 'hasThumbnail' }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '背景画像を薄く', values: 'paleBG' }] }, { label: 'リンク', values: 'hasLink' }],
 				articles: [{ label: 'タイトル', values: 'hasTitle' }, { label: 'テキスト', values: 'hasText' }, { label: '画像', values: 'hasImage' }, { label: 'リンク', values: 'hasLink' }],
 				index: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: '画像', values: 'hasImage' }, { label: 'リンク', values: 'hasLink' }]
@@ -108,6 +112,7 @@ registerBlockType('catpow/slider', {
 
 		var imageKeys = {
 			image: { src: "src", alt: "alt", items: "items" },
+			slide: { src: "slideSrc", alt: "slideAlt", srscet: "slideSrcset", items: "items" },
 			backgroundImage: { src: "backgroundImageSrc", alt: "backgroundImageAlt", srcset: "backgroundImageSrcset", items: "items" }
 		};
 		var imageSizes = {
@@ -148,6 +153,16 @@ registerBlockType('catpow/slider', {
 			rtn.push(wp.element.createElement(
 				Item,
 				{ tag: 'li', className: itemClass, set: setAttributes, items: itemsCopy, index: index },
+				states.hasSlide && wp.element.createElement(
+					'div',
+					{ className: 'slide' },
+					wp.element.createElement(SelectResponsiveImage, {
+						attr: attributes,
+						set: setAttributes,
+						keys: imageKeys.slide,
+						index: index
+					})
+				),
 				states.hasImage && wp.element.createElement(
 					'div',
 					{ className: 'image' },
@@ -155,8 +170,7 @@ registerBlockType('catpow/slider', {
 						attr: attributes,
 						set: setAttributes,
 						keys: imageKeys.image,
-						index: index,
-						size: imageSizes.image
+						index: index
 					})
 				),
 				(states.hasTitle || states.hasSubTitle || states.hasText) && wp.element.createElement(
@@ -353,6 +367,7 @@ registerBlockType('catpow/slider', {
 			hasSubTitle: false,
 			hasText: false,
 			hasImage: false,
+			hasSlide: false,
 			hasBackgroundImage: false,
 			hasLink: false
 		};
@@ -379,6 +394,7 @@ registerBlockType('catpow/slider', {
 
 		var imageKeys = {
 			image: { src: "src", alt: "alt", items: "items" },
+			slide: { src: "slideSrc", alt: "slideAlt", srscet: "slideSrcset", items: "items" },
 			backgroundImage: { src: "backgroundImageSrc", alt: "backgroundImageAlt", srcset: "backgroundImageSrcset", items: "items" }
 		};
 
@@ -388,6 +404,15 @@ registerBlockType('catpow/slider', {
 			rtn.push(wp.element.createElement(
 				'li',
 				{ className: item.classes },
+				states.hasSlide && wp.element.createElement(
+					'div',
+					{ className: 'slide' },
+					wp.element.createElement(ResponsiveImage, {
+						attr: attributes,
+						keys: imageKeys.slide,
+						index: index
+					})
+				),
 				states.hasImage && wp.element.createElement(
 					'div',
 					{ className: 'image' },

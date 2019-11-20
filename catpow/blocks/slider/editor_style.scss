@@ -1,6 +1,7 @@
 @import 'admin_style_config.scss';
 
 div.wp-block-catpow-slider{
+	@include bnd((p:r,z:1));
 	ul.contents{
 		li{
 			@include bnd((p:r));
@@ -18,6 +19,13 @@ div.wp-block-catpow-slider{
 			li{
 				@include flx((w:w));
 				@include bdr((p:b,s:s,w:1,c:t 1 .5));
+				div.slide{
+					@include bnd((p:r,w:a,h:a,pd:1rem,f:0 0 15rem));
+					img,video{
+						@include bnd((w:f,h:a));
+						@include shd((b:3));
+					}
+				}
 				div.image{
 					@include bnd((pd:1rem,f:0 0 15rem));
 					img,video{

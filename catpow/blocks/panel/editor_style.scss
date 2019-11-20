@@ -22,27 +22,34 @@ ul.wp-block-catpow-panel{
 				}
 			}
 			div.text{
-					@include bnd((pd:1rem,f:1 1 15rem));
-					h3{
-						@include bnd((pdb:.5rem,mgb:.5rem));
-						@include bdr((p:b,s:d,w:1,c:t));
-						@include txt((a:l,p:1.5rem,w:r,c:t));
-					}
-					p{@include txt((a:j,p:1.2rem,w:r,c:t));}
-					.link{
-						a{
-							@include bnd((d:b,mg:1rem a));
-							@include txt((p:1.2rem,h:1em,c:t));
-							&::before{
-								@include ico('chevron-right');
-								@include bnd((d:ib,mgr:.5em));
-							}
-						}
-						input{
-							@include txt((c:t));
-						}
+				@include bnd((pd:1rem,f:1 1 15rem));
+				.icon{
+					@include bnd((d:ib,w:8rem,h:8rem));
+					@include bg((c:#ccc));
+					img{
+						@include bnd((w:f,h:a));
 					}
 				}
+				h3{
+					@include bnd((pdb:.5rem,mgb:.5rem));
+					@include bdr((p:b,s:d,w:1,c:t));
+					@include txt((a:l,p:1.5rem,w:r,c:t));
+				}
+				p{@include txt((a:j,p:1.2rem,w:r,c:t));}
+				.link{
+					a{
+						@include bnd((d:b,mg:1rem a));
+						@include txt((p:1.2rem,h:1em,c:t));
+						&::before{
+							@include ico('chevron-right');
+							@include bnd((d:ib,mgr:.5em));
+						}
+					}
+					input{
+						@include txt((c:t));
+					}
+				}
+			}
 		}
 	}
 	&.panel{

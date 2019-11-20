@@ -2,8 +2,8 @@
 
 /*script*/
 
-$cpjs_dir=dir(WP_PLUGIN_DIR.'/catpow/js');
 $js_files=[];
+$cpjs_dir=dir(WP_PLUGIN_DIR.'/catpow/js');
 while($fname = $cpjs_dir->read()){
     if(strpos('.',$fname)===0)continue;
     if(substr($fname,-3)==='.js'){
@@ -18,6 +18,7 @@ while($fname = $cpjs_dir->read()){
     }
 }
 \cp::gzip_compress($js_files);
+
 
 
 //wp_deregister_script('jquery');
@@ -48,7 +49,7 @@ if(function_exists('register_block_type')){
 	},10,2);
 	$block_style_names=[];
 	$deps=[
-		'editor_script'=>['wp-blocks','wp-i18n','wp-element','wp-editor','catpow'],
+		'editor_script'=>['wp-blocks','wp-i18n','wp-element','wp-editor','babelHelpers','catpow'],
 		'editor_style'=>['wp-edit-blocks'],
 		'front_script'=>['catpow','cp_init'],
 		'front_style'=>[],

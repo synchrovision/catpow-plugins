@@ -1,0 +1,5 @@
+@import 'admin_style_config.scss';
+
+div.wp-block-catpow-sticky{
+	@include bnd((p:r));
+}

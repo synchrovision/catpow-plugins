@@ -114,15 +114,15 @@
 }
 
 @function cp_get_breakpoint($bp){
-	@if type-of($breakpoints) == 'map' {
-		@if map-has-key($breakpoints,$bp){$bp:map-get($breakpoints,$bp);}
-	}
-	@return $bp;
+	@return bp($bp);
 }
 
 
 @function bp($bp){
-	@return cp_get_breakpoint($bp);
+	@if type-of($breakpoints) == 'map' {
+		@if map-has-key($breakpoints,$bp){$bp:map-get($breakpoints,$bp);}
+	}
+	@return $bp;
 }
 
 

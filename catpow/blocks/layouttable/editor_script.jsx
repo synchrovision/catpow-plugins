@@ -20,7 +20,8 @@ registerBlockType('catpow/layouttable',{
 						text:{source:'children'},
 						classes:{source:'attribute',attribute:'class'},
 						rowspan:{source:'attribute',attribute:'rowspan'},
-						colspan:{source:'attribute',attribute:'colspan'}
+						colspan:{source:'attribute',attribute:'colspan'},
+						style:{source:'attribute',attribute:'style'}
 					}
 				}
 			},
@@ -48,7 +49,8 @@ registerBlockType('catpow/layouttable',{
 		const primaryClass='wp-block-catpow-layouttable';
 		
 		var selectiveClasses=[
-			{label:'タイプ',values:['spec','sheet','plan']}
+			{label:'タイプ',values:['spec','sheet','plan']},
+			'color'
 		];
 		
 		var rtn=[];
@@ -66,6 +68,7 @@ registerBlockType('catpow/layouttable',{
 				while(c in rowsCopy[r].cells){c++;}
 				cell.r=r;
 				cell.c=c;
+				cell.style=CP.parseStyleString(cell.style);
 				var cellCopy=jQuery.extend(true,{},cell);
 				if(cell.rowspan > 1  || cell.colspan > 1){
 					let arias={mergedTo:cellCopy};
@@ -198,6 +201,15 @@ registerBlockType('catpow/layouttable',{
 		}
 		const unselectAllCells=()=>{
 			selectedCells.map((cell)=>cell.isSelected=false);
+		}
+		
+		const getCellAttr=(attr,value)=>{
+			if(!selectedCells[0] || !selectedCells[0][attr]){return '';}
+			return selectedCells[0][attr];
+		}
+		const setCellAttr=(attr,value)=>{
+            selectedCells.map((cell)=>{cell[attr]=value;});
+			saverows();
 		}
 		
 		const setCellClasses=(values,value)=>{
@@ -349,12 +361,16 @@ registerBlockType('catpow/layouttable',{
                         return <tr>
                             {row.cells.map((cell,c)=>{
 								if(cell.mergedTo){return false;}
+								if(cell.style instanceof String){
+									cell.style=JSON.parse(cell.style);
+								}
                                 return el(
 									(cell.classes && cell.classes.split(' ').includes('th'))?'th':'td',
 									{
 										className:cell.classes,
 										rowspan:cell.rowspan,
 										colspan:cell.colspan,
+										style:cell.style,
 										onClick:(e)=>selectCells(e,r,c)
 									},
 									<Fragment>
@@ -392,20 +408,23 @@ registerBlockType('catpow/layouttable',{
 					selectiveClasses={selectiveClasses}
 				/>
 				<PanelBody title="セル">
-                    <CheckboxControl
-                        label={'見出し'}
-                        onChange={(input)=>{
-							if(input){addCellClasses('th');}
-							else{removeCellClasses('th');}
-						}}
-                        checked={cellClasses.includes('th')}
-                    />
+					{selectCellClasses('タイプ',{
+						'default':'通常','th':"見出し",'spacer':"空白"
+					})}
 					{selectCellClasses('カラー',{
-						'default':'なし','primary':"推奨",'deprecated':"非推奨",'danger':"危険",'caution':"注意",'safe':"安全"
+						'default':'なし','pale':'薄色','primary':"推奨",'deprecated':"非推奨",'danger':"危険",'caution':"注意",'safe':"安全"
 					})}
 					{selectCellClasses('文字',{
 						'default':'なし','large':"大",'medium':"中",'small':"小"
 					})}
+					<TextControl
+						label="幅"
+						value={getCellAttr('style').width || ''}
+						onChange={(val)=>{
+							if(val){setCellAttr('style',{width:val})}
+							else{setCellAttr('style',{})}
+						}}
+					/>
 					{isRectSelection() && 
 						<Button isDefault onClick={()=>mergeCells()}>セルを結合</Button>
 					}
@@ -425,9 +444,10 @@ registerBlockType('catpow/layouttable',{
 				rows.map((row)=>{
 					return <tr>
 						 {row.cells.map((cell)=>{
+							cell.style=CP.parseStyleString(cell.style);
 							return el(
 								(cell.classes && cell.classes.split(' ').includes('th'))?'th':'td',
-								{className:cell.classes,rowspan:cell.rowspan,colspan:cell.colspan},
+								{className:cell.classes,rowspan:cell.rowspan,colspan:cell.colspan,style:cell.style},
 								cell.text
 							);
 						})}

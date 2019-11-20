@@ -46,7 +46,7 @@ registerBlockType('catpow/div', {
 							favor: 'お気に入り'
 						}
 					}] }, { label: '線', values: { no_border: 'なし', thin_border: '細', bold_border: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '内側', values: 'inset' }] }],
-				columns: [{ label: 'サイズ', values: { regular: '通常', wide: 'ワイド' } }]
+				columns: [{ label: '幅', values: { narrow: '狭い', regular: '普通', wide: '広い' } }]
 			}
 		}, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }] }, { label: '余白', 'values': { noPad: 'なし', thinPad: '極細', lightPad: '細', mediumPad: '中', boldPad: '太', heavyPad: '極太' } }];
 

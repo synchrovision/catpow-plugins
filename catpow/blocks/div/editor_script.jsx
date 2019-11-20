@@ -53,7 +53,7 @@
 						{label:'影',values:'shadow',sub:[{label:'内側',values:'inset'}]}
 					],
 					columns:[
-						{label:'サイズ',values:{regular:'通常',wide:'ワイド'}}
+						{label:'幅',values:{narrow:'狭い',regular:'普通',wide:'広い'}}
 					]
 				}
 			},

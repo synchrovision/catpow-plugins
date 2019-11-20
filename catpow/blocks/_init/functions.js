@@ -1,7 +1,3 @@
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var CP = {
 
 	selectImage: function selectImage(keys, set, size) {
@@ -167,7 +163,7 @@ var CP = {
 	getAllSubClasses: function getAllSubClasses(prms) {
 		var rtn = [];
 		prms.map(function (prm) {
-			if ((typeof prm === 'undefined' ? 'undefined' : _typeof(prm)) === 'object') {
+			if ((typeof prm === 'undefined' ? 'undefined' : babelHelpers.typeof(prm)) === 'object') {
 				if (prm.values) {
 					if (Array.isArray(prm.values)) {
 						rtn = rtn.concat(prm.values);
@@ -319,7 +315,7 @@ var CP = {
 			}
 		}
 		items[index].classes = classArray.join(' ');
-		set(_defineProperty({}, itemsKey, items));
+		set(babelHelpers.defineProperty({}, itemsKey, items));
 	},
 	getItemColor: function getItemColor(_ref15) {
 		var items = _ref15.items,
@@ -358,7 +354,7 @@ var CP = {
 			}
 		}
 		items[index].classes = classArray.join(' ');
-		set(_defineProperty({}, itemsKey, items));
+		set(babelHelpers.defineProperty({}, itemsKey, items));
 	},
 	getItemPattern: function getItemPattern(_ref17) {
 		var items = _ref17.items,
@@ -392,7 +388,7 @@ var CP = {
 			classArray.push(value);
 		}
 		items[index].classes = classArray.join(' ');
-		set(_defineProperty({}, itemsKey, items));
+		set(babelHelpers.defineProperty({}, itemsKey, items));
 	},
 	getItemSelectiveClass: function getItemSelectiveClass(_ref19, values) {
 		var items = _ref19.items,
@@ -424,7 +420,7 @@ var CP = {
 			classArray.splice(i, 1);
 		}
 		items[index].classes = classArray.join(' ');
-		set(_defineProperty({}, itemsKey, items));
+		set(babelHelpers.defineProperty({}, itemsKey, items));
 	},
 	hasItemClass: function hasItemClass(_ref21, value) {
 		var items = _ref21.items,
@@ -471,10 +467,26 @@ var CP = {
 			values.splice(i, 1);
 		}
 		CP.setJsonValue(prop, json, key, values);
+	},
+
+	parseStyleString: function parseStyleString(css) {
+		if (css instanceof Object) {
+			return css;
+		}
+		if (!css) {
+			return {};
+		}
+		var obj = {};
+		css.split(';').map(function (pair) {
+			pair = pair.split(':');
+			obj[pair[0]] = pair[1];
+		});
+		return obj;
 	}
 };
 var SelectResponsiveImage = function SelectResponsiveImage(_ref24) {
-	var attr = _ref24.attr,
+	var className = _ref24.className,
+	    attr = _ref24.attr,
 	    set = _ref24.set,
 	    keys = _ref24.keys,
 	    index = _ref24.index,
@@ -509,7 +521,7 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref24) {
 	}
 	if (type == 'audio') {
 		return wp.element.createElement('audio', {
-			className: 'selectImage',
+			className: 'selectImage ' + className,
 			src: item[keys.src],
 			'data-mime': item[keys.mime],
 			onClick: onClick
@@ -520,7 +532,7 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref24) {
 	}
 	if (type == 'video') {
 		return wp.element.createElement('video', {
-			className: 'selectImage',
+			className: 'selectImage ' + className,
 			src: item[keys.src],
 			'data-mime': item[keys.mime],
 			onClick: onClick,
@@ -531,7 +543,7 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref24) {
 		});
 	}
 	return wp.element.createElement('img', {
-		className: 'selectImage',
+		className: 'selectImage ' + className,
 		src: item[keys.src] || cp.theme_url + '/images/dummy.jpg',
 		alt: item[keys.alt],
 		srcset: item[keys.srcset],
@@ -541,7 +553,8 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref24) {
 	});
 };
 var ResponsiveImage = function ResponsiveImage(_ref25) {
-	var attr = _ref25.attr,
+	var className = _ref25.className,
+	    attr = _ref25.attr,
 	    keys = _ref25.keys,
 	    index = _ref25.index,
 	    sizes = _ref25.sizes;
@@ -569,6 +582,7 @@ var ResponsiveImage = function ResponsiveImage(_ref25) {
 	}
 	if (type == 'video') {
 		return wp.element.createElement('video', {
+			className: className,
 			src: item[keys.src],
 			srcset: item[keys.srcset],
 			sizes: sizes,
@@ -580,6 +594,7 @@ var ResponsiveImage = function ResponsiveImage(_ref25) {
 		});
 	}
 	return wp.element.createElement('img', {
+		className: className,
 		src: item[keys.src],
 		alt: item[keys.alt],
 		srcset: item[keys.srcset],
@@ -639,7 +654,7 @@ var ItemControl = function ItemControl(props) {
 		if (itemsKey === undefined) {
 			set({ items: items });
 		} else {
-			set(_defineProperty({}, itemsKey, items));
+			set(babelHelpers.defineProperty({}, itemsKey, items));
 		}
 	};
 	if (triggerClasses && triggerClasses.item) {
@@ -685,7 +700,7 @@ var ItemControl = function ItemControl(props) {
 					if (itemsKey === undefined) {
 						set({ items: items });
 					} else {
-						set(_defineProperty({}, itemsKey, items));
+						set(babelHelpers.defineProperty({}, itemsKey, items));
 					}
 				}
 			}));

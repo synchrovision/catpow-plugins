@@ -268,9 +268,20 @@
 		if(i===-1){values.push(value);}
 		else{values.splice(i,1);}
         CP.setJsonValue(prop,json,key,values);
-    }
+    },
+	
+	parseStyleString:(css)=>{
+		if(css instanceof Object){return css;}
+		if(!css){return {};}
+		var obj={}
+		css.split(';').map((pair)=>{
+			pair=pair.split(':');
+			obj[pair[0]]=pair[1];
+		});
+		return obj;
+	}
 };
-const SelectResponsiveImage=({attr,set,keys,index,sizes,size})=>{
+const SelectResponsiveImage=({className,attr,set,keys,index,sizes,size})=>{
 	let type,onClick,item;
 	if(keys.items){
 		item=attr[keys.items][index];
@@ -290,7 +301,7 @@ const SelectResponsiveImage=({attr,set,keys,index,sizes,size})=>{
 	if(type=='audio'){
 		return (
 			<audio
-				className='selectImage'
+				className={'selectImage '+className}
 				src={item[keys.src]}
 				data-mime={item[keys.mime]}
 				onClick={onClick}
@@ -301,7 +312,7 @@ const SelectResponsiveImage=({attr,set,keys,index,sizes,size})=>{
 	if(type=='video'){
 		return (
 			<video
-				className='selectImage'
+				className={'selectImage '+className}
 				src={item[keys.src]}
 				data-mime={item[keys.mime]}
 				onClick={onClick}
@@ -314,7 +325,7 @@ const SelectResponsiveImage=({attr,set,keys,index,sizes,size})=>{
 	}
 	return (
 		<img
-			className='selectImage'
+			className={'selectImage '+className}
 			src={item[keys.src] || cp.theme_url+'/images/dummy.jpg'}
 			alt={item[keys.alt]}
 			srcset={item[keys.srcset]}
@@ -324,7 +335,7 @@ const SelectResponsiveImage=({attr,set,keys,index,sizes,size})=>{
 		/>
 	);
 };
-const ResponsiveImage=({attr,keys,index,sizes})=>{
+const ResponsiveImage=({className,attr,keys,index,sizes})=>{
 	let type,item;
 	if(keys.items){item=attr[keys.items][index];}
 	else{item=attr;}
@@ -342,6 +353,7 @@ const ResponsiveImage=({attr,keys,index,sizes})=>{
 	if(type=='video'){
 		return (
 			<video
+				className={className}
 				src={item[keys.src]}
 				srcset={item[keys.srcset]}
 				sizes={sizes}
@@ -355,6 +367,7 @@ const ResponsiveImage=({attr,keys,index,sizes})=>{
 	}
 	return (
 		<img
+			className={className}
 			src={item[keys.src]}
 			alt={item[keys.alt]}
 			srcset={item[keys.srcset]}

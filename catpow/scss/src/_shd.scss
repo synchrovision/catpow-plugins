@@ -8,10 +8,10 @@
 			}
 			@else{$blur:abs($val);}
 			@if $inset{
-				$val:0 #{$val}px #{$blur}px rgba(0,0,0,.2) inset;
+				$val:0 #{abs($val)}px #{$blur}px #{clr(shd)} inset;
 			}
 			@else{
-				$val:0 #{abs($val)}px #{$blur}px rgba(0,0,0,.2);
+				$val:0 #{abs($val)}px #{$blur}px #{clr(shd)};
 			}
 		}
 		@if map-has-key($btvals,$val){$val:map-get($btvals,$val);}

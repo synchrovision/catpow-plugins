@@ -10,6 +10,7 @@
 			var $li=$('<li><h3>'+$('h1:eq(0),h2:eq(0),h3:eq(0)',this).first().text()+'</h3></li>');
 			$li.article=$(this);
 			$li.find('h3').on('click',function(){
+				$li.article.trigger('expect');
 				$('body,html').animate({scrollTop:parseInt($li.article.offset().top) - offset +10});
 			});
 			if(path[0] && $.contains(path[0].article.get(0),$li.article.get(0))){
@@ -27,7 +28,7 @@
 		$nav.update=function(){
 			all_li.map(function($li){
 				var bnd=$li.article.get(0).getBoundingClientRect();
-				if(bnd.top<offset && bnd.top+bnd.height>offset){$li.addClass('active');}
+				if(bnd.top<offset && bnd.bottom>offset){$li.addClass('active');}
 				else{$li.removeClass('active');}
 			});
 		};

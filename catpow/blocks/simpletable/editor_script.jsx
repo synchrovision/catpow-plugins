@@ -54,7 +54,13 @@
 		
 		itemsCopy.map((item,index)=>{
 			rtn.push(
-				<Item tag='tr' set={setAttributes} items={itemsCopy} index={index}>
+				<Item
+					tag='tr'
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={index}
+				>
 					<th>
 						<RichText
                             onChange={(th)=>{itemsCopy[index].th=th;setAttributes({items:itemsCopy});}}
@@ -66,20 +72,11 @@
                             onChange={(td)=>{itemsCopy[index].td=td;setAttributes({items:itemsCopy});}}
                             value={item.td}
                         />
-						<ItemControl
-							tag='tr'
-							set={setAttributes}
-							attr={attributes}
-							items={itemsCopy}
-							index={index}
-							triggerClasses={selectiveClasses[0]}
-						/>
 					</td>
 				</Item>
 			);
 		});
 		return [
-			<table className={classes}><tbody>{rtn}</tbody></table>,
 			<InspectorControls>
 				<SelectClassPanel
 					title='クラス'
@@ -88,8 +85,18 @@
 					attr={attributes}
 					selectiveClasses={selectiveClasses}
 				/>
+				<SelectItemClassPanel
+					title='行'
+					icon='edit'
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={attributes.currentItemIndex}
+					triggerClasses={selectiveClasses[0]}
+				/>
 				<ItemControlInfoPanel/>
-			</InspectorControls>
+			</InspectorControls>,
+			<table className={classes}><tbody>{rtn}</tbody></table>
 		];
     },
 

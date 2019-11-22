@@ -51,7 +51,13 @@ registerBlockType('catpow/simpletable', {
 		itemsCopy.map(function (item, index) {
 			rtn.push(wp.element.createElement(
 				Item,
-				{ tag: 'tr', set: setAttributes, items: itemsCopy, index: index },
+				{
+					tag: 'tr',
+					set: setAttributes,
+					attr: attributes,
+					items: itemsCopy,
+					index: index
+				},
 				wp.element.createElement(
 					'th',
 					null,
@@ -70,27 +76,11 @@ registerBlockType('catpow/simpletable', {
 							itemsCopy[index].td = td;setAttributes({ items: itemsCopy });
 						},
 						value: item.td
-					}),
-					wp.element.createElement(ItemControl, {
-						tag: 'tr',
-						set: setAttributes,
-						attr: attributes,
-						items: itemsCopy,
-						index: index,
-						triggerClasses: selectiveClasses[0]
 					})
 				)
 			));
 		});
 		return [wp.element.createElement(
-			'table',
-			{ className: classes },
-			wp.element.createElement(
-				'tbody',
-				null,
-				rtn
-			)
-		), wp.element.createElement(
 			InspectorControls,
 			null,
 			wp.element.createElement(SelectClassPanel, {
@@ -100,7 +90,24 @@ registerBlockType('catpow/simpletable', {
 				attr: attributes,
 				selectiveClasses: selectiveClasses
 			}),
+			wp.element.createElement(SelectItemClassPanel, {
+				title: '\u884C',
+				icon: 'edit',
+				set: setAttributes,
+				attr: attributes,
+				items: itemsCopy,
+				index: attributes.currentItemIndex,
+				triggerClasses: selectiveClasses[0]
+			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
+		), wp.element.createElement(
+			'table',
+			{ className: classes },
+			wp.element.createElement(
+				'tbody',
+				null,
+				rtn
+			)
 		)];
 	},
 	save: function save(_ref2) {

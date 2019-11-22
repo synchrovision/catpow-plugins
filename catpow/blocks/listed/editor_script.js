@@ -1,5 +1,3 @@
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 registerBlockType('catpow/listed', {
 	title: '🐾 Listed',
 	icon: 'editor-ul',
@@ -27,7 +25,7 @@ registerBlockType('catpow/listed', {
 				backgroundImageSrc: { source: 'attribute', selector: '.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
 				backgroundImageSrcset: { source: 'attribute', selector: '.background [src]', attribute: 'srcset' }
 			},
-			default: [].concat(_toConsumableArray(Array(3))).map(function () {
+			default: [].concat(babelHelpers.toConsumableArray(Array(3))).map(function () {
 				return {
 					classes: 'item',
 					title: ['Title'],
@@ -149,7 +147,13 @@ registerBlockType('catpow/listed', {
 			}
 			rtn.push(wp.element.createElement(
 				Item,
-				{ tag: 'li', set: setAttributes, items: itemsCopy, index: index },
+				{
+					tag: 'li',
+					set: setAttributes,
+					attr: attributes,
+					items: itemsCopy,
+					index: index
+				},
 				states.hasImage && wp.element.createElement(
 					'div',
 					{ className: 'image' },
@@ -291,14 +295,7 @@ registerBlockType('catpow/listed', {
 							itemsCopy[index].linkUrl = linkUrl;
 							setAttributes({ items: itemsCopy });
 						}, value: item.linkUrl, placeholder: 'URL\u3092\u5165\u529B' })
-				),
-				wp.element.createElement(ItemControl, {
-					set: setAttributes,
-					attr: attributes,
-					items: itemsCopy,
-					index: index,
-					triggerClasses: selectiveClasses[0]
-				})
+				)
 			));
 		});
 
@@ -320,10 +317,6 @@ registerBlockType('catpow/listed', {
 				}]
 			})
 		), wp.element.createElement(
-			'ul',
-			{ className: attributes.EditMode ? primaryClass + ' edit' : classes },
-			rtn
-		), wp.element.createElement(
 			InspectorControls,
 			null,
 			wp.element.createElement(SelectClassPanel, {
@@ -344,7 +337,20 @@ registerBlockType('catpow/listed', {
 					value: classArray.join(' ')
 				})
 			),
+			wp.element.createElement(SelectItemClassPanel, {
+				title: '\u30EA\u30B9\u30C8\u30A2\u30A4\u30C6\u30E0',
+				icon: 'edit',
+				set: setAttributes,
+				attr: attributes,
+				items: itemsCopy,
+				index: attributes.currentItemIndex,
+				triggerClasses: selectiveClasses[0]
+			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
+		), wp.element.createElement(
+			'ul',
+			{ className: attributes.EditMode ? primaryClass + ' edit' : classes },
+			rtn
 		)];
 	},
 	save: function save(_ref2) {
@@ -522,7 +528,7 @@ registerBlockType('catpow/listed', {
 					backgroundImageSrc: { source: 'attribute', selector: '.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
 					backgroundImageSrcset: { source: 'attribute', selector: '.background [src]', attribute: 'srcset' }
 				},
-				default: [].concat(_toConsumableArray(Array(3))).map(function () {
+				default: [].concat(babelHelpers.toConsumableArray(Array(3))).map(function () {
 					return {
 						classes: 'item',
 						title: ['Title'],
@@ -694,7 +700,7 @@ registerBlockType('catpow/listed', {
 					backgroundImageSrc: { source: 'attribute', selector: '.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
 					backgroundImageSrcset: { source: 'attribute', selector: '.background [src]', attribute: 'srcset' }
 				},
-				default: [].concat(_toConsumableArray(Array(3))).map(function () {
+				default: [].concat(babelHelpers.toConsumableArray(Array(3))).map(function () {
 					return {
 						classes: 'item',
 						title: ['Title'],

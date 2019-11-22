@@ -129,7 +129,7 @@ registerBlockType('catpow/slider', {
 		}
 		var gotoItem = function gotoItem(i) {
 			configData.initialSlide = (i + items.length) % items.length;
-			setAttributes({ config: JSON.stringify(configData) });
+			setAttributes({ currentItemIndex: configData.initialSlide, config: JSON.stringify(configData) });
 		};
 		var prevItem = function prevItem() {
 			gotoItem(configData.initialSlide - 1);
@@ -152,7 +152,14 @@ registerBlockType('catpow/slider', {
 			itemClass = posClass + ' image' + imageIndex + ' thumb' + imageIndex;
 			rtn.push(wp.element.createElement(
 				Item,
-				{ tag: 'li', className: itemClass, set: setAttributes, items: itemsCopy, index: index },
+				{
+					tag: 'li',
+					className: itemClass,
+					set: setAttributes,
+					attr: attributes,
+					items: itemsCopy,
+					index: index
+				},
 				states.hasSlide && wp.element.createElement(
 					'div',
 					{ className: 'slide' },
@@ -224,14 +231,7 @@ registerBlockType('catpow/slider', {
 							itemsCopy[index].linkUrl = linkUrl;
 							setAttributes({ items: itemsCopy });
 						}, value: item.linkUrl, placeholder: 'URL\u3092\u5165\u529B' })
-				),
-				wp.element.createElement(ItemControl, {
-					set: setAttributes,
-					attr: attributes,
-					items: itemsCopy,
-					index: index,
-					triggerClasses: selectiveClasses[0]
-				})
+				)
 			));
 			if (states.hasImage && states.hasThumbnail) {
 				thumbs.push(wp.element.createElement(
@@ -271,38 +271,6 @@ registerBlockType('catpow/slider', {
 					}
 				}]
 			})
-		), wp.element.createElement(
-			'div',
-			{ className: attributes.EditMode ? primaryClass + ' edit' : classes },
-			wp.element.createElement(
-				'ul',
-				{ 'class': 'contents' },
-				rtn
-			),
-			wp.element.createElement(
-				'div',
-				{ className: controlClasses, 'data-config': config },
-				states.hasArrows && wp.element.createElement(
-					'div',
-					{ 'class': 'arrow prev', onClick: prevItem },
-					' '
-				),
-				states.hasImage && states.hasThumbnail && wp.element.createElement(
-					'ul',
-					{ 'class': 'thumbnail' },
-					thumbs
-				),
-				states.hasDots && wp.element.createElement(
-					'ul',
-					{ 'class': 'dots' },
-					dots
-				),
-				states.hasArrows && wp.element.createElement(
-					'div',
-					{ 'class': 'arrow next', onClick: nextItem },
-					' '
-				)
-			)
 		), wp.element.createElement(
 			InspectorControls,
 			null,
@@ -345,7 +313,48 @@ registerBlockType('catpow/slider', {
 					value: classArray.join(' ')
 				})
 			),
+			wp.element.createElement(SelectItemClassPanel, {
+				title: '\u30B9\u30E9\u30A4\u30C9',
+				icon: 'edit',
+				set: setAttributes,
+				attr: attributes,
+				items: itemsCopy,
+				index: attributes.currentItemIndex,
+				triggerClasses: selectiveClasses[0]
+			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
+		), wp.element.createElement(
+			'div',
+			{ className: attributes.EditMode ? primaryClass + ' edit' : classes },
+			wp.element.createElement(
+				'ul',
+				{ 'class': 'contents' },
+				rtn
+			),
+			wp.element.createElement(
+				'div',
+				{ className: controlClasses, 'data-config': config },
+				states.hasArrows && wp.element.createElement(
+					'div',
+					{ 'class': 'arrow prev', onClick: prevItem },
+					' '
+				),
+				states.hasImage && states.hasThumbnail && wp.element.createElement(
+					'ul',
+					{ 'class': 'thumbnail' },
+					thumbs
+				),
+				states.hasDots && wp.element.createElement(
+					'ul',
+					{ 'class': 'dots' },
+					dots
+				),
+				states.hasArrows && wp.element.createElement(
+					'div',
+					{ 'class': 'arrow next', onClick: nextItem },
+					' '
+				)
+			)
 		)];
 	},
 	save: function save(_ref2) {

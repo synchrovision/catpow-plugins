@@ -32,19 +32,20 @@
 		itemsCopy.map((item,index)=>{
 			var className=(currentIndex==index)?'active':(currentIndex>index)?'before':'after';
 			rtn.push(
-				<Item tag='li' set={setAttributes} items={itemsCopy} index={index} className={className}>
+				<Item
+					tag='li'
+					className={itemClass}
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={index}
+				>
 					<h3 onClick={()=>{setAttributes({currentIndex:index})}}>
 						<RichText
 							onChange={(title)=>{itemsCopy[index].title=title;setAttributes({items:itemsCopy});}}
 							value={item.title}
 						/>
 					</h3>
-					<ItemControl
-						set={setAttributes}
-						attr={attributes}
-						items={itemsCopy}
-						index={index}
-					/>
 				</Item>
 			)
 		});

@@ -1,5 +1,3 @@
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 registerBlockType('catpow/tabs', {
 	title: '🐾 Tabs',
 	icon: 'editor-code',
@@ -12,7 +10,7 @@ registerBlockType('catpow/tabs', {
 			query: {
 				title: { source: 'children', selector: 'h3' }
 			},
-			default: [].concat(_toConsumableArray(Array(3))).map(function () {
+			default: [].concat(babelHelpers.toConsumableArray(Array(3))).map(function () {
 				return { title: ['title'] };
 			})
 		}
@@ -43,7 +41,14 @@ registerBlockType('catpow/tabs', {
 			var className = currentIndex == index ? 'active' : currentIndex > index ? 'before' : 'after';
 			rtn.push(wp.element.createElement(
 				Item,
-				{ tag: 'li', set: setAttributes, items: itemsCopy, index: index, className: className },
+				{
+					tag: 'li',
+					className: itemClass,
+					set: setAttributes,
+					attr: attributes,
+					items: itemsCopy,
+					index: index
+				},
 				wp.element.createElement(
 					'h3',
 					{ onClick: function onClick() {
@@ -55,13 +60,7 @@ registerBlockType('catpow/tabs', {
 						},
 						value: item.title
 					})
-				),
-				wp.element.createElement(ItemControl, {
-					set: setAttributes,
-					attr: attributes,
-					items: itemsCopy,
-					index: index
-				})
+				)
 			));
 		});
 

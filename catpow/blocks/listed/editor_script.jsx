@@ -179,7 +179,13 @@
 		itemsCopy.map((item,index)=>{
 			if(!item.controlClasses){item.controlClasses='control';}
 			rtn.push(
-				<Item tag='li' set={setAttributes} items={itemsCopy} index={index}>
+				<Item
+					tag='li'
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={index}
+				>
 					{states.hasImage &&
 						<div className='image'>
 							<SelectResponsiveImage
@@ -288,13 +294,6 @@
 							}} value={item.linkUrl} placeholder='URLを入力'/>
 						</div>
 					}
-					<ItemControl
-						set={setAttributes}
-						attr={attributes}
-						items={itemsCopy}
-						index={index}
-						triggerClasses={selectiveClasses[0]}
-					/>
 				</Item>
 			);
 		});
@@ -314,7 +313,6 @@
 					]}
 				/>
 			</BlockControls>,
-			<ul className={attributes.EditMode?(primaryClass+' edit'):classes}>{rtn}</ul>,
 			<InspectorControls>
 				<SelectClassPanel
 					title='クラス'
@@ -330,8 +328,18 @@
 						value={classArray.join(' ')}
 					/>
 				</PanelBody>
+				<SelectItemClassPanel
+					title='リストアイテム'
+					icon='edit'
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={attributes.currentItemIndex}
+					triggerClasses={selectiveClasses[0]}
+				/>
 				<ItemControlInfoPanel/>
-			</InspectorControls>
+			</InspectorControls>,
+			<ul className={attributes.EditMode?(primaryClass+' edit'):classes}>{rtn}</ul>
         ];
     },
 	save({attributes,className}){

@@ -37,6 +37,7 @@ ul.wp-block-catpow-panel{
 				}
 				p{@include txt((a:j,p:1.2rem,w:r,c:t));}
 				.link{
+					@include bnd((p:r));
 					a{
 						@include bnd((d:b,mg:1rem a));
 						@include txt((p:1.2rem,h:1em,c:t));
@@ -56,6 +57,7 @@ ul.wp-block-catpow-panel{
 		li.item{
 			.text{
 				.link{
+					@include usr((e:n));
 					input.components-text-control__input{
 						@include bnd((d:b,p:a,b:5,l:5,z:1));
 						@include usr((e:a));

@@ -53,8 +53,9 @@
 						{label:'画像',values:'hasImage',sub:[
 							{label:'画像を薄く',values:'paleImage'}
 						]},
-						{label:'リンク',values:'hasLink'},
-						{label:'外部リンク',values:'linkExternal'},
+						{label:'リンク',values:'hasLink',sub:[
+							{label:'外部リンク',values:'linkExternal'}
+						]},
 						{label:'縦サイズ',values:{rspan1:'1',rspan2:'2',rspan3:'3'}},
 						{label:'横サイズ',values:{cspan1:'1',cspan2:'2',cspan3:'3'}}
 					],
@@ -64,8 +65,9 @@
 						{label:'タイトル',values:'hasTitle'},
 						{label:'文章',values:'hasText'},
 						{label:'画像',values:'hasImage'},
-						{label:'リンク',values:'hasLink'},
-						{label:'外部リンク',values:'linkExternal'},
+						{label:'リンク',values:'hasLink',sub:[
+							{label:'外部リンク',values:'linkExternal'}
+						]},
 						{label:'縦サイズ',values:{rspan1:'1',rspan2:'2',rspan3:'3'}},
 						{label:'横サイズ',values:{cspan1:'1',cspan2:'2',cspan3:'3'}}
 					]
@@ -118,7 +120,13 @@
 			Object.keys(itemStates).forEach(function(key){this[key]=itemClassArray.indexOf(key)!==-1;},itemStates);
 		
 			rtn.push(
-				<Item tag='li' set={setAttributes} items={itemsCopy} index={index}>
+				<Item
+					tag='li'
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={index}
+				>
 					{itemStates.hasImage &&
 						<div className='image'>
 							<SelectResponsiveImage
@@ -167,13 +175,6 @@
 							</div>
 						}
 					</div>
-					<ItemControl
-						set={setAttributes}
-						attr={attributes}
-						items={itemsCopy}
-						index={index}
-						triggerClasses={selectiveClasses[0]}
-					/>
 				</Item>
 			);
 		});
@@ -201,6 +202,15 @@
 					set={setAttributes}
 					attr={attributes}
 					selectiveClasses={selectiveClasses}
+				/>
+				<SelectItemClassPanel
+					title='パネル'
+					icon='edit'
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={attributes.currentItemIndex}
+					triggerClasses={selectiveClasses[0]}
 				/>
 				<PanelBody title="CLASS" icon="admin-generic" initialOpen={false}>
 					<TextareaControl

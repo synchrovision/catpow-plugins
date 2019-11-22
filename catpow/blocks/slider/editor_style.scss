@@ -2,6 +2,10 @@
 
 div.wp-block-catpow-slider{
 	@include bnd((p:r,z:1));
+	&>.controls{
+		@include usr((e:n));
+		&>*{@include usr((e:a));}
+	}
 	ul.contents{
 		li{
 			@include bnd((p:r));

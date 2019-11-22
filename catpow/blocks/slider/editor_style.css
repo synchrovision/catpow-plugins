@@ -2,6 +2,10 @@
 div.wp-block-catpow-slider {
   position: relative;
   z-index: 1; }
+  div.wp-block-catpow-slider > .controls {
+    pointer-events: none; }
+    div.wp-block-catpow-slider > .controls > * {
+      pointer-events: auto; }
   div.wp-block-catpow-slider ul.contents li {
     position: relative; }
     div.wp-block-catpow-slider ul.contents li div.itemControl {

@@ -59,24 +59,28 @@ ul.wp-block-catpow-panel li.item {
         font-size: 1.2rem;
         font-weight: 400;
         color: #444; }
-      ul.wp-block-catpow-panel.edit li.item div.text .link a {
-        display: block;
-        margin: 1rem auto;
-        font-size: 1.2rem;
-        line-height: 1em;
-        color: #444; }
-        ul.wp-block-catpow-panel.edit li.item div.text .link a::before {
-          content: "\f054";
-          font-family: 'Font Awesome 5 Free';
-          font-weight: 900;
-          display: inline-block;
-          margin-right: 0.5em; }
+      ul.wp-block-catpow-panel.edit li.item div.text .link {
+        position: relative; }
+        ul.wp-block-catpow-panel.edit li.item div.text .link a {
+          display: block;
+          margin: 1rem auto;
+          font-size: 1.2rem;
+          line-height: 1em;
+          color: #444; }
+          ul.wp-block-catpow-panel.edit li.item div.text .link a::before {
+            content: "\f054";
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            display: inline-block;
+            margin-right: 0.5em; }
         ul.wp-block-catpow-panel.edit li.item div.text .link input {
           color: #444; }
-  ul.wp-block-catpow-panel.panel li.item .text .link input.components-text-control__input {
-    display: block;
-    position: absolute;
-    bottom: 5px;
-    left: 5px;
-    z-index: 1;
-    pointer-events: auto; }
+  ul.wp-block-catpow-panel.panel li.item .text .link {
+    pointer-events: none; }
+    ul.wp-block-catpow-panel.panel li.item .text .link input.components-text-control__input {
+      display: block;
+      position: absolute;
+      bottom: 5px;
+      left: 5px;
+      z-index: 1;
+      pointer-events: auto; }

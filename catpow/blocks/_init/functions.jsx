@@ -378,11 +378,15 @@ const ResponsiveImage=({className,attr,keys,index,sizes})=>{
 }
 
 const Item=(props)=>{
-	const {tag,items,index,set,children}=props;
+	const {tag,items,itemsKey,index,set,attr,triggerClasses,children}=props;
+	let {itemClasses}=props;
 	if(!items[index].classes){items[index].classes='item';}
 	else if(items[index].classes.search(/\bitem\b/)===-1){items[index].classes+=' item';}
 	let classes=items[index].classes;
 	if(props.className){classes+=' '+props.className;}
+	
+	if(attr.currentItemIndex===undefined){attr.currentItemIndex=-1;}
+	
 	return wp.element.createElement(
 		tag,
 		{
@@ -398,121 +402,20 @@ const Item=(props)=>{
 						case 'ArrowDown':CP.downItem(props);e.preventDefault();break;
 					}
 				}
+			},
+			onClick:(e)=>{
+				set({currentItemIndex:index});
 			}
 		},
-		children
-	);
-}
-const ItemControl=(props)=>{
-	const {items,itemsKey,index,set,attr,triggerClasses}=props;
-	let {itemClasses}=props;
-	const toggleItemControl=()=>{
-		items[index].openControl=!items[index].openControl;
-		if(itemsKey===undefined){set({items});}
-		else{set({[itemsKey]:items})}
-	}
-	if(triggerClasses && triggerClasses.item){
-		itemClasses=triggerClasses.item[CP.getSelectiveClass(props,triggerClasses.values)];
-		if(Array.isArray(itemClasses) && itemClasses.length===0){itemClasses=false;}
-	}
-	
-	
-	let classes='itemControl';
-	if(items[index].openControl){classes+=' open';}
-	
-	const selectItemClass=(prm)=>{
-		let rtn=[];
-		if(prm === 'color'){
-			rtn.push(
-				<RangeControl
-					label='色'
-					onChange={(clr)=>CP.switchItemColor(props,clr,itemsKey)}
-					value={CP.getItemColor(props)}
-					min={0}
-					max={12}
-				/>
-			);
-		}
-		else if(prm === 'pattern'){
-			rtn.push(
-				<RangeControl
-					label='パターン'
-					onChange={(clr)=>CP.switchItemPattern(props,clr,itemsKey)}
-					value={CP.getItemPattern(props)}
-					min={0}
-					max={5}
-				/>
-			);
-		}
-		else if(prm === 'cond'){
-			rtn.push(
-				<TextareaControl
-					label='表示条件'
-					value={items[index]['cond']}
-					onChange={(cond)=>{
-						items[index]['cond']=cond;
-						if(itemsKey===undefined){set({items});}
-						else{set({[itemsKey]:items})}
-					}}
-				/>
-			);
-		}
-		else if(_.isObject(prm.values)){
-			let options;
-			if(Array.isArray(prm.values)){
-				options=prm.values.map(cls=>{return {label:cls,value:cls};});
-			}
-			else{
-				options=Object.keys(prm.values).map((cls)=>{return {label:prm.values[cls],value:cls};});
-			}
-			rtn.push(
-				<SelectControl
-					label={prm.label}
-					onChange={(cls)=>CP.switchItemSelectiveClass(props,prm.values,cls,itemsKey)}
-					value={CP.getItemSelectiveClass(props,prm.values)}
-					options={options}
-				/>
-			);
-			if(prm.sub){
-				let currentClass=CP.getItemSelectiveClass(props,prm.values);
-				if(currentClass && prm.sub[currentClass]){
-					let sub=[];
-					prm.sub[currentClass].map((prm)=>{sub.push(SelectItemClass(prm))});
-					rtn.push(<div className="sub">{sub}</div>);
-				}
-			}
-		}
-		else{
-			rtn.push(
-				<CheckboxControl
-					label={prm.label}
-					onChange={()=>{CP.toggleItemClass(props,prm.values,itemsKey);}}
-					checked={CP.hasItemClass(props,prm.values)}
-				/>
-			);
-			if(prm.sub){
-				if(CP.hasItemClass(props,prm.values)){
-					let sub=[];
-					prm.sub.map((prm)=>{sub.push(selectItemClass(prm))});
-					rtn.push(<div className="sub">{sub}</div>);
-				}
-			}
-		}
-		return rtn;
-	};
-	
-	return (
-		<div className={classes}>
-			<div className='btn delete' onClick={(e)=>CP.deleteItem(props)}></div>
-			<div className='btn clone' onClick={(e)=>CP.cloneItem(props)}></div>
-			<div className='btn up' onClick={(e)=>CP.upItem(props)}></div>
-			<div className='btn down' onClick={(e)=>CP.downItem(props)}></div>
-			{itemClasses && <div className='btn edit' onClick={(e)=>toggleItemControl()}></div>}
-			{itemClasses &&
-				<div class="inputs">{itemClasses.map(selectItemClass)}
-				</div>
-			}
-		</div>
+		[
+			children,
+			<div className='itemControl'>
+				<div className='btn delete' onClick={(e)=>CP.deleteItem(props)}></div>
+				<div className='btn clone' onClick={(e)=>CP.cloneItem(props)}></div>
+				<div className='btn up' onClick={(e)=>CP.upItem(props)}></div>
+				<div className='btn down' onClick={(e)=>CP.downItem(props)}></div>
+			</div>
+		]
 	);
 }
 const ItemControlInfoPanel=()=>{
@@ -741,6 +644,111 @@ const SelectClassPanel=(props)=>{
 	return (
 		<PanelBody title={props.title} initialOpen={false} icon={props.icon}>
 			{props.selectiveClasses.map(SelectClass)}
+		</PanelBody>
+	)
+}
+const SelectItemClassPanel=(props)=>{
+	const {items,itemsKey,index,set,attr,triggerClasses}=props;
+
+	if(!items[index]){return false;}
+	
+	let {itemClasses}=props;
+	if(!items[index].classes){items[index].classes='item';}
+	else if(items[index].classes.search(/\bitem\b/)===-1){items[index].classes+=' item';}
+	let classes=items[index].classes;
+	if(props.className){classes+=' '+props.className;}
+	
+	if(triggerClasses && triggerClasses.item){
+		itemClasses=triggerClasses.item[CP.getSelectiveClass(props,triggerClasses.values)];
+		if(Array.isArray(itemClasses) && itemClasses.length===0){itemClasses=false;}
+	}
+	
+
+	const selectItemClass=(prm)=>{
+		let rtn=[];
+		if(prm === 'color'){
+			rtn.push(
+				<RangeControl
+					label='色'
+					onChange={(clr)=>CP.switchItemColor(props,clr,itemsKey)}
+					value={CP.getItemColor(props)}
+					min={0}
+					max={12}
+				/>
+			);
+		}
+		else if(prm === 'pattern'){
+			rtn.push(
+				<RangeControl
+					label='パターン'
+					onChange={(clr)=>CP.switchItemPattern(props,clr,itemsKey)}
+					value={CP.getItemPattern(props)}
+					min={0}
+					max={5}
+				/>
+			);
+		}
+		else if(prm === 'cond'){
+			rtn.push(
+				<TextareaControl
+					label='表示条件'
+					value={items[index]['cond']}
+					onChange={(cond)=>{
+						items[index]['cond']=cond;
+						if(itemsKey===undefined){set({items});}
+						else{set({[itemsKey]:items})}
+					}}
+				/>
+			);
+		}
+		else if(_.isObject(prm.values)){
+			let options;
+			if(Array.isArray(prm.values)){
+				options=prm.values.map(cls=>{return {label:cls,value:cls};});
+			}
+			else{
+				options=Object.keys(prm.values).map((cls)=>{return {label:prm.values[cls],value:cls};});
+			}
+			rtn.push(
+				<SelectControl
+					label={prm.label}
+					onChange={(cls)=>CP.switchItemSelectiveClass(props,prm.values,cls,itemsKey)}
+					value={CP.getItemSelectiveClass(props,prm.values)}
+					options={options}
+				/>
+			);
+			if(prm.sub){
+				let currentClass=CP.getItemSelectiveClass(props,prm.values);
+				if(currentClass && prm.sub[currentClass]){
+					let sub=[];
+					prm.sub[currentClass].map((prm)=>{sub.push(SelectItemClass(prm))});
+					rtn.push(<div className="sub">{sub}</div>);
+				}
+			}
+		}
+		else{
+			rtn.push(
+				<CheckboxControl
+					label={prm.label}
+					onChange={()=>{CP.toggleItemClass(props,prm.values,itemsKey);}}
+					checked={CP.hasItemClass(props,prm.values)}
+				/>
+			);
+			if(prm.sub){
+				if(CP.hasItemClass(props,prm.values)){
+					let sub=[];
+					prm.sub.map((prm)=>{sub.push(selectItemClass(prm))});
+					rtn.push(<div className="sub">{sub}</div>);
+				}
+			}
+		}
+		return rtn;
+	};
+
+	if(!itemClasses){return false;}
+	return (
+		<PanelBody title={props.title} initialOpen={false} icon={props.icon}>
+			{itemClasses.map(selectItemClass)}
 		</PanelBody>
 	)
 }

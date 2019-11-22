@@ -1,5 +1,3 @@
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 registerBlockType('catpow/panel', {
 	title: '🐾 Panel',
 	icon: 'grid-view',
@@ -20,7 +18,7 @@ registerBlockType('catpow/panel', {
 				linkUrl: { source: 'attribute', selector: '.text .link a', attribute: 'href' },
 				linkText: { source: 'text', selector: '.text .link a' }
 			},
-			default: [].concat(_toConsumableArray(Array(8))).map(function (n, i) {
+			default: [].concat(babelHelpers.toConsumableArray(Array(8))).map(function (n, i) {
 				return {
 					classes: 'item hasIcon hasLink hasTitle rspan1 cspan1 color' + i * 2,
 					src: cp.theme_url + '/images/dummy.jpg',
@@ -48,8 +46,8 @@ registerBlockType('catpow/panel', {
 			label: 'タイプ',
 			values: { tile: 'タイル', menu: 'メニュー' },
 			item: {
-				tile: ['color', { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage', sub: [{ label: '画像を薄く', values: 'paleImage' }] }, { label: 'リンク', values: 'hasLink' }, { label: '外部リンク', values: 'linkExternal' }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }],
-				menu: ['color', { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage' }, { label: 'リンク', values: 'hasLink' }, { label: '外部リンク', values: 'linkExternal' }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }]
+				tile: ['color', { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage', sub: [{ label: '画像を薄く', values: 'paleImage' }] }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }],
+				menu: ['color', { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage' }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }]
 			},
 			bind: {
 				tile: ['panel'],
@@ -103,7 +101,13 @@ registerBlockType('catpow/panel', {
 
 			rtn.push(wp.element.createElement(
 				Item,
-				{ tag: 'li', set: setAttributes, items: itemsCopy, index: index },
+				{
+					tag: 'li',
+					set: setAttributes,
+					attr: attributes,
+					items: itemsCopy,
+					index: index
+				},
 				itemStates.hasImage && wp.element.createElement(
 					'div',
 					{ className: 'image' },
@@ -157,14 +161,7 @@ registerBlockType('catpow/panel', {
 								setAttributes({ items: itemsCopy });
 							}, value: item.linkUrl })
 					)
-				),
-				wp.element.createElement(ItemControl, {
-					set: setAttributes,
-					attr: attributes,
-					items: itemsCopy,
-					index: index,
-					triggerClasses: selectiveClasses[0]
-				})
+				)
 			));
 		});
 
@@ -198,6 +195,15 @@ registerBlockType('catpow/panel', {
 				set: setAttributes,
 				attr: attributes,
 				selectiveClasses: selectiveClasses
+			}),
+			wp.element.createElement(SelectItemClassPanel, {
+				title: '\u30D1\u30CD\u30EB',
+				icon: 'edit',
+				set: setAttributes,
+				attr: attributes,
+				items: itemsCopy,
+				index: attributes.currentItemIndex,
+				triggerClasses: selectiveClasses[0]
 			}),
 			wp.element.createElement(
 				PanelBody,

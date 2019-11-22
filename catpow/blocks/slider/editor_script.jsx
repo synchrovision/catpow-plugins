@@ -180,7 +180,7 @@
 		if(configData.initialSlide === undefined){configData.initialSlide=0;}
 		const gotoItem=(i)=>{
 			configData.initialSlide=(i+items.length)%items.length;
-			setAttributes({config:JSON.stringify(configData)});
+			setAttributes({currentItemIndex:configData.initialSlide,config:JSON.stringify(configData)});
 		};
 		const prevItem=()=>{
 			gotoItem(configData.initialSlide-1);
@@ -202,7 +202,14 @@
 			}
 			itemClass=posClass+' image'+imageIndex+' thumb'+imageIndex;
 			rtn.push(
-				<Item tag='li' className={itemClass} set={setAttributes} items={itemsCopy} index={index}>
+				<Item
+					tag='li'
+					className={itemClass}
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={index}
+				>
 					{states.hasSlide &&
 						<div className='slide'>
 							<SelectResponsiveImage
@@ -269,13 +276,6 @@
 							}} value={item.linkUrl} placeholder='URLを入力'/>
 						</div>
 					}
-					<ItemControl
-						set={setAttributes}
-						attr={attributes}
-						items={itemsCopy}
-						index={index}
-						triggerClasses={selectiveClasses[0]}
-					/>
 				</Item>
 			);
 			if(states.hasImage && states.hasThumbnail){
@@ -309,15 +309,6 @@
 					]}
 				/>
 			</BlockControls>,
-			<div className={attributes.EditMode?(primaryClass+' edit'):classes}>
-				<ul class="contents">{rtn}</ul>
-				<div className={controlClasses} data-config={config}>
-					{states.hasArrows && <div class='arrow prev' onClick={prevItem}> </div>}
-					{states.hasImage && states.hasThumbnail && <ul class="thumbnail">{thumbs}</ul>}
-					{states.hasDots && <ul class="dots">{dots}</ul>}
-					{states.hasArrows && <div class='arrow next' onClick={nextItem}> </div>}
-				</div>
-			</div>,
 			<InspectorControls>
 				<SelectClassPanel
 					title='クラス'
@@ -354,8 +345,26 @@
 						value={classArray.join(' ')}
 					/>
 				</PanelBody>
+				<SelectItemClassPanel
+					title='スライド'
+					icon='edit'
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={attributes.currentItemIndex}
+					triggerClasses={selectiveClasses[0]}
+				/>
 				<ItemControlInfoPanel/>
-			</InspectorControls>
+			</InspectorControls>,
+			<div className={attributes.EditMode?(primaryClass+' edit'):classes}>
+				<ul class="contents">{rtn}</ul>
+				<div className={controlClasses} data-config={config}>
+					{states.hasArrows && <div class='arrow prev' onClick={prevItem}> </div>}
+					{states.hasImage && states.hasThumbnail && <ul class="thumbnail">{thumbs}</ul>}
+					{states.hasDots && <ul class="dots">{dots}</ul>}
+					{states.hasArrows && <div class='arrow next' onClick={nextItem}> </div>}
+				</div>
+			</div>
 		];
 	},
 	save({attributes,className}){

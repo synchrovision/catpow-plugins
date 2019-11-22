@@ -211,6 +211,11 @@
 				return true;
 			});
 		}
+		$tgts.on('expect.lazy_render',function(){
+			$(this).show().off('.lazy_render');
+			$(this).prevAll().show().off('.lazy_render');
+			$tgts=$(this).nextAll();
+		});
 		$(window).on('scroll',$lazy.update);
 		$lazy.update();
 		return $lazy;
@@ -479,15 +484,21 @@
 	},
 	//click,touchendで$tgtのcls1,cls2のクラスを入れ替え
 	cp_switch_class:function(cls1,cls2,$tgt){
-		if(!$tgt){$tgt=$(this);}
+		var $switcher=$(this);
+		if(!$tgt){$tgt=$switcher;}
 		else if(typeof($tgt)==='string'){$tgt=$($tgt);}
+		$switcher.target=$tgt;
 		if(!cls2){cls2='open';}
 		if(!cls1){cls1='close';}
-		$(this).on('click',function(){
+		$switcher.close=function(){$tgt.removeClass(cls2);$tgt.addClass(cls1);};
+		$switcher.open=function(){$tgt.removeClass(cls1);$tgt.addClass(cls2);};
+		$switcher.toggle=function(){
 			if($tgt.hasClass(cls1)){$tgt.removeClass(cls1);$tgt.addClass(cls2);}
 			else{$tgt.removeClass(cls2);$tgt.addClass(cls1);}
-		});
-		$tgt.addClass(cls1);
+		};
+		$switcher.on('click',$switcher.toggle);
+		$switcher.close();
+		return $switcher;
 	},
 		
 	//click,touchendでクリックされた対象にのみclsクラスを付与し、それ以外からは削除する
@@ -835,6 +846,7 @@
 			$hash_link.tgt=$(this.hash);
 			$hash_link.click(function(){
 				if($hash_link.tgt.length){
+					$hash_link.tgt.trigger('expect');
 					$('body,html').animate({scrollTop:$hash_link.tgt.offset().top-mgn},500);
 				}
 				else{
@@ -845,18 +857,15 @@
 			$hash_links.push($hash_link);
 		});
 		setInterval(function(){
-			s=$(window).scrollTop()+mgn+5;
+			s=$(window).scrollTop();
 			if(s!==prev_s){
 				$.each($hash_links,function($i,$hash_link){
 					if($hash_link.tgt.length < 1){return;}
-					if(
-						$hash_link.tgt.offset().top<=s && 
-						$hash_link.tgt.offset().top+$hash_link.tgt.outerHeight()>s 
-					){
+					var bnd=$hash_link.tgt.get(0).getBoundingClientRect();
+					if(bnd.top<mgn && bnd.bottom>mgn){
 						$hash_link.addClass('active');$hash_link.tgt.addClass('active');
-					}else{
-						$hash_link.removeClass('active');$hash_link.tgt.removeClass('active');
 					}
+					else{$hash_link.removeClass('active');$hash_link.tgt.removeClass('active');}
 				});
 				prev_s=s;
 			}

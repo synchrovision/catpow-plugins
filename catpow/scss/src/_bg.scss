@@ -8,6 +8,8 @@
 	$avals:(f:fixed,s:scroll);
 	$svals:(fit:100% 100%,cnt:contain,cvr:cover,f:100% 100%,c:cover,i:contain);
 	$pvals:(l:left,r:right,t:top,b:bottom,c:center);
+	$clvals:(b:border-box,p:padding-box,c:content-box,t:text);
+	
 	@each $key,$val in $bg{
 		@if $key == i{$val:cp_get_image($val);}
 		@if $key == c{$val:cp_get_color($val);}
@@ -27,6 +29,15 @@
 			@if $mxn == m{@include mist($clr);}
 		}
 		@if $key == p{$val:replace_values($val,$pvals);$val:cp_get_size_values($val);}
+		@if $key == 'cl'{
+			@include background-clip(map-get($clvals,$val));
+		}
 		@if map-has-key($keys,$key){#{map-get($keys,$key)}:$val;}
 	}
+}
+@mixin background-clip($val){
+	-webkit-background-clip:$val;
+	-moz-background-clip:$val;
+	-ms-background-clip:$val;
+	background-clip:$val;
 }

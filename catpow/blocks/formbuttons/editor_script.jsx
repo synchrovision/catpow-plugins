@@ -74,7 +74,13 @@
 			if(!item.controlClasses){item.controlClasses='control';}
 			let buttonParam=parseButtonShortCode(item.button);
 			rtn.push(
-				<Item tag='li' set={setAttributes} items={itemsCopy} index={index}>
+				<Item
+					tag='li'
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={index}
+				>
 					<div class="button">
 						<span
 							onInput={(e)=>{
@@ -93,13 +99,6 @@
 							contentEditable="true"
 						>{buttonParam.action}</span>
 					</div>
-					<ItemControl
-						set={setAttributes}
-						attr={attributes}
-						items={itemsCopy}
-						index={index}
-						triggerClasses={selectiveClasses[0]}
-					/>
 				</Item>
 			);
 		});
@@ -115,6 +114,15 @@
 					set={setAttributes}
 					attr={attributes}
 					selectiveClasses={selectiveClasses}
+				/>
+				<SelectItemClassPanel
+					title='ボタン'
+					icon='edit'
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={attributes.currentItemIndex}
+					triggerClasses={selectiveClasses[0]}
 				/>
 				<PanelBody title="CLASS" icon="admin-generic" initialOpen={false}>
 					<TextareaControl

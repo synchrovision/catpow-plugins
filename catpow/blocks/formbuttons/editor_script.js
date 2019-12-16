@@ -70,7 +70,13 @@ registerBlockType('catpow/formbuttons', {
 			var buttonParam = parseButtonShortCode(item.button);
 			rtn.push(wp.element.createElement(
 				Item,
-				{ tag: 'li', set: setAttributes, items: itemsCopy, index: index },
+				{
+					tag: 'li',
+					set: setAttributes,
+					attr: attributes,
+					items: itemsCopy,
+					index: index
+				},
 				wp.element.createElement(
 					'div',
 					{ 'class': 'button' },
@@ -102,14 +108,7 @@ registerBlockType('catpow/formbuttons', {
 						},
 						buttonParam.action
 					)
-				),
-				wp.element.createElement(ItemControl, {
-					set: setAttributes,
-					attr: attributes,
-					items: itemsCopy,
-					index: index,
-					triggerClasses: selectiveClasses[0]
-				})
+				)
 			));
 		});
 
@@ -130,6 +129,15 @@ registerBlockType('catpow/formbuttons', {
 				set: setAttributes,
 				attr: attributes,
 				selectiveClasses: selectiveClasses
+			}),
+			wp.element.createElement(SelectItemClassPanel, {
+				title: '\u30DC\u30BF\u30F3',
+				icon: 'edit',
+				set: setAttributes,
+				attr: attributes,
+				items: itemsCopy,
+				index: attributes.currentItemIndex,
+				triggerClasses: selectiveClasses[0]
 			}),
 			wp.element.createElement(
 				PanelBody,

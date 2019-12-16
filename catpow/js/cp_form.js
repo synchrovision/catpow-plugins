@@ -180,17 +180,23 @@ function cp_form_submit($item,action,callback,param){
                 data.message.forEach(function(msg){
                     if(!msg.class){msg.class='';}
                     var $msg=$('<div class="message '+msg.class+'"><div class="text">'+msg.message+'</div></div>');
-					$msg.appendTo($msgBox);
 					if(msg.selector){
-						var $tgt=$(msg.selector,$form);
-						if($tgt.length===0){
-							console.log('Invalid input "'+msg.selector+'" was not found in this form');
-							console.log(msg.message);
-							return;
+						if($form.is(msg.selector)){
+							$tgt=$form;
+							$msg.addClass('no_target');
+							$msg.appendTo($msgBox);
 						}
-						$msg.addClass('has_target');
-                    	$msg.appendTo($msgBox).cp_cling($tgt);
-                    	$tgt.on('change',function(){$msg.cp_delay_remove();});
+						else{
+							var $tgt=$(msg.selector,$form);
+							if($tgt.length===0){
+								console.log('Invalid input "'+msg.selector+'" was not found in this form');
+								console.log(msg.message);
+								return;
+							}
+							$msg.addClass('has_target');
+							$msg.appendTo($msgBox).cp_cling($tgt);
+							$tgt.on('change',function(){$msg.cp_delay_remove();});
+						}
 					}
                     if($msgBox.find('.task').length){$msgBox.addClass('has_task');}
                 });

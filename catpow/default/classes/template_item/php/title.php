@@ -6,7 +6,7 @@ namespace Catpow\template_item\php;
 
 class title extends \Catpow\template_item\php{
     public static function get_code_data($path_data,$conf_data,$param){
-		$metas=$conf_data['meta']?:null;
+		$metas=$conf_data['meta']??null;
 		switch($path_data['data_type']){
 			case 'post':
 			case 'page':

@@ -81,3 +81,34 @@ div.embedded_content{
 		@include shd((b:1));
 	}
 }
+table.selectPosition{
+	@include tbl(());
+	td{
+		@include bnd((w:2rem,h:2rem));
+		@include bdr((s:s,w:1,c:t 20));
+		&.active{
+			@include bg((c:m));
+		}
+		&.disable{
+			@include bg((c:t 10));
+		}
+	}
+}
+ul.selectColor{
+	@include txt((l:n));
+	li{
+		@include bnd((d:ib,p:r,w:2rem,h:2rem,mg:.5rem));
+		@include bdr((r:2rem));
+		@include usr((c:p));
+		&.fillColor0{
+			@include bg((c:t 10));
+		}
+		&::after{
+			content: ' ';
+			@include bnd((d:b,p:a,t:1,b:1,l:1,r:1));
+			@include bdr((r:2rem));
+			@include bg((c:b));
+		}
+		&.active::after{@include bnd((d:n));}
+	}
+}

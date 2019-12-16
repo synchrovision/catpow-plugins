@@ -3,22 +3,28 @@ registerBlockType('catpow/sticky', {
 	icon: 'menu',
 	category: 'catpow',
 	attributes: {
-		classes: { source: 'attribute', selector: 'div', attribute: 'class', default: 'wp-block-catpow-sticky bottom' },
+		classes: { source: 'attribute', selector: 'div', attribute: 'class', default: 'wp-block-catpow-sticky topLeft small label' },
 
-		openButtonImageSrc: { source: 'attribute', selector: '.wp-block-catpow-sticky>.stickyMenuButton [src].open', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
-		closeButtonImageSrc: { source: 'attribute', selector: '.wp-block-catpow-sticky>.stickyMenuButton [src].close', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' }
+		labelText: { source: 'children', selector: '.label', defalt: ['ラベル'] },
+
+		openButtonImageSrc: { source: 'attribute', selector: '.wp-block-catpow-sticky>.stickyButton [src].open', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
+		closeButtonImageSrc: { source: 'attribute', selector: '.wp-block-catpow-sticky>.stickyButton [src].close', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,
 		    setAttributes = _ref.setAttributes;
-		var classes = attributes.classes;
+		var classes = attributes.classes,
+		    labelText = attributes.labelText;
 
 		var primaryClass = 'wp-block-catpow-sticky';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 
 		var states = {
+			container: false,
+			label: false,
 			collapsible: false,
+			labelButton: false,
 			imageButton: false
 		};
 
@@ -27,22 +33,19 @@ registerBlockType('catpow/sticky', {
 			closeButtonImage: { src: "closeButtonImageSrc" }
 		};
 
-		var selectiveClasses = [{ label: '位置', values: { left: '左', right: '右', top: '上', bottom: '下' } }, {
-			label: '折り畳み',
-			values: 'collapsible',
-			sub: ['color', {
-				label: 'ボタンタイプ',
-				values: { pullButton: '引き出し', menuButton: 'メニュー' },
-				sub: {
-					imageButton: [{ label: 'open', input: 'image', keys: imageKeys.openButtonImage, size: 'thumbnail' }, { label: 'close', input: 'image', keys: imageKeys.closeButtonImage, size: 'thumbnail' }]
-				}
-			}, { label: '画像ボタン', values: 'imageButton',
-				sub: [{ label: 'open', input: 'image', keys: imageKeys.openButtonImage, size: 'thumbnail' }, { label: 'close', input: 'image', keys: imageKeys.closeButtonImage, size: 'thumbnail' }]
-			}, { label: 'ボタンの位置', values: {
-					buttonPositionStart: '上・左',
-					buttonPositionCenter: '中央',
-					buttonPositionEnd: '下・右'
-				} }, { label: 'サイズ', values: { fill: '全面', large: '大', small: '小' } }]
+		var selectiveClasses = [{ label: '位置', input: 'position', disable: ['left', 'center', 'right'] }, { label: 'サイズ', values: { full: '全面', large: '大', medium: '中', small: '小' } }, {
+			label: 'タイプ',
+			values: { label: 'ラベル', container: 'コンテナ', collapsible: '折り畳み' },
+			sub: {
+				label: ['color'],
+				collapsible: ['color', {
+					label: 'ボタン',
+					values: { pullButton: '引き出し', menuButton: 'メニュー', labelButton: 'ラベル', imageButton: '画像' },
+					sub: {
+						imageButton: [{ label: 'open', input: 'image', keys: imageKeys.openButtonImage, size: 'thumbnail' }, { label: 'close', input: 'image', keys: imageKeys.closeButtonImage, size: 'thumbnail' }]
+					}
+				}]
+			}
 		}];
 
 		var hasClass = function hasClass(cls) {
@@ -57,10 +60,17 @@ registerBlockType('catpow/sticky', {
 			{ className: classes },
 			states.collapsible && wp.element.createElement(
 				'div',
-				{ 'class': 'stickyMenuButton' },
+				{ 'class': 'stickyButton' },
 				wp.element.createElement(
 					'div',
-					{ 'class': 'stickyMenuButtonIcon' },
+					{ 'class': 'stickyButtonIcon' },
+					states.labelButton && wp.element.createElement(
+						'div',
+						{ className: 'label' },
+						wp.element.createElement(RichText, { onChange: function onChange(labelText) {
+								setAttributes({ labelText: labelText });
+							}, value: labelText })
+					),
 					states.imageButton && [wp.element.createElement(ResponsiveImage, {
 						className: 'open',
 						attr: attributes,
@@ -75,7 +85,14 @@ registerBlockType('catpow/sticky', {
 			wp.element.createElement(
 				'div',
 				{ 'class': 'content' },
-				wp.element.createElement(InnerBlocks, null)
+				states.label && wp.element.createElement(
+					'div',
+					{ className: 'label' },
+					wp.element.createElement(RichText, { onChange: function onChange(labelText) {
+							setAttributes({ labelText: labelText });
+						}, value: labelText })
+				),
+				(states.container || states.collapsible) && wp.element.createElement(InnerBlocks, null)
 			)
 		), wp.element.createElement(
 			InspectorControls,
@@ -104,31 +121,45 @@ registerBlockType('catpow/sticky', {
 		var attributes = _ref2.attributes,
 		    className = _ref2.className,
 		    setAttributes = _ref2.setAttributes;
-		var classes = attributes.classes;
+		var classes = attributes.classes,
+		    labelText = attributes.labelText;
 
 
 		var classArray = classes.split(' ');
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		var collapsible = hasClass('collapsible');
-		var imageButton = hasClass('imageButton');
 
+		var states = {
+			container: false,
+			label: false,
+			collapsible: false,
+			labelButton: false,
+			imageButton: false
+		};
 		var imageKeys = {
 			openButtonImage: { src: "openButtonImageSrc" },
 			closeButtonImage: { src: "closeButtonImageSrc" }
 		};
+		var hasClass = function hasClass(cls) {
+			return classArray.indexOf(cls) !== -1;
+		};
+		Object.keys(states).forEach(function (key) {
+			this[key] = hasClass(key);
+		}, states);
 
 		return wp.element.createElement(
 			'div',
 			{ className: classes },
-			collapsible && wp.element.createElement(
+			states.collapsible && wp.element.createElement(
 				'div',
-				{ 'class': 'stickyMenuButton' },
+				{ 'class': 'stickyButton' },
 				wp.element.createElement(
 					'div',
-					{ 'class': 'stickyMenuButtonIcon' },
-					imageButton && [wp.element.createElement(ResponsiveImage, {
+					{ 'class': 'stickyButtonIcon' },
+					states.labelButton && wp.element.createElement(
+						'div',
+						{ className: 'label' },
+						labelText
+					),
+					states.imageButton && [wp.element.createElement(ResponsiveImage, {
 						className: 'open',
 						attr: attributes,
 						keys: imageKeys.openButtonImage
@@ -142,7 +173,12 @@ registerBlockType('catpow/sticky', {
 			wp.element.createElement(
 				'div',
 				{ 'class': 'content' },
-				wp.element.createElement(InnerBlocks.Content, null)
+				states.label && wp.element.createElement(
+					'div',
+					{ className: 'label' },
+					labelText
+				),
+				(states.container || states.collapsible) && wp.element.createElement(InnerBlocks.Content, null)
 			)
 		);
 	}

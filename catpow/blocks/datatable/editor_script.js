@@ -83,7 +83,7 @@ registerBlockType('catpow/datatable', {
 
 		itemsCopy.map(function (item, index) {
 			if (states.hasHeaderColumn && item.th.length === 0) {
-				item.th = { text: ['Title'] };
+				item.th = [{ text: ['Title'] }];
 			}
 		});
 

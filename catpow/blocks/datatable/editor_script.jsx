@@ -80,7 +80,7 @@
 		}
 		
 		itemsCopy.map((item,index)=>{
-			if(states.hasHeaderColumn && item.th.length===0){item.th={text:['Title']};}
+			if(states.hasHeaderColumn && item.th.length===0){item.th=[{text:['Title']}];}
 		});
 		
 		

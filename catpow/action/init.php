@@ -155,6 +155,8 @@ if(function_exists('register_block_type')){
 }
 
 /*shortcode*/
+add_shortcode('home_url',function(){return home_url();});
+add_shortcode('theme_url',function(){return get_stylesheet_directory_uri();});
 foreach(cp::get_file_paths('shortcode') as $sc_dir){
 	foreach(glob($sc_dir.'/*/output.php') as $sc_file){
 		$tag=basename(dirname($sc_file));
@@ -226,7 +228,7 @@ add_filter('get_avatar_url',function($url,$id_or_email,$args){
 		if(is_object($id_or_email)){
 			if(isset($id_or_email->user_id)){$id_or_email=$id_or_email->user_id;}
 		}
-		else{$id_or_email=get_user_by('email',$id_or_email)->ID;}
+		else{$id_or_email=get_user_by('email',$id_or_email)->ID??false;}
 	}
 	if(is_numeric($id_or_email) && $avatar_url=get_user_meta($id_or_email,'avatar_url')){return $avatar_url;}
 	return $url;
@@ -304,7 +306,7 @@ if($pagenow=='options-permalink.php'){
                     foreach($data[$pref.'template'] as $tmp){
                         $tmp_data=explode('-',$tmp);
                         $tmp_name=$tmp_data[0];
-                        $tmp_slug=$tmp_data[1]?:null;
+                        $tmp_slug=$tmp_data[1]??null;
 
                         $class_name=cp::get_class_name('template_type',$tmp_name);
                         foreach($class_name::get_rewrite_rule($data[$pref.'path']) as $rewrite_rule){

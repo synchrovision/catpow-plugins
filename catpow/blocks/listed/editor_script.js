@@ -43,21 +43,19 @@ registerBlockType('catpow/listed', {
 		countPrefix: { source: 'text', selector: '.counter .prefix', default: '' },
 		countSuffix: { source: 'text', selector: '.counter .suffix', default: '' },
 		subCountPrefix: { source: 'text', selector: '.subcounter .prefix', default: '' },
-		subCountSuffix: { source: 'text', selector: '.subcounter .suffix', default: '' },
-		spacer: { type: 'int', default: 0 }
+		subCountSuffix: { source: 'text', selector: '.subcounter .suffix', default: '' }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,
-		    setAttributes = _ref.setAttributes;
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var items = attributes.items,
 		    classes = attributes.classes,
 		    countPrefix = attributes.countPrefix,
 		    countSuffix = attributes.countSuffix,
 		    subCountPrefix = attributes.subCountPrefix,
-		    subCountSuffix = attributes.subCountSuffix,
-		    spacer = attributes.spacer,
-		    dummy_image_url = attributes.dummy_image_url;
+		    subCountSuffix = attributes.subCountSuffix;
 
 		var primaryClass = 'wp-block-catpow-listed';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -363,8 +361,7 @@ registerBlockType('catpow/listed', {
 		    subCountPrefix = attributes.subCountPrefix,
 		    subCountSuffix = attributes.subCountSuffix,
 		    linkUrl = attributes.linkUrl,
-		    linkText = attributes.linkText,
-		    spacer = attributes.spacer;
+		    linkText = attributes.linkText;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 
@@ -495,9 +492,6 @@ registerBlockType('catpow/listed', {
 				)
 			));
 		});
-		for (var i = 0; i < spacer; i++) {
-			rtn.push(wp.element.createElement('li', { className: 'spacer' }));
-		}
 		return wp.element.createElement(
 			'ul',
 			{ className: classes },

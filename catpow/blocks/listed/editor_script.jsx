@@ -43,11 +43,10 @@
 		countPrefix:{source:'text',selector:'.counter .prefix',default:''},
 		countSuffix:{source:'text',selector:'.counter .suffix',default:''},
 		subCountPrefix:{source:'text',selector:'.subcounter .prefix',default:''},
-		subCountSuffix:{source:'text',selector:'.subcounter .suffix',default:''},
-		spacer:{type:'int',default:0}
+		subCountSuffix:{source:'text',selector:'.subcounter .suffix',default:''}
 	},
-	edit({attributes,className,setAttributes}){
-		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix,spacer,dummy_image_url}=attributes;
+	edit({attributes,className,setAttributes,isSelected}){
+		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix}=attributes;
 		const primaryClass='wp-block-catpow-listed';
 		var classArray=_.uniq((className+' '+classes).split(' '));
 		var classNameArray=className.split(' ');
@@ -80,7 +79,7 @@
 					news:'お知らせ',
 					index:'目次',
 					menu:'メニュー',
-					sphere:'円',
+					sphere:'円'
 				},
 				sub:{
 					flowchart:[
@@ -146,7 +145,7 @@
 					dialog:['hasHeader','hasHeaderImage','hasTitle','hasText'],
 					news:['hasText','hasSubTitle'],
 					index:['hasHeader','hasTitle','hasText'],
-					menu:['hasHeader','hasTitle'],
+					menu:['hasHeader','hasTitle']
                 },
 				item:{
 					flowchart:[],
@@ -158,7 +157,7 @@
 					news:[],
 					index:[],
 					menu:['color'],
-					sphere:['color'],
+					sphere:['color']
 				}
 			}
 		];
@@ -343,7 +342,7 @@
         ];
     },
 	save({attributes,className}){
-		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix,linkUrl,linkText,spacer}=attributes;
+		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix,linkUrl,linkText}=attributes;
 		var classArray=_.uniq(attributes.classes.split(' '));
 		
 		var states={
@@ -407,7 +406,6 @@
 				</li>
 			);
 		});
-		for(let i=0;i<spacer;i++){rtn.push(<li className="spacer"></li>);}
 		return <ul className={classes}>{rtn}</ul>;
 	},
 	

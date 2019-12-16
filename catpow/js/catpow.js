@@ -202,7 +202,7 @@
 		var lazyBox=$lazy.get(0);
 		var $tgts=$lazy.children();
 		$tgts.hide();
-		$lazy.addClass('lazy_render');
+		$lazy.addClass('lazy_render').show();
 		$lazy.update=function(){
 			$tgts=$tgts.filter(function(){
 				if(lazyBox.getBoundingClientRect().bottom<2000){
@@ -377,7 +377,7 @@
 					rmv='visible apear filled active';
 				}
 				if(t<0 && b>0){add+=' lead';}else{rmv+=' lead';}
-				if(b>wh){add+=' complete';}else{rmv+=' complete';}
+				if(b<wh){add+=' complete';}else{rmv+=' complete';}
 				if(t<wc){add+=' actived';}else{rmv+=' actived';}
 				if(t+b>wh){add+=' upper';rmv+=' below';}else{add+=' below';rmv+=' upper';}
 				$tgt.addClass(add).removeClass(rmv);

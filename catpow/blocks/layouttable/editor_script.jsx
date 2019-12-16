@@ -412,7 +412,7 @@ registerBlockType('catpow/layouttable',{
 						'default':'通常','th':"見出し",'spacer':"空白"
 					})}
 					{selectCellClasses('カラー',{
-						'default':'なし','pale':'薄色','primary':"推奨",'deprecated':"非推奨",'danger':"危険",'caution':"注意",'safe':"安全"
+						'default':'なし','pale':'薄色','primary':"推奨",'deprecated':"非推奨"
 					})}
 					{selectCellClasses('文字',{
 						'default':'なし','large':"大",'medium':"中",'small':"小"

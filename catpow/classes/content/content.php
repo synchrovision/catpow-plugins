@@ -100,6 +100,12 @@ abstract class content{
 		$form_param['param']=$param;
 		return new task($form_param);
     }
+    public function talk($file,$param=null,$loop_id=null,$inputs=null){
+		$form_param=$this->get_form_param($file,$loop_id,$inputs);
+		$form_param['form_id']=$file;
+		$form_param['param']=$param;
+		return new talk($form_param);
+    }
     public function get_form_param($file,$loop_id=null,$inputs=null){
         $rtn=['parent'=>$this,'inputs'=>$inputs];
         if(strpos($file,'/')===false){
@@ -172,15 +178,15 @@ abstract class content{
             if(!isset($this->loop_id)){return null;}
             if(isset($this->data[$this->loop_id][$name])){return $this->data[$this->loop_id][$name];}
             
-            $id=$this->data_id?:$this->loop_id;
+            $id=$this->data_id??$this->loop_id;
 
-            $class_name=\cp::get_class_name('meta',$this->conf['meta'][$name]['type']?:'text');
+            $class_name=\cp::get_class_name('meta',$this->conf['meta'][$name]['type']??'text');
             if($vals=\cp::get_the_meta_value($this->the_data_path.'/'.$name,$this->tmp_name)){return $vals;}
             
             return [$class_name::default_value($this->conf['meta'][$name])];
         }
         else{
-            $class_name=\cp::get_class_name('meta',$this->conf['type']?:'text');
+            $class_name=\cp::get_class_name('meta',$this->conf['type']??'text');
             if(isset($this->object)){return $this->object;}
             if(is_null($this->loop_id)){if(!empty($this->data)){return $this->data;}}
             elseif(isset($this->data[$this->loop_id])){return $this->data[$this->loop_id];}
@@ -313,7 +319,7 @@ abstract class content{
             case 'input_name':return \cp::get_input_name($this->data_path);
 			case 'input_id':return \cp::get_input_id($this->data_path);
             case 'path':return $this->path=\cp::create_content_path($this->path_data);
-            case 'file_path':return $this->path=\cp::create_content_file_path($this->path_data);
+            case 'file_path':return $this->file_path=\cp::create_content_file_path($this->path_data);
             case 'data_path':return $this->data_path=\cp::create_data_path($this->path_data);
             case 'real_data_path':return $this->data_real_path=\cp::create_data_path(\cp::realize_path_data($this->path_data));
             case 'conf_data_path':return $this->conf_data_path=\cp::create_conf_data_path($this->path_data);

@@ -43,7 +43,7 @@ registerBlockType('catpow/tabs', {
 				Item,
 				{
 					tag: 'li',
-					className: itemClass,
+					className: className,
 					set: setAttributes,
 					attr: attributes,
 					items: itemsCopy,

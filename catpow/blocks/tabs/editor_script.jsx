@@ -34,7 +34,7 @@
 			rtn.push(
 				<Item
 					tag='li'
-					className={itemClass}
+					className={className}
 					set={setAttributes}
 					attr={attributes}
 					items={itemsCopy}

@@ -23,9 +23,9 @@ div.wp-block-catpow-tabs [data-type="catpow/tabscontent"] {
     display: block; }
   div.wp-block-catpow-tabs[data-current-index="10"] [data-type="catpow/tabscontent"]:nth-of-type(11) {
     display: block; }
-  div.wp-block-catpow-tabs ul.tab li {
+  div.wp-block-catpow-tabs ul.tab li.item {
     position: relative; }
-    div.wp-block-catpow-tabs ul.tab li .itemControl {
+    div.wp-block-catpow-tabs ul.tab li.item .itemControl {
       width: 7rem;
       position: absolute;
       top: -2rem;

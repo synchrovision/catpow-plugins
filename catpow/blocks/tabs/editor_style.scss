@@ -10,7 +10,7 @@ div.wp-block-catpow-tabs{
 		}
 	}
 	ul.tab{
-		li{
+		li.item{
 			@include bnd((p:r));
 			.itemControl{
 				@include bnd((w:7rem,p:a,t:-2rem,l:0,r:0,mg:a));

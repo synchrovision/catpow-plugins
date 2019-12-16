@@ -12,7 +12,7 @@ class inputs extends \Catpow\template_item\php{
     public static function get_code_data($path_data,$conf_data,$param){
         if(empty($conf_data['meta'])){return false;}
 		$param=(int)reset($param);
-        $rtn=['table.inputs'];
+        $rtn=['table.wp-block-catpow-simpletable.inputs'];
         foreach($conf_data['meta'] as $name=>$conf){
 			$class_name=\cp::get_class_name('meta',$conf['type']);
 			if(!class_exists($class_name)){continue;}
@@ -28,7 +28,7 @@ class inputs extends \Catpow\template_item\php{
         return $rtn;
     }
 	public static function get_table_code_data($conf_data,$param){
-        $table=['tag'=>'table.inputs'];
+        $table=['tag'=>'table.wp-block-catpow-simpletable.inputs'];
         foreach($conf_data['meta'] as $name=>$conf){
 			$class_name=\cp::get_class_name('meta',$conf['type']);
 			if(!class_exists($class_name)){continue;}

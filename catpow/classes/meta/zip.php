@@ -17,9 +17,7 @@ class zip extends meta{
 	public static function get_input($path,$meta,$val){
 		if(empty($meta->conf['address'])){
 			$adrs=[];
-			$parent_metas=
-			   \cp::get_conf_data(dirname($meta->conf['path']))
-			   [dirname($meta->conf['path'],3)==='.'?'meta':'value'];
+			$parent_metas=\cp::get_conf_data(dirname($meta->conf['path']))['meta'];
 			if(isset($parent_metas['prefecture'])){$adrs[]='prefecture';}
 			elseif(isset($parent_metas['todouhuken'])){$adrs[]='todouhuken';}
 			if(isset($parent_metas['city'])){$adrs[]='city';}

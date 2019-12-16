@@ -12,7 +12,7 @@ class page_slug extends \Catpow\template_item\php{
 			case 'post':
 				if($path_data['data_name']==='page')return "<?= get_post_field('post_name'); ?>";
 			default:
-                return $conf_data['name'];
+                return $conf_data['data_name'];
 		}
     }
 }

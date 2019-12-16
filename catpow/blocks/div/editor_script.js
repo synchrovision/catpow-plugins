@@ -3,7 +3,9 @@ registerBlockType('catpow/div', {
 	icon: 'editor-code',
 	category: 'catpow',
 	attributes: {
-		classes: { source: 'attribute', selector: 'div', attribute: 'class', default: 'wp-block-catpow-div frame thin_border' },
+		classes: { source: 'attribute', selector: 'div', attribute: 'class', default: 'wp-block-catpow-div frame thinBorder' },
+
+		iconImageSrc: { source: 'attribute', selector: '.wp-block-catpow-div>.icon [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
 
 		backgroundImageSrc: { source: 'attribute', selector: '.wp-block-catpow-div>.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
 		backgroundImageSrcset: { source: 'attribute', selector: '.wp-block-catpow-div>.background [src]', attribute: 'srcset' }
@@ -18,10 +20,12 @@ registerBlockType('catpow/div', {
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 
 		var states = {
+			hasIcon: false,
 			hasBackgroundImage: false
 		};
 
 		var imageKeys = {
+			iconImage: { src: "iconImageSrc" },
 			backgroundImage: { src: "backgroundImageSrc", srcset: "backgroundImageSrcset" }
 		};
 
@@ -29,23 +33,7 @@ registerBlockType('catpow/div', {
 			label: 'タイプ',
 			values: ['block', 'frame', 'columns'],
 			sub: {
-				frame: [{ label: '色', values: 'has_color', sub: ['color'] }, { label: 'パターン', values: 'has_pattern', sub: ['pattern'] }, { label: 'アイコン', values: 'has_icon', sub: [{
-						label: 'タイプ',
-						values: {
-							check: 'チェック',
-							point: 'ポイント',
-							info: '情報',
-							help: 'ヘルプ',
-							alert: '注意',
-							warn: '警告',
-							search: '検索',
-							phone: '電話',
-							email: 'メール',
-							price: '価格',
-							review: 'レビュー',
-							favor: 'お気に入り'
-						}
-					}] }, { label: '線', values: { no_border: 'なし', thin_border: '細', bold_border: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '内側', values: 'inset' }] }],
+				frame: [{ label: '色', values: 'hasColor', sub: ['color'] }, { label: 'パターン', values: 'hasPattern', sub: ['pattern'] }, { label: 'アイコン', values: 'hasIcon' }, { label: '線', values: { noBorder: 'なし', thinBorder: '細', boldBorder: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '内側', values: 'inset' }] }],
 				columns: [{ label: '幅', values: { narrow: '狭い', regular: '普通', wide: '広い' } }]
 			}
 		}, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }] }, { label: '余白', 'values': { noPad: 'なし', thinPad: '極細', lightPad: '細', mediumPad: '中', boldPad: '太', heavyPad: '極太' } }];
@@ -60,6 +48,16 @@ registerBlockType('catpow/div', {
 		return [wp.element.createElement(
 			'div',
 			{ className: classes },
+			states.hasIcon && wp.element.createElement(
+				'div',
+				{ 'class': 'icon' },
+				wp.element.createElement(SelectResponsiveImage, {
+					set: setAttributes,
+					attr: attributes,
+					keys: imageKeys.iconImage,
+					size: 'middle'
+				})
+			),
 			states.hasBackgroundImage && wp.element.createElement(
 				'div',
 				{ 'class': 'background' },
@@ -104,15 +102,25 @@ registerBlockType('catpow/div', {
 		var hasClass = function hasClass(cls) {
 			return classArray.indexOf(cls) !== -1;
 		};
+		var hasIcon = hasClass('hasIcon');
 		var hasBackgroundImage = hasClass('hasBackgroundImage');
 
 		var imageKeys = {
+			iconImage: { src: "iconImageSrc" },
 			backgroundImage: { src: "backgroundImageSrc", srcset: "backgroundImageSrcset" }
 		};
 
 		return wp.element.createElement(
 			'div',
 			{ className: classes },
+			hasIcon && wp.element.createElement(
+				'div',
+				{ 'class': 'icon' },
+				wp.element.createElement(ResponsiveImage, {
+					attr: attributes,
+					keys: imageKeys.iconImage
+				})
+			),
 			hasBackgroundImage && wp.element.createElement(
 				'div',
 				{ 'class': 'background' },

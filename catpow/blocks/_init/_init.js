@@ -13,6 +13,7 @@ var _wp$editor = wp.editor,
     RichTextShortcut = _wp$editor.RichTextShortcut;
 var _wp$components = wp.components,
     PanelBody = _wp$components.PanelBody,
+    BaseControl = _wp$components.BaseControl,
     TreeSelect = _wp$components.TreeSelect,
     TextareaControl = _wp$components.TextareaControl,
     TextControl = _wp$components.TextControl,

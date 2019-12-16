@@ -39,9 +39,10 @@ ob_start();
 <!-- wp:shortcode -->[/loop]<!-- /wp:shortcode -->
 <?php endforeach; ?>
 	
-<!-- wp:catpow/formbuttons -->
-<ul class="wp-block-catpow-formbuttons buttons"><li class="item primary check"><a href="<?=wp_login_url();?>" class="button">ログイン</a></li></ul>
-<!-- /wp:catpow/formbuttons --></div></div></section>
+<!-- wp:catpow/buttons -->
+<ul class="wp-block-catpow-buttons buttons"><li class="item primary check"><a href="<?=wp_login_url();?>" class="button">ログイン</a></li></ul>
+<!-- /wp:catpow/buttons --><!-- wp:shortcode -->[§ message]<!-- /wp:shortcode -->
+</div></div></section>
 <!-- /wp:catpow/section -->
 
 <?php

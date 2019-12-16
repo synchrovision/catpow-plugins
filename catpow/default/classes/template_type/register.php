@@ -30,8 +30,7 @@ class register extends template_type{
 					'clear'=>['type'=>'checkbox','label'=>'クリア','value'=>['入力検証'=>1,'入力値'=>2,'フォーム'=>4]],
 					'receive'=>['type'=>'radio','label'=>'データ受信','value'=>['しない'=>-1,'する'=>1]],
 					'push'=>['type'=>'radio','label'=>'登録処理','value'=>['しない'=>-1,'する'=>1]],
-					'send_mail'=>['type'=>'checkbox_post_datas','label'=>'メール送信','value'=>'register_mail'],
-					'check_task'=>['type'=>'radio','label'=>'タスク完了確認','value'=>['しない'=>-1,'する'=>1]]
+					'send_mail'=>['type'=>'checkbox_post_datas','label'=>'メール送信','value'=>'register_mail']
 				]
 			];
 			\cp::fill_conf_data('post','register_form',$GLOBALS['post_types']['register_form']);
@@ -55,10 +54,12 @@ class register extends template_type{
     public static function get_default_post_datas($conf_data){
 		$name=basename($conf_data['path']);
 		return [
-			'register_form/form-'.$name=>['post_title'=>$conf_data['label'].'登録フォーム'],
-			'register_form/form-'.$name.'/step1'=>['post_title'=>'Step1'],
-			'register_form/form-'.$name.'/step2'=>['post_title'=>'Step2'],
-			'register_form/form-'.$name.'/step3'=>['post_title'=>'Step3'],
+			'register_form/form-'.$name=>['post_title'=>$conf_data['label'].'登録申請'],
+			'register_form/form-'.$name.'/step1'=>['post_title'=>'メールアドレス入力'],
+			'register_form/form-'.$name.'/step2'=>['post_title'=>'送信確認'],
+			'register_form/task-'.$name=>['post_title'=>$conf_data['label'].'登録フォーム'],
+			'register_form/task-'.$name.'/step1'=>['post_title'=>'入力確認'],
+			'register_form/task-'.$name.'/step2'=>['post_title'=>'登録'],
 			'register_mail/confirm-'.$name=>['post_title'=>$conf_data['label'].'登録確認'],
 			'register_mail/thanks-'.$name=>['post_title'=>$conf_data['label'].'登録完了'],
 			'register_mail/notice-'.$name=>['post_title'=>$conf_data['label'].'登録通知'],
@@ -75,24 +76,28 @@ class register extends template_type{
 			'form.php'=>['',[
 				'php',
 				'namespace Catpow;',
+				'global $res;',
 				"\$path='register_form/form-{$name}';",
 				"if(!empty(\$action) && \$action !== 'form'){\$path.='/'.\$action;}",
 				'$post_data=cp::get_post_data($path);',
 				"if(\$post_data['meta']['receive'][0]==1){receive();}",
 				"if(\$post_data['meta']['push'][0]==1){push();}",
-				"if(\$post_data['meta']['check_task'][0]==1 && !task()->load()->is_completed()){",[
-					"form()->error('確認メールのURLにアクセスしてください');"
-				],"}",
 				"if(!empty(\$post_data['meta']['send_mail'])){cp::send_mails(\$post_data['meta']['send_mail']);}",
 				"if(isset(\$post_data['meta']['clear'])){clear(array_sum(\$post_data['meta']['clear']));}",
-				'§message();',
 				'content($path);'
 			]],
 			'task.php'=>['',[
 				'php',
 				'namespace Catpow;',
-				'this()->complete();',
-				'echo "メールの受信を確認しました、";'
+				'global $res;',
+				"\$path='register_form/task-{$name}';",
+				"if(!empty(\$action) && \$action !== 'form'){\$path.='/'.\$action;}",
+				'$post_data=cp::get_post_data($path);',
+				"if(\$post_data['meta']['receive'][0]==1){receive();}",
+				"if(\$post_data['meta']['push'][0]==1){push();}",
+				"if(!empty(\$post_data['meta']['send_mail'])){cp::send_mails(\$post_data['meta']['send_mail']);}",
+				"if(isset(\$post_data['meta']['clear'])){clear(array_sum(\$post_data['meta']['clear']));}",
+				'content($path);'
 			]],
 			'header.php'=>['','@catpow','@page_header'],
 			'footer.php'=>['','@catpow','@page_footer'],
@@ -100,6 +105,15 @@ class register extends template_type{
 			'script.js'=>[],
 		];
 	}
+    public static function get_form_type($file){
+        switch($file){
+            case 'form.php':
+            case 'task.php':
+				return 1;
+            default:
+                return 8;
+        }
+    }
 }
 
 ?>

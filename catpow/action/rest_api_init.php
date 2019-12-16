@@ -1,37 +1,4 @@
 <?php
-/*
-register_rest_route(
-	'cp/v1',
-	'/editor/embeddables/?',
-	[
-		'method'=>WP_REST_Server::READABLE,
-		'callback'=>function($req){
-			$data=[];
-			\cp::conf_data_walk(function($data_type,$data_name,$conf_data)use(&$data){
-				if($data_type==='nav'){return false;}
-				foreach(['','alias_'] as $pref){
-					if(empty($conf_data[$pref.'template'])){continue;}
-					foreach($conf_data[$pref.'template'] as $template){
-						$template_data=explode('-',$template);
-						$class_name=cp::get_class_name('template_type',$template_data[0]);
-						$embeddables=$class_name::get_embeddables($conf_data);
-						foreach($embeddables as $embed_type=>$embeddable){
-							foreach($embeddable as $label=>$fname){
-								$data[$embed_type][$conf_data['label']]
-									[$label.(isset($template_data[1])?'('.$template_data[1].')':'')]
-									=$conf_data[$pref.'path'].'/'.$template.'/'.$fname;
-							}
-						}
-					}
-				}
-			});
-			return new WP_REST_Response([
-				'data'=>$data
-			]);
-		}
-	]
-);
-*/
 register_rest_route(
 	'cp/v1',
 	'/(?P<content_path>(?P<data_type>\w+)/(?P<data_name>[\w_]+)/(?P<tmp>(?P<tmp_name>[\w_]+)(\-(?P<tmp_slug>[\w_]+))?)/)(?P<rest_name>[\w_]+)(/(?P<param>.+))?/?',

@@ -8,7 +8,7 @@ namespace Catpow\template_type;
 class admin extends template_type{
 	public static function get_template_files($conf_data){
 		return [
-			'form.php'=>['','@catpow','@inputs 3'],
+			'form.php'=>['','@catpow',"<?php cp::enqueue_style('blocks/simpletable/front_style.css'); ?>",'@inputs 3'],
 			'search.php'=>['','@catpow','@inputs_search'],
 			'style.scss'=>[],
 			'script.js'=>[],

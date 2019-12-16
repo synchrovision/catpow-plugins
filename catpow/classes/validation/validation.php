@@ -36,7 +36,7 @@ abstract class validation{
         $message=$meta->conf['validation_message'][$base_class_name]??static::get_message_format($meta);
         $message_vals=[];
         foreach(static::$message_keys as $message_key){
-            $message_vals[]=$meta->conf[$message_key]?:'';
+            $message_vals[]=$meta->conf[$message_key]??'';
         }
         return vsprintf($message,$message_vals);
     }

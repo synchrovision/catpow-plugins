@@ -320,18 +320,25 @@ class CP{
 
     public static function enqueue_script($src=false,$depth=array(),$ver=false,$in_footer=true){
 		static $missed=[];
-		if(wp_script_is($src) || in_array($src,$missed)){return false;}
-        if(empty($file=self::get_file_path_url($src))){$missed[]=$src;return false;}
+		if(wp_script_is($src) || isset($missed[$src])){return false;}
+        if(empty($file=self::get_file_path_url($src))){$missed[$src]=1;return false;}
 		if(empty($ver)){$ver=filemtime(key($file));}
 		wp_enqueue_script($src,reset($file),$depth,$ver,$in_footer);
 	}
 	public static function enqueue_style($src=false,$depth=array(),$ver=false,$media=false){
 		static $missed=[];
-		if(wp_script_is($src) || in_array($src,$missed)){return false;}
-        if(empty($file=self::get_file_path_url($src))){$missed[]=$src;return false;}
+		if(wp_script_is($src) || isset($missed[$src])){return false;}
+        if(empty($file=self::get_file_path_url($src))){$missed[$src]=1;return false;}
 		self::scss_compile([substr($src,0,-4)]);
 		if(empty($ver)){$ver=filemtime(key($file));}
 		wp_enqueue_style($src,reset($file),$depth,$ver,$media);
+	}
+	public static function use_ui($name){
+		static $done=[];
+		if(isset($done[$name])){return false;}
+		self::enqueue_script('ui/'.$name.'/component.js');
+		self::enqueue_style('ui/'.$name.'/style.css');
+		$done[$name]=1;
 	}
 	
 	/*post*/
@@ -393,7 +400,8 @@ class CP{
 	public static function page_content($name=false,$vars=false){
 		if(is_page() || is_single()){the_post();}
 		echo('<div class="page_content">');
-		self::get_template_part(self::get_the_content_file_path(),$name,$vars);
+		if(is_a(cp::$content,'Catpow\content\form')){cp::$content->render();}
+		else{self::get_template_part(self::get_the_content_file_path(),$name,$vars);}
 		echo('</div>');
 	}
 	public static function page_footer($name=false,$vars=false){
@@ -883,10 +891,10 @@ class CP{
     
     public static function get_input_attr($path,$conf,$io='input'){
         $rtn=' id="'.self::get_input_id($path).'"';
-        $classes=isset($conf['class'])?is_string($conf['class'])?explode(' ',$conf['class']):$conf['class']:array();
+        $classes=isset($conf['class'])?is_string($conf['class'])?explode(' ',$conf['class']):$conf['class']:[];
         $classes[]=$conf[$io.'-type']??$conf['type'];
         $rtn.=' class="'.implode(' ',$classes).'"';
-        foreach(array('placeholder','size','rows','cols','maxlength','required','autocomplete','min','max','step','pattern') as $i=>$attr_name){
+        foreach(['placeholder','size','rows','cols','maxlength','required','autocomplete','min','max','step','pattern'] as $i=>$attr_name){
             if(isset($conf[$attr_name]))$rtn.=' '.$attr_name.'="'.$conf[$attr_name].'"';
         }
         if(!isset($conf['placeholder']))$rtn.=' placeholder="'.$conf['label'].'"';
@@ -1291,10 +1299,10 @@ class CP{
     
     /*フォーム*/
     public static function get_the_form($req=false){
-        if($req===false){$form_id=$_REQUEST['cp_form_section_id']?:$_REQUEST['cp_form_id'];}
-        elseif(is_array($req)){$form_id=$req['cp_form_section_id']?:$req['cp_form_id'];}
+        if($req===false){$form_id=$_REQUEST['cp_form_section_id']??$_REQUEST['cp_form_id'];}
+        elseif(is_array($req)){$form_id=$req['cp_form_section_id']??$req['cp_form_id'];}
         else{$form_id=$req;}
-        return self::$forms[$form_id]?:false;
+        return self::$forms[$form_id]??false;
     }
     public static function extract_query($req=false,$data_path=null){
         if(empty($req)){$req=$_REQUEST;}
@@ -1579,6 +1587,21 @@ class CP{
 		}
 		die('headers already sent');
 	}
+	
+	/*ストリーム*/
+	public static function stream($callback,$param,$interval=1){
+		if(headers_sent()){die('headers already sent');}
+		header("Content-type: application/octet-stream");
+		header("Transfer-encoding: chunked");
+		while(ob_get_level()){ob_end_flush();}
+		flush();
+		while(true){
+			$chunk=$callback($param);
+			echo sprintf("%x\r\n", strlen($chunk));
+			echo $chunk . "\r\n";
+			sleep($interval);
+		}
+	}
     
     /*画像アップロード*/
     public static function upload_image($f,$post_id=0){
@@ -1792,6 +1815,14 @@ class CP{
 		static $is_task;
 		if(!isset($is_task)){$is_task=get_query_var('cp_page_type')==='task';}
 		return $is_task;
+	}
+	public static function is_beacon(){
+		static $is_beacon;
+		if(!isset($is_beacon)){
+			$is_beacon=get_query_var('cp_page_type')==='task' && get_query_var('cp_file_slug')==='beacon';
+		}
+		return $is_beacon;
+		
 	}
 	
     /*magic method*/

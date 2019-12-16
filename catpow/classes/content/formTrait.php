@@ -19,7 +19,7 @@ trait formTrait{
         $allowed_actions,
         $allowed_inputs,
         $loop_id,$performs,
-		$is_receiver,$tasks;
+		$is_receiver,$tasks,$talks;
     
     public function __construct($param){
         if(isset($param['form_type']) and is_string($param['form_type'])){
@@ -228,7 +228,12 @@ trait formTrait{
     
     /*perform*/
     public function push($override=true){
-		return \cp::update_data($this->inputs->data,$this->the_data_path,$override);
+		try{
+			return \cp::update_data($this->inputs->data,$this->the_data_path,$override);
+		}
+		catch(Exception $e){
+			throw new form_exception(['message'=>$e->getMessage()]);
+		}
     }
 	public function delete(){
 		return \cp::delete_data($this->the_data_path);

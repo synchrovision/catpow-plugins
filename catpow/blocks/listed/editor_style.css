@@ -16,7 +16,7 @@ ul.wp-block-catpow-listed li.item {
     border-width: 1px;
     border-color: rgba(68, 68, 68, 0.5);
     border-radius: 1rem;
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
     background-color: #fefefe; }
   ul.wp-block-catpow-listed.edit li.item {
     display: -webkit-box;
@@ -96,7 +96,7 @@ ul.wp-block-catpow-listed li.item {
           text-align: justify;
           font-size: 1.2rem;
           font-weight: 400;
-          color: #568; }
+          color: #007cba; }
     ul.wp-block-catpow-listed.edit li.item > .text {
       padding: 1rem;
       -webkit-box-flex: 1;

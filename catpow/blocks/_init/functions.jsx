@@ -520,12 +520,10 @@ const SelectClassPanel=(props)=>{
         else{
             if(prm === 'color'){
                 rtn.push(
-                    <RangeControl
+                    <SelectColorClass
                         label='色'
-                        onChange={(clr)=>CP.switchColor(props,clr)}
-                        value={CP.getColor(props)}
-                        min={0}
-                        max={12}
+                        set={props.set}
+                        attr={props.attr}
                     />
                 );
             }
@@ -573,6 +571,17 @@ const SelectClassPanel=(props)=>{
                             />
                         );
                         break;
+					case 'position':
+						rtn.push(
+							<SelectPositionClass
+                                set={props.set}
+                                attr={props.attr}
+								label={prm.label}
+                                key={prm.key}
+								help={prm.help}
+								disable={prm.disable}
+							/>
+						);
                 }
             }
             else if(_.isObject(prm.values)){
@@ -668,12 +677,13 @@ const SelectItemClassPanel=(props)=>{
 		let rtn=[];
 		if(prm === 'color'){
 			rtn.push(
-				<RangeControl
+				<SelectItemColorClass
 					label='色'
-					onChange={(clr)=>CP.switchItemColor(props,clr,itemsKey)}
-					value={CP.getItemColor(props)}
-					min={0}
-					max={12}
+					set={set}
+					attr={attr}
+					items={items}
+					index={index}
+					itemsKey={itemsKey}
 				/>
 			);
 		}
@@ -760,6 +770,77 @@ const AlignClassToolbar=(props)=>{
 			value={CP.getSelectiveClass(props,aligns)}
 			onChange={(align)=>{CP.switchSelectiveClass(props,aligns,align,props.key)} }
 		/>
+	);
+}
+const SelectColorClass=(props)=>{
+	const {label,help}=props;
+	
+	var color=CP.getColor(props);
+	var items=Array.from(Array(13),(v,i)=>{
+		var classes='fillColor'+i;
+		if(color==i){classes+=' active';}
+		return (
+			<li className={classes} onClick={()=>{CP.switchColor(props,i);}}> </li>
+		);
+	});;
+	
+	return (
+		<BaseControl label={label} help={help}>
+			<ul class="selectColor">{items}</ul>
+		</BaseControl>
+	);
+}
+const SelectItemColorClass=(props)=>{
+	const {label,help,itemsKey}=props;
+	
+	var color=CP.getItemColor(props);
+	var items=Array.from(Array(13),(v,i)=>{
+		var classes='fillColor'+i;
+		if(color==i){classes+=' active';}
+		return (
+			<li className={classes} onClick={()=>{CP.switchItemColor(props,i,itemsKey);}}> </li>
+		);
+	});;
+	
+	return (
+		<BaseControl label={label} help={help}>
+			<ul class="selectColor">{items}</ul>
+		</BaseControl>
+	);
+}
+
+const SelectPositionClass=(props)=>{
+	const rows=[
+		['topLeft','top','topRight'],
+		['left','center','right'],
+		['bottomLeft','bottom','bottomRight'],	
+	];
+	const values=_.flatten(rows);
+	let value=CP.getSelectiveClass(props,values);
+	
+	const {label,help,disable}=props;
+	
+	return (
+		<BaseControl label={label} help={help}>
+			<table className="selectPosition">
+				<tbody>
+				{rows.map((cols)=>(
+					<tr>
+					{cols.map((col)=>{
+						var isChecked=value==col;
+						if(disable && disable.includes(col)){return <td className="disable"> </td>;}
+						return (
+							<td
+								className={isChecked?"active":""}
+								onClick={()=>{CP.switchSelectiveClass(props,values,col,props.key)}}
+							> </td>
+						);
+					})}
+					</tr>
+				))}
+				</tbody>
+			</table>
+		</BaseControl>
 	);
 }
 

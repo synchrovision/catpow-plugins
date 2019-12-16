@@ -824,14 +824,10 @@ var SelectClassPanel = function SelectClassPanel(props) {
 			}
 		} else {
 			if (prm === 'color') {
-				rtn.push(wp.element.createElement(RangeControl, {
+				rtn.push(wp.element.createElement(SelectColorClass, {
 					label: '\u8272',
-					onChange: function onChange(clr) {
-						return CP.switchColor(props, clr);
-					},
-					value: CP.getColor(props),
-					min: 0,
-					max: 12
+					set: props.set,
+					attr: props.attr
 				}));
 			} else if (prm === 'pattern') {
 				rtn.push(wp.element.createElement(RangeControl, {
@@ -876,6 +872,15 @@ var SelectClassPanel = function SelectClassPanel(props) {
 							size: prm.size
 						}));
 						break;
+					case 'position':
+						rtn.push(wp.element.createElement(SelectPositionClass, {
+							set: props.set,
+							attr: props.attr,
+							label: prm.label,
+							key: prm.key,
+							help: prm.help,
+							disable: prm.disable
+						}));
 				}
 			} else if (_.isObject(prm.values)) {
 				var subClasses = CP.getSubClasses(prm);
@@ -997,14 +1002,13 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 	var selectItemClass = function selectItemClass(prm) {
 		var rtn = [];
 		if (prm === 'color') {
-			rtn.push(wp.element.createElement(RangeControl, {
+			rtn.push(wp.element.createElement(SelectItemColorClass, {
 				label: '\u8272',
-				onChange: function onChange(clr) {
-					return CP.switchItemColor(props, clr, itemsKey);
-				},
-				value: CP.getItemColor(props),
-				min: 0,
-				max: 12
+				set: set,
+				attr: attr,
+				items: items,
+				index: index,
+				itemsKey: itemsKey
 			}));
 		} else if (prm === 'pattern') {
 			rtn.push(wp.element.createElement(RangeControl, {
@@ -1105,6 +1109,117 @@ var AlignClassToolbar = function AlignClassToolbar(props) {
 			CP.switchSelectiveClass(props, aligns, align, props.key);
 		}
 	});
+};
+var SelectColorClass = function SelectColorClass(props) {
+	var label = props.label,
+	    help = props.help;
+
+
+	var color = CP.getColor(props);
+	var items = Array.from(Array(13), function (v, i) {
+		var classes = 'fillColor' + i;
+		if (color == i) {
+			classes += ' active';
+		}
+		return wp.element.createElement(
+			'li',
+			{ className: classes, onClick: function onClick() {
+					CP.switchColor(props, i);
+				} },
+			' '
+		);
+	});;
+
+	return wp.element.createElement(
+		BaseControl,
+		{ label: label, help: help },
+		wp.element.createElement(
+			'ul',
+			{ 'class': 'selectColor' },
+			items
+		)
+	);
+};
+var SelectItemColorClass = function SelectItemColorClass(props) {
+	var label = props.label,
+	    help = props.help,
+	    itemsKey = props.itemsKey;
+
+
+	var color = CP.getItemColor(props);
+	var items = Array.from(Array(13), function (v, i) {
+		var classes = 'fillColor' + i;
+		if (color == i) {
+			classes += ' active';
+		}
+		return wp.element.createElement(
+			'li',
+			{ className: classes, onClick: function onClick() {
+					CP.switchItemColor(props, i, itemsKey);
+				} },
+			' '
+		);
+	});;
+
+	return wp.element.createElement(
+		BaseControl,
+		{ label: label, help: help },
+		wp.element.createElement(
+			'ul',
+			{ 'class': 'selectColor' },
+			items
+		)
+	);
+};
+
+var SelectPositionClass = function SelectPositionClass(props) {
+	var rows = [['topLeft', 'top', 'topRight'], ['left', 'center', 'right'], ['bottomLeft', 'bottom', 'bottomRight']];
+	var values = _.flatten(rows);
+	var value = CP.getSelectiveClass(props, values);
+
+	var label = props.label,
+	    help = props.help,
+	    disable = props.disable;
+
+
+	return wp.element.createElement(
+		BaseControl,
+		{ label: label, help: help },
+		wp.element.createElement(
+			'table',
+			{ className: 'selectPosition' },
+			wp.element.createElement(
+				'tbody',
+				null,
+				rows.map(function (cols) {
+					return wp.element.createElement(
+						'tr',
+						null,
+						cols.map(function (col) {
+							var isChecked = value == col;
+							if (disable && disable.includes(col)) {
+								return wp.element.createElement(
+									'td',
+									{ className: 'disable' },
+									' '
+								);
+							}
+							return wp.element.createElement(
+								'td',
+								{
+									className: isChecked ? "active" : "",
+									onClick: function onClick() {
+										CP.switchSelectiveClass(props, values, col, props.key);
+									}
+								},
+								' '
+							);
+						})
+					);
+				})
+			)
+		)
+	);
 };
 
 var ImporterCSVPanel = function ImporterCSVPanel(props) {

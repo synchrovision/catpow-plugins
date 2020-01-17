@@ -14,10 +14,11 @@ registerBlockType('catpow/buttons', {
 			selector: 'li.item',
 			query: {
 				classes: { source: 'attribute', attribute: 'class' },
+				event: { source: 'attribute', selector: '.button', attribute: 'data-event' },
 				text: { source: 'text', selector: '.button' },
 				url: { source: 'attribute', selector: '.button', attribute: 'href' }
 			},
-			default: [{ classes: 'item mail primary', text: 'お問合せ', url: '[home_url]/contact' }]
+			default: [{ classes: 'item mail primary', event: '', text: 'お問合せ', url: '[home_url]/contact' }]
 		}
 	},
 	edit: function edit(_ref) {
@@ -39,7 +40,7 @@ registerBlockType('catpow/buttons', {
 				buttons: [{ label: 'サイズ', values: { l: '大', m: '中', s: '小', ss: '極小' } }, { label: 'インライン', values: 'i' }]
 			},
 			item: {
-				buttons: [{ label: '属性', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', 'values': ['play', 'next', 'back', 'file', 'home', 'trash', 'cart', 'mail', 'search', 'caution', 'help', 'open', 'close', 'plus', 'minus', 'refresh', 'edit', 'check'] }]
+				buttons: ['color', { label: '属性', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', 'values': ['play', 'next', 'back', 'file', 'home', 'trash', 'cart', 'mail', 'search', 'caution', 'help', 'open', 'close', 'plus', 'minus', 'refresh', 'edit', 'check'] }, 'event']
 			}
 		}];
 
@@ -152,7 +153,7 @@ registerBlockType('catpow/buttons', {
 				{ className: item.classes },
 				wp.element.createElement(
 					'a',
-					{ href: item.url, className: 'button' },
+					{ href: item.url, className: 'button', 'data-event': item.event },
 					item.text
 				)
 			));

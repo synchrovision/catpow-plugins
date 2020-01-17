@@ -3,9 +3,9 @@
 including catpow => cp_init:10
 include config files from stylesheet or template directory
 */
-global $ajax_response,$auth_ip,
-$use_functions,$post_types,$taxonomies,$static_pages,$comment_datas,
-$nav_datas,$user_datas,$site_datas,$view_datas,$sidebar_datas,$use_widgets,
+global $auth_ip,
+$post_types,$taxonomies,$static_pages,$comment_datas,
+$nav_datas,$user_datas,$site_datas,$sidebar_datas,$use_widgets,
 $wp_query,$cp_mode;
 
 $cp_mode=isset($wp_query->query['cp_mode'])?$wp_query->query['cp_mode']:'';
@@ -42,6 +42,7 @@ add_filter('option_home',function($url){
 	if(isset($cache)){return $cache;}
 	return $cache=apply_filters_ref_array('option_home_ref',[$url]);
 });
+
 
 include cp::get_file_path('config/system_config.php',6);
 include cp::get_file_path('config/theme_config.php',6);

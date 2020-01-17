@@ -132,6 +132,7 @@ div.embedded_content {
     right: 0px;
     top: 0px;
     padding: 0.5rem 1rem;
+    z-index: 1;
     background-color: #fefefe;
     text-align: center;
     font-size: 1rem;

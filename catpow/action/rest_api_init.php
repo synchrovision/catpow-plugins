@@ -3,7 +3,7 @@ register_rest_route(
 	'cp/v1',
 	'/(?P<content_path>(?P<data_type>\w+)/(?P<data_name>[\w_]+)/(?P<tmp>(?P<tmp_name>[\w_]+)(\-(?P<tmp_slug>[\w_]+))?)/)(?P<rest_name>[\w_]+)(/(?P<param>.+))?/?',
 	[
-		'method'=>WP_REST_Server::ALLMETHODS,
+		'methods'=>WP_REST_Server::ALLMETHODS,
 		'callback'=>function($req){
 			$res_404=new WP_REST_Response(['message'=>__('無効なリクエストです','catpow')],404);
 			$conf=$GLOBALS[cp::get_conf_data_name($req['data_type'])][$req['data_name']]?:null;

@@ -1,5 +1,5 @@
-registerBlockType('catpow/snippet', {
-	title: '🐾 Snippet',
+registerBlockType('catpow/widget', {
+	title: '🐾 Widget',
 	icon: 'editor-code',
 	category: 'catpow',
 	edit: function edit(_ref) {
@@ -18,7 +18,7 @@ registerBlockType('catpow/snippet', {
 				{ 'class': 'label' },
 				content_path
 			),
-			wp.element.createElement(ServerSideRender, { block: 'catpow/snippet', attributes: attributes })
+			wp.element.createElement(ServerSideRender, { block: 'catpow/widget', attributes: attributes })
 		), wp.element.createElement(
 			InspectorControls,
 			null,
@@ -28,7 +28,7 @@ registerBlockType('catpow/snippet', {
 				wp.element.createElement(TreeSelect, {
 					label: 'path',
 					selectedId: content_path,
-					tree: cpEmbeddablesTree.snippet,
+					tree: cpEmbeddablesTree.widget,
 					onChange: function onChange(content_path) {
 						setAttributes({ content_path: content_path });
 					}

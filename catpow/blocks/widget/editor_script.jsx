@@ -1,5 +1,5 @@
-﻿registerBlockType('catpow/snippet',{
-	title: '🐾 Snippet',
+﻿registerBlockType('catpow/widget',{
+	title: '🐾 Widget',
 	icon: 'editor-code',
 	category: 'catpow',
 	edit({attributes,setAttributes,className}){
@@ -8,14 +8,14 @@
         return [
 			<div class="embedded_content">
 				<div class="label">{content_path}</div>
-				<ServerSideRender block='catpow/snippet' attributes={attributes}/>
+				<ServerSideRender block='catpow/widget' attributes={attributes}/>
 			</div>,
 			<InspectorControls>
 				<PanelBody title="Path">
 					<TreeSelect
 						label='path'
 						selectedId={content_path}
-						tree={cpEmbeddablesTree.snippet}
+						tree={cpEmbeddablesTree.widget}
 						onChange={(content_path)=>{setAttributes({content_path:content_path});}}
 					/>
 				</PanelBody>

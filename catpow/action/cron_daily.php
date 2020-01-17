@@ -20,3 +20,5 @@ if($expires=get_option('_cp_post_expire')){
 		}
 	}
 }
+
+if($cron_file=cp::get_file_path('cron_daily.php',2)){include($cron_file);}

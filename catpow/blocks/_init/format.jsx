@@ -181,6 +181,32 @@ registerFormatType('catpow/underline',{
 		];
 	}
 });
+registerFormatType('catpow/ib',{
+	title:'InlineBlock',
+	tagName:'span',
+	className:'ib',
+	edit({isActive,value,onChange}){
+		const onToggle=()=>onChange(toggleFormat(value,{type:'catpow/ib'}))
+
+		return [
+			<Fragment>
+				<RichTextShortcut
+					type={'secondary'}
+					character={'i'}
+					onUse={onToggle}
+				/>
+				<RichTextToolbarButton
+					icon={'editor-code'}
+					title={'InlineBlock'}
+					onClick={onToggle}
+					isActive={isActive}
+					shortcutType={'secondary'}
+					shortcutCharacter={'i'}
+				/>
+			</Fragment>
+		];
+	}
+});
 registerFormatType('catpow/mark',{
 	title:'Mark',
 	tagName:'mark',

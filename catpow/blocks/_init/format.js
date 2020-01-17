@@ -188,14 +188,46 @@ registerFormatType('catpow/underline', {
 		)];
 	}
 });
-registerFormatType('catpow/mark', {
-	title: 'Mark',
-	tagName: 'mark',
-	className: null,
+registerFormatType('catpow/ib', {
+	title: 'InlineBlock',
+	tagName: 'span',
+	className: 'ib',
 	edit: function edit(_ref6) {
 		var isActive = _ref6.isActive,
 		    value = _ref6.value,
 		    onChange = _ref6.onChange;
+
+		var onToggle = function onToggle() {
+			return onChange(toggleFormat(value, { type: 'catpow/ib' }));
+		};
+
+		return [wp.element.createElement(
+			Fragment,
+			null,
+			wp.element.createElement(RichTextShortcut, {
+				type: 'secondary',
+				character: 'i',
+				onUse: onToggle
+			}),
+			wp.element.createElement(RichTextToolbarButton, {
+				icon: 'editor-code',
+				title: 'InlineBlock',
+				onClick: onToggle,
+				isActive: isActive,
+				shortcutType: 'secondary',
+				shortcutCharacter: 'i'
+			})
+		)];
+	}
+});
+registerFormatType('catpow/mark', {
+	title: 'Mark',
+	tagName: 'mark',
+	className: null,
+	edit: function edit(_ref7) {
+		var isActive = _ref7.isActive,
+		    value = _ref7.value,
+		    onChange = _ref7.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/mark' }));

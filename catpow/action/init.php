@@ -20,9 +20,6 @@ while($fname = $cpjs_dir->read()){
 \cp::gzip_compress($js_files);
 
 
-
-//wp_deregister_script('jquery');
-//wp_register_script('jquery','https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js');
 wp_enqueue_style('font_awesome','https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.min.css');
 
 wp_enqueue_script('catpow');
@@ -32,11 +29,25 @@ wp_localize_script('catpow','cp',array(
 	'ajax_url'=>admin_url().'admin-ajax.php',
 	'upload_url'=>admin_url().'async-upload.php',
 	'home_url'=>home_url(),
-	'theme_url'=>get_stylesheet_directory_uri()
+	'theme_url'=>get_stylesheet_directory_uri(),
+	'use_functions'=>$GLOBALS['use_functions']
 ));
 
 /*add_image_size*/
 add_image_size('vga',640,480,1);
+
+/*body_class*/
+add_filter('body_class',function($classes){
+	$path_data=cp::get_the_path_data();
+	return array_merge($classes,array(
+		$path_data['data_type'].'-type-'.$path_data['data_name'],
+		$path_data['data_type'].'-type-'.$path_data['data_name'].'-'.$path_data['tmp_name'],
+	));
+});
+
+/*cp form*/
+add_action('wp_ajax_cp_form',[\cp::get_class_name('content','form'),'response']);
+add_action('wp_ajax_nopriv_cp_form',[\cp::get_class_name('content','form'),'response']);
 
 /*blocks*/
 if(function_exists('register_block_type')){
@@ -74,6 +85,7 @@ if(function_exists('register_block_type')){
 			$block_name=basename(dirname($editor_script));
 			$block_style_names[]='blocks/'.$block_name.'/editor_style';
 			$block_style_names[]='blocks/'.$block_name.'/style';
+			unset($attributes);
 			$param=array();
 			foreach([
 				'conf'=>'php',
@@ -106,7 +118,6 @@ if(function_exists('register_block_type')){
 						break;
 					case 'php':
 						if($fname === 'conf'){
-							unset($attributes);
 							include $file_path;
 							if(isset($attributes)){$param['attributes']=$attributes;}
 						}
@@ -133,10 +144,19 @@ if(function_exists('register_block_type')){
 		if(in_array($block['blockName'],$done,true)){return $block;}
 		$block_name=explode('/',$block['blockName'])[1]??null;
 		if(empty($block_name)){return $block;}
-		if($f=cp::get_file_path('blocks/'.$block_name.'/init.php',3)){include $f;}
-		cp::enqueue_style('blocks/'.$block_name.'/front_style.css',$deps['front_style']);
-		cp::enqueue_script('blocks/'.$block_name.'/front_script.js',$deps['front_script']);
-		cp::enqueue_script('blocks/'.$block_name.'/component.js',$deps['component']);
+		if($f=cp::get_file_path('blocks/'.$block_name.'/front_init.php',3)){include $f;}
+		cp::enqueue_style(
+			'blocks/'.$block_name.'/front_style.css',
+			$deps['front_style']
+		);
+		cp::enqueue_script(
+			'blocks/'.$block_name.'/front_script.js',
+			$deps['front_script']
+		);
+		cp::enqueue_script(
+			'blocks/'.$block_name.'/component.js',
+			$deps['component']
+		);
 		$done[]=$block['blockName'];
 		return $block;
 	},10,2);
@@ -145,10 +165,19 @@ if(function_exists('register_block_type')){
 		$block_registry=WP_Block_Type_Registry::get_instance();
 		foreach($block_registry->get_all_registered() as $block_name=>$block_type){
 			$block_base_name=explode('/',$block_name)[1];
-			if($f=cp::get_file_path('blocks/'.$block_name.'/init.php',3)){include $f;}
-			cp::enqueue_style('blocks/'.$block_base_name.'/front_style.css',$deps['front_style']);
-			cp::enqueue_script('blocks/'.$block_base_name.'/front_script.js',$deps['front_script']);
-			cp::enqueue_script('blocks/'.$block_base_name.'/component.js',$deps['component']);
+			if($f=cp::get_file_path('blocks/'.$block_base_name.'/editor_init.php',3)){include $f;}
+			cp::enqueue_style(
+				'blocks/'.$block_base_name.'/front_style.css',
+				$deps['front_style']
+			);
+			cp::enqueue_script(
+				'blocks/'.$block_base_name.'/front_script.js',
+				$deps['front_script']
+			);
+			cp::enqueue_script(
+				'blocks/'.$block_base_name.'/component.js',
+				$deps['component']
+			);
 		}
 	});
 	if(current_user_can('edit_themes')){\cp::gzip_compress(glob(WP_PLUGIN_DIR.'/catpow/blocks/*/*.{js,css}',GLOB_BRACE));}
@@ -159,7 +188,7 @@ add_shortcode('home_url',function(){return home_url();});
 add_shortcode('theme_url',function(){return get_stylesheet_directory_uri();});
 foreach(cp::get_file_paths('shortcode') as $sc_dir){
 	foreach(glob($sc_dir.'/*/output.php') as $sc_file){
-		$tag=basename(dirname($sc_file));
+		$tag=substr($sc_file,strrpos($sc_file,'/',-12)+1,-11);
 		add_shortcode($tag,'shortcode_callback');
 	}
 }
@@ -293,6 +322,8 @@ add_filter('nav_menu_link_attributes',function($atts,$item,$args,$depth){
 	return $atts;
 },100,4);
 
+
+/*permalink*/
 global $pagenow;
 if($pagenow=='options-permalink.php'){
 	function cp_add_rewrite_rules($data_type){
@@ -331,3 +362,5 @@ if($pagenow=='options-permalink.php'){
 		'top'
 	);
 }
+
+

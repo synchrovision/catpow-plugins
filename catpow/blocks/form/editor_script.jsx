@@ -21,7 +21,7 @@
 			if(post_data_path){setAttributes({post_data_path:false});}
 		}
 		else{
-			if(!post_data_path || !postDataSelection[post_data_path]){
+			if(!post_data_path || !postDataSelection.some((item)=>item['id']===post_data_path)){
 				setAttributes({post_data_path:postDataSelection[0]['id']});
 			}
 		}

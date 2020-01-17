@@ -28,7 +28,9 @@ registerBlockType('catpow/form', {
 				setAttributes({ post_data_path: false });
 			}
 		} else {
-			if (!post_data_path || !postDataSelection[post_data_path]) {
+			if (!post_data_path || !postDataSelection.some(function (item) {
+				return item['id'] === post_data_path;
+			})) {
 				setAttributes({ post_data_path: postDataSelection[0]['id'] });
 			}
 		}

@@ -1,0 +1,54 @@
+@import 'admin_style_config.scss';
+
+
+div.treeSelect{
+	div.currentLabel{
+		h3{
+			@include txt((a:l,p:12,h:12,f:g,w:r,c:t));
+		}
+	}
+	div.selectBoxes{
+		@include bnd((d:b,p:r,mg:1rem a,w:30rem,o:h));
+		@include bdr((s:s,w:1,c:t));
+		div.selectBox{
+			@include bnd((p:a,w:50%,t:0,l:0));
+			@include bg((c:b));
+			@include trn((t:.5s,x:-100%));
+			&.prev{
+				@include trn((x:0));
+			}
+			&.active{
+				@include bnd((p:r));
+				@include trn((x:100%));
+			}
+			&.next{
+				@include trn((x:200%));
+			}
+			.backToPrev{
+				@include bnd((d:b,p:a,t:0,b:0,l:0,mg:a,w:3rem,h:3rem,z:1));
+				@include bg((c:m));
+				
+			}
+			ul.selectBoxItems{
+				@include bnd((mg:0,pd:0));
+				@include bdr((p:l,s:s,w:1,c:t));
+				@include txt((l:n));
+				li.selectBoxItem{
+					@include bnd((p:r,mg:0));
+					@include usr((c:p));
+					&:not(:first-child){
+						@include bdr((p:t,s:s,w:1,c:t));
+					}
+					h3{
+						@include bnd((d:b,p:r,pd:1rem,mg:0));
+						@include txt((a:c,p:1.8rem,h:1em,f:g,w:r));
+					}
+					@include trn((t:.5s,x:0));
+					&.selected{
+						@include bg((c:a 1 .2));
+					}
+				}
+			}
+		}
+	}
+}

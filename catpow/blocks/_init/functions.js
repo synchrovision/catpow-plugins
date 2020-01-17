@@ -1033,6 +1033,51 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 					}
 				}
 			}));
+		} else if (prm === 'event') {
+			if (cp.use_functions.indexOf('ga') > -1) {
+				var _window$Catpow$ga = window.Catpow.ga,
+				    parseEventString = _window$Catpow$ga.parseEventString,
+				    createEventString = _window$Catpow$ga.createEventString;
+
+				var eventData = parseEventString(items[index]['event']);
+				var params = { event: 'イベント', action: 'アクション', category: 'カテゴリ', label_name: 'ラベル名', label: 'ラベル', value: '値' };
+				rtn.push(wp.element.createElement(
+					BaseControl,
+					{ label: 'Google Analitics Event' },
+					wp.element.createElement(
+						'table',
+						null,
+						Object.keys(params).map(function (key) {
+							return wp.element.createElement(
+								'tr',
+								null,
+								wp.element.createElement(
+									'th',
+									{ width: '80' },
+									params[key]
+								),
+								wp.element.createElement(
+									'td',
+									null,
+									wp.element.createElement(TextControl, {
+										value: eventData[key],
+										type: key == 'value' ? 'number' : 'text',
+										onChange: function onChange(val) {
+											eventData[key] = val;
+											items[index]['event'] = createEventString(eventData);
+											if (itemsKey === undefined) {
+												set({ items: items });
+											} else {
+												set(babelHelpers.defineProperty({}, itemsKey, items));
+											}
+										}
+									})
+								)
+							);
+						})
+					)
+				));
+			}
 		} else if (_.isObject(prm.values)) {
 			var options = void 0;
 			if (Array.isArray(prm.values)) {

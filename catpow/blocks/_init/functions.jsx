@@ -279,7 +279,7 @@
 			obj[pair[0]]=pair[1];
 		});
 		return obj;
-	}
+	},
 };
 const SelectResponsiveImage=({className,attr,set,keys,index,sizes,size})=>{
 	let type,onClick,item;
@@ -710,6 +710,38 @@ const SelectItemClassPanel=(props)=>{
 					}}
 				/>
 			);
+		}
+		else if(prm === 'event'){
+			if(cp.use_functions.indexOf('ga')>-1){
+				var {parseEventString,createEventString}=window.Catpow.ga;
+				var eventData=parseEventString(items[index]['event']);
+				var params={event:'イベント',action:'アクション',category:'カテゴリ',label_name:'ラベル名',label:'ラベル',value:'値'};
+				rtn.push(
+					<BaseControl label="Google Analitics Event">
+						<table>
+							{Object.keys(params).map((key)=>{
+								return (
+									<tr>
+										<th width="80">{params[key]}</th>
+										<td>
+											<TextControl
+												value={eventData[key]}
+												type={key=='value'?'number':'text'}
+												onChange={(val)=>{
+													eventData[key]=val;
+													items[index]['event']=createEventString(eventData);
+													if(itemsKey===undefined){set({items});}
+													else{set({[itemsKey]:items})}
+												}}
+											/>
+										</td>
+									</tr>
+								);
+							})}
+						</table>
+					</BaseControl>
+				);
+			}
 		}
 		else if(_.isObject(prm.values)){
 			let options;

@@ -10,6 +10,7 @@
 			selector:'li.item',
 			query:{
 				classes:{source:'attribute',attribute:'class'},
+				event:{source:'attribute',attribute:'data-event'},
 				button:{source:'text'}
 			},
 			default:[
@@ -35,6 +36,7 @@
 				},
 				item:{
 					buttons:[
+						'color',
 						{label:'属性',values:['default','primary','negative','danger','secure']},
 						{label:'アイコン','values':[
 							'play','next','back',
@@ -44,7 +46,8 @@
 							'open','close',
 							'plus','minus',
 							'refresh','edit','check'
-						]}
+						]},
+						'event'
 					]
 				}
 			}
@@ -66,6 +69,7 @@
 		const createButtonShortCode=(prm)=>{
 			let rtn='[button '+prm.content+' '+prm.action;
 			if(prm.ignore_message){rtn+=' ignore_message=1';}
+			if(prm.evet){rtn+=' event='+prm.event;}
 			rtn+=']';
 			return rtn;
 		};
@@ -146,7 +150,7 @@
 		let rtn=[];
 		items.map((item,index)=>{
 			rtn.push(
-				<li className={item.classes}>{item.button}</li>
+				<li className={item.classes} data-event={item.event}>{item.button}</li>
 			);
 		});
 		return <ul className={classes}>{rtn}</ul>;

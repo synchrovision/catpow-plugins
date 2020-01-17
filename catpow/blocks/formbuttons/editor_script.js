@@ -10,6 +10,7 @@ registerBlockType('catpow/formbuttons', {
 			selector: 'li.item',
 			query: {
 				classes: { source: 'attribute', attribute: 'class' },
+				event: { source: 'attribute', attribute: 'data-event' },
 				button: { source: 'text' }
 			},
 			default: [{ classes: 'item', button: '[button 送信 send]' }]
@@ -33,7 +34,7 @@ registerBlockType('catpow/formbuttons', {
 				buttons: [{ label: 'サイズ', values: { l: '大', m: '中', s: '小', ss: '極小' } }]
 			},
 			item: {
-				buttons: [{ label: '属性', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', 'values': ['play', 'next', 'back', 'file', 'home', 'trash', 'cart', 'mail', 'search', 'caution', 'help', 'open', 'close', 'plus', 'minus', 'refresh', 'edit', 'check'] }]
+				buttons: ['color', { label: '属性', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', 'values': ['play', 'next', 'back', 'file', 'home', 'trash', 'cart', 'mail', 'search', 'caution', 'help', 'open', 'close', 'plus', 'minus', 'refresh', 'edit', 'check'] }, 'event']
 			}
 		}];
 
@@ -58,6 +59,9 @@ registerBlockType('catpow/formbuttons', {
 			var rtn = '[button ' + prm.content + ' ' + prm.action;
 			if (prm.ignore_message) {
 				rtn += ' ignore_message=1';
+			}
+			if (prm.evet) {
+				rtn += ' event=' + prm.event;
 			}
 			rtn += ']';
 			return rtn;
@@ -169,7 +173,7 @@ registerBlockType('catpow/formbuttons', {
 		items.map(function (item, index) {
 			rtn.push(wp.element.createElement(
 				'li',
-				{ className: item.classes },
+				{ className: item.classes, 'data-event': item.event },
 				item.button
 			));
 		});

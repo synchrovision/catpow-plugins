@@ -1,4 +1,6 @@
-﻿class HiddenValues extends wp.element.Component{
+﻿if(undefined===window.Catpow){window.Catpow={};}
+
+Catpow.HiddenValues=class extends wp.element.Component{
 	constructor(props) {
 		super(props);
 	}

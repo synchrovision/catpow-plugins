@@ -1,12 +1,16 @@
-var HiddenValues = function (_wp$element$Component) {
-	babelHelpers.inherits(HiddenValues, _wp$element$Component);
+if (undefined === window.Catpow) {
+	window.Catpow = {};
+}
 
-	function HiddenValues(props) {
-		babelHelpers.classCallCheck(this, HiddenValues);
-		return babelHelpers.possibleConstructorReturn(this, (HiddenValues.__proto__ || Object.getPrototypeOf(HiddenValues)).call(this, props));
+Catpow.HiddenValues = function (_wp$element$Component) {
+	babelHelpers.inherits(_class, _wp$element$Component);
+
+	function _class(props) {
+		babelHelpers.classCallCheck(this, _class);
+		return babelHelpers.possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
 	}
 
-	babelHelpers.createClass(HiddenValues, [{
+	babelHelpers.createClass(_class, [{
 		key: 'render',
 		value: function render() {
 			var hiddenInput = function hiddenInput(name, val) {
@@ -25,5 +29,5 @@ var HiddenValues = function (_wp$element$Component) {
 			);
 		}
 	}]);
-	return HiddenValues;
+	return _class;
 }(wp.element.Component);

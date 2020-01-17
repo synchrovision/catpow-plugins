@@ -86,6 +86,7 @@ class Walker_Nav_Menu_Edit_With_Meta extends \Walker_Nav_Menu_Edit{
 	}
 }
 add_action('wp_update_nav_menu_item',function($menu_id,$menu_item_db_id,$args){
+	if(empty($_REQUEST['cp_form_section_ids'])){return;}
 	foreach((array)$_REQUEST['cp_form_section_ids'] as $sec_id){
 		if(isset(cp::$forms[$sec_id])){
 			$form=cp::$forms[$sec_id];

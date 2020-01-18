@@ -13,11 +13,19 @@ class options extends meta{
 	
 	public static function output($meta,$prm){
 		$conf=$meta->conf;
+		if(isset($conf['output_type'])){
+			$class=\cp::get_class_name('meta',$conf['output_type']);
+			return $class::output($meta,$prm);
+		}
 		if(isset($conf['meta'])){return data::output($meta,$prm);}
 		return parent::output($meta,$prm);
 	}
 	public static function input($meta,$prm){
 		$conf=$meta->conf;
+		if(isset($conf['input_type'])){
+			$class=\cp::get_class_name('meta',$conf['input_type']);
+			return $class::input($meta,$prm);
+		}
 		if(isset($conf['meta'])){return data::input($meta,$prm);}
 		return parent::input($meta,$prm);
 	}

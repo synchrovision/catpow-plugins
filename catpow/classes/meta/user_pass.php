@@ -2,6 +2,7 @@
 namespace Catpow\meta;
 
 class user_pass extends user_login{
+	public static $input_type='password';
 	public static function get($data_type,$data_name,$id,$meta_name,$conf){
         return false;
 	}

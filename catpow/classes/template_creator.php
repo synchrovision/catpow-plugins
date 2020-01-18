@@ -6,7 +6,7 @@ class template_creator{
 	public $template_dirs=array(),$_log=array();
 	
     static public function init(){
-        global $cptc,$use_functions;
+        global $cptc;
         $cptc=new self();
 		$cptc->template_dirs[]='.';
         CP::conf_data_walk(function($data_type,$data_name,$conf_data)use($cptc){

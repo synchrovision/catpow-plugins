@@ -595,6 +595,16 @@ class CP{
 				}
 			}
 		}
+		elseif($data_type==='user'){
+			if($data_name==='common'){
+				foreach(wp_roles()->role_names as $role=>$role_name){
+					if(empty($conf_data['meta'])){continue;}
+					foreach($conf_data['meta'] as $meta_name=>&$meta_conf){
+						$GLOBALS['user_datas'][$role]['meta'][$meta_name]=$meta_conf;
+					}
+				}
+			}
+		}
 		elseif($data_type==='term'){
 			global $post_types,$taxonomies;
 			foreach($conf_data['post_type'] as $i=>$post_type_name){
@@ -894,7 +904,7 @@ class CP{
         $classes=isset($conf['class'])?is_string($conf['class'])?explode(' ',$conf['class']):$conf['class']:[];
         $classes[]=$conf[$io.'-type']??$conf['type'];
         $rtn.=' class="'.implode(' ',$classes).'"';
-        foreach(['placeholder','size','rows','cols','maxlength','required','autocomplete','min','max','step','pattern'] as $i=>$attr_name){
+        foreach(['placeholder','size','rows','cols','maxlength','autocomplete','min','max','step','pattern'] as $i=>$attr_name){
             if(isset($conf[$attr_name]))$rtn.=' '.$attr_name.'="'.$conf[$attr_name].'"';
         }
         if(!isset($conf['placeholder']))$rtn.=' placeholder="'.$conf['label'].'"';
@@ -1130,11 +1140,12 @@ class CP{
 		}
 		else{$path_data['data_name']=$wp_query->query_vars['cp_data_name'];}
         
+		
         if(!isset($wp_query->query_vars['cp_data_id'])){
 			switch($path_data['data_type']){
                 case 'post':
-                    if(isset($wp_query->query_vars['p'])){$path_data['data_id']=$wp_query->query_vars['p'];}
-                    if(isset($wp_query->query_vars['post_id'])){$path_data['data_id']=$wp_query->query_vars['post_id'];}
+                    if(!empty($wp_query->query_vars['p'])){$path_data['data_id']=$wp_query->query_vars['p'];}
+                    if(!empty($wp_query->query_vars['post_id'])){$path_data['data_id']=$wp_query->query_vars['post_id'];}
 					elseif($wp_query->is_single() || $wp_query->is_page()){$path_data['data_id']=$wp_query->post->ID;}
                     break;
                 default:
@@ -1416,8 +1427,12 @@ class CP{
 					if(!class_exists($meta_class_name)){
 						error_log('meta class of '.$conf_data_path.$meta_name.' not found');
 					}
-					if($override || (empty($conf['multiple']) && !$meta_class_name::$is_bulk_input)){$meta_class_name::set($data_type,$data_name,$data_id,$meta_name,$vals,$conf);}
-					else{$meta_class_name::add($data_type,$data_name,$data_id,$meta_name,$vals,$conf);}
+					if($override || (empty($conf['multiple']) && !$meta_class_name::$is_bulk_input)){
+						$meta_class_name::set($data_type,$data_name,$data_id,$meta_name,$vals,$conf);
+					}
+					else{
+						$meta_class_name::add($data_type,$data_name,$data_id,$meta_name,$vals,$conf);
+					}
 				}
 			}
 		}
@@ -1713,7 +1728,6 @@ class CP{
 				)
 			){
                 if(empty($scssc)){
-                    require_once(WP_PLUGIN_DIR.'/catpow/lib/scssphp/scss.inc.php');
                     $scssc = new \Leafo\ScssPhp\Compiler();
                     $scssc->addImportPath(ABSPATH.'/wp-admin/css/colors/');
 					foreach(self::$extensions as $extension){

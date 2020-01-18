@@ -34,9 +34,10 @@ abstract class template_type{
             }
             else{
                 if($code_data==='default'){
-                    if($f=CP::get_file_path(
+                    if($f=\cp::get_file_path(
                         '[data_type]/[data_name]/'.$path_data['tmp_name'].'/'.$file_name.'.php',4
                     )){
+						if($vars){extract($vars);}
                         include $f;
                         return true;
                     }
@@ -49,11 +50,8 @@ abstract class template_type{
 	public static function get_embeddables($conf_data){return [];}
 	public static function get_rest_routes($conf_data){return [];}
 	public static function get_menus($conf_data){return [];}
-    public static function get_template_files($conf_data){
-        return [
-            'loop.php'=>['','@catpow','@loop']
-        ];
-    }
+	public static function get_template_files($conf_data){return [];}
+	public static function before_create_template_files($conf_data){}
 	public static function fill_conf_data(&$conf_data){}
     public static function get_default_post_datas($conf_data){return [];}
     public static function get_rewrite_rule($path){

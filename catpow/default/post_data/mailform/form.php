@@ -3,7 +3,7 @@
 <table class="wp-block-catpow-simpletable inputs"><tbody><?php
 	foreach($conf_data['meta']['mail']['meta'] as $name=>$conf){
 		$classes='item';
-		if($conf['required']){$classes.=' required';}
+		if($conf['required']??false){$classes.=' required';}
 		else{$classes.=' optional';}
 		echo "<tr class=\"{$classes}\"><th>{$conf['label']}</th><td>[input {$name}]</td></tr>";
 	}

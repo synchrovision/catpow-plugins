@@ -70,7 +70,7 @@ class meta extends content{
     }
 	public function input_item($prm=null,$format=null){
         $class_name=\cp::get_class_name('meta',$this->conf['input-type']?:$this->conf['type']?:'text');
-        $format=$this->conf['input-format']?:$this->conf['format']?:null;
+        $format=$this->conf['input-format']??$this->conf['format']??null;
 		$tmp=$class_name::input($this,$prm);
 		if(isset($format)){$tmp=printf($format,$tmp);}
 		else{echo $tmp;}

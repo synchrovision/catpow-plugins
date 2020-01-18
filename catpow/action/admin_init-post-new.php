@@ -3,7 +3,7 @@ namespace Catpow;
 
 add_filter('default_title',function($title){
 	global $current_screen,$post_types;
-	$default_title=$post_types[$current_screen->post_type]['default_title']?:null;
+	$default_title=$post_types[$current_screen->post_type]['default_title']??null;
 	if(isset($default_title)){
 		if(is_callable($default_title)){return $default_title();}
 		return $default_title;
@@ -12,7 +12,7 @@ add_filter('default_title',function($title){
 });
 add_filter('default_content',function($content){
 	global $current_screen,$post_types;
-	$default_content=$post_types[$current_screen->post_type]['default_content']?:null;
+	$default_content=$post_types[$current_screen->post_type]['default_content']??null;
 	if(isset($default_content)){
 		if(is_callable($default_content)){return $default_content();}
 		return $default_title;

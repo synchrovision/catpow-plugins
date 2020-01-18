@@ -22,6 +22,7 @@ add_action('plugins_loaded',function(){
 		}
     });
     do_action('cp_init');
+	
 
 	$use_functions=array_merge(['catpow','config'],(array)\cp::get_meta('catpow','config',1,'use_functions'));
     foreach($use_functions as $n){
@@ -101,40 +102,9 @@ add_action('delete_blog',function($blog_id, $drop){
 /*cronアクション*/
 add_action('cp_cron_hourly',function(){
 	cp::include_plugin_files('action/cron_hourly');
-	if($cron_file=cp::get_file_path('cron_hourly.php',2)){include($cron_file);}
 });
 add_action('cp_cron_daily',function(){
 	cp::include_plugin_files('action/cron_daily');
-	if($cron_file=cp::get_file_path('cron_daily.php',2)){include($cron_file);}
 });
-
-
-/*エラー出力抑制*/
-add_action('init',function(){ob_start();});
-add_action('template_redirect',function(){ob_end_flush();});
-
-/*body_class*/
-add_filter('body_class',function($classes){
-	$path_data=cp::get_the_path_data();
-	return array_merge($classes,array(
-		$path_data['data_type'].'-type-'.$path_data['data_name'],
-		$path_data['data_type'].'-type-'.$path_data['data_name'].'-'.$path_data['tmp_name'],
-	));
-});
-
-/*i18n*/
-
-/*フォーム*/
-add_action('wp_ajax_cp_form',[\cp::get_class_name('content','form'),'response']);
-add_action('wp_ajax_nopriv_cp_form',[\cp::get_class_name('content','form'),'response']);
-
-/*Ajax出力・API callback*/
-add_filter('template_include', function($tmp){
-	if(\cp::is_ajax() && $ajax_template=\cp::get_file_path('ajax.php')){
-		return $ajax_template;
-	}
-	return $tmp;
-});
-
 
 ?>

@@ -11,7 +11,12 @@ class thread extends meta{
     /*handler*/
     public function __get($name){
         switch($name){
-            case 'path':return $this->path=get_stylesheet_directory().'/thread/'.$this->data_path.'/'.$this->data;
+            case 'path':
+				return $this->path=
+					WP_CONTENT_DIR.'/thread/'.
+					get_current_blog_id().'/'.
+					$this->data_path.'/'.
+					$this->data;
             case 'progress':
                 return $this->param['progress'];
             case 'param':

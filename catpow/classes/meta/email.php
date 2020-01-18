@@ -5,7 +5,7 @@ class email extends meta{
     public static
         $validation=['email'];
 	public static function fill_conf(&$conf){
-		$conf['size']=24;
+		$conf['size']=32;
 	}
 }
 ?>

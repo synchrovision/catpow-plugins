@@ -69,6 +69,9 @@ class task extends form{
 		if(!isset($param['complete'])){$param['complete']=false;}
 		if(!isset($param['inputs_data'])){$param['inputs_data']=[];}
 		if(!isset($param['key'])){$param['key']=\cp::rand_id(8);}
+		if($this->parent && !is_null($this->parent->form->loop_id)){
+			$this->loop_id=$param['loop_id']=$this->parent->form->loop_id;
+		}
 		$dir=$this->get_dir();
 		do{$token=\cp::rand_id(8);$f=$dir.$token.'.php';}
 		while(file_exists($f));
@@ -99,6 +102,7 @@ class task extends form{
 		$this->valid=true;
 		$this->param=$param;
 		$this->inputs->data=$this->param['inputs_data'];
+		$this->loop_id=$this->param['loop_id']??'p';
 		return $this;
 	}
 	
@@ -130,13 +134,10 @@ class task extends form{
 		}
 	}
 	
-	/**
-	* アクセスされると任意のフラグを立てるビーコンを出力
-	* @param $flag string フラグ名
-	*/
-	public function beacon($flag='beacon'){
+	public function beacon($name='beacon',$flag=0){
+		// $flag 1 = カウント 2 = 無制限
 		$key=\cp::rand_id(8);
-		$this->param['beacon'][$key]=$flag;
+		$this->param['beacon'][$key]=[$name=>$flag];
 		$this->save();
 		printf(
 			'<img src="%s" alt="" width="0" height="0"/>',

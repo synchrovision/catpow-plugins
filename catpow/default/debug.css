@@ -14,14 +14,14 @@ html body #cp_log {
   width: auto;
   overflow-y: auto;
   text-align: left;
-  background-color: #ffe;
+  background-color: #fff;
   -webkit-opacity: 0.9;
   -moz-opacity: 0.9;
   -ms-opacity: 0.9;
   -o-opacity: 0.9;
   opacity: 0.9; }
   html body #cp_log small {
-    color: #876; }
+    color: #666; }
   html body #cp_log table {
     border-collapse: collapse;
     border-spacing: 0px; }
@@ -29,15 +29,15 @@ html body #cp_log {
       padding: 5px;
       border-style: solid;
       border-width: 1px;
-      border-color: rgba(136, 119, 102, .5);
+      border-color: rgba(102, 102, 102, 0.5);
       text-align: left;
       line-height: 100%;
-      color: rgba(136, 119, 102, .8); }
+      color: rgba(102, 102, 102, 0.8); }
       html body #cp_log table tr th {
         font-size: 10px;
         font-weight: bold;
         vertical-align: top;
-        background-color: rgba(51, 34, 17, .1);
+        background-color: rgba(34, 34, 34, 0.1);
         cursor: pointer; }
         html body #cp_log table tr th .type {
           display: block;

@@ -27,14 +27,13 @@ class zip extends meta{
 			if(isset($parent_metas['address2'])){$adrs[]='address2';}
 		}
         else{$adrs=(array)$meta->conf['address'];}
-        foreach($adrs as &$adr){
-            $adr=\cp::get_input_name(dirname($path,2).'/'.$adr.'/0');
+        foreach($adrs as $i=>$adr){
+            $adrs[$i]=\cp::get_input_name(dirname($path,2).'/'.$adr.'/0');
         }
-        if(!isset($adr[1])){$adr[1]=$adr[0];}
+        if(!isset($adrs[1])){$adrs[1]=$adrs[0];}
 		
-        //wp_enqueue_script('ajaxzip3','https://ajaxzip3.github.io/ajaxzip3.js');
         return sprintf(
-            '<input type="text" name="%s" value="%s" onChange="AjaxZip3.zip2addr(this,\'\',\'%s\');"%s/>'.
+            '<input type="text" name="%s" value="%s" onChange="console.log(\'%3$s\');AjaxZip3.zip2addr(this,\'\',\'%s\');"%s/>'.
 			'<script>jQuery(function($){if(!("AjaxZip3" in window)){$.getScript("https://ajaxzip3.github.io/ajaxzip3.js");}});</script>',
             \cp::get_input_name($path),$val,
             implode("','",$adrs),\cp::get_input_attr($path,$meta->conf)

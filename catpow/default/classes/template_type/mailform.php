@@ -9,7 +9,26 @@ namespace Catpow\template_type;
 
 class mailform extends template_type{
 	public static function get_embeddables($conf_data){
+		global $wpdb;
 		$post_data_paths=[];
+		$path_data=(\cp::parse_conf_data_path($conf_data['path']));
+		$posts=get_posts([
+			'post_type'=>$path_data['data_name'],
+			'post_parent'=>0
+		]);
+		if(empty($posts)){
+			$post_datas=\Catpow\article_type\mailform::get_default_post_datas($GLOBALS['post_types'][$path_data['data_name']]);
+			foreach($post_datas as $path=>$post_data){
+				if(substr_count($path,'/')>1){continue;}
+				$post_data_paths[$path]=$post_data['post_title'];
+			}
+		}
+		else{
+			foreach($posts as $post){
+				$post_data_paths[$post->post_type.'/'.$post->post_name]=$post->post_title;
+			}
+		}
+		
 		return [
 			'form'=>['メールフォーム'=>[
 				'file'=>'form.php',
@@ -23,7 +42,8 @@ class mailform extends template_type{
 			'form.php'=>[
 				'php',
 				'namespace Catpow;',
-				"\$path=this()->conf['form'];",
+				"if(isset(\$post_data_path)){this()->post_data_path=\$post_data_path;this()->inherit[]='post_data_path';}",
+				"\$path=this()->post_data_path;",
 				"if(!empty(\$action) && \$action !== 'form'){\$path.='/'.\$action;}",
 				'$post_data=cp::get_post_data($path);',
 				"if(\$post_data['meta']['receive'][0]==1){receive();}",

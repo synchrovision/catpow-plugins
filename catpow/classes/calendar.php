@@ -96,7 +96,7 @@ class calendar{
 	
 	/*静的メソッド*/
 	public static function wareki($time,$format='<span class="wareki">%s%d年</span>'){
-		$wareki_arr=array('平成'=>'19890108','昭和'=>'19261225','大正'=>'19120730','明治'=>'18670101');
+		$wareki_arr=array('令和'=>'20190501','平成'=>'19890108','昭和'=>'19261225','大正'=>'19120730','明治'=>'18670101');
 		foreach($wareki_arr as $gengou => $start_date){
 			if((int)$start_date<(int)date('Ymd',$time)){
 				return sprintf($format,$gengou,(int)date('Y',$time)-(int)(substr($start_date,0,4))+1);

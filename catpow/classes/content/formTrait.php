@@ -227,9 +227,17 @@ trait formTrait{
     }
     
     /*perform*/
-    public function push($override=true){
+    public function push($override=true,$reflect=false){
 		try{
-			return \cp::update_data($this->inputs->data,$this->the_data_path,$override);
+			$data_id=\cp::update_data($this->inputs->data,$this->the_data_path,$override);
+			if($reflect && $this->loop_id !== $data_id){
+				$tgt=&$this->inputs->data[$this->data_type][$this->data_name];
+				$tgt[$data_id]=$tgt[$this->loop_id];
+				unset($tgt[$this->loop_id]);
+				$this->form_type=2;
+				$this->loop_id=$data_id;
+			}
+			return $data_id;
 		}
 		catch(Exception $e){
 			throw new form_exception(['message'=>$e->getMessage()]);

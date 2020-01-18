@@ -510,9 +510,9 @@ function query($q=null){
 	if(isset(\cp::$content->form)){return \cp::$content->form->get_query();}
 	return \cp::$content->query->q?:null;
 }
-function push($override=true){
+function push($override=true,$reflect=false){
     if(empty(\cp::$content->form->is_receiver)){return false;}
-	return \cp::$content->form->push($override);
+	return \cp::$content->form->push($override,$reflect);
 }
 function delete(){
     if(empty(\cp::$content->form->is_receiver)){return false;}
@@ -557,6 +557,15 @@ function task($file=null,$param=null,$loop_id=null,$inputs=null){
 	}
     return \cp::$content->form->task($file,$param,$loop_id,$inputs);
 }
+function talk($file=null,$param=null,$loop_id=null,$inputs=null){
+    if(empty($file)){$file='talk';}
+    elseif(strpos($file,'/')===false){$file='talk-'.$file;}
+	
+	if(isset(\cp::$content->form->talks[$file])){
+		return \cp::$content->form->talks[$file];
+	}
+    return \cp::$content->form->talk($file,$param,$loop_id,$inputs);
+}
 
 function me($file=false,$vars=null){
     if(empty($file)){$file='panel';}
@@ -567,7 +576,8 @@ function me($file=false,$vars=null){
     $loop->render($file,$vars);
 }
 
-function content($path){
+function content($path=false){
+	if(empty($path)){the_content();}
 	$post_data=cp::get_post_data($path);
 	if(empty($post_data)){return false;}
 	echo str_replace(']]>',']]&gt;',apply_filters('the_content',$post_data['post_content']));

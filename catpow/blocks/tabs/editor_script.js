@@ -119,3 +119,32 @@ registerBlockType('catpow/tabs', {
 		);
 	}
 });
+
+registerBlockType('catpow/tabscontent', {
+	title: '🐾 TabsContent',
+	icon: 'editor-code',
+	category: 'catpow',
+	parent: ['catpow/tabs'],
+	edit: function edit(_ref3) {
+		var attributes = _ref3.attributes,
+		    className = _ref3.className,
+		    setAttributes = _ref3.setAttributes;
+
+		return [wp.element.createElement(
+			'div',
+			{ className: 'tabs_content' },
+			wp.element.createElement(InnerBlocks, { template: [['catpow/section']], templateLock: false })
+		)];
+	},
+	save: function save(_ref4) {
+		var attributes = _ref4.attributes,
+		    className = _ref4.className,
+		    setAttributes = _ref4.setAttributes;
+
+		return wp.element.createElement(
+			'div',
+			{ className: 'tabs_content' },
+			wp.element.createElement(InnerBlocks.Content, null)
+		);
+	}
+});

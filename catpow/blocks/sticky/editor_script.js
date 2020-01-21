@@ -183,3 +183,32 @@ registerBlockType('catpow/sticky', {
 		);
 	}
 });
+
+registerBlockType('catpow/stickycontent', {
+	title: '🐾 StickyContent',
+	icon: 'editor-code',
+	category: 'catpow',
+	parent: ['catpow/sticky'],
+	edit: function edit(_ref3) {
+		var attributes = _ref3.attributes,
+		    className = _ref3.className,
+		    setAttributes = _ref3.setAttributes;
+
+		return [wp.element.createElement(
+			'div',
+			{ className: 'sticky_content' },
+			wp.element.createElement(InnerBlocks, { template: [['core/paragraph']], templateLock: false })
+		)];
+	},
+	save: function save(_ref4) {
+		var attributes = _ref4.attributes,
+		    className = _ref4.className,
+		    setAttributes = _ref4.setAttributes;
+
+		return wp.element.createElement(
+			'div',
+			{ className: 'sticky_content' },
+			wp.element.createElement(InnerBlocks.Content, null)
+		);
+	}
+});

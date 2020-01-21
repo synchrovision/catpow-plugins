@@ -83,6 +83,10 @@ if(function_exists('register_block_type')){
 		}
 		foreach(glob($block_dir.'/*/editor_script.js') as $editor_script){
 			$block_name=basename(dirname($editor_script));
+			if(
+				!file_exists(get_template_directory().'/blocks/'.$block_name) &&
+				!file_exists(get_stylesheet_directory().'/blocks/'.$block_name)
+			){continue;}
 			$block_style_names[]='blocks/'.$block_name.'/editor_style';
 			$block_style_names[]='blocks/'.$block_name.'/style';
 			unset($attributes);

@@ -483,6 +483,28 @@ function res($data){
 	global $res;
 	$res=array_merge($res,$data);
 }
+function deps(){
+	$scripts=wp_scripts();
+	$scripts->all_deps($scripts->queue);
+	$styles=wp_styles();
+	$styles->all_deps($styles->queue);
+	$GLOBALS['res']['deps']=[
+		'scripts'=>array_values(array_filter(array_map(function($handle)use($scripts){
+			if(empty($src=$scripts->registered[$handle]->src)){return false;}
+			if(!preg_match('|^(https?:)?//|',$src) && !($scripts->content_url && 0 === strpos($src,$scripts->content_url))){
+				return $scripts->base_url.$src;
+			}
+			return apply_filters('script_loader_src',$src,$handle);
+		},$scripts->to_do))),
+		'styles'=>array_values(array_filter(array_map(function($handle)use($styles){
+			if(empty($src=$styles->registered[$handle]->src)){return false;}
+			if(!preg_match( '|^(https?:)?//|',$src) && !($styles->content_url && 0 === strpos($src,$styles->content_url))){
+				 return $styles->base_url.$src;
+			}
+			return apply_filters('style_loader_src',$src,$handle);
+		},$styles->to_do)))
+	];
+}
 
 function §message($content=''){
     if(\cp::$content->form){\cp::$content->form->message($content);}
@@ -583,6 +605,7 @@ function content($path=false){
 	echo str_replace(']]>',']]&gt;',apply_filters('the_content',$post_data['post_content']));
 	return true;
 }
+
 
 /*helper*/
 function is_current_page(){

@@ -27,7 +27,7 @@ function share_buttons($prm=[]){
 	foreach($prm['target'] as $tgt){
 		printf(
 			'<li class="%s"><a href="'.$formats[$tgt]['url'].'"%s/></li>',
-			$tgt['name'],
+			$formats[$tgt]['name'],
 			$prm['url'],
 			$prm['text'],
 			$prm['popup']?' onclick="javascript:window.open(this.href, \'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=400,width=600\');return false;"':''

@@ -155,58 +155,6 @@ registerFormatType('catpow/sup',{
 	}
 });
 
-registerFormatType('catpow/underline',{
-	title:'U',
-	tagName:'u',
-	className:null,
-	edit({isActive,value,onChange}){
-		const onToggle=()=>onChange(toggleFormat(value,{type:'catpow/underline'}))
-
-		return [
-			<Fragment>
-				<RichTextShortcut
-					type={'primary'}
-					character={'u'}
-					onUse={onToggle}
-				/>
-				<RichTextToolbarButton
-					icon={'editor-underline'}
-					title={'U'}
-					onClick={onToggle}
-					isActive={isActive}
-					shortcutType={'primary'}
-					shortcutCharacter={'u'}
-				/>
-			</Fragment>
-		];
-	}
-});
-registerFormatType('catpow/ib',{
-	title:'InlineBlock',
-	tagName:'span',
-	className:'ib',
-	edit({isActive,value,onChange}){
-		const onToggle=()=>onChange(toggleFormat(value,{type:'catpow/ib'}))
-
-		return [
-			<Fragment>
-				<RichTextShortcut
-					type={'secondary'}
-					character={'i'}
-					onUse={onToggle}
-				/>
-				<RichTextToolbarButton
-					icon={'editor-code'}
-					title={'InlineBlock'}
-					onClick={onToggle}
-					isActive={isActive}
-					shortcutType={'secondary'}
-					shortcutCharacter={'i'}
-				/>
-			</Fragment>
-		];
-	}
-});
 registerFormatType('catpow/mark',{
 	title:'Mark',
 	tagName:'mark',
@@ -232,4 +180,221 @@ registerFormatType('catpow/mark',{
 			</Fragment>
 		];
 	}
+});
+registerFormatType('catpow/q',{
+	title:'Quote',
+	tagName:'q',
+	className:null,
+	edit({isActive,value,onChange}){
+		const onToggle=()=>onChange(toggleFormat(value,{type:'catpow/q'}))
+
+		return [
+			<Fragment>
+				<RichTextToolbarButton
+					icon={'tag'}
+					title={'Quote'}
+					onClick={onToggle}
+					isActive={isActive}
+				/>
+			</Fragment>
+		];
+	}
+});
+registerFormatType('catpow/dfn',{
+	title:'Define',
+	tagName:'dfn',
+	className:null,
+	edit({isActive,value,onChange}){
+		const onToggle=()=>onChange(toggleFormat(value,{type:'catpow/dfn'}))
+
+		return [
+			<Fragment>
+				<RichTextToolbarButton
+					icon={'tag'}
+					title={'Define'}
+					onClick={onToggle}
+					isActive={isActive}
+				/>
+			</Fragment>
+		];
+	}
+});
+
+registerFormatType('catpow/span',{
+	title:'span',
+	tagName:'span',
+	className:'custom',
+	edit({isActive,value,onChange}){
+		
+		const onToggle=()=>{
+			const {removeFormat,insert,create,slice}=wp.richText;
+			if(isActive){onChange(toggleFormat(value,{type:'catpow/span'}));}
+			let cls=prompt(__('クラスを入力'));
+			
+			return onChange(insert(
+				value,
+				create({html:'<span class="'+cls+'">'+slice(value).text+'</span>'}),
+				value.start,
+				value.end
+			));
+		}
+
+		return [
+			<Fragment>
+				<RichTextToolbarButton
+					icon={'editor-code'}
+					title={'span'}
+					onClick={onToggle}
+					isActive={isActive}
+				/>
+			</Fragment>
+		];
+	}
+});
+
+const currentBlockCanInsertBlockFormat=()=>{
+	var atts=wp.data.select('core/block-editor').getSelectedBlock().attributes;
+	return atts.blockState && atts.blockState.enableBlockFormat;
+};
+
+registerFormatType('catpow/ul',{
+	title:'ul',
+	tagName:'ul',
+	className:null,
+	edit({isActive,value,onChange}){
+		if(!currentBlockCanInsertBlockFormat()){return '';}
+		const onToggle=()=>{
+			const {removeFormat,insert,create,slice}=wp.richText;
+			if(isActive){
+				return onChange(create({html:value.text}));
+			}
+			const marks={
+				'*':'annotation',
+				'※':'annotation',
+				'！':'caution',
+				'!':'caution',
+				'●':'circle',
+				'・':'circle',
+				'■':'square',
+				'★':'star',
+				'▶︎':'caret',
+			};
+			var str=slice(value).text;
+			
+			if(cls=marks[str[0]]){
+				rsl=str.substring(1).split("\n"+str[0]);
+			}
+			else{
+				rsl=str.split("\n");
+			}
+			
+			return onChange(insert(
+				value,
+				create({html:'<ul class="'+cls+'"><li>'+rsl.join('</li> <li>')+'</li></ul>'}),
+				value.start,
+				value.end
+			));
+		}
+		
+
+		return [
+			<Fragment>
+				<RichTextToolbarButton
+					icon={'editor-ul'}
+					title={'ul'}
+					onClick={onToggle}
+					isActive={isActive}
+				/>
+			</Fragment>
+		];
+	}
+});
+registerFormatType('catpow/ol',{
+	title:'ol',
+	tagName:'ol',
+	className:null,
+	edit({isActive,value,onChange}){
+		if(!currentBlockCanInsertBlockFormat()){return '';}
+		const onToggle=()=>{
+			const {removeFormat,insert,create,slice}=wp.richText;
+			if(isActive){
+				return onChange(insert(
+					value,
+					create({html:slice(value).text}),
+					value.start,
+					value.end
+				));
+			}
+			return onChange(insert(
+				value,
+				create({html:'<ol><li>'+slice(value).text.split("\n").join('</li> <li>')+'</li></ol>'}),
+				value.start,
+				value.end
+			));
+		}
+		
+
+		return [
+			<Fragment>
+				<RichTextToolbarButton
+					icon={'editor-ol'}
+					title={'ol'}
+					onClick={onToggle}
+					isActive={isActive}
+				/>
+			</Fragment>
+		];
+	}
+});
+registerFormatType('catpow/li',{
+	title:'li',
+	tagName:'li',
+	className:null
+});
+
+registerFormatType('catpow/dl',{
+	title:'dl',
+	tagName:'dl',
+	className:null,
+	edit({isActive,value,onChange}){
+		if(!currentBlockCanInsertBlockFormat()){return '';}
+		const onToggle=()=>{
+			const {removeFormat,insert,create,slice}=wp.richText;
+			if(isActive){
+				return onChange(create({html:value.text}));
+			}
+			
+			return onChange(insert(
+				value,
+				create({html:'<dl>'+slice(value).text.split("\n").map((str)=>{
+					if(!/[:：]/.test(str)){return '<dd>'+str+'</dd>';}
+					return str.replace(/^(.+?)[:：](.+)$/,'<dt>$1</dt><dd>$2</dd>');
+				}).join('')+'</dl>'}),
+				value.start,
+				value.end
+			));
+		}
+		
+
+		return [
+			<Fragment>
+				<RichTextToolbarButton
+					icon={'editor-ul'}
+					title={'dl'}
+					onClick={onToggle}
+					isActive={isActive}
+				/>
+			</Fragment>
+		];
+	}
+});
+registerFormatType('catpow/dt',{
+	title:'dt',
+	tagName:'dt',
+	className:null
+});
+registerFormatType('catpow/dd',{
+	title:'dd',
+	tagName:'dd',
+	className:null
 });

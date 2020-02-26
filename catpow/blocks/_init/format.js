@@ -156,78 +156,14 @@ registerFormatType('catpow/sup', {
 	}
 });
 
-registerFormatType('catpow/underline', {
-	title: 'U',
-	tagName: 'u',
+registerFormatType('catpow/mark', {
+	title: 'Mark',
+	tagName: 'mark',
 	className: null,
 	edit: function edit(_ref5) {
 		var isActive = _ref5.isActive,
 		    value = _ref5.value,
 		    onChange = _ref5.onChange;
-
-		var onToggle = function onToggle() {
-			return onChange(toggleFormat(value, { type: 'catpow/underline' }));
-		};
-
-		return [wp.element.createElement(
-			Fragment,
-			null,
-			wp.element.createElement(RichTextShortcut, {
-				type: 'primary',
-				character: 'u',
-				onUse: onToggle
-			}),
-			wp.element.createElement(RichTextToolbarButton, {
-				icon: 'editor-underline',
-				title: 'U',
-				onClick: onToggle,
-				isActive: isActive,
-				shortcutType: 'primary',
-				shortcutCharacter: 'u'
-			})
-		)];
-	}
-});
-registerFormatType('catpow/ib', {
-	title: 'InlineBlock',
-	tagName: 'span',
-	className: 'ib',
-	edit: function edit(_ref6) {
-		var isActive = _ref6.isActive,
-		    value = _ref6.value,
-		    onChange = _ref6.onChange;
-
-		var onToggle = function onToggle() {
-			return onChange(toggleFormat(value, { type: 'catpow/ib' }));
-		};
-
-		return [wp.element.createElement(
-			Fragment,
-			null,
-			wp.element.createElement(RichTextShortcut, {
-				type: 'secondary',
-				character: 'i',
-				onUse: onToggle
-			}),
-			wp.element.createElement(RichTextToolbarButton, {
-				icon: 'editor-code',
-				title: 'InlineBlock',
-				onClick: onToggle,
-				isActive: isActive,
-				shortcutType: 'secondary',
-				shortcutCharacter: 'i'
-			})
-		)];
-	}
-});
-registerFormatType('catpow/mark', {
-	title: 'Mark',
-	tagName: 'mark',
-	className: null,
-	edit: function edit(_ref7) {
-		var isActive = _ref7.isActive,
-		    value = _ref7.value,
-		    onChange = _ref7.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/mark' }));
@@ -251,4 +187,250 @@ registerFormatType('catpow/mark', {
 			})
 		)];
 	}
+});
+registerFormatType('catpow/q', {
+	title: 'Quote',
+	tagName: 'q',
+	className: null,
+	edit: function edit(_ref6) {
+		var isActive = _ref6.isActive,
+		    value = _ref6.value,
+		    onChange = _ref6.onChange;
+
+		var onToggle = function onToggle() {
+			return onChange(toggleFormat(value, { type: 'catpow/q' }));
+		};
+
+		return [wp.element.createElement(
+			Fragment,
+			null,
+			wp.element.createElement(RichTextToolbarButton, {
+				icon: 'tag',
+				title: 'Quote',
+				onClick: onToggle,
+				isActive: isActive
+			})
+		)];
+	}
+});
+registerFormatType('catpow/dfn', {
+	title: 'Define',
+	tagName: 'dfn',
+	className: null,
+	edit: function edit(_ref7) {
+		var isActive = _ref7.isActive,
+		    value = _ref7.value,
+		    onChange = _ref7.onChange;
+
+		var onToggle = function onToggle() {
+			return onChange(toggleFormat(value, { type: 'catpow/dfn' }));
+		};
+
+		return [wp.element.createElement(
+			Fragment,
+			null,
+			wp.element.createElement(RichTextToolbarButton, {
+				icon: 'tag',
+				title: 'Define',
+				onClick: onToggle,
+				isActive: isActive
+			})
+		)];
+	}
+});
+
+registerFormatType('catpow/span', {
+	title: 'span',
+	tagName: 'span',
+	className: 'custom',
+	edit: function edit(_ref8) {
+		var isActive = _ref8.isActive,
+		    value = _ref8.value,
+		    onChange = _ref8.onChange;
+
+
+		var onToggle = function onToggle() {
+			var _wp$richText = wp.richText,
+			    removeFormat = _wp$richText.removeFormat,
+			    insert = _wp$richText.insert,
+			    create = _wp$richText.create,
+			    slice = _wp$richText.slice;
+
+			if (isActive) {
+				onChange(toggleFormat(value, { type: 'catpow/span' }));
+			}
+			var cls = prompt(__('クラスを入力'));
+
+			return onChange(insert(value, create({ html: '<span class="' + cls + '">' + slice(value).text + '</span>' }), value.start, value.end));
+		};
+
+		return [wp.element.createElement(
+			Fragment,
+			null,
+			wp.element.createElement(RichTextToolbarButton, {
+				icon: 'editor-code',
+				title: 'span',
+				onClick: onToggle,
+				isActive: isActive
+			})
+		)];
+	}
+});
+
+var currentBlockCanInsertBlockFormat = function currentBlockCanInsertBlockFormat() {
+	var atts = wp.data.select('core/block-editor').getSelectedBlock().attributes;
+	return atts.blockState && atts.blockState.enableBlockFormat;
+};
+
+registerFormatType('catpow/ul', {
+	title: 'ul',
+	tagName: 'ul',
+	className: null,
+	edit: function edit(_ref9) {
+		var isActive = _ref9.isActive,
+		    value = _ref9.value,
+		    onChange = _ref9.onChange;
+
+		if (!currentBlockCanInsertBlockFormat()) {
+			return '';
+		}
+		var onToggle = function onToggle() {
+			var _wp$richText2 = wp.richText,
+			    removeFormat = _wp$richText2.removeFormat,
+			    insert = _wp$richText2.insert,
+			    create = _wp$richText2.create,
+			    slice = _wp$richText2.slice;
+
+			if (isActive) {
+				return onChange(create({ html: value.text }));
+			}
+			var marks = {
+				'*': 'annotation',
+				'※': 'annotation',
+				'！': 'caution',
+				'!': 'caution',
+				'●': 'circle',
+				'・': 'circle',
+				'■': 'square',
+				'★': 'star',
+				'▶︎': 'caret'
+			};
+			var str = slice(value).text;
+
+			if (cls = marks[str[0]]) {
+				rsl = str.substring(1).split("\n" + str[0]);
+			} else {
+				rsl = str.split("\n");
+			}
+
+			return onChange(insert(value, create({ html: '<ul class="' + cls + '"><li>' + rsl.join('</li> <li>') + '</li></ul>' }), value.start, value.end));
+		};
+
+		return [wp.element.createElement(
+			Fragment,
+			null,
+			wp.element.createElement(RichTextToolbarButton, {
+				icon: 'editor-ul',
+				title: 'ul',
+				onClick: onToggle,
+				isActive: isActive
+			})
+		)];
+	}
+});
+registerFormatType('catpow/ol', {
+	title: 'ol',
+	tagName: 'ol',
+	className: null,
+	edit: function edit(_ref10) {
+		var isActive = _ref10.isActive,
+		    value = _ref10.value,
+		    onChange = _ref10.onChange;
+
+		if (!currentBlockCanInsertBlockFormat()) {
+			return '';
+		}
+		var onToggle = function onToggle() {
+			var _wp$richText3 = wp.richText,
+			    removeFormat = _wp$richText3.removeFormat,
+			    insert = _wp$richText3.insert,
+			    create = _wp$richText3.create,
+			    slice = _wp$richText3.slice;
+
+			if (isActive) {
+				return onChange(insert(value, create({ html: slice(value).text }), value.start, value.end));
+			}
+			return onChange(insert(value, create({ html: '<ol><li>' + slice(value).text.split("\n").join('</li> <li>') + '</li></ol>' }), value.start, value.end));
+		};
+
+		return [wp.element.createElement(
+			Fragment,
+			null,
+			wp.element.createElement(RichTextToolbarButton, {
+				icon: 'editor-ol',
+				title: 'ol',
+				onClick: onToggle,
+				isActive: isActive
+			})
+		)];
+	}
+});
+registerFormatType('catpow/li', {
+	title: 'li',
+	tagName: 'li',
+	className: null
+});
+
+registerFormatType('catpow/dl', {
+	title: 'dl',
+	tagName: 'dl',
+	className: null,
+	edit: function edit(_ref11) {
+		var isActive = _ref11.isActive,
+		    value = _ref11.value,
+		    onChange = _ref11.onChange;
+
+		if (!currentBlockCanInsertBlockFormat()) {
+			return '';
+		}
+		var onToggle = function onToggle() {
+			var _wp$richText4 = wp.richText,
+			    removeFormat = _wp$richText4.removeFormat,
+			    insert = _wp$richText4.insert,
+			    create = _wp$richText4.create,
+			    slice = _wp$richText4.slice;
+
+			if (isActive) {
+				return onChange(create({ html: value.text }));
+			}
+
+			return onChange(insert(value, create({ html: '<dl>' + slice(value).text.split("\n").map(function (str) {
+					if (!/[:：]/.test(str)) {
+						return '<dd>' + str + '</dd>';
+					}
+					return str.replace(/^(.+?)[:：](.+)$/, '<dt>$1</dt><dd>$2</dd>');
+				}).join('') + '</dl>' }), value.start, value.end));
+		};
+
+		return [wp.element.createElement(
+			Fragment,
+			null,
+			wp.element.createElement(RichTextToolbarButton, {
+				icon: 'editor-ul',
+				title: 'dl',
+				onClick: onToggle,
+				isActive: isActive
+			})
+		)];
+	}
+});
+registerFormatType('catpow/dt', {
+	title: 'dt',
+	tagName: 'dt',
+	className: null
+});
+registerFormatType('catpow/dd', {
+	title: 'dd',
+	tagName: 'dd',
+	className: null
 });

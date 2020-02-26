@@ -14,7 +14,7 @@ Catpow.ZipCode = function (_wp$element$Component) {
 
 		_this.secs0 = React.createRef();
 		_this.secs1 = React.createRef();
-		_this.state = { value: props.value };
+		_this.state = { value: props.value || '-' };
 		return _this;
 	}
 

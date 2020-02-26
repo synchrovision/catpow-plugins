@@ -5,7 +5,7 @@ Catpow.ZipCode=class extends wp.element.Component{
 		super(props);
 		this.secs0=React.createRef();
 		this.secs1=React.createRef();
-		this.state={value:props.value};
+		this.state={value:props.value || '-'};
 	}
 	render(){
 		var {value}=this.state;

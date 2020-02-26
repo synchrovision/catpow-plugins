@@ -76,7 +76,7 @@ trait formTrait{
         <form action="<?= home_url(); ?>" method="get" id="<?= $this->form_id ?>" class="cp_form" enctype="multipart/form-data">
             <?php wp_nonce_field('cp_form','_cp_form_nonce'); ?>
             <input type="hidden" name="cp_form_id" value="<?= $this->form_id ?>"/>
-            <div class="cp_form_content">
+            <div class="cp_form_content" data-role="cp_form_content" data-form-id="<?= $this->form_id ?>">
                 <?php $this->inc($slug,$vars); ?>
             </div>
         </form>
@@ -227,15 +227,21 @@ trait formTrait{
     }
     
     /*perform*/
+	public function change_data_id($data_id){
+		if($this->loop_id === $data_id){return false;}
+		$tgt=&$this->inputs->data[$this->data_type][$this->data_name];
+		if(isset($tgt[$this->loop_id])){
+			$tgt[$data_id]=$tgt[$this->loop_id];
+			unset($tgt[$this->loop_id]);
+		}
+		$this->loop_id=$data_id;
+	}
     public function push($override=true,$reflect=false){
 		try{
 			$data_id=\cp::update_data($this->inputs->data,$this->the_data_path,$override);
-			if($reflect && $this->loop_id !== $data_id){
-				$tgt=&$this->inputs->data[$this->data_type][$this->data_name];
-				$tgt[$data_id]=$tgt[$this->loop_id];
-				unset($tgt[$this->loop_id]);
+			if($reflect){
+				$this->change_data_id($data_id);
 				$this->form_type=2;
-				$this->loop_id=$data_id;
 			}
 			return $data_id;
 		}
@@ -332,7 +338,7 @@ trait formTrait{
 				}
             }
 			else{
-                $cp_form_action=$form->file_slug?:false;
+                $cp_form_action=$form->file_slug??false;
                 $file=$form->file;
 				\cp::get_template_part($form->path.'/'.$file);
 				$res['action']=$cp_form_action;

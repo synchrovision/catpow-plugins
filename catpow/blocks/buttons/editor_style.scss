@@ -2,7 +2,7 @@
 
 ul.wp-block-catpow-buttons{
 	li.item{
-		@include bnd((w:a,mg:20 a,pd:0));
+		@include bnd((w:a,p:r,mg:20 a,pd:0));
 		@include flx((w:w,c:1));
 		@include txt((l:n));
         .itemControl{

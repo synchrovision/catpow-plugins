@@ -2,6 +2,17 @@
 	title:'🐾 Div',
 	icon:'editor-code',
 	category:'catpow',
+	transforms:{
+		from: [
+			{
+				type:'block',
+				blocks:['core/group'],
+				transform:(attributes,innerBlocks)=>{
+					return createBlock('catpow/div',{classes:'wp-block-catpow-div frame thinBorder'},innerBlocks);
+				},
+			},
+		]
+	},
 	attributes:{
 		classes:{source:'attribute',selector:'div',attribute:'class',default:'wp-block-catpow-div frame thinBorder'},
 		

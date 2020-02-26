@@ -2,19 +2,41 @@
 add_action('cp_setup',function(){
 	if($cp_ga_code=get_option('cp_ga_code')){
 		$cp_ga_code=reset($cp_ga_code);
-		add_action('wp_footer',function()use($cp_ga_code){
+		add_action('wp_head',function()use($cp_ga_code){
+			$conf=[
+				'costom_map'=>apply_filters('cpga_dimensions',[])
+			];
 			?>
+			<!-- Global site tag (gtag.js) - Google Analytics -->
+			<script async src="https://www.googletagmanager.com/gtag/js?id='<?=$cp_ga_code?>"></script>
 			<script>
-				(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-				(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-				m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-				})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+				window.dataLayer = window.dataLayer || [];
+				function gtag(){dataLayer.push(arguments);}
+				gtag('js', new Date());
 
-				ga('create', '<?=$cp_ga_code?>', 'auto');
-				<?php foreach(apply_filters('cpga_dimensions',[]) as $key=>$val):?>
-				ga('set', '<?=$key?>', '<?=$val?>');
-				<?php endforeach; ?>
-				ga('send', 'pageview');
+				gtag('config', '<?=$cp_ga_code?>',<?=json_encode($conf)?>);
+
+				document.addEventListener('DOMContentLoaded',function(){
+					var cb=function(el){
+						if(!el.dataset.event){return;}
+						var data=window.Catpow.ga.parseEventString(el.dataset.event);
+						el.addEventListener(data.event,function(){
+							window.Catpow.ga.send(data);
+						});
+					};
+					document.querySelectorAll('[data-event]').forEach(cb);
+					var o=new MutationObserver(function(mutations){
+						mutations.map(function(mutation){
+							mutation.addedNodes.forEach(function(node){
+								if(node.nodeType===1){
+									if(node.dataset.event){cb(node);}
+									node.querySelectorAll('[data-event]').forEach(cb);
+								}
+							});
+						});
+					});
+					document.querySelectorAll('.cp_form').forEach(function(node){o.observe(node);});
+				});
 			</script>
 			<?php
 		});
@@ -22,8 +44,12 @@ add_action('cp_setup',function(){
 });
 
 function cpga_send_event($cat,$action,$label=false,$value=false){
-	$event=['eventCategory'=>$cat,'eventAction'=>$action];
-	if($label!==false)$event['eventLabel']=$label;
-	if($value!==false)$event['eventValue']=$value;
-	printf("<script>ga('send','event',%s);</script>",json_encode($event));
+	$event=['event_category'=>$cat];	
+	if($label!==false)$event['event_label']=$label;
+	if($value!==false)$event['event_value']=$value;
+	printf("<script>gtag('event','%s',%s);</script>",$action,json_encode($event));
 }
+
+add_action('init',function(){
+	cp::enqueue_script('functions/ga/script.js');
+});

@@ -8,7 +8,7 @@ $prm=shortcode_atts([
 	'ignore_message'=>null
 ],$atts);
 if(isset($prm['param'])){$prm['param']=json_decode($prm['param']);}
-if(!empty(\cp::$content->form)){
+if(!is_null(\cp::$content->form)){
 	\cp::$content->form->button($prm[0],$prm[1],$prm['param'],$prm['target'],$prm['ignore_message']);
 }
 else{

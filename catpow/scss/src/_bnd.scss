@@ -14,6 +14,7 @@
 		pba:page-break-after,
 		o:overflow,ox:overflow-x,oy:overflow-y,
 		of:object-fit,op:object-position,
+		as:align-self,
 		g:grid-area,
 		gr:grid-row,
 		gc:grid-column,
@@ -34,9 +35,10 @@
 	$ovals:(v:visible,h:hidden,s:scroll,a:auto);
 	$flvals:(l:left,r:right,n:none);
 	$clvals:(l:left,r:right,b:both);
-	$alvals:(n:none,b:button);
+	$apvals:(n:none,b:button);
 	$bivals:(n:auto,a:avoid,b:always,p:avoid-page,c:avoid-column);
 	$ofvals:(f:fill,c:cover,i:contain,cvr:cover,cnt:contain,sd:scale-down);
+	$asvals:(f:stretch,c:center,e:end,s:start);
 	$opvals:(c:center);
 	@each $key,$val in $bnd{
 		@if $key == p{$val:map-get($pvals,$val);}
@@ -78,7 +80,8 @@
 		@if $key == op{$val:map-get($opvals,$val);}
 		@if $key == f{@include flex($val);}
 		@if $key == c{@include columns($val);}
-		@if $key == a{$val:replace_values($val,$alvals);@include appearance($val);}
+		@if $key == ap{$val:replace_values($val,$apvals);@include appearance($val);}
+		@if $key == as{$val:map-get($asvals,$val);}
 		@if map-has-key($keys,$key){#{map-get($keys,$key)}:$val;}
 	}
 }

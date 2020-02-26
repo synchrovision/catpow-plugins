@@ -66,33 +66,6 @@ else if($_REQUEST['setup_type']==='post'){
 		}
 	});
 }
-/*
-else if($_REQUEST['setup_type']==='page'){
-	global $static_pages,$wpdb;
-	$cnt=0;
-	foreach($static_pages as $slug=>$page){
-		if(!$wpdb->get_var("SELECT ID FROM {$wpdb->posts} WHERE post_type = 'page' AND post_name = '{$slug}'")){
-			$default=array('post_type'=>'page','post_title'=>$slug,'post_content'=>'','post_status'=>'publish');
-			if(isset($page['label'])){$page['post_title']=$page['label'];}
-			if(isset($page['parent'])){
-				if($id=$wpdb->get_var("SELECT ID FROM {$wpdb->posts} WHERE post_type = 'page' AND post_name = '{$page['parent']}'")){$page['post_parent']=$id;}
-			}
-			$page=array_merge($default,$page);
-			$page['post_name']=$slug;
-			$f=TEMPLATEPATH.'/page/'.$slug.'/admin/defalt.php';
-			if(file_exists($f))$page['post_content']=file_get_contents($f);
-			$post_id=wp_insert_post($page);
-			if($slug=='home'){
-				update_option('show_on_front','page');
-				update_option('page_on_front',$post_id);
-			}
-			printf('create %s %s<br/>',$page['post_title'],$slug);
-			$cnt++;
-		}
-	}
-	printf('%d pages created',$cnt);
-}
-*/
 else if($_REQUEST['setup_type']==='user'){
 	global $user_datas;
 	$cnt1=$cnt2=0;

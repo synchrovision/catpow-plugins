@@ -1182,7 +1182,8 @@ class CP{
 					}
 					if(
 						isset($static_pages[$post->post_name]) && 
-						in_array('single',$static_pages[$post->post_name]['template'])
+						in_array('single',$static_pages[$post->post_name]['template']) ||
+						isset($static_pages[$post->post_name]['meta'])
 					){
 						$path_data['data_type']='page';
 						$path_data['data_name']=$post->post_name;

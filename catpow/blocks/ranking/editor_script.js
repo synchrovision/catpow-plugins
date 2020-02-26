@@ -1,20 +1,23 @@
-registerBlockType('catpow/listed', {
-	title: '🐾 Listed',
-	icon: 'editor-ul',
+registerBlockType('catpow/ranking', {
+	title: '🐾 Ranking',
+	icon: 'awards',
 	category: 'catpow',
 	transforms: {
 		from: [{
 			type: 'block',
 			blocks: CP.listedConvertibles,
 			transform: function transform(attributes) {
-				attributes.classes = 'wp-block-catpow-listed menu medium hasHeader hasTitle hasTitleCaption hasImage hasText';
-				return createBlock('catpow/listed', attributes);
+				attributes.classes = 'wp-block-catpow-ranking';
+				if (!attributes.countPrefix) {
+					attributes.countPrefix = 'Step.';
+				}
+				return createBlock('catpow/ranking', attributes);
 			}
 		}]
 	},
 	attributes: {
 		version: { type: 'number', default: 0 },
-		classes: { source: 'attribute', selector: 'ul', attribute: 'class', default: 'wp-block-catpow-listed menu medium hasHeader hasTitle hasTitleCaption hasImage hasText' },
+		classes: { source: 'attribute', selector: 'ul', attribute: 'class', default: 'wp-block-catpow-ranking' },
 		items: {
 			source: 'query',
 			selector: 'li.item',
@@ -22,26 +25,17 @@ registerBlockType('catpow/listed', {
 				classes: { source: 'attribute', attribute: 'class' },
 				title: { source: 'children', selector: 'header .text h3' },
 				titleCaption: { source: 'children', selector: 'header .text p' },
-				headerImageSrc: { source: 'attribute', selector: 'header .image [src]', attribute: 'src' },
-				headerImageAlt: { source: 'attribute', selector: 'header .image [src]', attribute: 'alt' },
-				subImageSrc: { source: 'attribute', selector: '.contents .image [src]', attribute: 'src' },
-				subImageAlt: { source: 'attribute', selector: '.contents .image [src]', attribute: 'alt' },
 				src: { source: 'attribute', selector: 'li>.image [src]', attribute: 'src' },
 				alt: { source: 'attribute', selector: 'li>.image [src]', attribute: 'alt' },
 				subTitle: { source: 'children', selector: '.contents h4' },
 				text: { source: 'children', selector: '.contents p' },
-				linkUrl: { source: 'attribute', selector: '.link a', attribute: 'href' },
-
-				backgroundImageSrc: { source: 'attribute', selector: '.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
-				backgroundImageSrcset: { source: 'attribute', selector: '.background [src]', attribute: 'srcset' }
+				linkUrl: { source: 'attribute', selector: '.link a', attribute: 'href' }
 			},
 			default: [].concat(babelHelpers.toConsumableArray(Array(3))).map(function () {
 				return {
 					classes: 'item',
 					title: ['Title'],
 					titleCaption: ['Caption'],
-					headerImageSrc: cp.theme_url + '/images/dummy.jpg',
-					headerImageAlt: 'dummy',
 					subTitle: ['SubTitle'],
 					src: cp.theme_url + '/images/dummy.jpg',
 					alt: 'dummy',
@@ -51,9 +45,7 @@ registerBlockType('catpow/listed', {
 			})
 		},
 		countPrefix: { source: 'text', selector: '.counter .prefix', default: '' },
-		countSuffix: { source: 'text', selector: '.counter .suffix', default: '' },
-		subCountPrefix: { source: 'text', selector: '.subcounter .prefix', default: '' },
-		subCountSuffix: { source: 'text', selector: '.subcounter .suffix', default: '' }
+		countSuffix: { source: 'text', selector: '.counter .suffix', default: '' }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
@@ -63,56 +55,21 @@ registerBlockType('catpow/listed', {
 		var items = attributes.items,
 		    classes = attributes.classes,
 		    countPrefix = attributes.countPrefix,
-		    countSuffix = attributes.countSuffix,
-		    subCountPrefix = attributes.subCountPrefix,
-		    subCountSuffix = attributes.subCountSuffix;
+		    countSuffix = attributes.countSuffix;
 
-		var primaryClass = 'wp-block-catpow-listed';
+		var primaryClass = 'wp-block-catpow-ranking';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 		var classNameArray = className.split(' ');
 
 		var states = {
-			hasHeader: false,
-			hasHeaderImage: false,
-			hasCounter: false,
-			hasTitle: false,
-			hasTitleCaption: false,
-			hasSubImage: false,
-			hasSubTitle: false,
-			hasSubCounter: false,
-			hasText: false,
 			hasImage: false,
-			hasLink: false,
-			hasBackgroundImage: false
+			hasCounter: false,
+			hasTitleCaption: false,
+			hasSubTitle: false,
+			hasLink: false
 		};
 
-		var selectiveClasses = [{
-			label: 'タイプ',
-			values: {
-				orderd: '連番リスト',
-				news: 'お知らせ',
-				index: '目次',
-				menu: 'メニュー'
-			},
-			sub: {
-				orderd: [{ label: '画像', values: 'hasImage' }, { input: 'text', label: '番号前置テキスト', key: 'countPrefix' }, { input: 'text', label: '番号後置テキスト', key: 'countSuffix' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'リンク', values: 'hasLink' }],
-				news: [],
-				index: [{ label: 'レベル', 'values': ['level0', 'level1', 'level2', 'level3'] }],
-				menu: [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: '画像', values: { noImage: 'なし', hasImage: '大', hasHeaderImage: '小' } }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: '抜き色文字', values: 'inverseText' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'テキスト', values: 'hasText' }, { label: 'リンク', values: 'hasLink' }]
-			},
-			bind: {
-				orderd: ['hasHeader', 'hasCounter', 'hasTitle', 'hasText'],
-				news: ['hasText', 'hasSubTitle'],
-				index: ['hasHeader', 'hasTitle', 'hasText'],
-				menu: ['hasHeader', 'hasTitle']
-			},
-			item: {
-				news: [],
-				index: [],
-				menu: ['color'],
-				sphere: ['color']
-			}
-		}];
+		var selectiveClasses = [{ label: '画像', values: 'hasImage' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'リンク', values: 'hasLink' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -127,10 +84,7 @@ registerBlockType('catpow/listed', {
 
 		var rtn = [];
 		var imageKeys = {
-			image: { src: "src", alt: "alt", items: "items" },
-			headerImage: { src: "headerImageSrc", alt: "headerImageAlt", items: "items" },
-			subImage: { src: "subImageSrc", alt: "subImageAlt", items: "items" },
-			backgroundImage: { src: "backgroundImageSrc", srcset: "backgroundImageSrcset", items: "items" }
+			image: { src: "src", alt: "alt", items: "items" }
 		};
 
 		itemsCopy.map(function (item, index) {
@@ -157,7 +111,7 @@ registerBlockType('catpow/listed', {
 						size: 'vga'
 					})
 				),
-				states.hasHeader && wp.element.createElement(
+				wp.element.createElement(
 					'header',
 					null,
 					states.hasCounter && wp.element.createElement(
@@ -179,21 +133,10 @@ registerBlockType('catpow/listed', {
 							countSuffix
 						)
 					),
-					states.hasHeaderImage && wp.element.createElement(
-						'div',
-						{ className: 'image' },
-						wp.element.createElement(SelectResponsiveImage, {
-							attr: attributes,
-							set: setAttributes,
-							keys: imageKeys.headerImage,
-							index: index,
-							size: 'thumbnail'
-						})
-					),
 					wp.element.createElement(
 						'div',
 						{ className: 'text' },
-						states.hasTitle && wp.element.createElement(
+						wp.element.createElement(
 							'h3',
 							null,
 							wp.element.createElement(RichText, {
@@ -203,7 +146,7 @@ registerBlockType('catpow/listed', {
 								value: item.title
 							})
 						),
-						states.hasTitle && states.hasTitleCaption && wp.element.createElement(
+						states.hasTitleCaption && wp.element.createElement(
 							'p',
 							null,
 							wp.element.createElement(RichText, {
@@ -215,39 +158,9 @@ registerBlockType('catpow/listed', {
 						)
 					)
 				),
-				(states.hasSubImage || states.hasSubTitle || states.hasText) && wp.element.createElement(
+				wp.element.createElement(
 					'div',
 					{ 'class': 'contents' },
-					states.hasSubCounter && wp.element.createElement(
-						'div',
-						{ className: 'subcounter' },
-						subCountPrefix && wp.element.createElement(
-							'span',
-							{ 'class': 'prefix' },
-							subCountPrefix
-						),
-						wp.element.createElement(
-							'span',
-							{ className: 'number' },
-							index + 1
-						),
-						subCountSuffix && wp.element.createElement(
-							'span',
-							{ 'class': 'suffix' },
-							subCountSuffix
-						)
-					),
-					states.hasSubImage && wp.element.createElement(
-						'div',
-						{ className: 'image' },
-						wp.element.createElement(SelectResponsiveImage, {
-							attr: attributes,
-							set: setAttributes,
-							keys: imageKeys.subImage,
-							index: index,
-							size: 'medium'
-						})
-					),
 					states.hasSubTitle && wp.element.createElement(
 						'h4',
 						null,
@@ -259,7 +172,7 @@ registerBlockType('catpow/listed', {
 							placeholder: 'SubTitle'
 						})
 					),
-					states.hasText && wp.element.createElement(
+					wp.element.createElement(
 						'p',
 						null,
 						wp.element.createElement(RichText, {
@@ -269,16 +182,6 @@ registerBlockType('catpow/listed', {
 							value: item.text
 						})
 					)
-				),
-				states.hasBackgroundImage && wp.element.createElement(
-					'div',
-					{ className: 'background' },
-					wp.element.createElement(SelectResponsiveImage, {
-						attr: attributes,
-						set: setAttributes,
-						keys: imageKeys.backgroundImage,
-						index: index
-					})
 				),
 				states.hasLink && wp.element.createElement(
 					'div',
@@ -329,15 +232,6 @@ registerBlockType('catpow/listed', {
 					value: classArray.join(' ')
 				})
 			),
-			wp.element.createElement(SelectItemClassPanel, {
-				title: '\u30EA\u30B9\u30C8\u30A2\u30A4\u30C6\u30E0',
-				icon: 'edit',
-				set: setAttributes,
-				attr: attributes,
-				items: itemsCopy,
-				index: attributes.currentItemIndex,
-				triggerClasses: selectiveClasses[0]
-			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
 		), wp.element.createElement(
 			'ul',
@@ -351,27 +245,16 @@ registerBlockType('catpow/listed', {
 		var items = attributes.items,
 		    classes = attributes.classes,
 		    countPrefix = attributes.countPrefix,
-		    countSuffix = attributes.countSuffix,
-		    subCountPrefix = attributes.subCountPrefix,
-		    subCountSuffix = attributes.subCountSuffix,
-		    linkUrl = attributes.linkUrl,
-		    linkText = attributes.linkText;
+		    countSuffix = attributes.countSuffix;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 
 		var states = {
-			hasHeader: false,
-			hasHeaderImage: false,
-			hasCounter: false,
-			hasTitle: false,
-			hasTitleCaption: false,
-			hasSubImage: false,
-			hasSubTitle: false,
-			hasSubCounter: false,
-			hasText: false,
 			hasImage: false,
-			hasLink: false,
-			hasBackgroundImage: false
+			hasCounter: false,
+			hasTitleCaption: false,
+			hasSubTitle: false,
+			hasLink: false
 		};
 		var hasClass = function hasClass(cls) {
 			return classArray.indexOf(cls) !== -1;
@@ -390,7 +273,7 @@ registerBlockType('catpow/listed', {
 					{ className: 'image' },
 					wp.element.createElement('img', { src: item.src, alt: item.alt })
 				),
-				states.hasHeader && wp.element.createElement(
+				wp.element.createElement(
 					'header',
 					null,
 					states.hasCounter && wp.element.createElement(
@@ -412,15 +295,10 @@ registerBlockType('catpow/listed', {
 							countSuffix
 						)
 					),
-					states.hasHeaderImage && wp.element.createElement(
-						'div',
-						{ 'class': 'image' },
-						wp.element.createElement('img', { src: item.headerImageSrc, alt: item.headerImageAlt })
-					),
 					wp.element.createElement(
 						'div',
 						{ className: 'text' },
-						states.hasTitle && wp.element.createElement(
+						wp.element.createElement(
 							'h3',
 							null,
 							item.title
@@ -432,33 +310,9 @@ registerBlockType('catpow/listed', {
 						)
 					)
 				),
-				(states.hasSubImage || states.hasSubTitle || states.hasText) && wp.element.createElement(
+				wp.element.createElement(
 					'div',
 					{ 'class': 'contents' },
-					states.hasSubCounter && wp.element.createElement(
-						'div',
-						{ className: 'subcounter' },
-						subCountPrefix && wp.element.createElement(
-							'span',
-							{ 'class': 'prefix' },
-							subCountPrefix
-						),
-						wp.element.createElement(
-							'span',
-							{ className: 'number' },
-							index + 1
-						),
-						subCountSuffix && wp.element.createElement(
-							'span',
-							{ 'class': 'suffix' },
-							subCountSuffix
-						)
-					),
-					states.hasSubImage && wp.element.createElement(
-						'div',
-						{ className: 'image' },
-						wp.element.createElement('img', { src: item.subImageSrc, alt: item.subImageAlt })
-					),
 					states.hasSubTitle && wp.element.createElement(
 						'h4',
 						null,
@@ -469,11 +323,6 @@ registerBlockType('catpow/listed', {
 						null,
 						item.text
 					)
-				),
-				states.hasBackgroundImage && wp.element.createElement(
-					'div',
-					{ className: 'background' },
-					wp.element.createElement('img', { src: item.backgroundImageSrc, srcset: item.backgroundImageSrcset })
 				),
 				states.hasLink && item.linkUrl && wp.element.createElement(
 					'div',

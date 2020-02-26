@@ -9,3 +9,4 @@
 <?php
 cp::enqueue_script('catpow/main/admin/script.js');
 cp::enqueue_style('catpow/main/admin/style.css');
+cp::enqueue_style('blocks/buttons/front_style.css');

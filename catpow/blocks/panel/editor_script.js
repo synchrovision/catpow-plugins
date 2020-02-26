@@ -42,12 +42,17 @@ registerBlockType('catpow/panel', {
 		var primaryClass = 'wp-block-catpow-panel';
 		var classArray = _.uniq(classes.split(' '));
 
+		var imageKeys = {
+			icon: { src: "iconSrc", alt: "iconAlt", items: "items" },
+			image: { src: "src", alt: "alt", items: "items" }
+		};
+
 		var selectiveClasses = [{
 			label: 'タイプ',
 			values: { tile: 'タイル', menu: 'メニュー' },
 			item: {
-				tile: ['color', { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage', sub: [{ label: '画像を薄く', values: 'paleImage' }] }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }],
-				menu: ['color', { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage' }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }]
+				tile: ['color', { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage', sub: [{ label: '画像を薄く', values: 'paleImage' }, { label: '画像', input: 'image', keys: imageKeys.image, size: 'vga' }] }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }],
+				menu: ['color', { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage', sub: [{ label: '画像', input: 'image', keys: imageKeys.image, size: 'vga' }] }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }]
 			},
 			bind: {
 				tile: ['panel'],
@@ -77,10 +82,7 @@ registerBlockType('catpow/panel', {
 
 		var rtn = [];
 
-		var imageKeys = {
-			icon: { src: "iconSrc", alt: "iconAlt", items: "items" },
-			image: { src: "src", alt: "alt", items: "items" }
-		};
+		var totalGrid = 0;
 
 		itemsCopy.map(function (item, index) {
 			if (!item.controlClasses) {
@@ -98,6 +100,8 @@ registerBlockType('catpow/panel', {
 			Object.keys(itemStates).forEach(function (key) {
 				this[key] = itemClassArray.indexOf(key) !== -1;
 			}, itemStates);
+
+			totalGrid += (CP.getNumberClass({ attr: item }, 'rspan') || 1) * (CP.getNumberClass({ attr: item }, 'cspan') || 1);
 
 			rtn.push(wp.element.createElement(
 				Item,
@@ -205,6 +209,16 @@ registerBlockType('catpow/panel', {
 				index: attributes.currentItemIndex,
 				triggerClasses: selectiveClasses[0]
 			}),
+			wp.element.createElement(
+				PanelBody,
+				{ title: 'info', icon: 'admin-generic', initialOpen: false },
+				wp.element.createElement(
+					'p',
+					null,
+					'\u5408\u8A08\u30B0\u30EA\u30C3\u30C9\u6570\uFF1A',
+					totalGrid
+				)
+			),
 			wp.element.createElement(
 				PanelBody,
 				{ title: 'CLASS', icon: 'admin-generic', initialOpen: false },

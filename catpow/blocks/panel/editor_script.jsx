@@ -37,6 +37,11 @@
 		const primaryClass='wp-block-catpow-panel';
 		var classArray=_.uniq((classes).split(' '));
 		
+		const imageKeys={
+			icon:{src:"iconSrc",alt:"iconAlt",items:"items"},
+			image:{src:"src",alt:"alt",items:"items"}
+		};
+		
 		var selectiveClasses=[
 			{
 				label:'タイプ',
@@ -51,7 +56,8 @@
 						{label:'タイトル',values:'hasTitle'},
 						{label:'文章',values:'hasText'},
 						{label:'画像',values:'hasImage',sub:[
-							{label:'画像を薄く',values:'paleImage'}
+							{label:'画像を薄く',values:'paleImage'},
+							{label:'画像',input:'image',keys:imageKeys.image,size:'vga'}
 						]},
 						{label:'リンク',values:'hasLink',sub:[
 							{label:'外部リンク',values:'linkExternal'}
@@ -64,7 +70,9 @@
 						{label:'アイコン',values:'hasIcon'},
 						{label:'タイトル',values:'hasTitle'},
 						{label:'文章',values:'hasText'},
-						{label:'画像',values:'hasImage'},
+						{label:'画像',values:'hasImage',sub:[
+							{label:'画像',input:'image',keys:imageKeys.image,size:'vga'}
+						]},
 						{label:'リンク',values:'hasLink',sub:[
 							{label:'外部リンク',values:'linkExternal'}
 						]},
@@ -101,10 +109,7 @@
 		
 		let rtn=[];
 		
-		const imageKeys={
-			icon:{src:"iconSrc",alt:"iconAlt",items:"items"},
-			image:{src:"src",alt:"alt",items:"items"}
-		};
+		let totalGrid=0;
 
 		itemsCopy.map((item,index)=>{
 			if(!item.controlClasses){item.controlClasses='control';}
@@ -118,7 +123,11 @@
 			}
 			var itemClassArray=item.classes.split(' ');
 			Object.keys(itemStates).forEach(function(key){this[key]=itemClassArray.indexOf(key)!==-1;},itemStates);
-		
+			
+			totalGrid+=
+				(CP.getNumberClass({attr:item},'rspan') || 1) * 
+				(CP.getNumberClass({attr:item},'cspan') || 1);
+			
 			rtn.push(
 				<Item
 					tag='li'
@@ -212,6 +221,9 @@
 					index={attributes.currentItemIndex}
 					triggerClasses={selectiveClasses[0]}
 				/>
+				<PanelBody title="info" icon="admin-generic" initialOpen={false}>
+					<p>合計グリッド数：{totalGrid}</p>
+				</PanelBody>
 				<PanelBody title="CLASS" icon="admin-generic" initialOpen={false}>
 					<TextareaControl
 						label='クラス'

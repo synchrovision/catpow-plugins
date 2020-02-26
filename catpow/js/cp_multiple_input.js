@@ -23,7 +23,7 @@ function reset_multiple_input_attr($input_item){
 		var orgName=baseName+'['+n+']';
 		var newName=baseName+'['+i+']';
 		this.id=newID;
-		$(this).find(':input').each(function(){
+		jQuery(this).find(':input').each(function(){
 			this.name=this.name.replace(orgName,newName);
 			if(this.id){
 				this.id=this.id.replace(orgID,newID);

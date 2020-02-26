@@ -59,12 +59,12 @@ abstract class meta{
 	}
 	public static function set($data_type,$data_name,$id,$meta_name,$vals,$conf){
         call_user_func(['\\Catpow\\data_type\\'.$data_type,'delete_meta'],$data_name,$id,$meta_name);
-        foreach($vals as $val){
+        foreach((array)$vals as $val){
             call_user_func(['\\Catpow\\data_type\\'.$data_type,'add_meta'],$data_name,$id,$meta_name,$val);
         }
 	}
 	public static function add($data_type,$data_name,$id,$meta_name,$vals,$conf){
-        foreach($vals as $val){
+        foreach((array)$vals as $val){
             call_user_func(['\\Catpow\\data_type\\'.$data_type,'add_meta'],$data_name,$id,$meta_name,$val);
         }
 	}

@@ -2,6 +2,20 @@
 	title: '🐾 Slider',
 	icon:'video-alt3',
 	category: 'catpow',
+	transforms:{
+		from: [
+			{
+				type:'block',
+				blocks:CP.listedConvertibles,
+				transform:(attributes)=>{
+					attributes.classes='wp-block-catpow-slider story hasTitle hasText hasImage';
+					if(!attributes.controlClasses){attributes.controlClasses='controls loop autoplay flickable';}
+					if(!attributes.config){attributes.config='{}';}
+					return createBlock('catpow/slider',attributes);
+				},
+			},
+		]
+	},
 	
 	attributes:{
 		classes:{source:'attribute',selector:'div',attribute:'class',default:'wp-block-catpow-slider story hasTitle hasText hasImage'},
@@ -44,7 +58,8 @@
 					backgroundImageSrcset:null
 				}
 			]
-		}
+		},
+		blockState:{type:'object',default:{enableBlockFormat:false}}
 	},
 	edit({attributes,className,setAttributes}){
 		const {classes,controlClasses,config,items}=attributes;

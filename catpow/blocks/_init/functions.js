@@ -1,4 +1,6 @@
 var CP = {
+	listedConvertibles: ['catpow/listed', 'catpow/flow', 'catpow/faq', 'catpow/ranking', 'catpow/dialog', 'catpow/sphere', 'catpow/slider', 'catpow/banners', 'catpow/lightbox'],
+	tableConvertibles: ['catpow/simpletable', 'catpow/datatable', 'catpow/layouttable'],
 
 	selectImage: function selectImage(keys, set, size) {
 		if (CP.uploder === undefined) {
@@ -14,14 +16,15 @@ var CP = {
 			if (keys.mime) {
 				data[keys.mime] = image.mime;
 			}
+			if (keys.alt) {
+				data[keys.alt] = image.alt;
+			}
 			if (size && image.sizes && image.sizes[size]) {
 				data[keys.src] = image.sizes[size].url;
 			} else {
 				data[keys.src] = image.url;
 			}
-			if (keys.alt) {
-				data[keys.alt] = image.alt;
-			}
+			console.log(image.sizes);
 			if (keys.srcset && image.sizes) {
 				data[keys.srcset] = image.sizes.medium_large.url + ' 480w,' + image.url;
 			}
@@ -33,82 +36,63 @@ var CP = {
 		csv = csv.replace(/("[^"]*")+/g, function (match) {
 			tmp.push(match.slice(1, -1).replace(/""/g, '"'));return '[TMP]';
 		});
-		return csv.split("\n").map(function (row) {
+		return csv.split("\r\n").map(function (row) {
 			return row.split(',').map(function (val) {
 				return val === '[TMP]' ? tmp.shift() : val;
 			});
 		});
 	},
 
-	switchColor: function switchColor(_ref, value) {
+	switchNumberClass: function switchNumberClass(_ref, label, value) {
 		var set = _ref.set,
 		    attr = _ref.attr;
 
 		var classArray = attr.classes.split(' ');
 		var i = classArray.findIndex(function (cls) {
-			return cls.substr(0, 5) === 'color';
+			return cls.substr(0, label.length) === label;
 		});
 		if (i === -1) {
 			if (value) {
-				classArray.push('color' + value);
+				classArray.push(label + value);
 			}
 		} else {
 			if (value) {
-				classArray.splice(i, 1, 'color' + value);
+				classArray.splice(i, 1, label + value);
 			} else {
 				classArray.splice(i, 1);
 			}
 		}
 		set({ classes: classArray.join(' ') });
 	},
-	getColor: function getColor(_ref2) {
+	getNumberClass: function getNumberClass(_ref2, label) {
 		var attr = _ref2.attr;
 
 		var value = attr.classes.split(' ').find(function (cls) {
-			return cls.substr(0, 5) === 'color';
+			return cls.substr(0, label.length) === label;
 		});
 		if (!value) {
 			return 0;
 		}
-		return parseInt(value.substr(5));
+		return parseInt(value.substr(label.length));
 	},
 
-	switchPattern: function switchPattern(_ref3, value) {
+	switchColor: function switchColor(props, value) {
+		CP.switchNumberClass(props, 'color', value);
+	},
+	getColor: function getColor(props) {
+		return CP.getNumberClass(props, 'color');
+	},
+
+	switchPattern: function switchPattern(props, value) {
+		CP.switchNumberClass(props, 'pattern', value);
+	},
+	getPattern: function getPattern(props) {
+		return CP.getNumberClass(props, 'pattern');
+	},
+
+	switchSelectiveClass: function switchSelectiveClass(_ref3, values, value, key) {
 		var set = _ref3.set,
 		    attr = _ref3.attr;
-
-		var classArray = attr.classes.split(' ');
-		var i = classArray.findIndex(function (cls) {
-			return cls.substr(0, 7) === 'pattern';
-		});
-		if (i === -1) {
-			if (value) {
-				classArray.push('pattern' + value);
-			}
-		} else {
-			if (value) {
-				classArray.splice(i, 1, 'pattern' + value);
-			} else {
-				classArray.splice(i, 1);
-			}
-		}
-		set({ classes: classArray.join(' ') });
-	},
-	getPattern: function getPattern(_ref4) {
-		var attr = _ref4.attr;
-
-		var value = attr.classes.split(' ').find(function (cls) {
-			return cls.substr(0, 7) === 'pattern';
-		});
-		if (!value) {
-			return 0;
-		}
-		return parseInt(value.substr(7));
-	},
-
-	switchSelectiveClass: function switchSelectiveClass(_ref5, values, value, key) {
-		var set = _ref5.set,
-		    attr = _ref5.attr;
 
 		if (key === undefined) {
 			key = 'classes';
@@ -127,8 +111,8 @@ var CP = {
 		data[key] = classArray.join(' ');
 		set(data);
 	},
-	getSelectiveClass: function getSelectiveClass(_ref6, values, key) {
-		var attr = _ref6.attr;
+	getSelectiveClass: function getSelectiveClass(_ref4, values, key) {
+		var attr = _ref4.attr;
 
 		if (key === undefined) {
 			key = 'classes';
@@ -204,9 +188,9 @@ var CP = {
 		return rtn;
 	},
 
-	toggleClass: function toggleClass(_ref7, value, key) {
-		var attr = _ref7.attr,
-		    set = _ref7.set;
+	toggleClass: function toggleClass(_ref5, value, key) {
+		var attr = _ref5.attr,
+		    set = _ref5.set;
 
 		if (key === undefined) {
 			key = 'classes';
@@ -225,8 +209,8 @@ var CP = {
 		data[key] = classArray.join(' ');
 		set(data);
 	},
-	hasClass: function hasClass(_ref8, value, key) {
-		var attr = _ref8.attr;
+	hasClass: function hasClass(_ref6, value, key) {
+		var attr = _ref6.attr;
 
 		if (key === undefined) {
 			key = 'classes';
@@ -243,58 +227,54 @@ var CP = {
 	selectNextItem: function selectNextItem(tag) {
 		jQuery(window.getSelection().anchorNode).closest(tag).next().find('[contentEditable]').get(0).focus();
 	},
-	saveItem: function saveItem(_ref9) {
-		var items = _ref9.items,
-		    index = _ref9.index,
-		    set = _ref9.set;
+	saveItem: function saveItem(_ref7) {
+		var items = _ref7.items,
+		    itemsKey = _ref7.itemsKey,
+		    set = _ref7.set;
 
-		set({ items: items });
+		set(babelHelpers.defineProperty({}, itemsKey || 'items', JSON.parse(JSON.stringify(items))));
 	},
-	deleteItem: function deleteItem(_ref10) {
-		var items = _ref10.items,
-		    index = _ref10.index,
-		    set = _ref10.set;
+	deleteItem: function deleteItem(props) {
+		var items = props.items,
+		    index = props.index;
 
 		items.splice(index, 1);
-		set({ items: items });
+		CP.saveItem(props);
 	},
-	cloneItem: function cloneItem(_ref11) {
-		var tag = _ref11.tag,
-		    items = _ref11.items,
-		    index = _ref11.index,
-		    set = _ref11.set;
+	cloneItem: function cloneItem(props) {
+		var tag = props.tag,
+		    items = props.items,
+		    index = props.index;
 
-		items.splice(index, 0, jQuery.extend(true, {}, items[index]));
-		set({ items: items });
+		items.splice(index, 0, JSON.parse(JSON.stringify(items[index])));
+		CP.saveItem(props);
 		CP.selectNextItem(tag);
 	},
-	upItem: function upItem(_ref12) {
-		var tag = _ref12.tag,
-		    items = _ref12.items,
-		    index = _ref12.index,
-		    set = _ref12.set;
+	upItem: function upItem(props) {
+		var tag = props.tag,
+		    items = props.items,
+		    index = props.index;
 
 		if (!items[index - 1]) return false;
 		items.splice(index - 1, 2, items[index], items[index - 1]);
-		set({ items: items });
+		CP.saveItem(props);
 		CP.selectPrevItem(tag);
 	},
-	downItem: function downItem(_ref13) {
-		var tag = _ref13.tag,
-		    items = _ref13.items,
-		    index = _ref13.index,
-		    set = _ref13.set;
+	downItem: function downItem(props) {
+		var tag = props.tag,
+		    items = props.items,
+		    index = props.index;
 
 		if (!items[index + 1]) return false;
 		items.splice(index, 2, items[index + 1], items[index]);
-		set({ items: items });
+		CP.saveItem(props);
 		CP.selectNextItem(tag);
 	},
 
-	switchItemColor: function switchItemColor(_ref14, color, itemsKey) {
-		var items = _ref14.items,
-		    index = _ref14.index,
-		    set = _ref14.set;
+	switchItemColor: function switchItemColor(_ref8, color, itemsKey) {
+		var items = _ref8.items,
+		    index = _ref8.index,
+		    set = _ref8.set;
 
 		if (itemsKey === undefined) {
 			itemsKey = 'items';
@@ -315,11 +295,11 @@ var CP = {
 			}
 		}
 		items[index].classes = classArray.join(' ');
-		set(babelHelpers.defineProperty({}, itemsKey, items));
+		set(babelHelpers.defineProperty({}, itemsKey, JSON.parse(JSON.stringify(items))));
 	},
-	getItemColor: function getItemColor(_ref15) {
-		var items = _ref15.items,
-		    index = _ref15.index;
+	getItemColor: function getItemColor(_ref9) {
+		var items = _ref9.items,
+		    index = _ref9.index;
 
 		var c = items[index].classes.split(' ').find(function (cls) {
 			return cls.substr(0, 5) === 'color';
@@ -330,10 +310,10 @@ var CP = {
 		return parseInt(c.substr(5));
 	},
 
-	switchItemPattern: function switchItemPattern(_ref16, pattern, itemsKey) {
-		var items = _ref16.items,
-		    index = _ref16.index,
-		    set = _ref16.set;
+	switchItemPattern: function switchItemPattern(_ref10, pattern, itemsKey) {
+		var items = _ref10.items,
+		    index = _ref10.index,
+		    set = _ref10.set;
 
 		if (itemsKey === undefined) {
 			itemsKey = 'items';
@@ -356,9 +336,9 @@ var CP = {
 		items[index].classes = classArray.join(' ');
 		set(babelHelpers.defineProperty({}, itemsKey, items));
 	},
-	getItemPattern: function getItemPattern(_ref17) {
-		var items = _ref17.items,
-		    index = _ref17.index;
+	getItemPattern: function getItemPattern(_ref11) {
+		var items = _ref11.items,
+		    index = _ref11.index;
 
 		var p = items[index].classes.split(' ').find(function (cls) {
 			return cls.substr(0, 7) === 'pattern';
@@ -369,10 +349,10 @@ var CP = {
 		return parseInt(p.substr(7));
 	},
 
-	switchItemSelectiveClass: function switchItemSelectiveClass(_ref18, values, value, itemsKey) {
-		var items = _ref18.items,
-		    index = _ref18.index,
-		    set = _ref18.set;
+	switchItemSelectiveClass: function switchItemSelectiveClass(_ref12, values, value, itemsKey) {
+		var items = _ref12.items,
+		    index = _ref12.index,
+		    set = _ref12.set;
 
 		if (itemsKey === undefined) {
 			itemsKey = 'items';
@@ -388,11 +368,11 @@ var CP = {
 			classArray.push(value);
 		}
 		items[index].classes = classArray.join(' ');
-		set(babelHelpers.defineProperty({}, itemsKey, items));
+		set(babelHelpers.defineProperty({}, itemsKey, JSON.parse(JSON.stringify(items))));
 	},
-	getItemSelectiveClass: function getItemSelectiveClass(_ref19, values) {
-		var items = _ref19.items,
-		    index = _ref19.index;
+	getItemSelectiveClass: function getItemSelectiveClass(_ref13, values) {
+		var items = _ref13.items,
+		    index = _ref13.index;
 
 		if (!items[index].classes) {
 			return false;
@@ -404,10 +384,10 @@ var CP = {
 		return _.intersection(classArray, values).shift();
 	},
 
-	toggleItemClass: function toggleItemClass(_ref20, value, itemsKey) {
-		var items = _ref20.items,
-		    index = _ref20.index,
-		    set = _ref20.set;
+	toggleItemClass: function toggleItemClass(_ref14, value, itemsKey) {
+		var items = _ref14.items,
+		    index = _ref14.index,
+		    set = _ref14.set;
 
 		if (itemsKey === undefined) {
 			itemsKey = 'items';
@@ -420,18 +400,18 @@ var CP = {
 			classArray.splice(i, 1);
 		}
 		items[index].classes = classArray.join(' ');
-		set(babelHelpers.defineProperty({}, itemsKey, items));
+		set(babelHelpers.defineProperty({}, itemsKey, JSON.parse(JSON.stringify(items))));
 	},
-	hasItemClass: function hasItemClass(_ref21, value) {
-		var items = _ref21.items,
-		    index = _ref21.index;
+	hasItemClass: function hasItemClass(_ref15, value) {
+		var items = _ref15.items,
+		    index = _ref15.index;
 
 		var classArray = items[index].classes.split(' ');
 		return classArray.indexOf(value) !== -1;
 	},
 
-	getJsonValue: function getJsonValue(_ref22, json, key) {
-		var attr = _ref22.attr;
+	getJsonValue: function getJsonValue(_ref16, json, key) {
+		var attr = _ref16.attr;
 
 		if (!attr[json]) {
 			return null;
@@ -445,9 +425,9 @@ var CP = {
 		}
 		return values.indexOf(value) !== -1;
 	},
-	setJsonValue: function setJsonValue(_ref23, json, key, value) {
-		var attr = _ref23.attr,
-		    set = _ref23.set;
+	setJsonValue: function setJsonValue(_ref17, json, key, value) {
+		var attr = _ref17.attr,
+		    set = _ref17.set;
 
 		var data = {};
 		var jsonData = JSON.parse(attr[json]);
@@ -482,37 +462,81 @@ var CP = {
 			obj[pair[0]] = pair[1];
 		});
 		return obj;
+	},
+	createStyleString: function createStyleString(data) {
+		return Object.keys(data).map(function (key) {
+			return key + ':' + data[key] + ';';
+		}).join('');
+	},
+	createStyleCode: function createStyleCode(data) {
+		return Object.keys(data).map(function (sel) {
+			return sel + '{' + CP.createStyleString(data[sel]) + '}';
+		}).join('');
+	},
+
+	wordsToFlags: function wordsToFlags(words) {
+		var rtn = {};
+		words.split(' ').map(function (word) {
+			rtn[word] = true;
+		});
+		return rtn;
 	}
 };
-var SelectResponsiveImage = function SelectResponsiveImage(_ref24) {
-	var className = _ref24.className,
-	    attr = _ref24.attr,
-	    set = _ref24.set,
-	    keys = _ref24.keys,
-	    index = _ref24.index,
-	    sizes = _ref24.sizes,
-	    size = _ref24.size;
+var SelectResponsiveImage = function SelectResponsiveImage(_ref18) {
+	var className = _ref18.className,
+	    attr = _ref18.attr,
+	    set = _ref18.set,
+	    keys = _ref18.keys,
+	    index = _ref18.index,
+	    sizes = _ref18.sizes,
+	    size = _ref18.size,
+	    ofSP = _ref18.ofSP;
 
 	var type = void 0,
 	    onClick = void 0,
 	    item = void 0;
-	if (keys.items) {
-		item = attr[keys.items][index];
-		onClick = function onClick(e) {
-			return CP.selectImage(keys, function (data) {
-				var rusult = {};
-				rusult[keys.items] = attr[keys.items].map(function (obj) {
-					return jQuery.extend(true, {}, obj);
-				});
-				rusult[keys.items][index] = jQuery.extend({}, item, data);
-				set(rusult);
-			}, size);
-		};
+	keys = keys || {};
+	if (ofSP) {
+		if (keys.items) {
+			item = attr[keys.items][index];
+			onClick = function onClick(e) {
+				return CP.selectImage({ src: 'src' }, function (_ref19) {
+					var src = _ref19.src;
+
+					var newItems = JSON.parse(JSON.stringify(attr[keys.items]));
+					newItems[index][keys.srcset] = newItems[index][keys.srcset].replace(/[^,]+ 480w,/, src + ' 480w,');
+					set(babelHelpers.defineProperty({}, keys.items, newItems));
+				}, size || 'medium_large');
+			};
+		} else {
+			item = attr;
+			onClick = function onClick(e) {
+				return CP.selectImage({ src: 'src' }, function (_ref20) {
+					var src = _ref20.src;
+
+					set(babelHelpers.defineProperty({}, keys.srcset, item[keys.srcset].replace(/[^,]+ 480w,/, src + ' 480w,')));
+				}, size || 'medium_large');
+			};
+		}
 	} else {
-		item = attr;
-		onClick = function onClick(e) {
-			return CP.selectImage(keys, set);
-		};
+		if (keys.items) {
+			item = attr[keys.items][index];
+			onClick = function onClick(e) {
+				return CP.selectImage(keys, function (data) {
+					var rusult = {};
+					rusult[keys.items] = attr[keys.items].map(function (obj) {
+						return jQuery.extend(true, {}, obj);
+					});
+					rusult[keys.items][index] = jQuery.extend({}, item, data);
+					set(rusult);
+				}, size);
+			};
+		} else {
+			item = attr;
+			onClick = function onClick(e) {
+				return CP.selectImage(keys, set, size);
+			};
+		}
 	}
 	if (item[keys.mime]) {
 		type = item[keys.mime].split('/')[0];
@@ -552,12 +576,12 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref24) {
 		onClick: onClick
 	});
 };
-var ResponsiveImage = function ResponsiveImage(_ref25) {
-	var className = _ref25.className,
-	    attr = _ref25.attr,
-	    keys = _ref25.keys,
-	    index = _ref25.index,
-	    sizes = _ref25.sizes;
+var ResponsiveImage = function ResponsiveImage(_ref21) {
+	var className = _ref21.className,
+	    attr = _ref21.attr,
+	    keys = _ref21.keys,
+	    index = _ref21.index,
+	    sizes = _ref21.sizes;
 
 	var type = void 0,
 	    item = void 0;
@@ -752,6 +776,24 @@ var ItemControlInfoPanel = function ItemControlInfoPanel() {
 	);
 };
 
+var EditItems = function EditItems(props) {
+	var atts = props.atts,
+	    set = props.set;
+
+	var key = props.key || 'item';
+	var items = atts[key];
+	var save = function save() {
+		set(babelHelpers.defineProperty({}, key, JSON.parse(JSON.stringify(items))));
+	};
+	return wp.element.createElement(
+		'ul',
+		{ className: 'EditItems' },
+		props.items.map(function (item) {
+			return wp.element.createElement('li', { className: 'item' });
+		})
+	);
+};
+
 var SelectClassPanel = function SelectClassPanel(props) {
 	var SelectClass = function SelectClass(prm) {
 		var rtn = [];
@@ -869,7 +911,9 @@ var SelectClassPanel = function SelectClassPanel(props) {
 							set: props.set,
 							attr: props.attr,
 							keys: prm.keys,
-							size: prm.size
+							size: prm.size,
+							sizes: prm.sizes,
+							ofSP: prm.ofSP
 						}));
 						break;
 					case 'position':
@@ -900,27 +944,40 @@ var SelectClassPanel = function SelectClassPanel(props) {
 					});
 				}
 
-				rtn.push(wp.element.createElement(SelectControl, {
-					label: prm.label,
-					onChange: function onChange(cls) {
-						var prevCls = CP.getSelectiveClass(props, prm.values, prm.key);
-						var sels = [];
-						if (prevCls) {
-							if (subClasses[prevCls]) {
-								sels = sels.concat(subClasses[prevCls]);
-							}
-							if (bindClasses[prevCls]) {
-								sels = sels.concat(bindClasses[prevCls]);
-							}
-							sels = _.difference(sels, subClasses[cls]);
+				var onChangeCB = function onChangeCB(cls) {
+					var prevCls = CP.getSelectiveClass(props, prm.values, prm.key);
+					var sels = [];
+					if (prevCls) {
+						if (subClasses[prevCls]) {
+							sels = sels.concat(subClasses[prevCls]);
 						}
-						sels = sels.concat(_values);
+						if (bindClasses[prevCls]) {
+							sels = sels.concat(bindClasses[prevCls]);
+						}
+						sels = _.difference(sels, subClasses[cls]);
+					}
+					sels = sels.concat(_values);
 
-						CP.switchSelectiveClass(props, sels, bindClasses[cls].concat([cls]), prm.key);
-					},
-					value: CP.getSelectiveClass(props, prm.values, prm.key),
-					options: _options
-				}));
+					CP.switchSelectiveClass(props, sels, bindClasses[cls].concat([cls]), prm.key);
+				};
+
+				switch (prm.type) {
+					case 'radio':
+						rtn.push(wp.element.createElement(RadioControl, {
+							label: prm.label,
+							onChange: onChangeCB,
+							selected: CP.getSelectiveClass(props, prm.values, prm.key),
+							options: _options
+						}));
+						break;
+					default:
+						rtn.push(wp.element.createElement(SelectControl, {
+							label: prm.label,
+							onChange: onChangeCB,
+							value: CP.getSelectiveClass(props, prm.values, prm.key),
+							options: _options
+						}));
+				}
 
 				if (prm.sub) {
 					var currentClass = CP.getSelectiveClass(props, prm.values, prm.key);
@@ -969,19 +1026,19 @@ var SelectClassPanel = function SelectClassPanel(props) {
 };
 var SelectItemClassPanel = function SelectItemClassPanel(props) {
 	var items = props.items,
-	    itemsKey = props.itemsKey,
 	    index = props.index,
 	    set = props.set,
 	    attr = props.attr,
 	    triggerClasses = props.triggerClasses;
+	var itemsKey = props.itemsKey,
+	    itemClasses = props.itemClasses;
 
 
 	if (!items[index]) {
 		return false;
 	}
 
-	var itemClasses = props.itemClasses;
-
+	itemsKey = itemsKey || 'items';
 	if (!items[index].classes) {
 		items[index].classes = 'item';
 	} else if (items[index].classes.search(/\bitem\b/) === -1) {
@@ -1078,6 +1135,33 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 					)
 				));
 			}
+		} else if (prm.input) {
+			switch (prm.input) {
+				case 'text':
+					rtn.push(wp.element.createElement(TextControl, {
+						label: prm.label,
+						value: items[index][prm.key],
+						onChange: function onChange(val) {
+							var newItems = JSON.parse(JSON.stringify(items));
+							newItems[index][prm.key] = val;
+							console.log(babelHelpers.defineProperty({}, itemsKey, newItems));
+							set(babelHelpers.defineProperty({}, itemsKey, newItems));
+						}
+					}));
+					break;
+				case 'image':
+					rtn.push(wp.element.createElement(SelectResponsiveImage, {
+						set: props.set,
+						attr: props.attr,
+						keys: prm.keys,
+						index: index,
+						size: prm.size,
+						sizes: prm.sizes,
+						ofSP: prm.ofSP
+					}));
+					break;
+
+			}
 		} else if (_.isObject(prm.values)) {
 			var options = void 0;
 			if (Array.isArray(prm.values)) {
@@ -1089,20 +1173,33 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 					return { label: prm.values[cls], value: cls };
 				});
 			}
-			rtn.push(wp.element.createElement(SelectControl, {
-				label: prm.label,
-				onChange: function onChange(cls) {
-					return CP.switchItemSelectiveClass(props, prm.values, cls, itemsKey);
-				},
-				value: CP.getItemSelectiveClass(props, prm.values),
-				options: options
-			}));
+			switch (prm.type) {
+				case 'radio':
+					rtn.push(wp.element.createElement(RadioControl, {
+						label: prm.label,
+						onChange: function onChange(cls) {
+							return CP.switchItemSelectiveClass(props, prm.values, cls, itemsKey);
+						},
+						selected: CP.getItemSelectiveClass(props, prm.values),
+						options: options
+					}));
+					break;
+				default:
+					rtn.push(wp.element.createElement(SelectControl, {
+						label: prm.label,
+						onChange: function onChange(cls) {
+							return CP.switchItemSelectiveClass(props, prm.values, cls, itemsKey);
+						},
+						value: CP.getItemSelectiveClass(props, prm.values),
+						options: options
+					}));
+			}
 			if (prm.sub) {
 				var currentClass = CP.getItemSelectiveClass(props, prm.values);
 				if (currentClass && prm.sub[currentClass]) {
 					var sub = [];
 					prm.sub[currentClass].map(function (prm) {
-						sub.push(SelectItemClass(prm));
+						sub.push(selectItemClass(prm));
 					});
 					rtn.push(wp.element.createElement(
 						'div',

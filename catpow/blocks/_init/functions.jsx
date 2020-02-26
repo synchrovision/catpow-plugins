@@ -1,4 +1,6 @@
 ﻿const CP={
+	listedConvertibles:['catpow/listed','catpow/flow','catpow/faq','catpow/ranking','catpow/dialog','catpow/sphere','catpow/slider','catpow/banners','catpow/lightbox'],
+	tableConvertibles:['catpow/simpletable','catpow/datatable','catpow/layouttable'],
 	
 	selectImage:(keys,set,size)=>{
 		if(CP.uploder===undefined){
@@ -12,9 +14,10 @@
 			let image = CP.uploader.state().get('selection').first().toJSON();
 			let data={};
 			if(keys.mime){data[keys.mime]=image.mime;}
+			if(keys.alt){data[keys.alt]=image.alt;}
 			if(size && image.sizes && image.sizes[size]){data[keys.src]=image.sizes[size].url;}
 			else{data[keys.src]=image.url;}
-			if(keys.alt){data[keys.alt]=image.alt;}
+			console.log(image.sizes);
 			if(keys.srcset && image.sizes){
 				data[keys.srcset]=image.sizes.medium_large.url+' 480w,'+image.url;
 			}
@@ -26,35 +29,36 @@
 		csv=csv.replace(/("[^"]*")+/g,(match)=>{
             tmp.push(match.slice(1,-1).replace(/""/g,'"'));return '[TMP]';
         });
-		return csv.split("\n").map((row)=>{
+		return csv.split("\r\n").map((row)=>{
             return row.split(',').map((val)=>val==='[TMP]'?tmp.shift():val)
         });
 	},
 	
-	switchColor:({set,attr},value)=>{
+	switchNumberClass:({set,attr},label,value)=>{
 		let classArray=attr.classes.split(' ');
-		let i=classArray.findIndex(cls=>(cls.substr(0,5)==='color'));
-		if(i===-1){if(value){classArray.push('color'+value);}}
-		else{if(value){classArray.splice(i,1,'color'+value);}else{classArray.splice(i,1)}}
+		let i=classArray.findIndex(cls=>(cls.substr(0,label.length)===label));
+		if(i===-1){if(value){classArray.push(label+value);}}
+		else{if(value){classArray.splice(i,1,label+value);}else{classArray.splice(i,1)}}
 		set({classes:classArray.join(' ')});
 	},
-	getColor:({attr})=>{
-		let value=attr.classes.split(' ').find(cls=>(cls.substr(0,5)==='color'));
+	getNumberClass:({attr},label)=>{
+		let value=attr.classes.split(' ').find(cls=>(cls.substr(0,label.length)===label));
 		if(!value){return 0;}
-		return parseInt(value.substr(5));
+		return parseInt(value.substr(label.length));
 	},
 	
-	switchPattern:({set,attr},value)=>{
-		let classArray=attr.classes.split(' ');
-		let i=classArray.findIndex(cls=>(cls.substr(0,7)==='pattern'));
-		if(i===-1){if(value){classArray.push('pattern'+value);}}
-		else{if(value){classArray.splice(i,1,'pattern'+value);}else{classArray.splice(i,1)}}
-		set({classes:classArray.join(' ')});
+	switchColor:(props,value)=>{
+		CP.switchNumberClass(props,'color',value);
 	},
-	getPattern:({attr})=>{
-		let value=attr.classes.split(' ').find(cls=>(cls.substr(0,7)==='pattern'));
-		if(!value){return 0;}
-		return parseInt(value.substr(7));
+	getColor:(props)=>{
+		return CP.getNumberClass(props,'color');
+	},
+	
+	switchPattern:(props,value)=>{
+		CP.switchNumberClass(props,'pattern',value);
+	},
+	getPattern:(props)=>{
+		return CP.getNumberClass(props,'pattern');
 	},
 	
 	switchSelectiveClass:({set,attr},values,value,key)=>{
@@ -159,28 +163,32 @@
 	selectNextItem:(tag)=>{
 		jQuery(window.getSelection().anchorNode).closest(tag).next().find('[contentEditable]').get(0).focus();
 	},
-	saveItem:({items,index,set})=>{
-		set({items:items});
+	saveItem:({items,itemsKey,set})=>{
+		set({[itemsKey || 'items']:JSON.parse(JSON.stringify(items))});
 	},
-	deleteItem:({items,index,set})=>{
+	deleteItem:(props)=>{
+		var {items,index}=props;
 		items.splice(index,1);
-		set({items:items});
+		CP.saveItem(props);
 	},
-	cloneItem:({tag,items,index,set})=>{
-		items.splice(index,0,jQuery.extend(true,{},items[index]));
-		set({items:items});
+	cloneItem:(props)=>{
+		var {tag,items,index}=props;
+		items.splice(index,0,JSON.parse(JSON.stringify(items[index])));
+		CP.saveItem(props);
 		CP.selectNextItem(tag);
 	},
-	upItem:({tag,items,index,set})=>{
+	upItem:(props)=>{
+		var {tag,items,index}=props;
 		if(!items[index-1])return false;
 		items.splice(index-1,2,items[index],items[index-1]);
-		set({items:items});
+		CP.saveItem(props);
 		CP.selectPrevItem(tag);
 	},
-	downItem:({tag,items,index,set})=>{
+	downItem:(props)=>{
+		var {tag,items,index}=props;
 		if(!items[index+1])return false;
 		items.splice(index,2,items[index+1],items[index]);
-		set({items:items});
+		CP.saveItem(props);
 		CP.selectNextItem(tag);
 	},
 	
@@ -191,7 +199,7 @@
 		if(i===-1){if(color){classArray.push('color'+color);}}
 		else{if(color){classArray.splice(i,1,'color'+color);}else{classArray.splice(i,1)}}
 		items[index].classes=classArray.join(' ');
-		set({[itemsKey]:items});
+		set({[itemsKey]:JSON.parse(JSON.stringify(items))});
 	},
 	getItemColor:({items,index})=>{
 		let c=items[index].classes.split(' ').find(cls=>(cls.substr(0,5)==='color'));
@@ -222,7 +230,7 @@
         if(Array.isArray(value)){classArray=classArray.concat(value);}
 		else{classArray.push(value);}
 		items[index].classes=classArray.join(' ');
-		set({[itemsKey]:items});
+		set({[itemsKey]:JSON.parse(JSON.stringify(items))});
 	},
 	getItemSelectiveClass:({items,index},values)=>{
 		if(!items[index].classes){return false;}
@@ -238,7 +246,7 @@
 		if(i===-1){classArray.push(value);}
 		else{classArray.splice(i,1);}
 		items[index].classes=classArray.join(' ');
-		set({[itemsKey]:items});
+		set({[itemsKey]:JSON.parse(JSON.stringify(items))});
 	},
 	hasItemClass:({items,index},value)=>{
 		let classArray=items[index].classes.split(' ');
@@ -280,21 +288,56 @@
 		});
 		return obj;
 	},
+	createStyleString:(data)=>{
+		return Object.keys(data).map((key)=>{
+			return key+':'+data[key]+';';
+		}).join('');
+	},
+	createStyleCode:(data)=>{
+		return Object.keys(data).map((sel)=>{
+			return sel+'{'+CP.createStyleString(data[sel])+'}';
+		}).join('');
+	},
+	
+	wordsToFlags:(words)=>{
+		var rtn={};
+		words.split(' ').map((word)=>{rtn[word]=true;});
+		return rtn;
+	}
 };
-const SelectResponsiveImage=({className,attr,set,keys,index,sizes,size})=>{
+const SelectResponsiveImage=({className,attr,set,keys,index,sizes,size,ofSP})=>{
 	let type,onClick,item;
-	if(keys.items){
-		item=attr[keys.items][index];
-		onClick=(e)=>CP.selectImage(keys,function(data){
-			let rusult={};
-			rusult[keys.items]=attr[keys.items].map((obj)=>jQuery.extend(true,{},obj));
-			rusult[keys.items][index]=jQuery.extend({},item,data);
-			set(rusult);
-		},size);
+	keys=keys || {};
+	if(ofSP){
+		if(keys.items){
+			item=attr[keys.items][index];
+			onClick=(e)=>CP.selectImage({src:'src'},function({src}){
+				var newItems=JSON.parse(JSON.stringify(attr[keys.items]));
+				newItems[index][keys.srcset]=newItems[index][keys.srcset].replace(/[^,]+ 480w,/,src+' 480w,');
+				set({[keys.items]:newItems});
+			},size || 'medium_large');
+		}
+		else{
+			item=attr;
+			onClick=(e)=>CP.selectImage({src:'src'},function({src}){
+				set({[keys.srcset]:item[keys.srcset].replace(/[^,]+ 480w,/,src+' 480w,')});
+			},size || 'medium_large');
+		}
 	}
 	else{
-		item=attr;
-		onClick=(e)=>CP.selectImage(keys,set);
+		if(keys.items){
+			item=attr[keys.items][index];
+			onClick=(e)=>CP.selectImage(keys,function(data){
+				let rusult={};
+				rusult[keys.items]=attr[keys.items].map((obj)=>jQuery.extend(true,{},obj));
+				rusult[keys.items][index]=jQuery.extend({},item,data);
+				set(rusult);
+			},size);
+		}
+		else{
+			item=attr;
+			onClick=(e)=>CP.selectImage(keys,set,size);
+		}
 	}
 	if(item[keys.mime]){type=item[keys.mime].split('/')[0];}
 	else{type='image';}
@@ -449,6 +492,26 @@ const ItemControlInfoPanel=()=>{
 	);
 }
 
+const EditItems=(props)=>{
+	const {atts,set}=props;
+	const key=props.key || 'item';
+	var items=atts[key];
+	const save=()=>{
+		set({[key]:JSON.parse(JSON.stringify(items))});
+	};
+	return (
+		<ul className="EditItems">
+			{props.items.map((item)=>{
+				return (
+					<li className="item">
+						
+					</li>
+				);
+			})}
+		</ul>
+	);
+}
+
 const SelectClassPanel=(props)=>{
 	const SelectClass=(prm)=>{
 		let rtn=[];
@@ -568,6 +631,8 @@ const SelectClassPanel=(props)=>{
                                 attr={props.attr}
                                 keys={prm.keys}
                                 size={prm.size}
+								sizes={prm.sizes}
+								ofSP={prm.ofSP}
                             />
                         );
                         break;
@@ -597,30 +662,46 @@ const SelectClassPanel=(props)=>{
                     values=Object.keys(prm.values);
                     options=values.map((cls)=>{return {label:prm.values[cls],value:cls};});
                 }
+				
+				let onChangeCB=(cls)=>{
+					let prevCls=CP.getSelectiveClass(props,prm.values,prm.key);
+					let sels=[];
+					if(prevCls){
+						if(subClasses[prevCls]){sels=sels.concat(subClasses[prevCls]);}
+						if(bindClasses[prevCls]){sels=sels.concat(bindClasses[prevCls]);}
+						sels=_.difference(sels,subClasses[cls]);
+					}
+					sels=sels.concat(values);
 
-                rtn.push(
-                    <SelectControl
-                        label={prm.label}
-                        onChange={(cls)=>{
-                            let prevCls=CP.getSelectiveClass(props,prm.values,prm.key);
-                            let sels=[];
-                            if(prevCls){
-                                if(subClasses[prevCls]){sels=sels.concat(subClasses[prevCls]);}
-                                if(bindClasses[prevCls]){sels=sels.concat(bindClasses[prevCls]);}
-                                sels=_.difference(sels,subClasses[cls]);
-                            }
-                            sels=sels.concat(values);
+					CP.switchSelectiveClass(
+						props,sels,
+						bindClasses[cls].concat([cls]),
+						prm.key
+					);
+				};
+				
+				switch(prm.type){
+					case 'radio':
+						rtn.push(
+							<RadioControl
+								label={prm.label}
+								onChange={onChangeCB}
+								selected={CP.getSelectiveClass(props,prm.values,prm.key)}
+								options={options}
+							/>
+						);
+						break;
+					default:
+						rtn.push(
+							<SelectControl
+								label={prm.label}
+								onChange={onChangeCB}
+								value={CP.getSelectiveClass(props,prm.values,prm.key)}
+								options={options}
+							/>
+						);
+				}
 
-                            CP.switchSelectiveClass(
-                                props,sels,
-                                bindClasses[cls].concat([cls]),
-                                prm.key
-                            );
-                        }}
-                        value={CP.getSelectiveClass(props,prm.values,prm.key)}
-                        options={options}
-                    />
-                );
 
                 if(prm.sub){
                     let currentClass=CP.getSelectiveClass(props,prm.values,prm.key);
@@ -657,11 +738,12 @@ const SelectClassPanel=(props)=>{
 	)
 }
 const SelectItemClassPanel=(props)=>{
-	const {items,itemsKey,index,set,attr,triggerClasses}=props;
+	const {items,index,set,attr,triggerClasses}=props;
+	let {itemsKey,itemClasses}=props;
 
 	if(!items[index]){return false;}
 	
-	let {itemClasses}=props;
+	itemsKey=itemsKey || 'items';
 	if(!items[index].classes){items[index].classes='item';}
 	else if(items[index].classes.search(/\bitem\b/)===-1){items[index].classes+=' item';}
 	let classes=items[index].classes;
@@ -743,6 +825,38 @@ const SelectItemClassPanel=(props)=>{
 				);
 			}
 		}
+		else if(prm.input){
+			switch(prm.input){
+				case 'text':
+					rtn.push(
+						<TextControl
+							label={prm.label}
+							value={items[index][prm.key]}
+							onChange={(val)=>{
+								let newItems=JSON.parse(JSON.stringify(items));
+								newItems[index][prm.key]=val;
+								console.log({[itemsKey]:newItems});
+								set({[itemsKey]:newItems});
+							}}
+						/>
+					);
+					break;
+				case 'image':
+					rtn.push(
+						<SelectResponsiveImage
+							set={props.set}
+							attr={props.attr}
+							keys={prm.keys}
+							index={index}
+							size={prm.size}
+							sizes={prm.sizes}
+							ofSP={prm.ofSP}
+						/>
+					);
+					break;
+					
+			}
+		}
 		else if(_.isObject(prm.values)){
 			let options;
 			if(Array.isArray(prm.values)){
@@ -751,19 +865,32 @@ const SelectItemClassPanel=(props)=>{
 			else{
 				options=Object.keys(prm.values).map((cls)=>{return {label:prm.values[cls],value:cls};});
 			}
-			rtn.push(
-				<SelectControl
-					label={prm.label}
-					onChange={(cls)=>CP.switchItemSelectiveClass(props,prm.values,cls,itemsKey)}
-					value={CP.getItemSelectiveClass(props,prm.values)}
-					options={options}
-				/>
-			);
+			switch(prm.type){
+				case 'radio':
+					rtn.push(
+						<RadioControl
+							label={prm.label}
+							onChange={(cls)=>CP.switchItemSelectiveClass(props,prm.values,cls,itemsKey)}
+							selected={CP.getItemSelectiveClass(props,prm.values)}
+							options={options}
+						/>
+					);
+					break;
+				default:
+					rtn.push(
+						<SelectControl
+							label={prm.label}
+							onChange={(cls)=>CP.switchItemSelectiveClass(props,prm.values,cls,itemsKey)}
+							value={CP.getItemSelectiveClass(props,prm.values)}
+							options={options}
+						/>
+					);
+			}
 			if(prm.sub){
 				let currentClass=CP.getItemSelectiveClass(props,prm.values);
 				if(currentClass && prm.sub[currentClass]){
 					let sub=[];
-					prm.sub[currentClass].map((prm)=>{sub.push(SelectItemClass(prm))});
+					prm.sub[currentClass].map((prm)=>{sub.push(selectItemClass(prm))});
 					rtn.push(<div className="sub">{sub}</div>);
 				}
 			}

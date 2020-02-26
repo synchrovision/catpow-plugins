@@ -3,7 +3,7 @@ namespace Catpow;
 $atts=(array)$atts;
 do{
 	if(isset($atts['is_user_logged_in'])){
-		if($prm['is_user_logged_in']==='false' || empty($prm['is_user_logged_in'])){
+		if($atts['is_user_logged_in']==='false' || empty($atts['is_user_logged_in'])){
 			if(is_user_logged_in()){break;}
 		}
 		elseif(!is_user_logged_in()){break;}
@@ -11,8 +11,8 @@ do{
 	if(in_array('is_user_logged_in',$atts)){
 		if(!is_user_logged_in()){break;}
 	}
-	if(isset($prm['current_user_can'])){
-		if(current_user_can($prm['current_user_can'])){break;}
+	if(isset($atts['current_user_can'])){
+		if(!current_user_can($atts['current_user_can'])){break;}
 	}
 	if(\cp::$content->form){
 		$form=\cp::$content->form;

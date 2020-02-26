@@ -1,9 +1,18 @@
 <?php
 namespace Catpow;
-$prm=shortcode_atts([0=>'name']);
+$prm=shortcode_atts([0=>'name'],$atts);
+$user=get_user();
 switch($prm[0]){
-	case 'name':echo get_user()->display_name;break;
-	case 'login':echo get_user()->user_login;break;
-	case 'email':echo get_user()->user_email;break;
-	case 'role':echo $GLOBALS['user_datas'][reset(get_user()->roles)]['label'];break;
+	case 'id':echo $user->ID;break;
+	case 'name':echo $user->display_name;break;
+	case 'login':echo $user->user_login;break;
+	case 'email':echo $user->user_email;break;
+	case 'role':echo $GLOBALS['user_datas'][reset($user->roles)]['label'];break;
+	case 'lost_password_url':echo wp_lostpassword_url();break;
+	case 'reset_password_url':
+		$key=get_password_reset_key($user);
+		echo network_site_url("wp-login.php?action=rp&key=$key&login=".rawurlencode($user->user_login));
+		break;
+	default:
+		echo get_user_meta($user->ID,$prm[0],true);
 }

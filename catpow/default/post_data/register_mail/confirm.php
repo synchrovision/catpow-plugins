@@ -11,7 +11,7 @@ ob_start();
 <h3 style="font-size: 24px;font-weight: 800;color:#666;margin-bottom: 10px;">登録申請を受け付けました。</h3>
 <p style="font-size: 12px;color:#666;">下記のURLにアクセスして登録手続きを続行してください。</p>
 
-<a href="[task url]" style="display:block;text-align: center;color:#fff;font-size:18px;font-weight: 800;text-decoration: none;margin:30px auto;padding:5px;width:200px;background: #008;border-radius: 3px;">確認</a>
+<a href="[task url]" style="display:block;text-align: center;color:#fff;font-size:18px;font-weight: 800;text-decoration: none;margin:30px auto;padding:5px;width:200px;background: #008;border-radius: 3px;">登録フォーム</a>
 </div>
 
 

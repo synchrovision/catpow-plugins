@@ -26,7 +26,9 @@ ob_start();
 	
 <!-- wp:catpow/formbuttons -->
 <ul class="wp-block-catpow-formbuttons buttons"><li class="item primary check">[button 次へ step2]</li></ul>
-<!-- /wp:catpow/formbuttons --></div></div></section>
+<!-- /wp:catpow/formbuttons -->
+<!-- wp:shortcode -->[§ message]<!-- /wp:shortcode -->
+</div></div></section>
 <!-- /wp:catpow/section -->
 
 

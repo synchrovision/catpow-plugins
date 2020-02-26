@@ -13,9 +13,8 @@ ob_start();
 <!-- wp:paragraph -->
 <p class="has-regular-font-size">確認メールを送信しました。メールに記載されているURLにアクセスしてから次のステップへ進んでください。</p>
 <!-- /wp:paragraph -->
-<!-- wp:shortcode -->
-[§ message]
-<!-- /wp:shortcode --></div></div></section>
+<!-- wp:shortcode -->[§ message]<!-- /wp:shortcode -->
+</div></div></section>
 <!-- /wp:catpow/section -->
 
 

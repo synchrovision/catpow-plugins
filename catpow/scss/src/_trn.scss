@@ -7,6 +7,7 @@
 	);
 	$ffncs:(hue:hue-rotate,str:saturate,brt:brightness,inv:invert,shd:drop-shadow,blr:blur,cnt:contrast);
 	$bfvals:(h:hidden,v:visible);
+	$avals:(i:infinite,r:reverse,a:alternate,e:ease,l:linear,fw:forwards,bw:backwards,b:both);
 	$tf:();
 	@each $key,$val in $trn{
 		@if $key == 'x' or $key == 'y' or $key == 'z' or $key == 'p'{$val:cp_get_size_value($val);}
@@ -17,10 +18,10 @@
 		@if $key == 'p'{perspective:$val;}
 		@if $key == 'd'{transition-delay:$val;}
 		@if $key == 'e'{transition-timing-function:ease($val);}
+		@if $key == 'a'{animation:replace_values($val,$avals);}
 		@if $key == 'o'{@include opacity($val);}
 		@if $key == 't'{@include transition($val);}
 		@if $key == 'tb'{@include transition_by($val);}
-		@if $key == 'a'{@include animation($val);}
 		@if $key == 'bf'{@include backface-visibility(map-get(bfvals,$val));}
 		@if $key == 'to'{@include transform-origin($val);}
 	}

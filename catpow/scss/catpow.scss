@@ -1,6 +1,6 @@
 @charset "utf-8";
 
-$gothic:'Helvetica Neue','Hiragino Kaku Gothic ProN','Yu Gothic',メイリオ,sans-serif;
+$gothic:('Helvetica Neue',"游ゴシック Medium",YuGothic,YuGothicM,"Hiragino Kaku Gothic ProN","Hiragino Kaku Gothic Pro",メイリオ,Meiryo,sans-serif);
 $mincho:Georgiam,'Hiragino Mincho ProN','Yu Mincho', serif;
 
 $shd:rgba(0,0,0,.3);
@@ -23,7 +23,7 @@ $shd:rgba(0,0,0,.3);
 @import "src/_bp.scss";
 
 @import "src/_trn.scss";
-@import "src/_animation.scss";
+@import "src/_anm.scss";
 @import "src/_gradient.scss";
 @import "src/_shd.scss";
 

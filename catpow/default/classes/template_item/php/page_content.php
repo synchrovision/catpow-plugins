@@ -19,7 +19,7 @@ class page_content extends \Catpow\template_item\php{
 						['div.contents',
 						 	['header',
 							 	['div.title',
-									['h2','@title'],
+									['h3.heading','@title'],
 								 	['p','@desc']
 								]
 							],

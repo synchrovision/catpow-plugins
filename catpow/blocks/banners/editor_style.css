@@ -1,0 +1,12 @@
+@charset "utf-8";
+ul.wp-block-catpow-banners li.item {
+  position: relative; }
+  ul.wp-block-catpow-banners li.item .itemControl {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem; }
+  ul.wp-block-catpow-banners li.item > .link {
+    position: relative; }
+    ul.wp-block-catpow-banners li.item > .link input {
+      margin: 1rem auto;
+      color: #444; }

@@ -3,7 +3,7 @@
 	icon: 'editor-code',
 	category: 'catpow',
 	edit({attributes,setAttributes,className}){
-        const {content_path,post_data_path,inputs}=attributes;
+        const {content_path,post_data_path,inputs,data_id,values}=attributes;
 		
 		let postDataSelection=false;
 		
@@ -32,7 +32,7 @@
 				<ServerSideRender block='catpow/form' attributes={attributes}/>
 			</div>,
 			<InspectorControls>
-				<PanelBody title="Path">
+				<PanelBody title="フォーム">
 					<TreeSelect
 						label='path'
 						selectedId={content_path}
@@ -52,11 +52,21 @@
 						/>
 					}
 				</PanelBody>
-                <PanelBody title="初期入力値">
-                    <TextareaControl
-                        label='inputs'
+                <PanelBody title="入力値" initialOpen={false}>
+                    <TextControl
+                        label='入力名'
                         value={inputs}
-                        onChange={(inputs)=>{setAttributes({inputs:inputs});}}
+                        onChange={(inputs)=>{setAttributes({inputs});}}
+                    />
+                    <TextControl
+                        label='データID'
+                        value={data_id}
+                        onChange={(data_id)=>{setAttributes({data_id});}}
+                    />
+                    <TextareaControl
+                        label='初期値'
+                        value={values}
+                        onChange={(values)=>{setAttributes({values});}}
                     />
                 </PanelBody>
 			</InspectorControls>

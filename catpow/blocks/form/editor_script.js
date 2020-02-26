@@ -8,7 +8,9 @@ registerBlockType('catpow/form', {
 		    className = _ref.className;
 		var content_path = attributes.content_path,
 		    post_data_path = attributes.post_data_path,
-		    inputs = attributes.inputs;
+		    inputs = attributes.inputs,
+		    data_id = attributes.data_id,
+		    values = attributes.values;
 
 
 		var postDataSelection = false;
@@ -49,7 +51,7 @@ registerBlockType('catpow/form', {
 			null,
 			wp.element.createElement(
 				PanelBody,
-				{ title: 'Path' },
+				{ title: '\u30D5\u30A9\u30FC\u30E0' },
 				wp.element.createElement(TreeSelect, {
 					label: 'path',
 					selectedId: content_path,
@@ -69,12 +71,26 @@ registerBlockType('catpow/form', {
 			),
 			wp.element.createElement(
 				PanelBody,
-				{ title: '\u521D\u671F\u5165\u529B\u5024' },
-				wp.element.createElement(TextareaControl, {
-					label: 'inputs',
+				{ title: '\u5165\u529B\u5024', initialOpen: false },
+				wp.element.createElement(TextControl, {
+					label: '\u5165\u529B\u540D',
 					value: inputs,
 					onChange: function onChange(inputs) {
 						setAttributes({ inputs: inputs });
+					}
+				}),
+				wp.element.createElement(TextControl, {
+					label: '\u30C7\u30FC\u30BFID',
+					value: data_id,
+					onChange: function onChange(data_id) {
+						setAttributes({ data_id: data_id });
+					}
+				}),
+				wp.element.createElement(TextareaControl, {
+					label: '\u521D\u671F\u5024',
+					value: values,
+					onChange: function onChange(values) {
+						setAttributes({ values: values });
 					}
 				})
 			)

@@ -44,7 +44,7 @@ function cp_form_init($form){
 					if($watcher.is('[data-param]')){param=JSON.parse($watcher.attr('data-param'));}else{param=false;}
 					if($watcher.is('[data-callback]')){callback=$watcher.attr('data-callback');}else{callback='replace_item';}
 					cp_form_submit($watcher,$watcher.attr('id'),callback,param);
-				};
+				}
 			});
 		})
 	});
@@ -53,7 +53,7 @@ function cp_form_init($form){
 
 function cp_form_get_fd($item){
     var $=jQuery;
-    var $form,$inputs,$smart_inputs,fd;
+    var $form,fd;
     if($item.is('form')){
         fd=new FormData($item.get(0));
     }
@@ -96,7 +96,6 @@ function cp_form_submit($item,action,callback,param){
         $('body').addClass('busy_mode');
         $.ajax(prm).done(function(res){
             $('body').removeClass('busy_mode');
-            console.log(res);
             var cbs;
             cbs={};
             if(res.callback){
@@ -104,14 +103,14 @@ function cp_form_submit($item,action,callback,param){
                     res.callback=res.callback.split(',');
                 }
                 $.each(res.callback,function(i,cb){
-                    //cbs[cb]=window[cb];
                     if(cb in $.catpow.cp_form.callback){
                         cbs[cb]=$.catpow.cp_form.callback[cb];
                     }
                     else{cbs[cb]=window[cb];}
                 });
             }
-            else if(callback){
+            else{
+				if(!callback){callback='replace'}
                 if(typeof callback === 'function'){cbs.callback=callback;}
                 else{
                     if(!Array.isArray(callback)){callback=callback.split(',');}
@@ -126,9 +125,6 @@ function cp_form_submit($item,action,callback,param){
                     });
                 }
             }
-            else{
-                cbs.cp_form_update_results=window.cp_form_update_results;
-            }
             $form.trigger('before_cp_form_callback',res);
             $.each(cbs,function(cbn,cb){
                 if(cbn){$form.trigger(new $.Event('before_'+cbn));}
@@ -140,11 +136,11 @@ function cp_form_submit($item,action,callback,param){
             dfr.resolve();
         }).fail(function(e,ts,et){
             $('body').removeClass('busy_mode');
-            console.log('status:'+e.status);
-            console.log(ts);
-            console.log(et);
+            window.console.log('status:'+e.status);
+            window.console.log(ts);
+            window.console.log(et);
             if(parseInt(e.status)===200){
-                console.log('data:');
+                window.console.log('data:');
                 $.ajax({
                     url:cp.ajax_url,
                     type:'post',
@@ -153,14 +149,14 @@ function cp_form_submit($item,action,callback,param){
                     processData:false,
                     contentType:false,
                 }).done(function(res){
-                    console.log(res);
+                    window.console.log(res);
                 });
             }
             dfr.reject();
         });
     }
 	catch(e){
-        console.log(e);
+        window.console.log(e);
     }
     return dfr.promise();
 }
@@ -169,13 +165,17 @@ function cp_form_submit($item,action,callback,param){
     $.catpow.cp_form={
         callback:{
             message:function($form,data){
-                //console.log(data);
+                
 				var form_id;
 				if(!$form.is('form,[data-role="cp_form_section"]')){$form=$form.closest('form,[data-role="cp_form_section"]');}
                 if($form.is('form')){form_id=$form.attr('id');}
 				else{form_id=$form.attr('data-section-id');}
 				var $msgBox=$('[data-role="cp_form_message"][data-form-id="'+form_id+'"]',$form);
-                if($msgBox.length===0){console.log('Messge Box for the form is not exists');return;}
+                if($msgBox.length===0){
+					window.console.erroe('Messge Box for the form is not exists');
+					window.console.error(data);
+					return;
+				}
 				$msgBox.removeClass('has_task').children().remove();
                 data.message.forEach(function(msg){
                     if(!msg.class){msg.class='';}
@@ -189,8 +189,8 @@ function cp_form_submit($item,action,callback,param){
 						else{
 							var $tgt=$(msg.selector,$form);
 							if($tgt.length===0){
-								console.log('Invalid input "'+msg.selector+'" was not found in this form');
-								console.log(msg.message);
+								window.console.error('Invalid input "'+msg.selector+'" was not found in this form');
+								window.console.error(msg.message);
 								return;
 							}
 							$msg.addClass('has_target');
@@ -206,96 +206,101 @@ function cp_form_submit($item,action,callback,param){
             },
             
             replace:function($form,data){
-                if(!$form.is('form')){$form=$form.closest('form');}
-                $form.find('div.cp_form_content').html(data.html).trigger('replece');
-                return $('html,body').animate({scrollTop:$form.offset().top-100},500).promise();
+				var $tgt,sel;
+				if(data.target){
+					sel='[data-role="cp_form_'+data.target+'"]';
+					if(data.target==='section' && data.section_id){
+						$form=$form.closest('form');
+						sel+='[data-section-id="'+data.section_id+'"]';
+					}
+					if($form.is('form')){$tgt=$(sel,$form);}
+					else{$tgt=$form.closest(sel);}
+				}
+				else{
+					if($form.is('form')){$tgt=$('[data-role="cp_form_content"]',$form);}
+					else{$tgt=$form.closest('[data-role="cp_form_content"],[data-role="cp_form_section"]');}
+				}
+               
+				if(data.deps){
+					$.cp_require_styles(data.deps.styles);
+					$.cp_require_scripts(data.deps.scripts).done(function(){
+						if(data.delay){$tgt.cp_delay_replace(data.html);}
+						else{$tgt.html(data.html)}
+					});
+				}
+				else{
+					if(data.delay){$tgt.cp_delay_replace(data.html);}
+					else{$tgt.html(data.html)}
+				}
+				$tgt.trigger('replace');
+				return $('html,body').animate({scrollTop:$tgt.offset().top-100},500).promise();
             },
             insert:function($item,data){
 				var $form,$tgt;
-                if($item.is('form')){$form=$item;}
-				else{$form=$item.closest('form');}
+                $form=$item.closest('form');
 				if(data.selector===undefined){$tgt=$item;}
-				else{$tgt=$form.cp_find(data.selector);  }
-				if($tgt.length===0){console.log(data.selector+'" was not found in this form');}
+				else{$tgt=$form.cp_find(data.selector);}
+				if($tgt.length===0){window.console.error(data.selector+'" was not found in this form');}
 				if(data.position===undefined){data.position='before';}
 				var $new=$tgt[data.position](data.html);
+				$form.trigger('update');
                 return $('html,body').animate({scrollTop:$new.offset().top-100},500).promise();
             },
-            update_inputs:function($form,data){
-                if(!$form.is('form')){$form=$form.closest('form');}
-                $('div[data-role="cp_form_inputs"]',$form).html(data.html).trigger('replace');
-                return true;
-            },
-            update_results:function($form,data){
-                if(!$form.is('form')){$form=$form.closest('form');}
-                $('div[data-role="cp_form_results"]',$form).html(data.html).trigger('replace');
-                return true;
-            },
-            update_nav:function($form,data){
-                if(!$form.is('form')){$form=$form.closest('form');}
-                $('div[data-role="cp_form_nav"]',$form).html(data.nav).trigger('replace');
-                return true;
-            },
-            update_section:function($section,data){
+            remove:function($form,data){
+				var $tgt;
                 if(data.section_id){
-                    var $form;
-                    if(!$section.is('form')){$form=$section.closest('form');}
-                    else{$form=$section;}
-                    $section=$form.find('.cp_form_section[data-section-id="'+data.section_id+'"]');
+					$tgt=$('[data-role="cp_form_section"][data-section-id="'+data.section_id+'"]',$form.closest('form'));
                 }
-                $section.html(data.html).trigger('replace');
+				else{
+					$tgt=$form.closest('form,[data-role="cp_form_section"]');
+				}
+				if(data.delay){$tgt.cp_delay_remove();}
+				else{$tgt.remove();}
                 return true;
             },
-            replace_item:function($item,data){
-                var $form;
-                if($item.is('form')){$form=$item;}
-                else{$form=$item.closest('form');}
+            replace_items:function($item,data){
+                var $form=$item.closest('form');
                 data.items.forEach(function(item){
                     var $tgt=$form.cp_find(item.selector);
                     if($tgt.length===0){
-                        console.log(item.selector+'" was not found in this form');
+                        window.console.error(item.selector+'" was not found in this form');
                     }
 					var $new=$(item.html);
                     $tgt.replaceWith($new);
-					//$tgt.trigger('replace');
                 });
                 $form.trigger('update');
                 return true;
             },
-            remove_section:function($section,data){
-                if(data.section_id){
-                    var $form;
-                    if(!$section.is('form')){$form=$section.closest('form');}
-                    else{$form=$section;}
-                    $section=$form.find('.cp_form_section[data-section-id="'+data.section_id+'"]');
-                }
-                $section.remove().trigger('replace');
+            insert_items:function($item,data){
+                var $form=$item.closest('form');
+                var $tgt;
+                data.items.forEach(function(item){
+                    if(item.selector===undefined){$tgt=$item;}
+                    else{
+                        $tgt=$item.cp_find(item.selector);
+                    }
+                    if($tgt.length===0){
+                        window.console.error(item.selector+'" was not found in this form');
+                    }
+                    if(item.position===undefined){item.position='before';}
+                    $tgt[item.position](item.html);
+                });
+                $form.trigger('update');
                 return true;
             },
+			
             delay_replace:function($form,data){
-                if(!$form.is('form')){$form=$form.closest('form');}
-                $form.find('div.cp_form_content').cp_delay_replace(data.html);
-                return $('html,body').animate({scrollTop:$form.offset().top-100},500).promise();
+				data.delay=true;
+                return $.catpow.cp_form.replace($form,data)
             },
-            delay_update_inputs:function($form,data){
-                if(!$form.is('form')){$form=$form.closest('form');}
-                return $('div[data-role="cp_form_inputs"]',$form).cp_delay_replace(data.html);
-            },
-            delay_update_results:function($form,data){
-                if(!$form.is('form')){$form=$form.closest('form');}
-                return $('div[data-role="cp_form_results"]',$form).cp_delay_replace(data.html);
-            },
-            delay_update_section:function($section,data){
-                return $section.cp_delay_replace(data.html);
-            },
-            delay_replace_item:function($form,data){
-                if(!$form.is('form')){$form=$form.closest('form');}
+            delay_replace_items:function($form,data){
+                $form=$form.closest('form');
                 var dfr=new $.Deferred();
                 var cnt=0;
                 data.items.forEach(function(item){
                     var $tgt=$form.find(item.selector).closest('.cp-meta-item');
                     if($tgt.length===0){
-                        console.log('Item to replace "'+item.selector+'" was not found in this form');
+                        window.console.log('Item to replace "'+item.selector+'" was not found in this form');
                     }
                     cnt++;
                     $tgt.cp_delay_replace(item.html).done(function(){
@@ -305,15 +310,11 @@ function cp_form_submit($item,action,callback,param){
                 });
                 return dfr.promise();
             },
-            delay_remove_section:function($section,data){
-                if(data.section_id){
-                    var $form;
-                    if(!$section.is('form')){$form=$section.closest('form');}
-                    else{$form=$section;}
-                    $section=$form.find('.cp_form_section[data-section-id="'+data.section_id+'"]');
-                }
-                return $section.cp_delay_remove();
+            delay_remove:function($form,data){
+				data.delay=true;
+                return $.catpow.cp_form.remove($form,data)
             },
+			
             lightbox:function($item,data){
                 var $cnt=$item.find('.cp_lightbox_container');
                 var dfr=new $.Deferred();
@@ -347,54 +348,9 @@ function cp_form_submit($item,action,callback,param){
                 setTimeout(function(){dfr.resolve();},1000);
                 return dfr.promise();
             },
-            insert_html:function($item,data){
-                var $form;
-                if($item.is('form')){$form=$item;}
-                else{$form=$item.closest('form');}
-                var $tgt;
-                if(data.selector===undefined){$tgt=$item;}
-                else{$tgt=$item.cp_find(data.selector);}
-                if($tgt.length===0){
-                    console.log(data.selector+'" was not found in this form');
-                }
-                if(data.position===undefined){data.position='append';}
-                $tgt[data.position](data.html);
-                $item.closest('.cp_form').trigger('update');
-                return true;
-            },
-            insert_items:function($item,data){
-                var $form;
-                if($item.is('form')){$form=$item;}
-                else{$form=$item.closest('form');}
-                var $tgt;
-                data.items.forEach(function(item){
-                    if(item.selector===undefined){$tgt=$item;}
-                    else{
-                        $tgt=$item.cp_find(item.selector);
-                    }
-                    if($tgt.length===0){
-                        console.log(item.selector+'" was not found in this form');
-                    }
-                    if(item.postion===undefined){item.postion='before';}
-                    $tgt[item.postion](item.html);
-                });
-                $form.trigger('update');
-                return true;
-            },
-            section_message:function($sec,data){
-                console.log(data);
-                if(!$sec.is('.cp_form_section')){$sec=$sec.closest('.cp_form_section');}
-                var $tgt=$sec.find('.cp_form_section_message').not($sec.find('.cp_form_section .cp_form_section_message'));
-                data.message.forEach(function(msg){
-                    $tgt.find('.message').remove();
-                    if(!msg.class){msg.class='';}
-                    $tgt.append('<div class="message '+msg.class+'">'+msg.message+'</div>');
-                });
-                $sec.trigger('update');
-                return true;
-            },
+			
             feed:function($form,data){
-                if(!$form.is('form')){$form=$form.closest('form');}
+                $form=$form.closest('form');
                 data.message.forEach(function(msg){
                     $form.find(msg.selector).addClass('has_message '+msg.class).after('<span class="message '+msg.class+'">'+msg.message+'</span>');
                 });
@@ -479,15 +435,15 @@ function cp_form_submit($item,action,callback,param){
                                     setTimeout(tick,prm.interval);
                                 }
                             }
-                            catch(e){console.log(e);dfr.reject();}
+                            catch(e){window.console.error(e);dfr.reject();}
                         }
                         else{setTimeout(tick,prm.interval);}
                     }).fail(function(e,ts,et){
-                        console.log('status:'+e.status);
-                        console.log(ts);
-                        console.log(et);
+                        window.console.error('status:'+e.status);
+                        window.console.error(ts);
+                        window.console.error(et);
                         if(parseInt(e.status)===200){
-                            console.log('data:');
+                            window.console.log('data:');
                             $.ajax({
                                 url:cp.plugins_url+'/catpow/callee/cp_form_tick.php',
                                 type:'post',
@@ -496,7 +452,7 @@ function cp_form_submit($item,action,callback,param){
                                 processData:false,
                                 contentType:false,
                             }).done(function(res){
-                                console.log(res);
+                                window.console.error(res);
                             });
                         }
                     });

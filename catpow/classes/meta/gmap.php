@@ -8,6 +8,9 @@ class gmap extends data{
 	public static function output($meta,$prm){
         $val=$meta->value;
 		static $token,$mapOptions_default,$markerOptions_default,$is_called;
+		
+		wp_enqueue_script('cp_gmap');
+		
 		if(empty($token)){
 			$gauth_conf=get_option('gauth_conf');
 			if(empty($gauth_conf[0]['api_key'][0])){

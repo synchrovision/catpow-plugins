@@ -8,7 +8,7 @@
 		classes:{source:'attribute',selector:'section',attribute:'class',default:'wp-block-catpow-section article level3 center catch'},
 
 		prefix:{source:'children',selector:'header div.prefix'},
-		title:{type:'array',source:'children',selector:'header h2',default:['Title']},
+		title:{type:'array',source:'children',selector:'header h2,header .heading',default:['Title']},
 		read:{type:'array',source:'children',selector:'header p'},
 
 		headerImageMime:{source:'attribute',selector:'header .image [src]',attribute:'data-mime'},
@@ -55,66 +55,78 @@
 		};
 		
 		const selectiveClasses=[
-			{label:'タイプ',values:[
-				'scene',
-				'article',
-				'column'
-			],sub:{
-				scene:[
-					'color',
-					'pattern',
-					{label:'プレフィクス',values:'hasPrefix'},
-					{label:'ヘッダ画像',values:'hasHeaderImage',sub:[
-						{input:'image',keys:imageKeys.headerImage,size:imageSizes.headerImage}
-					]},
-					{label:'ヘッダ背景画像',values:'hasHeaderBackgroundImage',sub:[
-						{input:'image',keys:imageKeys.headerBackgroundImage},
-						{label:'薄く',values:'paleHeaderBG'}
-					]},
-					{label:'抜き色文字',values:'inverseText',sub:[
-						{label:'ヘッダ背景色',values:'hasHeaderBackgroundColor'}
-					]},
-					{label:'リード',values:'hasRead'},
-					{label:'背景画像',values:'hasBackgroundImage',sub:[
-						{input:'image',keys:imageKeys.backgroundImage},
-						{label:'薄く',values:'paleBG'}
-					]},
-					{label:'背景色',values:'hasBackgroundColor'}
+			{
+				label:'タイプ',
+				values:[
+					'scene',
+					'article',
+					'column'
 				],
-				article:[
-					'color',
-					{label:'レベル',values:{level1:'1',level2:'2',level3:'3',level4:'4',level5:'5',level6:'6'}},
-					{label:'見出しタイプ',values:{header:'ヘッダ',headline:'ヘッドライン',catch:'キャッチ'}},
-					{label:'リード',values:'hasRead'},
-					{label:'背景画像',values:'hasBackgroundImage',sub:[
-						{input:'image',keys:imageKeys.backgroundImage},
-						{label:'薄く',values:'paleBG'}
-					]},
-					{label:'背景色',values:'hasBackgroundColor'}
-				],
-				column:[
-					'color',
-					'pattern',
-					{label:'アイコン',values:'hasIcon',sub:[
-						{label:'種類',values:['check','help','alert','caution','warn']}
-					]},
-					{label:'画像',values:'hasImage',sub:[
-						{input:'image',keys:imageKeys.image}
-					]},
-					{label:'背景画像',values:'hasBackgroundImage',sub:[
-						{input:'image',keys:imageKeys.backgroundImage},
-						{label:'薄く',values:'paleBG'}
-					]},
-					{label:'線',values:{no_border:'なし',thin_border:'細',bold_border:'太'}},
-					{label:'角丸',values:'round'},
-					{label:'影',values:'shadow',sub:[{label:'内側',values:'inset'}]}
-				]
-			}}
+				sub:{
+					scene:[
+						'color',
+						'pattern',
+						{label:'プレフィクス',values:'hasPrefix'},
+						{label:'ヘッダ画像',values:'hasHeaderImage',sub:[
+							{input:'image',keys:imageKeys.headerImage,size:imageSizes.headerImage}
+						]},
+						{label:'ヘッダ背景画像',values:'hasHeaderBackgroundImage',sub:[
+							{input:'image',keys:imageKeys.headerBackgroundImage},
+							{label:'薄く',values:'paleHeaderBG'}
+						]},
+						{label:'抜き色文字',values:'inverseText',sub:[
+							{label:'ヘッダ背景色',values:'hasHeaderBackgroundColor'}
+						]},
+						{label:'リード',values:'hasRead'},
+						{label:'背景画像',values:'hasBackgroundImage',sub:[
+							{input:'image',keys:imageKeys.backgroundImage},
+							{label:'薄く',values:'paleBG'}
+						]},
+						{label:'背景色',values:'hasBackgroundColor'}
+					],
+					article:[
+						'color',
+						{label:'レベル',values:{level2:'2',level3:'3',level4:'4'}},
+						{label:'見出しタイプ',values:{header:'ヘッダ',headline:'ヘッドライン',catch:'キャッチ'}},
+						{label:'ヘッダ画像',values:'hasHeaderImage',sub:[
+							{input:'image',keys:imageKeys.headerImage,size:imageSizes.headerImage}
+						]},
+						{label:'リード',values:'hasRead'},
+						{label:'背景画像',values:'hasBackgroundImage',sub:[
+							{input:'image',keys:imageKeys.backgroundImage},
+							{label:'薄く',values:'paleBG'}
+						]},
+						{label:'背景色',values:'hasBackgroundColor'}
+					],
+					column:[
+						'color',
+						'pattern',
+						{label:'アイコン',values:'hasIcon',sub:[
+							{label:'種類',values:['check','help','alert','caution','warn']}
+						]},
+						{label:'画像',values:'hasImage',sub:[
+							{input:'image',keys:imageKeys.image}
+						]},
+						{label:'背景画像',values:'hasBackgroundImage',sub:[
+							{input:'image',keys:imageKeys.backgroundImage},
+							{label:'薄く',values:'paleBG'}
+						]},
+						{label:'線',values:{no_border:'なし',thin_border:'細',bold_border:'太'}},
+						{label:'角丸',values:'round'},
+						{label:'影',values:'shadow',sub:[{label:'内側',values:'inset'}]}
+					]
+				},
+				bind:{
+					scene:['level1'],
+					column:['level3']
+				}
+			}
 		];
 		
 		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
 		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
 		
+		var level=CP.getNumberClass({attr:attributes},'level');
 		
 		
         return [
@@ -150,7 +162,7 @@
 									/>
 								</div>
 							}
-							<h2><RichText tagName="div" value={title} onChange={(title)=>setAttributes({title:title})}/></h2>
+							{el('h'+level,{className:'heading'},<RichText tagName="div" value={title} onChange={(title)=>setAttributes({title:title})}/>)}
 							{states.hasRead && 
 								<p><RichText tagName="div" value={read} onChange={(read)=>setAttributes({read:read})}/></p>
 							}
@@ -217,6 +229,8 @@
 		var hasImage=hasClass('hasImage');
 		var hasBackgroundImage=hasClass('hasBackgroundImage');
 		
+		var level=CP.getNumberClass({attr:attributes},'level');
+		
 		const imageKeys={
 			image:{mime:"imageMime",src:"imageSrc",alt:"imageAlt",srcset:"imageSrcset"},
 			headerImage:{mime:"headerImageMime",src:"headerImageSrc",alt:"headerImageAlt",srcset:"headerImageSrcset"},
@@ -249,7 +263,7 @@
 									/>
 								</div>
 							}
-							<h2>{title}</h2>
+							{el('h'+level,{className:'heading'},title)}
 							{hasRead && <p>{read}</p>}
 						</div>
 						{hasHeaderBackgroundImage &&
@@ -356,83 +370,6 @@
 					</section>
 				);
 			},
-		},
-		{
-			attributes:{
-				id:{source:'attribute',selector:'section',attribute:'id'},
-				classes:{source:'attribute',selector:'section',attribute:'class',default:''},
-
-				prefix:{source:'children',selector:'header div.prefix'},
-				title:{type:'array',source:'children',selector:'header h2',default:['Title']},
-				read:{type:'array',source:'children',selector:'header p'},
-
-				headerImageMime:{source:'attribute',selector:'header .image [src]',attribute:'data-mime'},
-				headerImageSrc:{source:'attribute',selector:'header .image [src]',attribute:'src',default:cp.theme_url+'/images/dummy.jpg'},
-				headerImageSrcset:{source:'attribute',selector:'header .image [src]',attribute:'srcset'},
-				headerImageAlt:{source:'attribute',selector:'header .image [src]',attribute:'alt'},
-
-				imageMime:{source:'attribute',selector:'.image [src]',attribute:'data-mime'},
-				imageSrc:{source:'attribute',selector:'.image [src]',attribute:'src',default:cp.theme_url+'/images/dummy.jpg'},
-				imageSrcset:{source:'attribute',selector:'.image [src]',attribute:'srcset'},
-				imageAlt:{source:'attribute',selector:'.image [src]',attribute:'alt'},
-
-				backgroundImageSrc:{type:'string',default:cp.theme_url+'/images/dummy.jpg'},
-			},
-			save({attributes,className,setAttributes}){
-				const {id,classes,prefix,title,headerImageSrc,headerImageSrcset,headerImageAlt,read,imageSrc,imageSrcset,imageAlt,backgroundImageSrc}=attributes;
-
-
-				var classArray=classes.split(' ');
-				const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-
-				var hasPrefix=hasClass('hasPrefix');
-				var hasHeaderImage=hasClass('hasHeaderImage');
-				var hasRead=hasClass('hasRead');
-				var hasImage=hasClass('hasImage');
-				var hasBackgroundImage=hasClass('hasBackgroundImage');
-
-				var sectionStyle={};
-				if(hasBackgroundImage){sectionStyle.backgroundImage=`url('${backgroundImageSrc}')`;}
-
-				const imageKeys={
-					image:{mime:"imageMime",src:"imageSrc",alt:"imageAlt",srcset:"imageSrcset"},
-					headerImage:{mime:"headerImageMime",src:"headerImageSrc",alt:"headerImageAlt",srcset:"headerImageSrcset"},
-					backgroundImage:{src:"backgroundImageSrc"}
-				};
-
-
-				return (
-					<section id={id} className={classes} style={sectionStyle}>
-						{hasImage && 
-							<div class="image">
-								<ResponsiveImage
-									attr={attributes}
-									keys={imageKeys.image}
-								/>
-							</div>
-						}
-						<div class="contents">
-							<header>
-								{hasPrefix && 
-									<div class="prefix">{prefix}</div>
-								}
-								{hasHeaderImage &&
-									<div class="image">
-										<ResponsiveImage
-											attr={attributes}
-											keys={imageKeys.headerImage}
-										/>
-									</div>
-								}
-								<h2>{title}</h2>
-								{hasRead && <p>{read}</p>}
-							</header>
-							<div class="text"><InnerBlocks.Content/></div>
-						</div>
-					</section>
-				);
-			},
-			
 		}
 	]
 });

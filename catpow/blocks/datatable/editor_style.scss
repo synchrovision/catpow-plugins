@@ -4,7 +4,7 @@ body table.wp-block-catpow-datatable{
     @include bnd((w:f));
     thead,tbody{
         tr{
-            td{
+            th,td{
                 @include bnd((p:r));
 				div.itemControl{
 					@include bnd((w:7rem));

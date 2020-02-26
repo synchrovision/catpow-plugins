@@ -6,6 +6,34 @@ registerBlockType('catpow/layouttable',{
 	icon: 'editor-table',
 	category: 'catpow',
 	
+	transforms:{
+		from: [
+			{
+				type:'files',
+				isMatch: function(files){
+					if(files[1]){return false;}
+					return files[0].type==='text/csv';
+				},
+				priority: 15,
+				transform:(files)=>{
+					var attributes={
+						classes:'wp-block-catpow-layouttable spec',
+						rows:[{classes:'',cells:[{text:['Title'],classes:''}]}],
+						file:files[0]
+					};
+					return createBlock('catpow/layouttable',attributes);
+				},
+			},
+			{
+				type:'block',
+				blocks:CP.tableConvertibles,
+				transform:(attributes)=>{
+					attributes.classes="wp-block-catpow-layouttable spec";
+					return createBlock('catpow/layouttable',attributes);
+				}
+			}
+		]
+	},
 	attributes:{
 		classes:{source:'attribute',selector:'table',attribute:'class',default:'wp-block-catpow-layouttable spec'},
 		rows:{
@@ -42,11 +70,30 @@ registerBlockType('catpow/layouttable',{
 					{text:['Content'],classes:''}
 				]}
 			]
-		}
+		},
+		file:{type:'object'},
+		blockState:{type:'object',default:{enableBlockFormat:false}}
 	},
 	edit({attributes,className,setAttributes,isSelected}){
 		const {classes,rows}=attributes;
 		const primaryClass='wp-block-catpow-layouttable';
+		
+		if(attributes.file){
+			var reader=new FileReader();
+			reader.addEventListener('loadend',()=>{
+				var attr={
+					classes:'wp-block-catpow-layouttable spec',
+					rows:[],
+					file:false
+				};
+				var csvData=CP.parseCSV(reader.result);
+				csvData.map((row,r)=>{
+					attr.rows.push({classes:'',cells:row.map((val)=>{return {text:val,classes:''}})});
+				});
+				setAttributes(attr);
+			});
+			reader.readAsText(attributes.file);
+		}
 		
 		var selectiveClasses=[
 			{label:'タイプ',values:['spec','sheet','plan']},

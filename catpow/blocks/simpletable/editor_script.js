@@ -3,26 +3,47 @@ registerBlockType('catpow/simpletable', {
 	icon: 'editor-table',
 	category: 'catpow',
 
+	transforms: {
+		from: [{
+			type: 'block',
+			blocks: CP.tableConvertibles,
+			isMatch: function isMatch(attributes) {
+				return attributes.rows[0].cells.length === 2;
+			},
+			transform: function transform(attributes) {
+				attributes.classes = "wp-block-catpow-simpletable spec";
+				return createBlock('catpow/simpletable', attributes);
+			}
+		}]
+	},
 	attributes: {
 		classes: { source: 'attribute', selector: 'table', attribute: 'class', default: 'wp-block-catpow-simpletable spec' },
-		items: {
+		rows: {
 			source: 'query',
 			selector: 'table tr',
 			query: {
 				classes: { source: 'attribute', attribute: 'class' },
 				cond: { source: 'attribute', attribute: 'data-refine-cond' },
-				th: { source: 'children', selector: 'th' },
-				td: { source: 'children', selector: 'td' }
+				cells: {
+					source: 'query',
+					selector: 'th,td',
+					query: {
+						text: { source: 'children' },
+						classes: { source: 'attribute', attribute: 'class' },
+						style: { source: 'attribute', attribute: 'style' }
+					}
+				}
 			},
-			default: [{ th: ['Title'], td: ['Content'] }, { th: ['Title'], td: ['Content'] }, { th: ['Title'], td: ['Content'] }]
-		}
+			default: [{ classes: '', cells: [{ text: ['Title'], classes: '' }, { text: ['Content'], classes: '' }] }, { classes: '', cells: [{ text: ['Title'], classes: '' }, { text: ['Content'], classes: '' }] }, { classes: '', cells: [{ text: ['Title'], classes: '' }, { text: ['Content'], classes: '' }] }]
+		},
+		blockState: { type: 'object', default: { enableBlockFormat: true } }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,
 		    setAttributes = _ref.setAttributes;
 		var classes = attributes.classes,
-		    items = attributes.items;
+		    rows = attributes.rows;
 
 
 		var selectiveClasses = [{
@@ -43,43 +64,9 @@ registerBlockType('catpow/simpletable', {
 			}
 		}];
 
-		var rtn = [];
-		var itemsCopy = items.map(function (obj) {
-			return jQuery.extend(true, {}, obj);
-		});
-
-		itemsCopy.map(function (item, index) {
-			rtn.push(wp.element.createElement(
-				Item,
-				{
-					tag: 'tr',
-					set: setAttributes,
-					attr: attributes,
-					items: itemsCopy,
-					index: index
-				},
-				wp.element.createElement(
-					'th',
-					null,
-					wp.element.createElement(RichText, {
-						onChange: function onChange(th) {
-							itemsCopy[index].th = th;setAttributes({ items: itemsCopy });
-						},
-						value: item.th
-					})
-				),
-				wp.element.createElement(
-					'td',
-					null,
-					wp.element.createElement(RichText, {
-						onChange: function onChange(td) {
-							itemsCopy[index].td = td;setAttributes({ items: itemsCopy });
-						},
-						value: item.td
-					})
-				)
-			));
-		});
+		var saveItems = function saveItems() {
+			setAttributes({ rows: JSON.parse(JSON.stringify(rows)) });
+		};
 		return [wp.element.createElement(
 			InspectorControls,
 			null,
@@ -95,7 +82,7 @@ registerBlockType('catpow/simpletable', {
 				icon: 'edit',
 				set: setAttributes,
 				attr: attributes,
-				items: itemsCopy,
+				items: rows,
 				index: attributes.currentItemIndex,
 				triggerClasses: selectiveClasses[0]
 			}),
@@ -106,7 +93,39 @@ registerBlockType('catpow/simpletable', {
 			wp.element.createElement(
 				'tbody',
 				null,
-				rtn
+				rows.map(function (row, index) {
+					return wp.element.createElement(
+						Item,
+						{
+							tag: 'tr',
+							set: setAttributes,
+							attr: attributes,
+							items: rows,
+							itemskey: 'rows',
+							index: index
+						},
+						wp.element.createElement(
+							'th',
+							null,
+							wp.element.createElement(RichText, {
+								onChange: function onChange(text) {
+									row.cells[0].text = text;saveItems();
+								},
+								value: row.cells[0].text
+							})
+						),
+						wp.element.createElement(
+							'td',
+							null,
+							wp.element.createElement(RichText, {
+								onChange: function onChange(text) {
+									row.cells[1].text = text;saveItems();
+								},
+								value: row.cells[1].text
+							})
+						)
+					);
+				})
 			)
 		)];
 	},
@@ -114,32 +133,30 @@ registerBlockType('catpow/simpletable', {
 		var attributes = _ref2.attributes,
 		    className = _ref2.className;
 		var classes = attributes.classes,
-		    items = attributes.items;
+		    rows = attributes.rows;
 
-		var rtn = [];
-		items.map(function (item, index) {
-			rtn.push(wp.element.createElement(
-				'tr',
-				{ className: item.classes, 'data-refine-cond': item.cond },
-				wp.element.createElement(
-					'th',
-					null,
-					item.th
-				),
-				wp.element.createElement(
-					'td',
-					null,
-					item.td
-				)
-			));
-		});
 		return wp.element.createElement(
 			'table',
 			{ className: classes },
 			wp.element.createElement(
 				'tbody',
 				null,
-				rtn
+				rows.map(function (row, index) {
+					return wp.element.createElement(
+						'tr',
+						{ className: row.classes, 'data-refine-cond': row.cond },
+						wp.element.createElement(
+							'th',
+							{ className: row.cells[0].classes },
+							row.cells[0].text
+						),
+						wp.element.createElement(
+							'td',
+							{ className: row.cells[1].classes },
+							row.cells[1].text
+						)
+					);
+				})
 			)
 		);
 	}

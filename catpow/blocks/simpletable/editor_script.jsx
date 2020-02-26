@@ -3,26 +3,58 @@
 	icon: 'editor-table',
 	category: 'catpow',
 	
+	transforms:{
+		from: [
+			{
+				type:'block',
+				blocks:CP.tableConvertibles,
+				isMatch: function(attributes){
+					return attributes.rows[0].cells.length===2;
+				},
+				transform:(attributes)=>{
+					attributes.classes="wp-block-catpow-simpletable spec";
+					return createBlock('catpow/simpletable',attributes);
+				}
+			}
+		]
+	},
 	attributes:{
 		classes:{source:'attribute',selector:'table',attribute:'class',default:'wp-block-catpow-simpletable spec'},
-		items:{
+		rows:{
 			source:'query',
 			selector:'table tr',
 			query:{
 				classes:{source:'attribute',attribute:'class'},
 				cond:{source:'attribute',attribute:'data-refine-cond'},
-				th:{source:'children',selector:'th'},
-				td:{source:'children',selector:'td'},
+				cells:{
+					source:'query',
+					selector:'th,td',
+					query:{
+						text:{source:'children'},
+						classes:{source:'attribute',attribute:'class'},
+						style:{source:'attribute',attribute:'style'}
+					}
+				}
 			},
 			default:[
-				{th:['Title'],td:['Content']},
-				{th:['Title'],td:['Content']},
-				{th:['Title'],td:['Content']}
+				{classes:'',cells:[
+					{text:['Title'],classes:''},
+					{text:['Content'],classes:''}
+				]},
+				{classes:'',cells:[
+					{text:['Title'],classes:''},
+					{text:['Content'],classes:''}
+				]},
+				{classes:'',cells:[
+					{text:['Title'],classes:''},
+					{text:['Content'],classes:''}
+				]}
 			]
-		}
+		},
+		blockState:{type:'object',default:{enableBlockFormat:true}}
 	},
 	edit({attributes,className,setAttributes}){
-		const {classes,items}=attributes;
+		const {classes,rows}=attributes;
 		
 		var selectiveClasses=[
 			{
@@ -49,33 +81,11 @@
 			}
 		];
 		
-		let rtn=[];
-		let itemsCopy=items.map((obj)=>jQuery.extend(true,{},obj));
+		const saveItems=()=>{
+			setAttributes({rows:JSON.parse(JSON.stringify(rows))});
+		}
 		
-		itemsCopy.map((item,index)=>{
-			rtn.push(
-				<Item
-					tag='tr'
-					set={setAttributes}
-					attr={attributes}
-					items={itemsCopy}
-					index={index}
-				>
-					<th>
-						<RichText
-                            onChange={(th)=>{itemsCopy[index].th=th;setAttributes({items:itemsCopy});}}
-                            value={item.th}
-                        />
-					</th>
-					<td>
-						<RichText
-                            onChange={(td)=>{itemsCopy[index].td=td;setAttributes({items:itemsCopy});}}
-                            value={item.td}
-                        />
-					</td>
-				</Item>
-			);
-		});
+		;
 		return [
 			<InspectorControls>
 				<SelectClassPanel
@@ -90,24 +100,59 @@
 					icon='edit'
 					set={setAttributes}
 					attr={attributes}
-					items={itemsCopy}
+					items={rows}
 					index={attributes.currentItemIndex}
 					triggerClasses={selectiveClasses[0]}
 				/>
 				<ItemControlInfoPanel/>
 			</InspectorControls>,
-			<table className={classes}><tbody>{rtn}</tbody></table>
+			<table className={classes}>
+				<tbody>
+				{rows.map((row,index)=>{
+					return (
+						<Item
+							tag='tr'
+							set={setAttributes}
+							attr={attributes}
+							items={rows}
+							itemskey='rows'
+							index={index}
+						>
+							<th>
+								<RichText
+									onChange={(text)=>{row.cells[0].text=text;saveItems();}}
+									value={row.cells[0].text}
+								/>
+							</th>
+							<td>
+								<RichText
+									onChange={(text)=>{row.cells[1].text=text;saveItems();}}
+									value={row.cells[1].text}
+								/>
+							</td>
+						</Item>
+					);
+				})}
+				</tbody>
+			</table>
 		];
     },
 
 	save({attributes,className}){
-		const {classes,items}=attributes
-		let rtn=[];
-		items.map((item,index)=>{
-			rtn.push(
-				<tr className={item.classes} data-refine-cond={item.cond}><th>{item.th}</th><td>{item.td}</td></tr>
-			);
-		});
-		return <table className={classes}><tbody>{rtn}</tbody></table>;
+		const {classes,rows}=attributes
+		return (
+			<table className={classes}>
+				<tbody>
+				{rows.map((row,index)=>{
+					return (
+						<tr className={row.classes} data-refine-cond={row.cond}>
+							<th className={row.cells[0].classes}>{row.cells[0].text}</th>
+							<td className={row.cells[1].classes}>{row.cells[1].text}</td>
+						</tr>
+					);
+				})}
+				</tbody>
+			</table>
+		);
 	}
 });

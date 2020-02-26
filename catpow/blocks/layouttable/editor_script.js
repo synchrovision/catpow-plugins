@@ -6,6 +6,33 @@ registerBlockType('catpow/layouttable', {
 	icon: 'editor-table',
 	category: 'catpow',
 
+	transforms: {
+		from: [{
+			type: 'files',
+			isMatch: function isMatch(files) {
+				if (files[1]) {
+					return false;
+				}
+				return files[0].type === 'text/csv';
+			},
+			priority: 15,
+			transform: function transform(files) {
+				var attributes = {
+					classes: 'wp-block-catpow-layouttable spec',
+					rows: [{ classes: '', cells: [{ text: ['Title'], classes: '' }] }],
+					file: files[0]
+				};
+				return createBlock('catpow/layouttable', attributes);
+			}
+		}, {
+			type: 'block',
+			blocks: CP.tableConvertibles,
+			transform: function transform(attributes) {
+				attributes.classes = "wp-block-catpow-layouttable spec";
+				return createBlock('catpow/layouttable', attributes);
+			}
+		}]
+	},
 	attributes: {
 		classes: { source: 'attribute', selector: 'table', attribute: 'class', default: 'wp-block-catpow-layouttable spec' },
 		rows: {
@@ -26,7 +53,9 @@ registerBlockType('catpow/layouttable', {
 				}
 			},
 			default: [{ classes: '', cells: [{ text: ['Title'], classes: 'th' }, { text: ['Title'], classes: 'th' }, { text: ['Title'], classes: 'th' }] }, { classes: '', cells: [{ text: ['Content'], classes: '' }, { text: ['Content'], classes: '' }, { text: ['Content'], classes: '' }] }, { classes: '', cells: [{ text: ['Content'], classes: '' }, { text: ['Content'], classes: '' }, { text: ['Content'], classes: '' }] }]
-		}
+		},
+		file: { type: 'object' },
+		blockState: { type: 'object', default: { enableBlockFormat: false } }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
@@ -37,6 +66,25 @@ registerBlockType('catpow/layouttable', {
 		    rows = attributes.rows;
 
 		var primaryClass = 'wp-block-catpow-layouttable';
+
+		if (attributes.file) {
+			var reader = new FileReader();
+			reader.addEventListener('loadend', function () {
+				var attr = {
+					classes: 'wp-block-catpow-layouttable spec',
+					rows: [],
+					file: false
+				};
+				var csvData = CP.parseCSV(reader.result);
+				csvData.map(function (row, r) {
+					attr.rows.push({ classes: '', cells: row.map(function (val) {
+							return { text: val, classes: '' };
+						}) });
+				});
+				setAttributes(attr);
+			});
+			reader.readAsText(attributes.file);
+		}
 
 		var selectiveClasses = [{ label: 'タイプ', values: ['spec', 'sheet', 'plan'] }, 'color'];
 

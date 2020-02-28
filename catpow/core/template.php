@@ -424,7 +424,7 @@ function _unit(){
 function _cond($cond){
     \cp::$content->refine_cond($cond);
 }
-function controler(){
+function controller(){
 	if(!empty(\cp::$content->conf['multiple']) && \cp::$content->conf['multiple']<2){
 		\cp::$content->multiple_input_buttons();
 	}

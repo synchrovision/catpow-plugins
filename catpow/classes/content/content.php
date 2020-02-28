@@ -183,7 +183,7 @@ abstract class content{
             $class_name=\cp::get_class_name('meta',$this->conf['meta'][$name]['type']??'text');
             if($vals=\cp::get_the_meta_value($this->the_data_path.'/'.$name,$this->tmp_name)){return $vals;}
             
-            return [$class_name::default_value($this->conf['meta'][$name])];
+            return (array)$class_name::default_value($this->conf['meta'][$name]);
         }
         else{
             $class_name=\cp::get_class_name('meta',$this->conf['type']??'text');
@@ -197,7 +197,7 @@ abstract class content{
             if(isset($this->loop_id)){
 				return $class_name::default_value($this->conf);
 			}
-            return [$class_name::default_value($this->conf)];
+            return (array)$class_name::default_value($this->conf);
         }
     }
     public function get_the_data_path($name=null){

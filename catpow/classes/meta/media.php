@@ -71,6 +71,12 @@ class media extends meta{
 					'<audio class="ajax_upload_media audio" src="%s"></audio><input type="hidden" name="%s" value="%s"/>',
 					$src,\cp::get_input_name($path),$val
 				);
+			default:
+				return sprintf(
+					'<img class="ajax_upload_media image" src="%s"/><input type="hidden" name="%s" value="%s"/>',
+					$dummy,\cp::get_input_name($path),$val
+				);
+				
 		}
     }
 	public static function get_player_attr($prm){

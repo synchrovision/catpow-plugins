@@ -42,7 +42,7 @@ class inputs extends \Catpow\template_item\php{
             ];
         };
 		$unit=['div[<?php _unit(); ?>]',$table];
-		if(!empty($conf_data['multiple']) && $conf_data['multiple']<2){$unit[]='<?php controler(); ?>';}
+		if(!empty($conf_data['multiple']) && $conf_data['multiple']<2){$unit[]='<?php controller(); ?>';}
 		return ['',
 			'<?php «(\''.$conf_data['name'].'\'); ?>',
 			['div[<?php _item(); ?>]',

@@ -1,9 +1,7 @@
 <?php
 namespace Catpow\meta;
 
-class DateSelect extends ui{
-    public static $ui='DateSelect';
-	
+class DateSelect extends UI{
 	public static function input($meta,$prm){
 		$prm=(array)$prm;
 		if(isset($meta->conf['min'])){$prm['min']=date('Y-m-d',strtotime($meta->conf['min']));}

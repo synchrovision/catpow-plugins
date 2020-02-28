@@ -1,7 +1,7 @@
 <?php
 namespace Catpow\meta;
 
-class uidb extends ui{
+class UIDB extends UI{
 	public static $is_database=true;
     
 	public static function get($data_type,$data_name,$id,$meta_name,$conf){

@@ -37,7 +37,6 @@ class mailform extends template_type{
 		];
 	}
 	public static function get_template_files($conf_data){
-		$form_post_type=$conf_data['data_name'];
 		return[
 			'form.php'=>[
 				'php',
@@ -46,8 +45,8 @@ class mailform extends template_type{
 				"\$path=this()->post_data_path;",
 				"if(!empty(\$action) && \$action !== 'form'){\$path.='/'.\$action;}",
 				'$post_data=cp::get_post_data($path);',
-				"if(\$post_data['meta']['receive'][0]==1){receive();}",
-				"if(\$post_data['meta']['push'][0]==1){push();}",
+				"if(\$post_data['meta']['receive'][0]??null==1){receive();}",
+				"if(\$post_data['meta']['push'][0]??null==1){push();}",
 				"if(!empty(\$post_data['meta']['send_mail'])){cp::send_mails(\$post_data['meta']['send_mail']);}",
 				"if(isset(\$post_data['meta']['clear'])){clear(array_sum(\$post_data['meta']['clear']));}",
 				'content($path);',

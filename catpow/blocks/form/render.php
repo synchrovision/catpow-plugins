@@ -1,7 +1,7 @@
 <?php
 $form=cp::$content->form(
 	$attr['content_path'],
-	do_shortcode($attr['data_id'])??null,
+	do_shortcode($attr['data_id']??'')?:null,
 	$attr['inputs']??null
 );
 if(!empty($attr['values'])){

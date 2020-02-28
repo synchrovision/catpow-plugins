@@ -1,8 +1,8 @@
 <?php
 namespace Catpow\meta;
 
-class ui extends meta{
-	public static $ui=false,$input_type=false,$output_type=false,$inputDeps=[],$outputDeps=[],$defaultParam=[];
+class UI extends meta{
+	public static $ui=null,$input_type=false,$output_type=false,$inputDeps=[],$outputDeps=[],$defaultParam=[];
 	
 	public static function output($meta,$prm){
 		if(static::$output_type===false){
@@ -42,7 +42,7 @@ class ui extends meta{
 	}
     
     public static function get_output($path,$conf,$prm){
-		$ui=$conf['ui']??static::$ui??'TextInput';
+		$ui=$conf['ui']??static::$ui??static::get_type();
 		if(!wp_script_is('ui/'.$ui.'/output.js')){
 			\cp::enqueue_style('ui/'.$ui.'/output.css');
 			foreach(static::$outputDeps as $dep){
@@ -82,7 +82,7 @@ class ui extends meta{
         return ob_get_clean();
     }
     public static function get_input($path,$conf,$prm){
-		$ui=$conf['ui']??static::$ui??'TextInput';
+		$ui=$conf['ui']??static::$ui??static::get_type();
 		if(!wp_script_is('ui/'.$ui.'/input.js')){
 			\cp::enqueue_style('ui/'.$ui.'/input.css');
 			\cp::enqueue_script('ui/HiddenValues/input.js',['wp-element','babelHelpers']);

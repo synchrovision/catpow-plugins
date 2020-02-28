@@ -105,12 +105,18 @@ class meta extends content{
     /**
     * 入力全体を囲む要素に付与する属性値
     */
+	public function get_item_attr(){
+        return \cp::get_item_attr($this->data_path,$this->conf);
+    }
 	public function item_attr(){
         echo \cp::get_item_attr($this->data_path,$this->conf);
     }
     /**
     * 入力値の並び替え・追加・削除の単位となる要素に付与する属性値
     */
+	public function get_unit_attr(){
+		return \cp::get_unit_attr($this->the_data_path,$this->conf);
+    }
 	public function unit_attr(){
 		echo \cp::get_unit_attr($this->the_data_path,$this->conf);
     }

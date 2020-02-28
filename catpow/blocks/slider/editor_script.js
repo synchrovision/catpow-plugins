@@ -97,7 +97,7 @@ registerBlockType('catpow/slider', {
 		};
 		var statesClasses = [{ label: 'アロー', values: 'hasArrows' }, { label: 'ドット', values: 'hasDots' }, { input: 'range', label: '表示スライド', json: 'config', key: 'initialSlide', min: 0, max: items.length - 1 }];
 		var animateClasses = [{ label: 'ループ', values: 'loop', key: 'controlClasses', sub: [{ label: 'アイテムを反復', key: 'controlClasses', values: 'loopItems' }] }, { label: '自動再生', values: 'autoplay', key: 'controlClasses', sub: [{ input: 'range', label: '自動再生間隔（単位:0.1秒）', json: 'config', key: 'interval', coef: 100, min: 0, max: 100 }, { input: 'range', label: '操作停止時間（単位:0.1秒）', json: 'config', key: 'wait', coef: 100, min: 0, max: 100 }, { label: 'ホバーで停止', values: 'stopbyhover', key: 'controlClasses' }] }];
-		var controlerClasses = [{ label: 'フリック操作', values: 'flickable', key: 'controlClasses' }, { label: 'スクロール操作', values: 'scrollable', key: 'controlClasses' }, { label: '閉じる操作', values: 'closable', key: 'controlClasses' }];
+		var controllerClasses = [{ label: 'フリック操作', values: 'flickable', key: 'controlClasses' }, { label: 'スクロール操作', values: 'scrollable', key: 'controlClasses' }, { label: '閉じる操作', values: 'closable', key: 'controlClasses' }];
 		var selectiveClasses = [{
 			label: 'タイプ', values: ['visual', 'story', 'articles', 'index'],
 			sub: {
@@ -317,7 +317,7 @@ registerBlockType('catpow/slider', {
 				icon: 'universal-access',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: controlerClasses
+				selectiveClasses: controllerClasses
 			}),
 			wp.element.createElement(
 				PanelBody,

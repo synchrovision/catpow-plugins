@@ -104,7 +104,7 @@
 				{label:'ホバーで停止',values:'stopbyhover',key:'controlClasses'}
 			]}
 		];
-		var controlerClasses=[
+		var controllerClasses=[
 			{label:'フリック操作',values:'flickable',key:'controlClasses'},
 			{label:'スクロール操作',values:'scrollable',key:'controlClasses'},
 			{label:'閉じる操作',values:'closable',key:'controlClasses'}
@@ -351,7 +351,7 @@
 					icon='universal-access'
 					set={setAttributes}
 					attr={attributes}
-					selectiveClasses={controlerClasses}
+					selectiveClasses={controllerClasses}
 				/>
 				<PanelBody title="CLASS" icon="admin-generic" initialOpen={false}>
 					<TextareaControl

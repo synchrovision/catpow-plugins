@@ -37,6 +37,7 @@ class mailform extends article_type{
 		if(empty($conf_data['meta'])){$conf_data['meta']=$default_meta_conf;}
 		else{$conf_data['meta']=array_merge($default_meta_conf,(array)$conf_data['meta']);}
 		$conf_data['meta']['mail']+=[
+			'label'=>$conf_data['label'],
 			'form'=>$conf_data['data_name'].'/form',
 			'alias_template'=>['mailform','manage']
 		];

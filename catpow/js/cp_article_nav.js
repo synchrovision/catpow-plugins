@@ -7,7 +7,7 @@
 		var path=[];
 		var all_li=[];
 		$('article,section',$article).each(function(){
-			var $li=$('<li><h3>'+$('h1:eq(0),h2:eq(0),h3:eq(0)',this).first().text()+'</h3></li>');
+			var $li=$('<li><h3>'+$('h1:eq(0),h2:eq(0),h3:eq(0),h4:eq(0)',this).first().text()+'</h3></li>');
 			$li.article=$(this);
 			$li.find('h3').on('click',function(){
 				$li.article.trigger('expect');

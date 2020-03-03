@@ -74,7 +74,7 @@ abstract class content{
         ];
         if(isset($conf)){
             $prm+=[
-                'inherit'=>['conf'],
+                'inherit'=>['conf'=>true],
                 'conf'=>$conf
             ];
         }
@@ -356,7 +356,7 @@ abstract class content{
     }
     public function __sleep(){
         $keys=['data_path','tmp','file'];
-        if(isset($this->inherit)){$keys=array_merge($keys,$this->inherit);}
+        if(isset($this->inherit)){$keys=array_merge($keys,array_keys($this->inherit));}
         foreach($keys as $key){$this->$key;}
         $ref=new \ReflectionClass(static::class);
         return array_merge(

@@ -94,10 +94,7 @@ class meta extends content{
         if(is_string($conf)){$conf=['type'=>$conf];}
         if(!$this->conf){$this->conf=$conf;}
 		else{$this->conf=array_merge($this->conf,$conf);}
-		if(isset($this->inherit)){
-			if(!in_array('meta',$this->inherit)){$this->inherit[]='meta';}
-		}
-		else{$this->inherit=['meta'];}
+		$this->inherit['meta']=true;
         return $this;
     }
 	

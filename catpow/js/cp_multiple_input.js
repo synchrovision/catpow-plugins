@@ -27,11 +27,24 @@ function reset_multiple_input_attr($input_item){
 			this.name=this.name.replace(orgName,newName);
 			if(this.id){
 				this.id=this.id.replace(orgID,newID);
-				var $label=$(this).closest('label');
+				var $label=jQuery(this).closest('label');
 				if($label.length && $label.attr('for')){
 					$label.attr('for',$label.attr('for').replace(orgID,newID));
 				}
 			}
+		});
+		jQuery(this).find('[data-ui]').each(function(){
+			var props=JSON.parse(JSON.stringify(window.Catpow.uiProps[this.id]));
+			props.name=props.name.replace(orgName,newName);
+			this.id=this.id.replace(orgID,newID);
+			window.Catpow.uiProps[this.id]=props;
+			wp.element.render(
+				wp.element.createElement(
+					window.Catpow[this.dataset.ui],
+					props
+				),
+				this
+			);
 		});
 	});
 }

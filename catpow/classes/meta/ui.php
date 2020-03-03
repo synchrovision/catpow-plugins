@@ -63,18 +63,17 @@ class UI extends meta{
 			}
 		}
 		if($f=\cp::get_file_path('ui/'.$ui.'/outputInit.php')){include $f;}
-		$id=\cp::get_input_id($path);
+		$id=\cp::get_input_id($path).'--ui';
 		
 		
 		ob_start();
 		?>
-		<div id="<?=$id?>">
+		<div id="<?=$id?>" data-ui="<?=$ui?>">
 			<script type="text/javascript">
 				jQuery(function($){
-					wp.element.render(
-						wp.element.createElement(Catpow.<?=$ui?>Output,<?=json_encode($prm)?>),
-						document.getElementById("<?=$id?>")
-					);
+					var el=document.getElementById("<?=$id?>");
+					el.props=<?=json_encode($prm)?>;
+					wp.element.render(wp.element.createElement(Catpow.<?=$ui?>,el.props),el);
 				});
 			</script>
 		</div>
@@ -105,17 +104,20 @@ class UI extends meta{
 			}
 		}
 		if($f=\cp::get_file_path('ui/'.$ui.'/inputInit.php')){include $f;}
-		$id=\cp::get_input_id($path);
-		
-		
+		$id=\cp::get_input_id($path).'--ui';
 		
 		ob_start();
 		?>
-		<div<?=\cp::get_item_attr($path,$conf)?>>
+		<div id="<?=$id?>" data-ui="<?=$ui?>">
 			<script type="text/javascript">
 				jQuery(function($){
+					window.Catpow.uiProps=window.Catpow.uiProps || {};
+					window.Catpow.uiProps['<?=$id?>']=<?=json_encode($prm)?>;
 					wp.element.render(
-						wp.element.createElement(Catpow.<?=$ui?>,<?=json_encode($prm)?>),
+						wp.element.createElement(
+							Catpow.<?=$ui?>,
+							window.Catpow.uiProps['<?=$id?>']
+						),
 						document.getElementById("<?=$id?>")
 					);
 				});

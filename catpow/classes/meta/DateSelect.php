@@ -2,14 +2,11 @@
 namespace Catpow\meta;
 
 class DateSelect extends UI{
-	public static function input($meta,$prm){
+	public static function fill_param($prm,$conf){
 		$prm=(array)$prm;
-		if(isset($meta->conf['min'])){$prm['min']=date('Y-m-d',strtotime($meta->conf['min']));}
-		if(isset($meta->conf['max'])){$prm['max']=date('Y-m-d',strtotime($meta->conf['max']));}
-        return self::get_input(
-			$meta->the_data_path,$meta->conf,$prm,
-			date('Y-m-d',strtotime(!empty($meta->value)?$meta->value:'now'))
-		);
+		if(isset($conf['min'])){$prm['min']=date('Y-m-d',strtotime($conf['min']));}
+		if(isset($conf['max'])){$prm['max']=date('Y-m-d',strtotime($conf['max']));}
+		return parent::fill_param($prm,$conf);
 	}
 }
 ?>

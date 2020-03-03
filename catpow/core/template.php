@@ -545,6 +545,12 @@ function mail($content=''){
 	\cp::$content->form->mail($content);
 	return true;
 }
+function inherit($data){
+	foreach($data as $key=>$val){
+		\cp::$content->form->inherit[$key]=true;
+		\cp::$content->form->$key=$val;
+	}
+}
 
 /*external*/
 function inc($file,$vars=null){
@@ -554,8 +560,7 @@ function js($fname='script.js'){
 	printf('<script defer src="%s"></script>',\cp::get_file_url($fname,8));
 }
 function css($fname='style.css'){
-	printf('<link rel="stylesheet" href="%s"/>',\cp::get_file_url($fname,8));
-	
+	printf('<link rel="stylesheet" href="%s"/>',\cp::get_file_url($fname,8));	
 }
 
 function §sec($file=null,$loop_id=null,$inputs=null,$vars=null){

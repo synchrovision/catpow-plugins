@@ -172,7 +172,7 @@ function cp_form_submit($item,action,callback,param){
 				else{form_id=$form.attr('data-section-id');}
 				var $msgBox=$('[data-role="cp_form_message"][data-form-id="'+form_id+'"]',$form);
                 if($msgBox.length===0){
-					window.console.erroe('Messge Box for the form is not exists');
+					window.console.error('Messge Box for the form is not exists');
 					window.console.error(data);
 					return;
 				}

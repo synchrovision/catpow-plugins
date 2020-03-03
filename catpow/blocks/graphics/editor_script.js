@@ -28,7 +28,7 @@ registerBlockType('catpow/graphics', {
 			},
 			default: [{
 				id: 'graphics_image1',
-				classes: 'item　isImage',
+				classes: 'item isImage',
 				rect: '25 25 50',
 				rectSP: '25 25 50',
 				src: cp.theme_url + '/images/dummy.jpg',

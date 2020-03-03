@@ -63,7 +63,7 @@ class cpdb{
     public static function get_alias_name($table){
         global $cpdb;
         $table_name=self::get_table_name($table);
-        return $cpdb->structure[$table_name]['alias'];
+        return $cpdb->structure[$table_name]['alias']??null;
     }
 
 	/*helper*/

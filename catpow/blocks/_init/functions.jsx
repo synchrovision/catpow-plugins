@@ -421,7 +421,7 @@ const ResponsiveImage=({className,attr,keys,index,sizes})=>{
 }
 
 const Item=(props)=>{
-	const {tag,items,itemsKey,index,set,attr,triggerClasses,children}=props;
+	const {tag,items,itemsKey,index,set,attr,triggerClasses,children,isSelected}=props;
 	let {itemClasses}=props;
 	if(!items[index].classes){items[index].classes='item';}
 	else if(items[index].classes.search(/\bitem\b/)===-1){items[index].classes+=' item';}
@@ -450,15 +450,17 @@ const Item=(props)=>{
 				set({currentItemIndex:index});
 			}
 		},
-		[
-			children,
-			<div className='itemControl'>
-				<div className='btn delete' onClick={(e)=>CP.deleteItem(props)}></div>
-				<div className='btn clone' onClick={(e)=>CP.cloneItem(props)}></div>
-				<div className='btn up' onClick={(e)=>CP.upItem(props)}></div>
-				<div className='btn down' onClick={(e)=>CP.downItem(props)}></div>
-			</div>
-		]
+		<Fragment>
+			{children}
+			{isSelected &&
+				<div className='itemControl'>
+					<div className='btn delete' onClick={(e)=>CP.deleteItem(props)}></div>
+					<div className='btn clone' onClick={(e)=>CP.cloneItem(props)}></div>
+					<div className='btn up' onClick={(e)=>CP.upItem(props)}></div>
+					<div className='btn down' onClick={(e)=>CP.downItem(props)}></div>
+				</div>
+			}
+		</Fragment>
 	);
 }
 const ItemControlInfoPanel=()=>{

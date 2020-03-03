@@ -635,7 +635,8 @@ var Item = function Item(props) {
 	    set = props.set,
 	    attr = props.attr,
 	    triggerClasses = props.triggerClasses,
-	    children = props.children;
+	    children = props.children,
+	    isSelected = props.isSelected;
 	var itemClasses = props.itemClasses;
 
 	if (!items[index].classes) {
@@ -674,22 +675,27 @@ var Item = function Item(props) {
 		onClick: function onClick(e) {
 			set({ currentItemIndex: index });
 		}
-	}, [children, wp.element.createElement(
-		'div',
-		{ className: 'itemControl' },
-		wp.element.createElement('div', { className: 'btn delete', onClick: function onClick(e) {
-				return CP.deleteItem(props);
-			} }),
-		wp.element.createElement('div', { className: 'btn clone', onClick: function onClick(e) {
-				return CP.cloneItem(props);
-			} }),
-		wp.element.createElement('div', { className: 'btn up', onClick: function onClick(e) {
-				return CP.upItem(props);
-			} }),
-		wp.element.createElement('div', { className: 'btn down', onClick: function onClick(e) {
-				return CP.downItem(props);
-			} })
-	)]);
+	}, wp.element.createElement(
+		Fragment,
+		null,
+		children,
+		isSelected && wp.element.createElement(
+			'div',
+			{ className: 'itemControl' },
+			wp.element.createElement('div', { className: 'btn delete', onClick: function onClick(e) {
+					return CP.deleteItem(props);
+				} }),
+			wp.element.createElement('div', { className: 'btn clone', onClick: function onClick(e) {
+					return CP.cloneItem(props);
+				} }),
+			wp.element.createElement('div', { className: 'btn up', onClick: function onClick(e) {
+					return CP.upItem(props);
+				} }),
+			wp.element.createElement('div', { className: 'btn down', onClick: function onClick(e) {
+					return CP.downItem(props);
+				} })
+		)
+	));
 };
 var ItemControlInfoPanel = function ItemControlInfoPanel() {
 	return wp.element.createElement(

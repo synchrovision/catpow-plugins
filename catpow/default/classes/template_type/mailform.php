@@ -41,7 +41,7 @@ class mailform extends template_type{
 			'form.php'=>[
 				'php',
 				'namespace Catpow;',
-				"if(isset(\$post_data_path)){this()->post_data_path=\$post_data_path;this()->inherit[]='post_data_path';}",
+				"if(isset(\$post_data_path)){inherit(['post_data_path'=>\$post_data_path]);}",
 				"\$path=this()->post_data_path;",
 				"if(!empty(\$action) && \$action !== 'form'){\$path.='/'.\$action;}",
 				'$post_data=cp::get_post_data($path);',

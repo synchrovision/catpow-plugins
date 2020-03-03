@@ -68,6 +68,7 @@
 					attr={attributes}
 					items={itemsCopy}
 					index={index}
+					isSelected={isSelected}
 				>
 					<header>
 						<div className='image'>

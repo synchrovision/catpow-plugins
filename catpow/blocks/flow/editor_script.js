@@ -98,7 +98,8 @@ registerBlockType('catpow/flow', {
 					set: setAttributes,
 					attr: attributes,
 					items: itemsCopy,
-					index: index
+					index: index,
+					isSelected: isSelected
 				},
 				states.hasImage && wp.element.createElement(
 					'div',

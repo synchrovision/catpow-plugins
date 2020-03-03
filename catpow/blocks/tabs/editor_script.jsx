@@ -39,6 +39,7 @@
 					attr={attributes}
 					items={itemsCopy}
 					index={index}
+					isSelected={isSelected}
 				>
 					<h3 onClick={()=>{setAttributes({currentIndex:index})}}>
 						<RichText

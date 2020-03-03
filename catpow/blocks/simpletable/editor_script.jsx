@@ -53,7 +53,7 @@
 		},
 		blockState:{type:'object',default:{enableBlockFormat:true}}
 	},
-	edit({attributes,className,setAttributes}){
+	edit({attributes,className,setAttributes,isSelected}){
 		const {classes,rows}=attributes;
 		
 		var selectiveClasses=[
@@ -109,6 +109,14 @@
 			<table className={classes}>
 				<tbody>
 				{rows.map((row,index)=>{
+					if(!isSelected){
+						return (
+							<tr className={row.classes} data-refine-cond={row.cond}>
+								<th className={row.cells[0].classes}>{row.cells[0].text}</th>
+								<td className={row.cells[1].classes}>{row.cells[1].text}</td>
+							</tr>
+						);
+					}
 					return (
 						<Item
 							tag='tr'
@@ -117,6 +125,7 @@
 							items={rows}
 							itemskey='rows'
 							index={index}
+							isSelected={isSelected}
 						>
 							<th>
 								<RichText

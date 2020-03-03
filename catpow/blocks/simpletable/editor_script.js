@@ -41,7 +41,8 @@ registerBlockType('catpow/simpletable', {
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,
-		    setAttributes = _ref.setAttributes;
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var classes = attributes.classes,
 		    rows = attributes.rows;
 
@@ -94,6 +95,22 @@ registerBlockType('catpow/simpletable', {
 				'tbody',
 				null,
 				rows.map(function (row, index) {
+					if (!isSelected) {
+						return wp.element.createElement(
+							'tr',
+							{ className: row.classes, 'data-refine-cond': row.cond },
+							wp.element.createElement(
+								'th',
+								{ className: row.cells[0].classes },
+								row.cells[0].text
+							),
+							wp.element.createElement(
+								'td',
+								{ className: row.cells[1].classes },
+								row.cells[1].text
+							)
+						);
+					}
 					return wp.element.createElement(
 						Item,
 						{
@@ -102,7 +119,8 @@ registerBlockType('catpow/simpletable', {
 							attr: attributes,
 							items: rows,
 							itemskey: 'rows',
-							index: index
+							index: index,
+							isSelected: isSelected
 						},
 						wp.element.createElement(
 							'th',

@@ -135,6 +135,7 @@
 					attr={attributes}
 					items={itemsCopy}
 					index={index}
+					isSelected={isSelected}
 				>
 					{itemStates.hasImage &&
 						<div className='image'>

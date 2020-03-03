@@ -47,7 +47,8 @@ registerBlockType('catpow/tabs', {
 					set: setAttributes,
 					attr: attributes,
 					items: itemsCopy,
-					index: index
+					index: index,
+					isSelected: isSelected
 				},
 				wp.element.createElement(
 					'h3',

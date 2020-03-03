@@ -110,7 +110,8 @@ registerBlockType('catpow/panel', {
 					set: setAttributes,
 					attr: attributes,
 					items: itemsCopy,
-					index: index
+					index: index,
+					isSelected: isSelected
 				},
 				itemStates.hasImage && wp.element.createElement(
 					'div',

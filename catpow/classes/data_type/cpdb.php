@@ -14,8 +14,8 @@ class cpdb extends data_type{
             $rows=$cpdb->select($data_name,['meta_id'=>$data_id]);
             $cache[$data_name][$data_id]=reset($rows);
         }
-        if($single)return $cache[$data_name][$data_id][$meta_name];
-        return (array)$cache[$data_name][$data_id][$meta_name];
+        if($single)return $cache[$data_name][$data_id][$meta_name]??null;
+        return (array)($cache[$data_name][$data_id][$meta_name]??null);
     }
     public static function delete_meta($data_name,$data_id,$meta_name,$val=null){
         global $cpdb;
@@ -31,7 +31,7 @@ class cpdb extends data_type{
         $cpdb->update($data_name,[$data_id=>[$meta_name=>$val]]);
     }
     
-    public function __constuct($table_name,$data){
+    public function __construct($table_name,$data){
         $this->table_name=$table_name;
         $this->data=$data;
     }

@@ -318,9 +318,9 @@
 						if(itemStates.isText){
 							return (
 								<Fragment>
-									{itemStates.hasTitle && <h3 className="title">{item.title}</h3>}
-									{itemStates.hasLead && <h4 className="lead">{item.lead}</h4>}
-									{itemStates.hasText && <p className="text">{item.text}</p>}
+									{itemStates.hasTitle && <h3 className="title"><RichText.Content value={item.title}/></h3>}
+									{itemStates.hasLead && <h4 className="lead"><RichText.Content value={item.lead}/></h4>}
+									{itemStates.hasText && <p className="text"><RichText.Content value={item.text}/></p>}
 								</Fragment>
 							);
 						}
@@ -454,9 +454,9 @@
 						if(itemStates.isText){
 							return (
 								<Fragment>
-									{itemStates.hasTitle && <h3 className="title">{item.title}</h3>}
-									{itemStates.hasLead && <h4 className="lead">{item.lead}</h4>}
-									{itemStates.hasText && <p className="text">{item.text}</p>}
+									{itemStates.hasTitle && <h3 className="title"><RichText.Content value={item.title}/></h3>}
+									{itemStates.hasLead && <h4 className="lead"><RichText.Content value={item.lead}/></h4>}
+									{itemStates.hasText && <p className="text"><RichText.Content value={item.text}/></p>}
 								</Fragment>
 							);
 						}
@@ -483,7 +483,7 @@
 				})}
 				<style>
 					{CP.createStyleCode(cssData)}
-					{'@media(max-width:640px){'+CP.createStyleCode(cssDataSP)+'}'}
+					{'@media(max-width:768px){'+CP.createStyleCode(cssDataSP)+'}'}
 				</style>
 			</div>
 		);

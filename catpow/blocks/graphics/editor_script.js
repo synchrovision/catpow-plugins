@@ -329,17 +329,17 @@ registerBlockType('catpow/graphics', {
 							itemStates.hasTitle && wp.element.createElement(
 								'h3',
 								{ className: 'title' },
-								item.title
+								wp.element.createElement(RichText.Content, { value: item.title })
 							),
 							itemStates.hasLead && wp.element.createElement(
 								'h4',
 								{ className: 'lead' },
-								item.lead
+								wp.element.createElement(RichText.Content, { value: item.lead })
 							),
 							itemStates.hasText && wp.element.createElement(
 								'p',
 								{ className: 'text' },
-								item.text
+								wp.element.createElement(RichText.Content, { value: item.text })
 							)
 						);
 					}
@@ -503,17 +503,17 @@ registerBlockType('catpow/graphics', {
 							itemStates.hasTitle && wp.element.createElement(
 								'h3',
 								{ className: 'title' },
-								item.title
+								wp.element.createElement(RichText.Content, { value: item.title })
 							),
 							itemStates.hasLead && wp.element.createElement(
 								'h4',
 								{ className: 'lead' },
-								item.lead
+								wp.element.createElement(RichText.Content, { value: item.lead })
 							),
 							itemStates.hasText && wp.element.createElement(
 								'p',
 								{ className: 'text' },
-								item.text
+								wp.element.createElement(RichText.Content, { value: item.text })
 							)
 						);
 					}
@@ -536,7 +536,7 @@ registerBlockType('catpow/graphics', {
 				'style',
 				null,
 				CP.createStyleCode(cssData),
-				'@media(max-width:640px){' + CP.createStyleCode(cssDataSP) + '}'
+				'@media(max-width:768px){' + CP.createStyleCode(cssDataSP) + '}'
 			)
 		);
 	}

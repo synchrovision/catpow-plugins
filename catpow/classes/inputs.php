@@ -79,7 +79,7 @@ class inputs{
     
     public static function selector_from_path($data_path,$key='value'){
         $path_arr=explode('/',$data_path);
-        array_splice($path_arr,4,0,$key);
+        if(isset($path_arr[3])){array_splice($path_arr,4,0,$key);}
         return '$this->data["'.implode('"]["',$path_arr).'"]';
     }
     public static function selector_from_id($input_id){

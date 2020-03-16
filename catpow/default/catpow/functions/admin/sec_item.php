@@ -9,8 +9,8 @@ $fnc=this()->data_name;
 <?php endif; ?>
 <h2><?=$fnc;?></h2>
 <?php if($f=cp::get_file_path('functions/'.$fnc.'/panel.php')): ?>
-<ul class="buttons s">
-	<li><?php button('パネルを開く','panel','lightbox'); ?></li>
+<ul class="wp-block-catpow-buttons s center">
+	<li class="item"><?php button('パネルを開く','panel','lightbox'); ?></li>
 </ul>
 <?php endif; ?>
 <?php if($f=cp::get_file_path('functions/'.$fnc.'/desc.php')): ?>

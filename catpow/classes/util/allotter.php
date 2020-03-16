@@ -1,4 +1,5 @@
 <?php
+namespace Catpow\util;
 
 class Allotter{
     /**

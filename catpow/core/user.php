@@ -13,10 +13,13 @@ add_action('delete_user',function($id){
 
 function get_user($id=null){
 	if(empty($id)){
-        if(isset(cp::$content) && $content=cp::$content->get_closest('user/*')){
-            $id=$content->loop_id;
+		if(is_user_logged_in()){
+			return wp_get_current_user();
+		}
+        elseif(isset(cp::$content) && $content=cp::$content->get_closest('user/*') && is_numeric($content->loop_id)){
+            return get_userdata($content->loop_id);
         }
-        else{$id=get_current_user_id();}
+		return null;			
 	}
 	return get_userdata($id);
 }

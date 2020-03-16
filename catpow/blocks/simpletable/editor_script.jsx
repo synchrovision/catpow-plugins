@@ -109,14 +109,6 @@
 			<table className={classes}>
 				<tbody>
 				{rows.map((row,index)=>{
-					if(!isSelected){
-						return (
-							<tr className={row.classes} data-refine-cond={row.cond}>
-								<th className={row.cells[0].classes}>{row.cells[0].text}</th>
-								<td className={row.cells[1].classes}>{row.cells[1].text}</td>
-							</tr>
-						);
-					}
 					return (
 						<Item
 							tag='tr'

@@ -95,22 +95,6 @@ registerBlockType('catpow/simpletable', {
 				'tbody',
 				null,
 				rows.map(function (row, index) {
-					if (!isSelected) {
-						return wp.element.createElement(
-							'tr',
-							{ className: row.classes, 'data-refine-cond': row.cond },
-							wp.element.createElement(
-								'th',
-								{ className: row.cells[0].classes },
-								row.cells[0].text
-							),
-							wp.element.createElement(
-								'td',
-								{ className: row.cells[1].classes },
-								row.cells[1].text
-							)
-						);
-					}
 					return wp.element.createElement(
 						Item,
 						{

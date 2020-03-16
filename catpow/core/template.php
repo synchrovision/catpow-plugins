@@ -377,6 +377,9 @@ function get($name,$key='value'){
 function set($name,$val,$key='value'){
     return \cp::$content->form->inputs->set(\cp::$content->the_data_path.'/'.$name,$val,$key);
 }
+function del($name,$key='value'){
+    return \cp::$content->form->inputs->del(\cp::$content->the_data_path.'/'.$name,$key);
+}
 function def($name,$val,$key='value'){
     return \cp::$content->form->inputs->def(\cp::$content->the_data_path.'/'.$name,$val,$key);
 }

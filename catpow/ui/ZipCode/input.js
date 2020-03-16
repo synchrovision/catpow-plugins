@@ -25,7 +25,7 @@ Catpow.ZipCode = function (_wp$element$Component) {
 
 			var value = this.state.value;
 
-			var secs = value.split('-');
+			var secs = value.split('-').slice(0, 2);
 
 			var input = function input(i) {
 				return wp.element.createElement("input", {

@@ -9,7 +9,7 @@ Catpow.ZipCode=class extends wp.element.Component{
 	}
 	render(){
 		var {value}=this.state;
-		var secs=value.split('-');
+		var secs=value.split('-').slice(0,2);
 		
 		const input=(i)=>(
 			<input

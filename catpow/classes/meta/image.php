@@ -12,7 +12,7 @@ class image extends media{
 		
         if(isset($conf['dummy'])){$dummy=get_template_directory_uri('/images/'.$conf['dummy']);}
         else{$dummy=\cp::get_file_url('images/dummy.png');}
-        $size=isset($conf['input-size'])?$conf['input-size']:isset($conf['size'])?$conf['size']:'full';
+        $size=isset($conf['input-size'])?$conf['input-size']:(isset($conf['size'])?$conf['size']:'full');
         
         wp_enqueue_script('cp_file_upload');
         

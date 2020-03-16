@@ -5,23 +5,23 @@ use Catpow\gauth\cpgc;
 ?>
 <?php foreach(loop('gauth_conf') as $meta): ?>
 <dl>
-	<dt><i class="fa fa-google"></i>API key</dt>
+	<dt><i class="fab fa-google"></i>API key</dt>
 	<dd><?php input('api_key'); ?></dd>
 </dl>
 <dl>
-	<dt><i class="fa fa-google"></i>Application Name</dt>
+	<dt><i class="fab fa-google"></i>Application Name</dt>
 	<dd><?php input('application_name'); ?></dd>
 </dl>
 <dl>
-	<dt><i class="fa fa-google"></i>client ID</dt>
+	<dt><i class="fab fa-google"></i>client ID</dt>
 	<dd><?php input('client_id'); ?></dd>
 </dl>
 <dl>
-	<dt><i class="fa fa-google"></i>client secret</dt>
+	<dt><i class="fab fa-google"></i>client secret</dt>
 	<dd><?php input('client_secret'); ?></dd>
 </dl>
 <dl>
-	<dt><i class="fa fa-google"></i>client secret</dt>
+	<dt><i class="fab fa-google"></i>scopes</dt>
 	<dd><?php input('scopes'); ?></dd>
 </dl>
 <?php endforeach; ?>
@@ -37,7 +37,7 @@ use Catpow\gauth\cpgc;
 		</p>
 	</li>
 </ul>
-<ul class="buttons">
-	<li class="edit"><?php button('登録','action','message'); ?></li>
+<ul class="wp-block-catpow-buttons m">
+	<li class="item edit"><?php button('登録','action','message'); ?></li>
 </ul>
 <?php §message(); ?>

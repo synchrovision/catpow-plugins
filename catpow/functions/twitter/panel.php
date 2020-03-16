@@ -1,9 +1,8 @@
 <?php namespace Catpow; ?>
-<?=plugins_url('callee/oauth_redirect.php',__FILE__); ?>
 <dl>
-	<dt><i class="fa fa-twitter"></i>ConsumerKey</dt>
+	<dt><i class="fab fa-twitter"></i>ConsumerKey</dt>
 	<dd><?php input('tw_consumer_key'); ?></dd>
-	<dt><i class="fa fa-twitter"></i>ConsumerSecret</dt>
+	<dt><i class="fab fa-twitter"></i>ConsumerSecret</dt>
 	<dd><?php input('tw_consumer_secret'); ?></dd>
 </dl>
 <ul>

@@ -6,8 +6,8 @@
 			<span>アップロードするCSVを選択</span>
 			<input id="cp_admin_csv_upload" type="file" name="csv" accept="text/csv"/>
 		</label>
-        <ul class="buttons">
-            <li class="upload">
+		<ul class="wp-block-catpow-buttons m">
+            <li class="item upload">
                 <?php button('アップロード','action','update_results',['csv_action'=>'upload'],'section');?>
 				<small>
 					所定のフォーマットのCSVファイルから投稿もしくはユーザ登録を行います。
@@ -19,8 +19,8 @@
 	<li>
 		<h3>CSVをダウンロード</h3>
 		<?php input('conf_data_path'); ?>
-        <ul class="buttons">
-            <li class="upload">
+		<ul class="wp-block-catpow-buttons m">
+            <li class="item download">
                 <?php button('ダウンロード','action','download',['csv_action'=>'download'],'section');?>
 				<small>指定したデータのCSVをダウンロードします。</small>
 			</li>

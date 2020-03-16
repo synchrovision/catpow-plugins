@@ -12,7 +12,7 @@ $conf=[
 	<img src="<?=cp::get_file_url('functions/'.$fnc.'/image.svg')?>"/>
 </div>
 <div class="text">
-	<h3><?=$fnc?></h3>
+	<h4><?=$fnc?></h4>
 	<p><?php include(cp::get_file_path('functions/'.$fnc.'/desc.php')); ?></p>
 </div>
 <?php

@@ -21,6 +21,11 @@
 			</div>,
 			<InspectorControls>
 				<PanelBody title="表示条件" icon="admin-generic">
+					<TextareaControl
+						label='スケジュール'
+						onChange={(schedule)=>setAttributes({schedule})}
+						value={attributes.schedule}
+					/>
 					<SelectControl
 						label='ログイン'
 						onChange={(is_user_logged_in)=>{setAttributes({is_user_logged_in})}}

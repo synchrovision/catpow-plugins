@@ -31,6 +31,13 @@ registerBlockType('catpow/cond', {
 			wp.element.createElement(
 				PanelBody,
 				{ title: '\u8868\u793A\u6761\u4EF6', icon: 'admin-generic' },
+				wp.element.createElement(TextareaControl, {
+					label: '\u30B9\u30B1\u30B8\u30E5\u30FC\u30EB',
+					onChange: function onChange(schedule) {
+						return setAttributes({ schedule: schedule });
+					},
+					value: attributes.schedule
+				}),
 				wp.element.createElement(SelectControl, {
 					label: '\u30ED\u30B0\u30A4\u30F3',
 					onChange: function onChange(is_user_logged_in) {

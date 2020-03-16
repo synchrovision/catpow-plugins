@@ -1,5 +1,9 @@
 <?php
 do{
+	if($attr['schedule']){
+		$schedule=new Catpow\util\schedule($attr['schedule']);
+		if(!$schedule->includes('now')){break;}
+	}
 	if($attr['is_user_logged_in']==='-1' && is_user_logged_in()){break;}
 	if($attr['is_user_logged_in']==='1' && !is_user_logged_in()){break;}
 	if(!empty($attr['current_user_can'])){

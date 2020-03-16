@@ -1,0 +1,36 @@
+@import 'admin_style_config.scss';
+
+#AmazonPayButtonContainer{
+	@include bnd((pd:1rem));
+	@include txt((a:c));
+}
+.amazonPayPopup{
+	@include bnd((p:f,t:0,b:0,l:0,r:0,z:10000));
+	@include bg((c:rgba(0,0,0,.8)));
+	@include trn((t:1s,o:1));
+	&:not(.open){
+		@include trn((o:0));
+		@include usr((e:n));
+	}
+	.amazonPayPopupContent{
+		@include bnd((p:f,t:50%,l:50%));
+		@include bg((c:b));
+		@include trn((x:-50%,y:-50%));
+		.amazonPayWidget{
+			@include bnd((w:300,h:228,mg:1rem));
+			@media(#{bp(1)}){
+				@include bnd((w:400));
+			}
+		}
+		.amazonPayCheckoutButton{
+			@include bnd((d:b,w:20rem,h:a,mg:1rem a,pd:1rem));
+			@include txt((a:c,p:2rem,h:1em,f:g,w:b,c:#000));
+			@include bg((g:g #e4b33c));
+			@include bdr((r:.5rem));
+			&:not(.active){
+				@include bg((g:g #ccc));
+				@include txt((c:#888));
+			}
+		}
+	}
+}

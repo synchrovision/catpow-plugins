@@ -1,57 +1,84 @@
 ﻿Catpow.AmazonPay=class extends wp.element.Component{
 	constructor(props) {
 		super(props);
-		this.state={hoge:'hoge'};
+		this.checkoutText=props.checkoutText || '購入する';
+		this.$ref=jQuery('#AmazonPayButtonContainer');
+		this.state={popupOpen:false,canCheckout:false};
 	}
 	render(){
 		var {cart,payment}=this.props;
+		var {popupOpen,canCheckout}=this.state;
 		
-		return (
-			<div id="AmazonPayButton"></div>
-			<div id="addressBookWidgetDiv" style="height:250px"></div>
-			<div id="walletWidgetDiv" style="height:250px"></div>
-		);
+		var component=this;
+		var popup_classes="amazonPayPopup";
+		if(popupOpen){popup_classes+=" open";}
+		var checkoutbutton_classes="amazonPayCheckoutButton";
+		if(canCheckout){checkoutbutton_classes+=" active";}
+		
+		return [
+			<div id="AmazonPayButton"></div>,
+			<div className={popup_classes}>
+				<div class="amazonPayPopupContent">
+					<div id="addressBookWidgetDiv" className="amazonPayWidget"></div>
+					<div id="walletWidgetDiv" className="amazonPayWidget"></div>
+					<div
+						className={checkoutbutton_classes}
+						onClick={(e)=>{
+							if(!canCheckout){return false;}
+							cp_form_submit(component.$ref,component.props.action,function($item,res){
+								console.log(res);
+								this.setState({popupOpen:false});
+							},{task:'checkout',orderReferenceId:component.orderReferenceId});
+						}}
+					>{this.checkoutText}</div>
+					<div id="amazonPayError"></div>
+				</div>
+			</div>
+		];
 	}
 	renderButton(){
 		OffAmazonPayments.Button("AmazonPayButton",amazonpay_config.merchant_id,{
-			type: amazonpay_config.type,
+			type: amazonpay_config.type || 'PwA',
 			color: amazonpay_config.color,
 			size: amazonpay_config.size,
 			language: amazonpay_config.language,
 			authorization:()=>{
-				authRequest = amazon.Login.authorize(
+				amazon.Login.authorize(
 					{ scope: "profile postal_code payments:widget payments:shipping_address", popup: true },
-					(t)=>{
-						console.log(t.access_token);
-						console.log(t.expires_in);
-						console.log(t.token_type);
-						this.showAddressBookWidget();
-              			this.showWalletWidget(orderReferenceId);
+					(token)=>{
+						this.token=token;
+						if(this.props.addressbook){this.showAddressBookWidget();}
+						else{this.showWalletWidget();}
+						this.setState({popupOpen:true});
 					}
 				);
 			},
 			onError: function(error) {
 				// something bad happened
+				console.log('OffAmazonPayments.Button', error.getErrorCode(), error.getErrorMessage());
 			}
 		});
 	}
-	
 
     showAddressBookWidget() {
+		var component=this;
         // AddressBook
         new OffAmazonPayments.Widgets.AddressBook({
           sellerId: amazonpay_config.merchant_id,
-          
+          amazonOrderReferenceId: component.orderReferenceId,
           onReady: function (orderReference) {
-              var orderReferenceId = orderReference.getAmazonOrderReferenceId();
-              var el;
-              if ((el = document.getElementById("orderReferenceId"))) {
-                el.value = orderReferenceId;
-              }
-              // Wallet
+			  if(!component.orderReferenceId){
+				  component.orderReferenceId = orderReference.getAmazonOrderReferenceId();
+			  }
+			  component.showWalletWidget();
           },
-          onAddressSelect: function (orderReference) {
+          onAddressSelect: function (addressbook) {
               // お届け先の住所が変更された時に呼び出されます、ここで手数料などの再計算ができます。
+			  console.log('onAddressSelect');
+				cp_form_submit(component.$ref,component.props.action,function($item,res){
+					console.log(res);
+					//document.getElementById('amazonPayError').innerHTML=res.html;
+				},{task:'onAddressSelect',orderReferenceId:component.orderReferenceId});
           },
           design: {
               designMode: 'responsive'
@@ -60,6 +87,7 @@
               // エラー処理 
               // エラーが発生した際にonErrorハンドラーを使って処理することをお勧めします。 
               // @see https://payments.amazon.com/documentation/lpwa/201954960
+			  component.setState({canCheckout:false});
               console.log('OffAmazonPayments.Widgets.AddressBook', error.getErrorCode(), error.getErrorMessage());
               switch (error.getErrorCode()) {
                 case 'AddressNotModifiable':
@@ -109,16 +137,32 @@
         }).bind("addressBookWidgetDiv");
     }
 
-    showWalletWidget(orderReferenceId) {
+    showWalletWidget() {
+		var component=this;
         // Wallet
         new OffAmazonPayments.Widgets.Wallet({
           sellerId: amazonpay_config.merchant_id,
-          amazonOrderReferenceId: orderReferenceId,
+          amazonOrderReferenceId: component.orderReferenceId,
           onReady: function(orderReference) {
-              console.log(orderReference.getAmazonOrderReferenceId());
+			if(!component.orderReferenceId){
+				component.orderReferenceId = orderReference.getAmazonOrderReferenceId();
+			}
+			cp_form_submit(component.$ref,component.props.action,function($item,res){
+				component.setState({canCheckout:true});
+				document.getElementById('amazonPayError').innerHTML=res.html;
+			},{
+				task:'onReady',
+				access_token:component.token.access_token,
+				orderReferenceId:component.orderReferenceId
+			});
           },
           onPaymentSelect: function() {
-              console.log(arguments);
+			  console.log('onPaymentSelect');
+				cp_form_submit(component.$ref,component.props.action,function($item,res){
+					console.log(res);
+					component.setState({canCheckout:true});
+					//document.getElementById('amazonPayError').innerHTML=res.html;
+				},{task:'onPaymentSelect',orderReferenceId:component.orderReferenceId});
           },
           design: {
               designMode: 'responsive'
@@ -127,10 +171,12 @@
               // エラー処理 
               // エラーが発生した際にonErrorハンドラーを使って処理することをお勧めします。 
               // @see https://payments.amazon.com/documentation/lpwa/201954960
+			  component.setState({canCheckout:false});
               console.log('OffAmazonPayments.Widgets.Wallet', error.getErrorCode(), error.getErrorMessage());
           }
         }).bind("walletWidgetDiv");
     }
+	
 	
 	componentDidMount(prevProps){
 		this.renderButton();

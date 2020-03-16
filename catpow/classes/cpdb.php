@@ -3,7 +3,7 @@ namespace Catpow;
 
 class cpdb{
 	public static $cpdb;
-	public $pdo,$last_insert_id,$host,$port,$dbname,$user,$password,$structure,$tables,$alias,$relation;
+	public $pdo,$last_insert_id,$host,$port,$dbname,$user,$structure,$tables,$alias,$relation;
 	private function __construct(){
 		if(strpos(\DB_HOST,':')){
 			list($this->host,$this->port)=explode(':',\DB_HOST);
@@ -373,7 +373,7 @@ class cpdb{
 			foreach($this->structure[$table_name]['children'] as $child_name=>$child_table_name){
 				foreach($rtn as &$row){
 					if($this->structure[$child_table_name]['has_parent']){
-						$where=['paren_id'=>$row['meta_id']];
+						$where=['parent_id'=>$row['meta_id']];
 					}else{$where=[];}
 					$row[$child_name]=$this->select($child_table_name,$where,true);
 				}

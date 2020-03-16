@@ -1156,6 +1156,13 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 					}));
 					break;
 				case 'image':
+					if (prm.label) {
+						rtn.push(wp.element.createElement(
+							'h5',
+							null,
+							prm.label
+						));
+					}
 					rtn.push(wp.element.createElement(SelectResponsiveImage, {
 						set: props.set,
 						attr: props.attr,

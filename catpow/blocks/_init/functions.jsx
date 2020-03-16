@@ -844,6 +844,9 @@ const SelectItemClassPanel=(props)=>{
 					);
 					break;
 				case 'image':
+					if(prm.label){
+						rtn.push(<h5>{prm.label}</h5>);
+					}
 					rtn.push(
 						<SelectResponsiveImage
 							set={props.set}

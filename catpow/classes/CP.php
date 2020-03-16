@@ -590,17 +590,16 @@ class CP{
 				}
 			}
 			if(isset($GLOBALS['post_types']['page']['meta'])){
-				foreach($GLOBALS['post_types']['page']['meta'] as $meta_name=>&$meta_conf){
-					$conf_data['meta'][$meta_name]=$meta_conf;
+				foreach($GLOBALS['post_types']['page']['meta'] as $meta_name=>$meta_conf){
+					$conf_data['meta'][$meta_name]=&$GLOBALS['post_types']['page']['meta'][$meta_name];
 				}
 			}
 		}
 		elseif($data_type==='user'){
-			if($data_name==='common'){
+			if($data_name==='common' && !empty($conf_data['meta'])){
 				foreach(wp_roles()->role_names as $role=>$role_name){
-					if(empty($conf_data['meta'])){continue;}
-					foreach($conf_data['meta'] as $meta_name=>&$meta_conf){
-						$GLOBALS['user_datas'][$role]['meta'][$meta_name]=$meta_conf;
+					foreach($conf_data['meta'] as $meta_name=>$meta_conf){
+						$GLOBALS['user_datas'][$role]['meta'][$meta_name]=&$conf_data['meta'][$meta_name];
 					}
 				}
 			}
@@ -627,6 +626,7 @@ class CP{
     }
     public static function fill_conf(&$conf,$path){
 		if(empty($conf['type'])){return;}
+		if(!empty($conf['is_filled'])){return;}
         $conf['name']=$conf['attr']['data-meta-name']=basename($path);
         $conf['path']=$path;
         $class_name=self::get_class_name('meta',$conf['type']);
@@ -642,6 +642,7 @@ class CP{
             $conf['alias_path']='cpdb/'.$alias_name;
             $cpdb_datas[$alias_name]=&$conf;
         }
+		$conf['is_filled']=true;
     }
 	
 	/*データ解析*/
@@ -669,6 +670,7 @@ class CP{
 		static $cache;
 		if(isset($cache[$data_path][$tmp])){return $cache[$data_path][$tmp];}
 		$data_path=trim($data_path,'/');
+		if(strpos($data_path,'/')<3){return null;}
 		if(substr_count($data_path,'/')===3){
 			if(isset($tmp)){
 				$path_data=self::parse_data_path($data_path);
@@ -944,7 +946,7 @@ class CP{
             ' id="%1$s" class="cp-meta-item %2$s cp-meta-item-%3$s %4$s" data-meta_name="%3$s" data-role="cp-meta-item" data-meta_type="%2$s"',
             self::get_input_id($data_path),
             $conf['type'],
-            end($path_data['meta_path'])['meta_name'],
+            $path_data['meta_path']?end($path_data['meta_path'])['meta_name']:'',
             empty($conf['multiple'])?'single-item':'multiple-item'
         );
 		if(isset($conf['watch'])){
@@ -1311,8 +1313,8 @@ class CP{
     
     /*フォーム*/
     public static function get_the_form($req=false){
-        if($req===false){$form_id=$_REQUEST['cp_form_section_id']??$_REQUEST['cp_form_id'];}
-        elseif(is_array($req)){$form_id=$req['cp_form_section_id']??$req['cp_form_id'];}
+        if($req===false){$form_id=$_REQUEST['cp_form_section_id']??$_REQUEST['cp_form_id']??null;}
+        elseif(is_array($req)){$form_id=$req['cp_form_section_id']??$req['cp_form_id']??null;}
         else{$form_id=$req;}
         return self::$forms[$form_id]??false;
     }

@@ -151,7 +151,9 @@ trait formTrait{
     
     /*form*/
     public function remove(){
-		foreach($this->tasks as $task){$task->delete();}
+		if(!empty($this->tasks)){
+			foreach($this->tasks as $task){$task->delete();}
+		}
         unset(\cp::$forms[$this->form_id]);
         if(empty($this->sections))return;
         foreach($this->sections as $section){
@@ -246,7 +248,7 @@ trait formTrait{
 			return $data_id;
 		}
 		catch(Exception $e){
-			throw new form_exception(['message'=>$e->getMessage()]);
+			$this->error($e->getMessage());
 		}
     }
 	public function delete(){

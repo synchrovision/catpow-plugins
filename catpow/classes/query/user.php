@@ -43,13 +43,13 @@ class user extends query{
         $object_data=array_merge([
             'user_login'=>'user'.\cp::date(),
         ],$object_data);
-        if(is_null($object_data['user_pass'])){
+        if(empty($object_data['user_pass'])){
             $object_data['user_pass']=wp_generate_password();
         }
         if(!empty($object_data['ID'])){$object_data['user_pass']=wp_hash_password($object_data['user_pass']);}
         $user_id=wp_insert_user($object_data);
 		if(is_wp_error($user_id)){
-			throw new Exception($user_id->get_error_message());
+			throw new \Exception($user_id->get_error_message());
 		}
 		return $user_id;
     }

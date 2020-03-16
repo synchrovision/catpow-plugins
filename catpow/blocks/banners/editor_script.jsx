@@ -72,6 +72,7 @@
 					attr={attributes}
 					items={itemsCopy}
 					index={index}
+					isSelected={isSelected}
 				>
 					{states.hasTitle &&
 						<h3>

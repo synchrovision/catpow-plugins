@@ -18,7 +18,7 @@
 			]
 		}
 	},
-	edit({attributes,className,setAttributes}){
+	edit({attributes,className,setAttributes,isSelected}){
 		const {items,classes}=attributes;
 		const primaryClass='wp-block-catpow-formbuttons';
 		var classArray=_.uniq((className+' '+classes).split(' '));

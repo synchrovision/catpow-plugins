@@ -80,7 +80,8 @@ registerBlockType('catpow/banners', {
 					set: setAttributes,
 					attr: attributes,
 					items: itemsCopy,
-					index: index
+					index: index,
+					isSelected: isSelected
 				},
 				states.hasTitle && wp.element.createElement(
 					'h3',

@@ -19,7 +19,8 @@ registerBlockType('catpow/formbuttons', {
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,
-		    setAttributes = _ref.setAttributes;
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var items = attributes.items,
 		    classes = attributes.classes;
 

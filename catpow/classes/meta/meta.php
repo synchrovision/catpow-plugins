@@ -89,9 +89,10 @@ abstract class meta{
 		}
 		else{$loop=$meta->value;}
 		
-
-		foreach($loop as $meta_id=>$meta_value){
-			yield $meta_id=>$meta_value;
+		if(is_iterable($loop)){
+			foreach($loop as $meta_id=>$meta_value){
+				yield $meta_id=>$meta_value;
+			}
 		}
     }
     

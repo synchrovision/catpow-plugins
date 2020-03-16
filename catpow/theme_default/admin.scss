@@ -2,7 +2,7 @@
 @include wp_admin_color(b,m,a,t);
 
 html{
-	body.wp-admin{
+	body{
 		&::after{
 			content: '　';
 			@include bnd((d:b,p:f,w:f,h:f,t:0,l:0,z:10000));
@@ -15,13 +15,21 @@ html{
 			@include trn((o:.4));
 		}
 		&.login{
-			@include bg((c:b));
+			@include bg((i:'images/bg.png',s:c,p:c));
 			#login{
 				h1{
 					a{
 						@include bnd((w:a));
-						@include bg((i:logo,s:80% a,p:c));
+						@include bg((i:'images/logo.svg',s:80% a,p:c));
 					}
+				}
+			}
+			.button.sns_login{
+				@include bnd((d:b,mg:1em a));
+				@include txt((a:c));
+				img{
+					@include bnd((h:1.25em,w:a,mgr:.5em));
+					@include txt((v:m));
 				}
 			}
 		}
@@ -65,7 +73,7 @@ html{
 					@include bdr((s:n));
 				}
 			}
-			form#cp_search{
+			#cp_search{
 				#cpcf_custom_box_button{
 					@include bnd((p:f,z:10001,b:.5em,r:.5em,h:a,pd:1em));
 					@include bg((c:m));
@@ -199,7 +207,6 @@ html{
 				@include bnd((pd:1rem));
 				@include bdr((r:1rem));
 				@include shd((b:5));
-				@include flx((w:w));
 				&>li{
 					@include bnd((mg:0));
 					@include trn((t:.5s));
@@ -223,10 +230,46 @@ html{
 							@include bnd((mg:10 20));
 						}
 					}
+					.cp_lightbox_content{
+						@include bnd((w:95% 100rem));
+						@include flx((w:w));
+						.panel_body{
+							@include bnd((f:10 10 50rem));
+							&>ul{
+								@include bnd((pd:2rem));
+								&>li{
+									@include bnd((pd:1rem 0));
+									h3{
+										@include bnd((mgb:1rem,pdb:1rem));
+										@include bdr((p:b,s:s,w:1,c:t 50));
+										@include txt((p:2rem));
+									}
+								}
+							}
+						}
+						.cp_form_results{
+							@include bnd((f:1 1 20rem,pd:2rem));
+							@include bg((c:t));
+							@include txt((c:b,p:1.2rem));
+						}
+						.button_close_panel{
+							@include bnd((p:a,t:-2rem,r:-2rem));
+							.button{
+								@include bnd((w:4rem,h:4rem,pd:1rem));
+								@include bdr((s:n,r:50%));
+								@include bg((c:m));
+								@include shd((b:2));
+								@include txt((a:c,p:2rem,h:1em,c:b));
+								&::before{
+									@include ico('times');
+								}
+							}
+						}
+					}
 				}
 				&.active{
+					@include grd((rc:20rem));
 					&>li{
-						@include bnd((f:1 1 200px));
 						&.item{
 							&>.cp_form_section{
 							}
@@ -234,8 +277,8 @@ html{
 					}
 				}
 				&.inactive{
+					@include grd((rc:15rem));
 					&>li{
-						@include bnd((f:1 1 150px));
 						&.item{
 							&>h2{
 								@include txt((p:1.5rem));

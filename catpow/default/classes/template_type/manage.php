@@ -6,6 +6,13 @@ namespace Catpow\template_type;
 */
 
 class manage extends template_type{
+	public static function get_menus($conf_data){
+		return [
+			'top'=>[
+				$conf_data['label']=>$conf_data['alias_path']
+			]
+		];
+	}
 	public static function get_template_files($conf_data){
 		return array_merge([
 			'admin.php'=>[

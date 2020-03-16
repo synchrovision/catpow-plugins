@@ -15,7 +15,7 @@ class data extends meta{
 	public static function output($meta,$prm){
         $val=$meta->value;
         $rtn='<table class="inputs"><tbody>';
-		foreach($meta->conf['meta'] as $n=>$child_meta){
+		foreach((array)$meta->conf['meta'] as $n=>$child_meta){
 			$rtn.='<tr><th>'.$child_meta['label'].'</th><td>';
 			$rtn.=$meta->meta($n)->get_output();
 			$rtn.='</td></tr>';
@@ -27,7 +27,7 @@ class data extends meta{
         $path=$meta->the_data_path;
         $val=(array)$meta->value;
         $rtn='<table class="inputs"><tbody>';
-		foreach($meta->conf['meta'] as $n=>$child_meta){
+		foreach((array)$meta->conf['meta'] as $n=>$child_meta){
 			$rtn.='<tr><th>'.$child_meta['label'].'</th><td>';
 			$rtn.=$meta->meta($n)->get_input();
 			$rtn.='</td></tr>';

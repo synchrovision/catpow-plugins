@@ -205,11 +205,13 @@ else if($_REQUEST['setup_type']==='db'){
 	$update_logs=[];
 	$table_data=[];
 	
-	$fnc_update_cpdb_table=function($name,$conf)use(&$fnc_update_cpdb_table,&$created_tables,&$update_logs,&$table_data,$org_tables){
+	$fnc_update_cpdb_table=function($conf)use(&$fnc_update_cpdb_table,&$created_tables,&$update_logs,&$table_data,$org_tables){
 		global $wpdb,$cpdb;
 		$rtn=[];
         $class_name=cp::get_class_name('meta',$conf['type']);
         if(!$class_name::$is_database){return $rtn;}
+		
+		$name=explode('/',$conf['path']);
 		
 		$unique_key='meta_id';
 		
@@ -231,7 +233,7 @@ else if($_REQUEST['setup_type']==='db'){
 		foreach($conf['meta'] as $col_name=>$col_data){
             $col_class_name=cp::get_class_name('meta',$col_data['type']);
 			if($col_class_name::$is_database){
-				$rtn=array_merge($rtn,$fnc_update_cpdb_table(array_merge($name,[$col_name]),$col_data));
+				$rtn=array_merge($rtn,$fnc_update_cpdb_table($col_data));
 				$table_data[$table_name]['children'][$col_name]=cpdb::get_table_name(array_merge($name,[$col_name]));
 				continue;
 			}
@@ -305,7 +307,7 @@ else if($_REQUEST['setup_type']==='db'){
 	cp::conf_data_walk(function($data_type,$data_name,$conf_data)use($fnc_update_cpdb_table,&$new_tables){
 		if(empty($conf_data['meta']))return;
 		foreach($conf_data['meta'] as $meta_name=>$conf){
-			$new_tables=array_merge($new_tables,$fnc_update_cpdb_table([$data_type,$data_name,$meta_name],$conf));
+			$new_tables=array_merge($new_tables,$fnc_update_cpdb_table($conf));
 		}
 	});
 	

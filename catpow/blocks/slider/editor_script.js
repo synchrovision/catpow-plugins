@@ -75,6 +75,15 @@ registerBlockType('catpow/slider', {
 		var controlClassArray = _.uniq(attributes.controlClasses.split(' '));
 		var classNameArray = className.split(' ');
 
+		var imageKeys = {
+			image: { src: "src", alt: "alt", items: "items" },
+			slide: { src: "slideSrc", alt: "slideAlt", srscet: "slideSrcset", items: "items" },
+			backgroundImage: { src: "backgroundImageSrc", alt: "backgroundImageAlt", srcset: "backgroundImageSrcset", items: "items" }
+		};
+		var imageSizes = {
+			image: 'vga'
+		};
+
 		var states = {
 			loop: false,
 			autoplay: false,
@@ -111,8 +120,8 @@ registerBlockType('catpow/slider', {
 				index: ['hasTitle', 'hasText']
 			},
 			item: {
-				visual: ['color', 'pattern'],
-				story: ['color', 'pattern']
+				visual: ['color', 'pattern', { input: 'image', label: 'PC版背景画像', keys: imageKeys.backgroundImage }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.backgroundImage, ofSP: true, sizes: '480px' }],
+				story: ['color', 'pattern', { input: 'image', label: 'PC版背景画像', keys: imageKeys.backgroundImage }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.backgroundImage, ofSP: true, sizes: '480px' }]
 			}
 		}];
 
@@ -126,15 +135,6 @@ registerBlockType('catpow/slider', {
 		Object.keys(states).forEach(function (key) {
 			this[key] = hasClass(key);
 		}, states);
-
-		var imageKeys = {
-			image: { src: "src", alt: "alt", items: "items" },
-			slide: { src: "slideSrc", alt: "slideAlt", srscet: "slideSrcset", items: "items" },
-			backgroundImage: { src: "backgroundImageSrc", alt: "backgroundImageAlt", srcset: "backgroundImageSrcset", items: "items" }
-		};
-		var imageSizes = {
-			image: 'vga'
-		};
 
 		var rtn = [];
 		var thumbs = [];

@@ -69,6 +69,15 @@
 		var classNameArray=className.split(' ');
 		
 		
+		const imageKeys={
+			image:{src:"src",alt:"alt",items:"items"},
+			slide:{src:"slideSrc",alt:"slideAlt",srscet:"slideSrcset",items:"items"},
+			backgroundImage:{src:"backgroundImageSrc",alt:"backgroundImageAlt",srcset:"backgroundImageSrcset",items:"items"}
+		};
+		const imageSizes={
+			image:'vga'
+		};
+		
 		var states={
 			loop:false,
 			autoplay:false,
@@ -162,11 +171,15 @@
 				item:{
 					visual:[
 						'color',
-						'pattern'
+						'pattern',
+						{input:'image',label:'PC版背景画像',keys:imageKeys.backgroundImage},
+						{input:'image',label:'SP版背景画像',keys:imageKeys.backgroundImage,ofSP:true,sizes:'480px'}
 					],
 					story:[
 						'color',
-						'pattern'
+						'pattern',
+						{input:'image',label:'PC版背景画像',keys:imageKeys.backgroundImage},
+						{input:'image',label:'SP版背景画像',keys:imageKeys.backgroundImage,ofSP:true,sizes:'480px'}
 					]
 				}
 			}
@@ -177,15 +190,6 @@
 		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
 		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
 		
-		
-		const imageKeys={
-			image:{src:"src",alt:"alt",items:"items"},
-			slide:{src:"slideSrc",alt:"slideAlt",srscet:"slideSrcset",items:"items"},
-			backgroundImage:{src:"backgroundImageSrc",alt:"backgroundImageAlt",srcset:"backgroundImageSrcset",items:"items"}
-		};
-		const imageSizes={
-			image:'vga'
-		};
 		
 		var rtn=[];
 		var thumbs=[];

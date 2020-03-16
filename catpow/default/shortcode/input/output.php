@@ -1,8 +1,6 @@
 <?php
 namespace Catpow;
 $prm=shortcode_atts(array(0=>null,1=>null,2=>null),$atts);
-if($prm[1][0]==='{'){
-	$prm[1]=json_decode($prm[1],true);
-}
+if(isset($prm[1][0]) && $prm[1][0]==='{'){$prm[1]=json_decode($prm[1],true);}
 
 input($prm[0],$prm[1],$prm[2]);

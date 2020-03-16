@@ -53,19 +53,21 @@ function cp_form_init($form){
 
 function cp_form_get_fd($item){
     var $=jQuery;
-    var $form,fd;
+    var $form,$sec,fd;
     if($item.is('form')){
         fd=new FormData($item.get(0));
     }
     else{
         $form=$item.closest('form');
+		$sec=$item.closest('.cp_form_section')
         fd=new FormData();
         fd.append('action','cp_form');
         fd.append('_cp_form_nonce',$form.find('[name="_cp_form_nonce"]').val());
         fd.append('_wp_http_referer',$form.find('[name="_wp_http_referer"]').val());
         fd.append('cp_form_id',$form.find('[name="cp_form_id"]').val());
-        if($item.is('.cp_form_section')){fd.append('cp_form_section_id',$item.attr('data-section-id'));}
-        else{fd.append('cp_form_section_id',$item.closest('.cp_form_section').attr('data-section-id'));}
+        if($sec.length){
+			fd.append('cp_form_section_id',$sec.attr('data-section-id'));
+		}
 		$item.cp_get_fd(fd);
 		if($item.is('[data-watch]')){
 			var watch_targets=$item.attr('data-watch').split(',');
@@ -214,7 +216,18 @@ function cp_form_submit($item,action,callback,param){
 						sel+='[data-section-id="'+data.section_id+'"]';
 					}
 					if($form.is('form')){$tgt=$(sel,$form);}
-					else{$tgt=$form.closest(sel);}
+					else{
+						switch(data.target){
+							case 'content':
+							case 'section':
+								$tgt=$form.closest(sel);
+								break;
+							default:
+								$form=$form.closest('form,[data-role="cp_form_section"]');
+								$tgt=$(sel,$form);
+						}
+						
+					}
 				}
 				else{
 					if($form.is('form')){$tgt=$('[data-role="cp_form_content"]',$form);}

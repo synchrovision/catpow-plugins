@@ -10,7 +10,7 @@ class media extends meta{
 	public static function output($meta,$prm){
         $val=$meta->value;
         if($prm=='url'){return wp_get_attachment_url($val);}
-		$post=get_post($val);
+		if(empty($post=get_post($val))){return '';}
 		if($prm=='type'){return $post->post_mime_type;}
 		$prm=(array)$prm;
 		switch(substr($post->post_mime_type,0,5)){

@@ -500,7 +500,7 @@ class CP{
 			}
 			return $cache[$content_path]=$conf_data;
 		}
-		$conf_data=self::get_the_conf_data(dirname($content_path))['meta'][basename($content_path)];
+		$conf_data=self::get_the_conf_data(dirname($content_path))['meta'][basename($content_path)]??[];
 		if($f=self::get_file_path($content_path.'/meta.php')){
 			include $f;
 			if(isset($meta)){$conf_data['meta']=array_merge($meta,(array)$conf_data['meta']);}

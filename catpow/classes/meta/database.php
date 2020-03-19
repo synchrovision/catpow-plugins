@@ -9,7 +9,7 @@ class database extends data{
 	public static function get($data_type,$data_name,$id,$meta_name,$conf){
 		global $cpdb;
 		if($data_type=='cpdb'){
-			if(static::$has_parent){$where=['meta_id'=>$id];}else{$where=[];}
+			if(static::$has_parent){$where=['parent_id'=>$id];}else{$where=[];}
 			return $cpdb->select($cpdb->structure[\cpdb::get_table_name($data_name)]['children'][$meta_name],$where);
 		}
 		if(static::$has_parent){$where=['parent_id'=>$id];}else{$where=[];}

@@ -21,6 +21,7 @@ registerBlockType('catpow/banners', {
 				classes: { source: 'attribute', attribute: 'class' },
 				title: { source: 'children', selector: 'h3' },
 				src: { source: 'attribute', selector: '[src]', attribute: 'src' },
+				srcset: { source: 'attribute', selector: '[src]', attribute: 'srcset' },
 				alt: { source: 'attribute', selector: '[src]', attribute: 'alt' },
 				linkUrl: { source: 'attribute', selector: 'a', attribute: 'href' }
 			},
@@ -47,27 +48,19 @@ registerBlockType('catpow/banners', {
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 		var classNameArray = className.split(' ');
 
-		var states = {
-			hasTitle: false
+		var states = CP.wordsToFlags(classes);
+		var imageKeys = {
+			image: { src: "src", srcset: "srcset", alt: "alt", items: "items" }
 		};
 
 		var selectiveClasses = [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: 'タイトル', values: 'hasTitle' }];
+		var selectiveItemClasses = [{ input: 'image', label: 'PC版背景画像', keys: imageKeys.image }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.image, ofSP: true, sizes: '480px' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
 		});
 
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
-
 		var rtn = [];
-		var imageKeys = {
-			image: { src: "src", alt: "alt", items: "items" }
-		};
 
 		itemsCopy.map(function (item, index) {
 			if (!item.controlClasses) {
@@ -136,6 +129,15 @@ registerBlockType('catpow/banners', {
 					value: classArray.join(' ')
 				})
 			),
+			wp.element.createElement(SelectItemClassPanel, {
+				title: '\u30D0\u30CA\u30FC',
+				icon: 'edit',
+				set: setAttributes,
+				attr: attributes,
+				items: itemsCopy,
+				index: attributes.currentItemIndex,
+				itemClasses: selectiveItemClasses
+			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
 		), wp.element.createElement(
 			'ul',
@@ -151,15 +153,10 @@ registerBlockType('catpow/banners', {
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 
-		var states = {
-			hasTitle: false
+		var states = CP.wordsToFlags(classes);
+		var imageKeys = {
+			image: { src: "src", srcset: "srcset", alt: "alt", items: "items" }
 		};
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
 
 		return wp.element.createElement(
 			'ul',
@@ -176,8 +173,11 @@ registerBlockType('catpow/banners', {
 					wp.element.createElement(
 						'a',
 						{ href: item.linkUrl },
-						wp.element.createElement('img', { src: item.src, alt: item.alt }),
-						' '
+						wp.element.createElement(ResponsiveImage, {
+							attr: attributes,
+							keys: imageKeys.image,
+							index: index
+						})
 					)
 				);
 			})

@@ -23,6 +23,7 @@
 				classes:{source:'attribute',attribute:'class'},
 				title:{source:'children',selector:'h3'},
 				src:{source:'attribute',selector:'[src]',attribute:'src'},
+				srcset:{source:'attribute',selector:'[src]',attribute:'srcset'},
 				alt:{source:'attribute',selector:'[src]',attribute:'alt'},
 				linkUrl:{source:'attribute',selector:'a',attribute:'href'},
 			},
@@ -43,25 +44,23 @@
 		var classArray=_.uniq((className+' '+classes).split(' '));
 		var classNameArray=className.split(' ');
 		
-		var states={
-			hasTitle:false
-		}
-		
+		var states=CP.wordsToFlags(classes);
+		const imageKeys={
+			image:{src:"src",srcset:"srcset",alt:"alt",items:"items"}
+		};
         
 		var selectiveClasses=[
 			{label:'サイズ',values:['small','medium','large']},
 			{label:'タイトル',values:'hasTitle'}
 		];
+		const selectiveItemClasses=[
+			{input:'image',label:'PC版背景画像',keys:imageKeys.image},
+			{input:'image',label:'SP版背景画像',keys:imageKeys.image,ofSP:true,sizes:'480px'}
+		];
 		
 		let itemsCopy=items.map((obj)=>jQuery.extend(true,{},obj));
 		
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
-		
 		let rtn=[];
-		const imageKeys={
-			image:{src:"src",alt:"alt",items:"items"}
-		};
 
 		itemsCopy.map((item,index)=>{
 			if(!item.controlClasses){item.controlClasses='control';}
@@ -117,6 +116,15 @@
 						value={classArray.join(' ')}
 					/>
 				</PanelBody>
+				<SelectItemClassPanel
+					title='バナー'
+					icon='edit'
+					set={setAttributes}
+					attr={attributes}
+					items={itemsCopy}
+					index={attributes.currentItemIndex}
+					itemClasses={selectiveItemClasses}
+				/>
 				<ItemControlInfoPanel/>
 			</InspectorControls>,
 			<ul className={attributes.EditMode?(primaryClass+' edit'):classes}>{rtn}</ul>
@@ -126,18 +134,23 @@
 		const {items,classes}=attributes;
 		var classArray=_.uniq(attributes.classes.split(' '));
 		
-		var states={
-			hasTitle:false
-		}
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
+		var states=CP.wordsToFlags(classes);
+		const imageKeys={
+			image:{src:"src",srcset:"srcset",alt:"alt",items:"items"}
+		};
 		
 		return <ul className={classes}>{
 			items.map((item,index)=>{
 				return (
 					<li className={item.classes}>
 						{states.hasTitle && <h3>{item.title}</h3>}
-						<a href={item.linkUrl}><img src={item.src} alt={item.alt}/> </a>
+						<a href={item.linkUrl}>
+							<ResponsiveImage
+								attr={attributes}
+								keys={imageKeys.image}
+								index={index}
+							/>
+						</a>
 					</li>
 				);
 			})

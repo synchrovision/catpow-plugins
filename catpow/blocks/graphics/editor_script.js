@@ -68,9 +68,7 @@ registerBlockType('catpow/graphics', {
 		var cssData = {},
 		    cssDataSP = {};
 
-		var states = {
-			hasBaseImage: false
-		};
+		var states = CP.wordsToFlags(classes);
 		var imageKeys = {
 			base: { src: "src", srcset: "srcset", alt: "alt" },
 			image: { src: "src", srcset: "srcset", alt: "alt", items: "items" }
@@ -98,13 +96,6 @@ registerBlockType('catpow/graphics', {
 					hoverLift: 'リフト',
 					hoverJump: 'ジャンプ'
 				} }] }];
-
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
 
 		if (!states.hasBaseImage) {
 			cssData['#' + id + ' .base'] = { 'padding-top': height + '%' };
@@ -452,20 +443,11 @@ registerBlockType('catpow/graphics', {
 		var cssData = {},
 		    cssDataSP = {};
 
-		var states = {
-			hasBaseImage: false
-		};
+		var states = CP.wordsToFlags(classes);
 		var imageKeys = {
 			base: { src: "src", srcset: "srcset", alt: "alt" },
 			image: { src: "src", srcset: "srcset", alt: "alt", items: "items" }
 		};
-
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
 
 		if (!states.hasBaseImage) {
 			cssData['#' + id + ' .base'] = { 'padding-top': height + '%' };

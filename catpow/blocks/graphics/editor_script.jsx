@@ -57,9 +57,7 @@
 		
 		var cssData={},cssDataSP={};
 		
-		var states={
-			hasBaseImage:false
-		}
+		var states=CP.wordsToFlags(classes);
 		const imageKeys={
 			base:{src:"src",srcset:"srcset",alt:"alt"},
 			image:{src:"src",srcset:"srcset",alt:"alt",items:"items"},
@@ -115,9 +113,6 @@
 				}}
 			]}
 		];
-		
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
 		
 		if(!states.hasBaseImage){
 			cssData['#'+id+' .base']={'padding-top':height+'%'};
@@ -415,16 +410,11 @@
 		
 		var cssData={},cssDataSP={};
 		
-		var states={
-			hasBaseImage:false
-		}
+		var states=CP.wordsToFlags(classes);
 		const imageKeys={
 			base:{src:"src",srcset:"srcset",alt:"alt"},
 			image:{src:"src",srcset:"srcset",alt:"alt",items:"items"},
 		};
-		
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
 		
 		if(!states.hasBaseImage){
 			cssData['#'+id+' .base']={'padding-top':height+'%'};

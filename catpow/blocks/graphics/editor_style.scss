@@ -1,6 +1,6 @@
 @import 'admin_style_config.scss';
 
-div.wp-block-catpow-graphics{
+.wp-block-catpow-graphics{
 	.item{
 		.pos,.del,.dup,.bnd{
 			@include bnd((d:b,p:a,t:-10,w:20,h:20,z:1,bs:c));
@@ -27,6 +27,7 @@ div.wp-block-catpow-graphics{
 		}
 	}
 	&.sp{
-		@include bnd((w:40rem,mg:0 a));
+		@include bnd((mg:0 a));
+		@include bdr((s:s,w:1,c:t 10));
 	}
 }

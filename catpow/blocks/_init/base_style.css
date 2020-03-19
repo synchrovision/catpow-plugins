@@ -132,12 +132,12 @@ div.embedded_content {
     right: 0px;
     top: 0px;
     padding: 0.5rem 1rem;
-    z-index: 1;
+    z-index: 10;
     background-color: #fefefe;
     text-align: center;
     font-size: 1rem;
     line-height: 10px;
-    font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', メイリオ, sans-serif;
+    font-family: 'Helvetica Neue', "游ゴシック Medium", YuGothic, YuGothicM, "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, sans-serif;
     font-weight: 400;
     color: #444;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }

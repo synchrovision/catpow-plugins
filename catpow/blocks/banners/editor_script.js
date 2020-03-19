@@ -23,7 +23,8 @@ registerBlockType('catpow/banners', {
 				src: { source: 'attribute', selector: '[src]', attribute: 'src' },
 				srcset: { source: 'attribute', selector: '[src]', attribute: 'srcset' },
 				alt: { source: 'attribute', selector: '[src]', attribute: 'alt' },
-				linkUrl: { source: 'attribute', selector: 'a', attribute: 'href' }
+				linkUrl: { source: 'attribute', selector: 'a', attribute: 'href' },
+				target: { source: 'attribute', selector: 'a', attribute: 'target' }
 			},
 			default: [].concat(babelHelpers.toConsumableArray(Array(3))).map(function () {
 				return {
@@ -54,7 +55,7 @@ registerBlockType('catpow/banners', {
 		};
 
 		var selectiveClasses = [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: 'タイトル', values: 'hasTitle' }];
-		var selectiveItemClasses = [{ input: 'image', label: 'PC版背景画像', keys: imageKeys.image }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.image, ofSP: true, sizes: '480px' }];
+		var selectiveItemClasses = [{ input: 'image', label: 'PC版画像', keys: imageKeys.image }, { input: 'image', label: 'SP版画像', keys: imageKeys.image, ofSP: true, sizes: '480px' }, { input: 'text', label: 'alt', key: 'alt' }, { input: 'text', label: 'target', key: 'target' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -172,7 +173,7 @@ registerBlockType('catpow/banners', {
 					),
 					wp.element.createElement(
 						'a',
-						{ href: item.linkUrl },
+						{ href: item.linkUrl, target: item.target },
 						wp.element.createElement(ResponsiveImage, {
 							attr: attributes,
 							keys: imageKeys.image,

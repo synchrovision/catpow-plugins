@@ -26,6 +26,7 @@
 				srcset:{source:'attribute',selector:'[src]',attribute:'srcset'},
 				alt:{source:'attribute',selector:'[src]',attribute:'alt'},
 				linkUrl:{source:'attribute',selector:'a',attribute:'href'},
+				target:{source:'attribute',selector:'a',attribute:'target'}
 			},
 			default:[...Array(3)].map(()=>{
 				return {
@@ -54,8 +55,10 @@
 			{label:'タイトル',values:'hasTitle'}
 		];
 		const selectiveItemClasses=[
-			{input:'image',label:'PC版背景画像',keys:imageKeys.image},
-			{input:'image',label:'SP版背景画像',keys:imageKeys.image,ofSP:true,sizes:'480px'}
+			{input:'image',label:'PC版画像',keys:imageKeys.image},
+			{input:'image',label:'SP版画像',keys:imageKeys.image,ofSP:true,sizes:'480px'},
+			{input:'text',label:'alt',key:'alt'},
+			{input:'text',label:'target',key:'target'}
 		];
 		
 		let itemsCopy=items.map((obj)=>jQuery.extend(true,{},obj));
@@ -144,7 +147,7 @@
 				return (
 					<li className={item.classes}>
 						{states.hasTitle && <h3>{item.title}</h3>}
-						<a href={item.linkUrl}>
+						<a href={item.linkUrl} target={item.target}>
 							<ResponsiveImage
 								attr={attributes}
 								keys={imageKeys.image}

@@ -6,7 +6,7 @@
 		w:font-weight,fw:font-weight,fs:font-style,
 		td:text-decoration,to:text-oriantation,
 		l:list-style,
-		whs:white-space,wds:word-spacing,wb:word-break,b:word-break
+		whs:white-space,wds:word-spacing,wb:word-break,b:word-break,ffs:font-feature-settings
 	);
 	$avals:(l:left,r:right,c:center,j:justify,n:nowrap);
 	$akeys:(l:a,r:a,c:a,j:a,n:whs);
@@ -18,6 +18,7 @@
 	$lvals:(n:none,ds:disc,cr:circle,sq:square,alp:upper-alpha,dec:decimal,rom:upper-roman,hira:hiragana);
 	$mvals:(h:horizontal-tb,vr:vertical-rl,vl:vertical-lr);
 	$tovals:(m:mixed,s:sideway,u:upright);
+	$ffsvals:(p:"palt",t:"trad",n:"nalt");
 	@each $key,$val in $txt{
 		@if $key == p or $key == h{$val:cp_get_size_value($val);}
 		@if $key == c{$val:cp_get_color($val);}
@@ -31,6 +32,7 @@
 		@if $key == m{@include writing-mode(replace_values($val,$mvals));}
 		@if $key == t{$val:cp_get_size_value($val);}
 		@if $key == to{$val:replace_values($val,$tovals);}
+		@if $key == ffs{$val:replace_values($val,$ffsvals);}
 		@if map-has-key($keys,$key){#{map-get($keys,$key)}:$val;}
 	}
 }

@@ -6,6 +6,7 @@
 	attributes:{
 		id:{source:'attribute',selector:'section',attribute:'id'},
 		classes:{source:'attribute',selector:'section',attribute:'class',default:'wp-block-catpow-section article level3 center catch'},
+		icon:{source:'attribute',selector:'section',attribute:'data-icon'},
 
 		prefix:{source:'children',selector:'header div.prefix'},
 		title:{type:'array',source:'children',selector:'header h2,header .heading',default:['Title']},
@@ -34,16 +35,10 @@
 		const primaryClass='wp-block-catpow-section';
 		var classArray=_.uniq((className+' '+classes).split(' '));
 		
-		var states={
-			hasPrefix:false,
-			hasHeaderImage:false,
-			hasHeaderBackgroundImage:false,
-			hasRead:false,
-			hasImage:false,
-			hasBackgroundImage:false
-		}
+		var states=CP.wordsToFlags(classes);
 		
 		const imageKeys={
+			icon:{src:"icon"},
 			image:{mime:"imageMime",src:"imageSrc",alt:"imageAlt",srcset:"imageSrcset"},
 			headerImage:{mime:"headerImageMime",src:"headerImageSrc",alt:"headerImageAlt",srcset:"headerImageSrcset"},
 			headerBackgroundImage:{mime:"headerBackgroundImageMime",src:"headerBackgroundImageSrc",alt:"headerBackgroundImageAlt",srcset:"headerBackgroundImageSrcset"},
@@ -82,7 +77,10 @@
 							{input:'image',keys:imageKeys.backgroundImage},
 							{label:'薄く',values:'paleBG'}
 						]},
-						{label:'背景色',values:'hasBackgroundColor'}
+						{label:'背景色',values:'hasBackgroundColor'},
+						{label:'メニューアイコン',values:'hasNavIcon',sub:[
+							{input:'image',label:'アイコン',keys:imageKeys.icon,size:'thumbnail'}
+						]}
 					],
 					article:[
 						'color',
@@ -96,7 +94,10 @@
 							{input:'image',keys:imageKeys.backgroundImage},
 							{label:'薄く',values:'paleBG'}
 						]},
-						{label:'背景色',values:'hasBackgroundColor'}
+						{label:'背景色',values:'hasBackgroundColor'},
+						{label:'メニューアイコン',values:'hasNavIcon',sub:[
+							{input:'image',label:'アイコン',keys:imageKeys.icon,size:'thumbnail'}
+						]}
 					],
 					column:[
 						'color',
@@ -113,7 +114,10 @@
 						]},
 						{label:'線',values:{no_border:'なし',thin_border:'細',bold_border:'太'}},
 						{label:'角丸',values:'round'},
-						{label:'影',values:'shadow',sub:[{label:'内側',values:'inset'}]}
+						{label:'影',values:'shadow',sub:[{label:'内側',values:'inset'}]},
+						{label:'メニューアイコン',values:'hasNavIcon',sub:[
+							{input:'image',label:'アイコン',keys:imageKeys.icon,size:'thumbnail'}
+						]}
 					]
 				},
 				bind:{
@@ -122,9 +126,6 @@
 				}
 			}
 		];
-		
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
 		
 		var level=CP.getNumberClass({attr:attributes},'level');
 		
@@ -216,22 +217,13 @@
         ];
     },
 	save({attributes,className,setAttributes}){
-        const {id,classes,prefix,title,headerImageSrc,headerImageSrcset,headerImageAlt,read,imageSrc,imageSrcset,imageAlt,backgroundImageSrc}=attributes;
+        const {id,icon,classes,prefix,title,headerImageSrc,headerImageSrcset,headerImageAlt,read,imageSrc,imageSrcset,imageAlt,backgroundImageSrc}=attributes;
 		
-		
-		var classArray=classes.split(' ');
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		
-		var hasPrefix=hasClass('hasPrefix');
-		var hasHeaderImage=hasClass('hasHeaderImage');
-		var hasHeaderBackgroundImage=hasClass('hasHeaderBackgroundImage');
-		var hasRead=hasClass('hasRead');
-		var hasImage=hasClass('hasImage');
-		var hasBackgroundImage=hasClass('hasBackgroundImage');
-		
+		var states=CP.wordsToFlags(classes);
 		var level=CP.getNumberClass({attr:attributes},'level');
 		
 		const imageKeys={
+			icon:{src:"icon"},
 			image:{mime:"imageMime",src:"imageSrc",alt:"imageAlt",srcset:"imageSrcset"},
 			headerImage:{mime:"headerImageMime",src:"headerImageSrc",alt:"headerImageAlt",srcset:"headerImageSrcset"},
 			headerBackgroundImage:{mime:"headerBackgroundImageMime",src:"headerBackgroundImageSrc",alt:"headerBackgroundImageAlt",srcset:"headerBackgroundImageSrcset"},
@@ -239,8 +231,8 @@
 		};
 		
 		return (
-			<section id={id} className={classes}>
-				{hasImage && 
+			<section id={id} className={classes} data-icon={icon}>
+				{states.hasImage && 
 					<div class="image">
 						<ResponsiveImage
 							attr={attributes}
@@ -252,10 +244,10 @@
 				<div class="contents">
 					<header>
 						<div class="title">
-							{hasPrefix && 
+							{states.hasPrefix && 
 								<div class="prefix">{prefix}</div>
 							}
-							{hasHeaderImage &&
+							{states.hasHeaderImage &&
 								<div class="image">
 									<ResponsiveImage
 										attr={attributes}
@@ -264,9 +256,9 @@
 								</div>
 							}
 							{el('h'+level,{className:'heading'},title)}
-							{hasRead && <p>{read}</p>}
+							{states.hasRead && <p>{read}</p>}
 						</div>
-						{hasHeaderBackgroundImage &&
+						{states.hasHeaderBackgroundImage &&
 							<div class="background">
 								<ResponsiveImage
 									attr={attributes}
@@ -277,7 +269,7 @@
 					</header>
 					<div class="text"><InnerBlocks.Content/></div>
 				</div>
-				{hasBackgroundImage && 
+				{states.hasBackgroundImage && 
 					<div class="background">
 						<ResponsiveImage
 							attr={attributes}

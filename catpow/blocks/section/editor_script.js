@@ -6,6 +6,7 @@ registerBlockType('catpow/section', {
 	attributes: {
 		id: { source: 'attribute', selector: 'section', attribute: 'id' },
 		classes: { source: 'attribute', selector: 'section', attribute: 'class', default: 'wp-block-catpow-section article level3 center catch' },
+		icon: { source: 'attribute', selector: 'section', attribute: 'data-icon' },
 
 		prefix: { source: 'children', selector: 'header div.prefix' },
 		title: { type: 'array', source: 'children', selector: 'header h2,header .heading', default: ['Title'] },
@@ -51,16 +52,10 @@ registerBlockType('catpow/section', {
 		var primaryClass = 'wp-block-catpow-section';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 
-		var states = {
-			hasPrefix: false,
-			hasHeaderImage: false,
-			hasHeaderBackgroundImage: false,
-			hasRead: false,
-			hasImage: false,
-			hasBackgroundImage: false
-		};
+		var states = CP.wordsToFlags(classes);
 
 		var imageKeys = {
+			icon: { src: "icon" },
 			image: { mime: "imageMime", src: "imageSrc", alt: "imageAlt", srcset: "imageSrcset" },
 			headerImage: { mime: "headerImageMime", src: "headerImageSrc", alt: "headerImageAlt", srcset: "headerImageSrcset" },
 			headerBackgroundImage: { mime: "headerBackgroundImageMime", src: "headerBackgroundImageSrc", alt: "headerBackgroundImageAlt", srcset: "headerBackgroundImageSrcset" },
@@ -75,22 +70,15 @@ registerBlockType('catpow/section', {
 			label: 'タイプ',
 			values: ['scene', 'article', 'column'],
 			sub: {
-				scene: ['color', 'pattern', { label: 'プレフィクス', values: 'hasPrefix' }, { label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{ input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage }] }, { label: 'ヘッダ背景画像', values: 'hasHeaderBackgroundImage', sub: [{ input: 'image', keys: imageKeys.headerBackgroundImage }, { label: '薄く', values: 'paleHeaderBG' }] }, { label: '抜き色文字', values: 'inverseText', sub: [{ label: 'ヘッダ背景色', values: 'hasHeaderBackgroundColor' }] }, { label: 'リード', values: 'hasRead' }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }],
-				article: ['color', { label: 'レベル', values: { level2: '2', level3: '3', level4: '4' } }, { label: '見出しタイプ', values: { header: 'ヘッダ', headline: 'ヘッドライン', catch: 'キャッチ' } }, { label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{ input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage }] }, { label: 'リード', values: 'hasRead' }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }],
-				column: ['color', 'pattern', { label: 'アイコン', values: 'hasIcon', sub: [{ label: '種類', values: ['check', 'help', 'alert', 'caution', 'warn'] }] }, { label: '画像', values: 'hasImage', sub: [{ input: 'image', keys: imageKeys.image }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '薄く', values: 'paleBG' }] }, { label: '線', values: { no_border: 'なし', thin_border: '細', bold_border: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '内側', values: 'inset' }] }]
+				scene: ['color', 'pattern', { label: 'プレフィクス', values: 'hasPrefix' }, { label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{ input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage }] }, { label: 'ヘッダ背景画像', values: 'hasHeaderBackgroundImage', sub: [{ input: 'image', keys: imageKeys.headerBackgroundImage }, { label: '薄く', values: 'paleHeaderBG' }] }, { label: '抜き色文字', values: 'inverseText', sub: [{ label: 'ヘッダ背景色', values: 'hasHeaderBackgroundColor' }] }, { label: 'リード', values: 'hasRead' }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }],
+				article: ['color', { label: 'レベル', values: { level2: '2', level3: '3', level4: '4' } }, { label: '見出しタイプ', values: { header: 'ヘッダ', headline: 'ヘッドライン', catch: 'キャッチ' } }, { label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{ input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage }] }, { label: 'リード', values: 'hasRead' }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }],
+				column: ['color', 'pattern', { label: 'アイコン', values: 'hasIcon', sub: [{ label: '種類', values: ['check', 'help', 'alert', 'caution', 'warn'] }] }, { label: '画像', values: 'hasImage', sub: [{ input: 'image', keys: imageKeys.image }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '薄く', values: 'paleBG' }] }, { label: '線', values: { no_border: 'なし', thin_border: '細', bold_border: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '内側', values: 'inset' }] }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }]
 			},
 			bind: {
 				scene: ['level1'],
 				column: ['level3']
 			}
 		}];
-
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
 
 		var level = CP.getNumberClass({ attr: attributes }, 'level');
 
@@ -212,6 +200,7 @@ registerBlockType('catpow/section', {
 		    className = _ref2.className,
 		    setAttributes = _ref2.setAttributes;
 		var id = attributes.id,
+		    icon = attributes.icon,
 		    classes = attributes.classes,
 		    prefix = attributes.prefix,
 		    title = attributes.title,
@@ -225,21 +214,11 @@ registerBlockType('catpow/section', {
 		    backgroundImageSrc = attributes.backgroundImageSrc;
 
 
-		var classArray = classes.split(' ');
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-
-		var hasPrefix = hasClass('hasPrefix');
-		var hasHeaderImage = hasClass('hasHeaderImage');
-		var hasHeaderBackgroundImage = hasClass('hasHeaderBackgroundImage');
-		var hasRead = hasClass('hasRead');
-		var hasImage = hasClass('hasImage');
-		var hasBackgroundImage = hasClass('hasBackgroundImage');
-
+		var states = CP.wordsToFlags(classes);
 		var level = CP.getNumberClass({ attr: attributes }, 'level');
 
 		var imageKeys = {
+			icon: { src: "icon" },
 			image: { mime: "imageMime", src: "imageSrc", alt: "imageAlt", srcset: "imageSrcset" },
 			headerImage: { mime: "headerImageMime", src: "headerImageSrc", alt: "headerImageAlt", srcset: "headerImageSrcset" },
 			headerBackgroundImage: { mime: "headerBackgroundImageMime", src: "headerBackgroundImageSrc", alt: "headerBackgroundImageAlt", srcset: "headerBackgroundImageSrcset" },
@@ -248,8 +227,8 @@ registerBlockType('catpow/section', {
 
 		return wp.element.createElement(
 			'section',
-			{ id: id, className: classes },
-			hasImage && wp.element.createElement(
+			{ id: id, className: classes, 'data-icon': icon },
+			states.hasImage && wp.element.createElement(
 				'div',
 				{ 'class': 'image' },
 				wp.element.createElement(ResponsiveImage, {
@@ -267,12 +246,12 @@ registerBlockType('catpow/section', {
 					wp.element.createElement(
 						'div',
 						{ 'class': 'title' },
-						hasPrefix && wp.element.createElement(
+						states.hasPrefix && wp.element.createElement(
 							'div',
 							{ 'class': 'prefix' },
 							prefix
 						),
-						hasHeaderImage && wp.element.createElement(
+						states.hasHeaderImage && wp.element.createElement(
 							'div',
 							{ 'class': 'image' },
 							wp.element.createElement(ResponsiveImage, {
@@ -281,13 +260,13 @@ registerBlockType('catpow/section', {
 							})
 						),
 						el('h' + level, { className: 'heading' }, title),
-						hasRead && wp.element.createElement(
+						states.hasRead && wp.element.createElement(
 							'p',
 							null,
 							read
 						)
 					),
-					hasHeaderBackgroundImage && wp.element.createElement(
+					states.hasHeaderBackgroundImage && wp.element.createElement(
 						'div',
 						{ 'class': 'background' },
 						wp.element.createElement(ResponsiveImage, {
@@ -302,7 +281,7 @@ registerBlockType('catpow/section', {
 					wp.element.createElement(InnerBlocks.Content, null)
 				)
 			),
-			hasBackgroundImage && wp.element.createElement(
+			states.hasBackgroundImage && wp.element.createElement(
 				'div',
 				{ 'class': 'background' },
 				wp.element.createElement(ResponsiveImage, {

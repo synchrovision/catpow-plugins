@@ -318,20 +318,20 @@ class CP{
         return $path;
     }
 
-    public static function enqueue_script($src=false,$depth=array(),$ver=false,$in_footer=true){
+    public static function enqueue_script($src=false,$deps=array(),$ver=false,$in_footer=true){
 		static $missed=[];
 		if(wp_script_is($src) || isset($missed[$src])){return false;}
         if(empty($file=self::get_file_path_url($src))){$missed[$src]=1;return false;}
 		if(empty($ver)){$ver=filemtime(key($file));}
-		wp_enqueue_script($src,reset($file),$depth,$ver,$in_footer);
+		wp_enqueue_script($src,reset($file),$deps,$ver,$in_footer);
 	}
-	public static function enqueue_style($src=false,$depth=array(),$ver=false,$media=false){
+	public static function enqueue_style($src=false,$deps=array(),$ver=false,$media=false){
 		static $missed=[];
 		if(wp_script_is($src) || isset($missed[$src])){return false;}
         if(empty($file=self::get_file_path_url($src))){$missed[$src]=1;return false;}
 		self::scss_compile([substr($src,0,-4)]);
 		if(empty($ver)){$ver=filemtime(key($file));}
-		wp_enqueue_style($src,reset($file),$depth,$ver,$media);
+		wp_enqueue_style($src,reset($file),$deps,$ver,$media);
 	}
 	public static function use_ui($name){
 		static $done=[];

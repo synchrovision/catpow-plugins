@@ -1,4 +1,6 @@
 var CP = {
+	filters: {},
+
 	listedConvertibles: ['catpow/listed', 'catpow/flow', 'catpow/faq', 'catpow/ranking', 'catpow/dialog', 'catpow/sphere', 'catpow/slider', 'catpow/banners', 'catpow/lightbox'],
 	tableConvertibles: ['catpow/simpletable', 'catpow/datatable', 'catpow/layouttable'],
 
@@ -803,6 +805,9 @@ var EditItems = function EditItems(props) {
 var SelectClassPanel = function SelectClassPanel(props) {
 	var SelectClass = function SelectClass(prm) {
 		var rtn = [];
+		if (prm.filter && props.filters[prm.filter]) {
+			props.filters[prm.filter](prm);
+		}
 		if (prm.json) {
 			if (prm.input) {
 				switch (prm.input) {
@@ -1150,7 +1155,6 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 						onChange: function onChange(val) {
 							var newItems = JSON.parse(JSON.stringify(items));
 							newItems[index][prm.key] = val;
-							console.log(babelHelpers.defineProperty({}, itemsKey, newItems));
 							set(babelHelpers.defineProperty({}, itemsKey, newItems));
 						}
 					}));

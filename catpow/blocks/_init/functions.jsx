@@ -1,4 +1,6 @@
 ﻿const CP={
+	filters:{},
+	
 	listedConvertibles:['catpow/listed','catpow/flow','catpow/faq','catpow/ranking','catpow/dialog','catpow/sphere','catpow/slider','catpow/banners','catpow/lightbox'],
 	tableConvertibles:['catpow/simpletable','catpow/datatable','catpow/layouttable'],
 	
@@ -517,6 +519,9 @@ const EditItems=(props)=>{
 const SelectClassPanel=(props)=>{
 	const SelectClass=(prm)=>{
 		let rtn=[];
+		if(prm.filter && props.filters[prm.filter]){
+			props.filters[prm.filter](prm);
+		}
         if(prm.json){
             if(prm.input){
                 switch(prm.input){
@@ -837,7 +842,6 @@ const SelectItemClassPanel=(props)=>{
 							onChange={(val)=>{
 								let newItems=JSON.parse(JSON.stringify(items));
 								newItems[index][prm.key]=val;
-								console.log({[itemsKey]:newItems});
 								set({[itemsKey]:newItems});
 							}}
 						/>

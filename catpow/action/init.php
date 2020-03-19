@@ -145,7 +145,7 @@ if(function_exists('register_block_type')){
 	cp::scss_compile($block_style_names);
 	add_filter('render_block_data',function($block,$source_block)use($deps){
 		static $done=[];
-		if(in_array($block['blockName'],$done,true)){return $block;}
+		if(!empty($done[$block['blockName']])){return $block;}
 		$block_name=explode('/',$block['blockName'])[1]??null;
 		if(empty($block_name)){return $block;}
 		if($f=cp::get_file_path('blocks/'.$block_name.'/front_init.php',3)){include $f;}
@@ -161,7 +161,7 @@ if(function_exists('register_block_type')){
 			'blocks/'.$block_name.'/component.js',
 			$deps['component']
 		);
-		$done[]=$block['blockName'];
+		$done[$block['blockName']]=true;
 		return $block;
 	},10,2);
 	add_action('enqueue_block_editor_assets',function()use($deps){
@@ -170,6 +170,10 @@ if(function_exists('register_block_type')){
 		foreach($block_registry->get_all_registered() as $block_name=>$block_type){
 			$block_base_name=explode('/',$block_name)[1];
 			if($f=cp::get_file_path('blocks/'.$block_base_name.'/editor_init.php',3)){include $f;}
+			cp::enqueue_script(
+				'blocks/'.$block_base_name.'/editor_init.js',
+				$deps['editor_script']
+			);
 			cp::enqueue_style(
 				'blocks/'.$block_base_name.'/front_style.css',
 				$deps['front_style']

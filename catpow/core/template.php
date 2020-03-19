@@ -403,7 +403,11 @@ function loop($name=null,$prm=null,$vars=null){
             switch(substr_count($name,'/')){
                 case 1:return \cp::$content->query($name.'/default',$prm)->loop();
                 case 2:return \cp::$content->query($name,$prm)->loop();
-                case 3:\cp::$content->query(dirname($name),$prm)->render(basename($name),$vars);
+                case 3:
+					$path=dirname($name);
+					\cp::enqueue_script($path.'/script.js');
+					\cp::enqueue_style($path.'/style.css');
+					\cp::$content->query($path,$prm)->render(basename($name),$vars);
             }
         }
     }

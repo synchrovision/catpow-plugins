@@ -235,14 +235,16 @@ registerBlockType('catpow/datatable', {
 				icon: 'admin-appearance',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: statesClasses
+				selectiveClasses: statesClasses,
+				filters: CP.filters.datatable || {}
 			}),
 			wp.element.createElement(SelectClassPanel, {
 				title: '\u30AF\u30E9\u30B9',
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.datatable || {}
 			}),
 			wp.element.createElement(
 				PanelBody,

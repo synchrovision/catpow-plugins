@@ -371,6 +371,7 @@
 					set={setAttributes}
 					attr={attributes}
 					selectiveClasses={selectiveClasses}
+					filters={CP.filters.graphics || {}}
 				/>
 				<PanelBody title="ID" icon="admin-links" initialOpen={false}>
 					<TextControl
@@ -387,6 +388,7 @@
 					items={items}
 					index={attributes.currentItemIndex}
 					itemClasses={selectiveItemClasses}
+					filters={CP.filters.graphics || {}}
 				/>
 				{items[attributes.currentItemIndex] && 
 					<PanelBody title="ITEM CLASS" icon="admin-generic" initialOpen={false}>

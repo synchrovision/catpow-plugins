@@ -132,6 +132,7 @@
 					items={itemsCopy}
 					index={attributes.currentItemIndex}
 					itemClasses={itemClasses}
+					filters={CP.filters.dialog || {}}
 				/>
 				<ItemControlInfoPanel/>
 			</InspectorControls>,

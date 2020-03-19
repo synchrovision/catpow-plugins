@@ -97,6 +97,7 @@
 					set={setAttributes}
 					attr={attributes}
 					selectiveClasses={selectiveClasses}
+					filters={CP.filters.buttons || {}}
 				/>
 				<SelectItemClassPanel
 					title='ボタン'
@@ -106,6 +107,7 @@
 					items={itemsCopy}
 					index={attributes.currentItemIndex}
 					itemClasses={itemClasses}
+					filters={CP.filters.buttons || {}}
 				/>
 				<PanelBody title="CLASS" icon="admin-generic" initialOpen={false}>
 					<TextareaControl

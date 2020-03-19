@@ -76,7 +76,8 @@ registerBlockType('catpow/simpletable', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.simpletable || {}
 			}),
 			wp.element.createElement(SelectItemClassPanel, {
 				title: '\u884C',
@@ -85,7 +86,8 @@ registerBlockType('catpow/simpletable', {
 				attr: attributes,
 				items: rows,
 				index: attributes.currentItemIndex,
-				triggerClasses: selectiveClasses[0]
+				triggerClasses: selectiveClasses[0],
+				filters: CP.filters.simpletable || {}
 			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
 		), wp.element.createElement(

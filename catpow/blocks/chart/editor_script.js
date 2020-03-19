@@ -184,7 +184,8 @@ registerBlockType('catpow/chart', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.chart || {}
 			}),
 			wp.element.createElement(
 				PanelBody,

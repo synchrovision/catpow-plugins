@@ -108,7 +108,8 @@ registerBlockType('catpow/aquarium', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.aquarium || {}
 			})
 		)];
 	},

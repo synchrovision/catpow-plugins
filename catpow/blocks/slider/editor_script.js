@@ -296,28 +296,32 @@ registerBlockType('catpow/slider', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.slider || {}
 			}),
 			wp.element.createElement(SelectClassPanel, {
 				title: '\u8868\u793A\u8A2D\u5B9A',
 				icon: 'admin-appearance',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: statesClasses
+				selectiveClasses: statesClasses,
+				filters: CP.filters.slider || {}
 			}),
 			wp.element.createElement(SelectClassPanel, {
 				title: '\u30A2\u30CB\u30E1\u30FC\u30B7\u30E7\u30F3\u8A2D\u5B9A',
 				icon: 'video-alt3',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: animateClasses
+				selectiveClasses: animateClasses,
+				filters: CP.filters.slider || {}
 			}),
 			wp.element.createElement(SelectClassPanel, {
 				title: '\u64CD\u4F5C\u8A2D\u5B9A',
 				icon: 'universal-access',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: controllerClasses
+				selectiveClasses: controllerClasses,
+				filters: CP.filters.slider || {}
 			}),
 			wp.element.createElement(
 				PanelBody,
@@ -337,7 +341,8 @@ registerBlockType('catpow/slider', {
 				attr: attributes,
 				items: itemsCopy,
 				index: attributes.currentItemIndex,
-				triggerClasses: selectiveClasses[0]
+				triggerClasses: selectiveClasses[0],
+				filters: CP.filters.slider || {}
 			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
 		), wp.element.createElement(

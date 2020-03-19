@@ -117,7 +117,8 @@ registerBlockType('catpow/banners', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.banners || {}
 			}),
 			wp.element.createElement(
 				PanelBody,
@@ -137,7 +138,8 @@ registerBlockType('catpow/banners', {
 				attr: attributes,
 				items: itemsCopy,
 				index: attributes.currentItemIndex,
-				itemClasses: selectiveItemClasses
+				itemClasses: selectiveItemClasses,
+				filters: CP.filters.simpletable || {}
 			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
 		), wp.element.createElement(

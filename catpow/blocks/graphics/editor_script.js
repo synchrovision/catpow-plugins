@@ -391,7 +391,8 @@ registerBlockType('catpow/graphics', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.graphics || {}
 			}),
 			wp.element.createElement(
 				PanelBody,
@@ -411,7 +412,8 @@ registerBlockType('catpow/graphics', {
 				attr: attributes,
 				items: items,
 				index: attributes.currentItemIndex,
-				itemClasses: selectiveItemClasses
+				itemClasses: selectiveItemClasses,
+				filters: CP.filters.graphics || {}
 			}),
 			items[attributes.currentItemIndex] && wp.element.createElement(
 				PanelBody,

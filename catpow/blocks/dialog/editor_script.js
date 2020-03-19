@@ -162,7 +162,8 @@ registerBlockType('catpow/dialog', {
 				attr: attributes,
 				items: itemsCopy,
 				index: attributes.currentItemIndex,
-				itemClasses: itemClasses
+				itemClasses: itemClasses,
+				filters: CP.filters.dialog || {}
 			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
 		), wp.element.createElement(

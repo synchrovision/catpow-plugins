@@ -96,7 +96,7 @@ registerBlockType('catpow/layouttable',{
 		}
 		
 		var selectiveClasses=[
-			{label:'タイプ',values:['spec','sheet','plan']},
+			{label:'タイプ',filter:'type',values:['spec','sheet','plan']},
 			'color'
 		];
 		
@@ -364,8 +364,13 @@ registerBlockType('catpow/layouttable',{
 		
 		var cellClasses=getCellClasses();
 		
-		const selectCellClasses=(label,values)=>{
+		const selectCellClasses=(prm)=>{
+			var {label,values}=prm;
 			var options,value;
+			
+			if(prm.filter && CP.filters.layouttable[prm.filter]){
+				CP.filters.layouttable[prm.filter](prm);
+			}
 			if(Array.isArray(values)){
 				options=values.map(cls=>{return {label:cls,value:cls};});
 			}
@@ -455,15 +460,15 @@ registerBlockType('catpow/layouttable',{
 					selectiveClasses={selectiveClasses}
 				/>
 				<PanelBody title="セル">
-					{selectCellClasses('タイプ',{
+					{selectCellClasses({label:'タイプ',filter:'role',values:{
 						'default':'通常','th':"見出し",'spacer':"空白"
-					})}
-					{selectCellClasses('カラー',{
+					}})}
+					{selectCellClasses({label:'カラー',filter:'color',values:{
 						'default':'なし','pale':'薄色','primary':"推奨",'deprecated':"非推奨"
-					})}
-					{selectCellClasses('文字',{
+					}})}
+					{selectCellClasses({label:'文字',filter:'size',values:{
 						'default':'なし','large':"大",'medium':"中",'small':"小"
-					})}
+					}})}
 					<TextControl
 						label="幅"
 						value={getCellAttr('style').width || ''}

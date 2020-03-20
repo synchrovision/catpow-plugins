@@ -33,8 +33,8 @@ registerBlockType('catpow/buttons', {
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 		var classNameArray = className.split(' ');
 
-		var selectiveClasses = [{ label: 'サイズ', values: { l: '大', m: '中', s: '小', ss: '極小' } }, { label: 'インライン', values: 'i' }];
-		var itemClasses = ['color', { label: '属性', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', 'values': ['play', 'next', 'back', 'file', 'home', 'trash', 'cart', 'mail', 'search', 'caution', 'help', 'open', 'close', 'plus', 'minus', 'refresh', 'edit', 'check'] }, 'event'];
+		var selectiveClasses = [{ label: 'サイズ', filter: 'size', values: { l: '大', m: '中', s: '小', ss: '極小' } }, { label: 'インライン', values: 'i' }];
+		var itemClasses = ['color', { label: '属性', filter: 'rank', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', filter: 'icon', 'values': ['play', 'next', 'back', 'file', 'home', 'trash', 'cart', 'mail', 'search', 'caution', 'help', 'open', 'close', 'plus', 'minus', 'refresh', 'edit', 'check'] }, 'event'];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);

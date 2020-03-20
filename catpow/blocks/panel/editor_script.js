@@ -49,6 +49,7 @@ registerBlockType('catpow/panel', {
 
 		var selectiveClasses = [{
 			label: 'タイプ',
+			filter: 'type',
 			values: { tile: 'タイル', menu: 'メニュー' },
 			item: {
 				tile: ['color', { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage', sub: [{ label: '画像を薄く', values: 'paleImage' }, { label: '画像', input: 'image', keys: imageKeys.image, size: 'vga' }] }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }],

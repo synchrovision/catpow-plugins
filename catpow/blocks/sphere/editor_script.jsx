@@ -57,7 +57,7 @@
 		
         
 		var selectiveClasses=[
-			{label:'サイズ',values:['small','medium','large']},
+			{label:'サイズ',filter:'size',values:['small','medium','large']},
 			{label:'画像',values:'hasSubImage'},
 			{label:'タイトル',values:'hasSubTitle'},
 			{label:'テキスト',values:'hasText'}

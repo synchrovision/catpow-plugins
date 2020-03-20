@@ -88,6 +88,7 @@ registerBlockType('catpow/listed', {
 
 		var selectiveClasses = [{
 			label: 'タイプ',
+			filter: 'type',
 			values: {
 				orderd: '連番リスト',
 				news: 'お知らせ',

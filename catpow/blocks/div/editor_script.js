@@ -40,6 +40,7 @@ registerBlockType('catpow/div', {
 
 		var selectiveClasses = [{
 			label: 'タイプ',
+			filter: 'type',
 			values: ['block', 'frame', 'columns'],
 			sub: {
 				frame: [{ label: '色', values: 'hasColor', sub: ['color'] }, { label: 'パターン', values: 'hasPattern', sub: ['pattern'] }, { label: 'アイコン', values: 'hasIcon' }, { label: '線', values: { noBorder: 'なし', thinBorder: '細', boldBorder: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '内側', values: 'inset' }] }],

@@ -59,6 +59,7 @@
 		var selectiveClasses=[
 			{
 				label:'タイプ',
+				filter:'type',
 				values:['spec','info','history','inputs'],
 				item:{
 					spec:[

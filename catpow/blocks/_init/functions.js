@@ -1069,6 +1069,9 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 
 	var selectItemClass = function selectItemClass(prm) {
 		var rtn = [];
+		if (prm.filter && props.filters[prm.filter]) {
+			props.filters[prm.filter](prm);
+		}
 		if (prm === 'color') {
 			rtn.push(wp.element.createElement(SelectItemColorClass, {
 				label: '\u8272',

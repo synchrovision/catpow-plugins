@@ -48,7 +48,7 @@
 		const itemClasses=[
 			'color',
 			{label:'position',values:['left','right']},
-			{label:'type',values:['say','shout','think','whisper']}
+			{label:'type',filter:'type',values:['say','shout','think','whisper']}
 		];
 		
 		let itemsCopy=items.map((obj)=>jQuery.extend(true,{},obj));

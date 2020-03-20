@@ -90,7 +90,7 @@ registerBlockType('catpow/datatable', {
 		};
 
 		var statesClasses = [{ label: 'ヘッダ行', values: 'hasHeaderRow' }, { label: 'ヘッダ列', values: 'hasHeaderColumn' }];
-		var selectiveClasses = [{ label: 'タイプ', values: ['spec', 'sheet', 'plan'] }, 'color'];
+		var selectiveClasses = [{ label: 'タイプ', filter: 'type', values: ['spec', 'sheet', 'plan'] }, 'color'];
 
 		var hasClass = function hasClass(cls) {
 			return classArray.indexOf(cls) !== -1;

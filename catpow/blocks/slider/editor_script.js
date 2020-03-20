@@ -84,31 +84,13 @@ registerBlockType('catpow/slider', {
 			image: 'vga'
 		};
 
-		var states = {
-			loop: false,
-			autoplay: false,
-			flickable: false,
-			scrollable: false,
-			stopbyhover: false,
-			closable: false,
-
-			hasArrows: false,
-			hasDots: false,
-			hasThumbnail: false,
-
-			hasTitle: false,
-			hasSubTitle: false,
-			hasText: false,
-			hasImage: false,
-			hasSlide: false,
-			hasBackgroundImage: false,
-			hasLink: false
-		};
+		var states = CP.wordsToFlags(classes);
 		var statesClasses = [{ label: 'アロー', values: 'hasArrows' }, { label: 'ドット', values: 'hasDots' }, { input: 'range', label: '表示スライド', json: 'config', key: 'initialSlide', min: 0, max: items.length - 1 }];
 		var animateClasses = [{ label: 'ループ', values: 'loop', key: 'controlClasses', sub: [{ label: 'アイテムを反復', key: 'controlClasses', values: 'loopItems' }] }, { label: '自動再生', values: 'autoplay', key: 'controlClasses', sub: [{ input: 'range', label: '自動再生間隔（単位:0.1秒）', json: 'config', key: 'interval', coef: 100, min: 0, max: 100 }, { input: 'range', label: '操作停止時間（単位:0.1秒）', json: 'config', key: 'wait', coef: 100, min: 0, max: 100 }, { label: 'ホバーで停止', values: 'stopbyhover', key: 'controlClasses' }] }];
 		var controllerClasses = [{ label: 'フリック操作', values: 'flickable', key: 'controlClasses' }, { label: 'スクロール操作', values: 'scrollable', key: 'controlClasses' }, { label: '閉じる操作', values: 'closable', key: 'controlClasses' }];
 		var selectiveClasses = [{
 			label: 'タイプ', values: ['visual', 'story', 'articles', 'index'],
+			filter: 'type',
 			sub: {
 				visual: [{ label: '見出し', values: 'hasTitle', sub: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'テキスト', values: 'hasText' }, { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }] }, { label: 'スライド画像', values: 'hasSlide' }, { label: 'イメージ画像', values: 'hasImage', sub: [{ label: 'サムネール', values: 'hasThumbnail' }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '背景画像を薄く', values: 'paleBG' }] }, { label: 'リンク', values: 'hasLink' }],
 				story: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: '画像', values: 'hasImage', sub: [{ label: 'サムネール', values: 'hasThumbnail' }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '背景画像を薄く', values: 'paleBG' }] }, { label: 'リンク', values: 'hasLink' }],
@@ -128,13 +110,6 @@ registerBlockType('catpow/slider', {
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
 		});
-
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
 
 		var rtn = [];
 		var thumbs = [];
@@ -389,39 +364,8 @@ registerBlockType('catpow/slider', {
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 		var controlClassArray = _.uniq(attributes.controlClasses.split(' '));
-		var states = {
-			hasArrows: false,
-			hasDots: false,
-			hasThumbnail: false,
 
-			hasTitle: false,
-			hasSubTitle: false,
-			hasText: false,
-			hasImage: false,
-			hasSlide: false,
-			hasBackgroundImage: false,
-			hasLink: false
-		};
-		var controlStates = {
-			loop: false,
-			autoplay: false,
-			flickable: false,
-			scrollable: false,
-			stopbyhover: false,
-			closable: false
-		};
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
-		var hasControlClass = function hasControlClass(cls) {
-			return controlClassArray.indexOf(cls) !== -1;
-		};
-		Object.keys(controlStates).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, controlStates);
+		var states = CP.wordsToFlags(classes);
 
 		var imageKeys = {
 			image: { src: "src", alt: "alt", items: "items" },

@@ -32,13 +32,13 @@
 		
         
 		var selectiveClasses=[
-			{label:'サイズ',values:{l:'大',m:'中',s:'小',ss:'極小'}},
+			{label:'サイズ',filter:'size',values:{l:'大',m:'中',s:'小',ss:'極小'}},
 			{label:'インライン',values:'i'}
 		];
 		const itemClasses=[
 			'color',
-			{label:'属性',values:['default','primary','negative','danger','secure']},
-			{label:'アイコン','values':[
+			{label:'属性',filter:'rank',values:['default','primary','negative','danger','secure']},
+			{label:'アイコン',filter:'icon','values':[
 				'play','next','back',
 				'file','home','trash',
 				'cart','mail','search',

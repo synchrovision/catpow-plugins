@@ -33,8 +33,9 @@ registerBlockType('catpow/sticky', {
 			closeButtonImage: { src: "closeButtonImageSrc" }
 		};
 
-		var selectiveClasses = [{ label: '位置', input: 'position', disable: ['left', 'center', 'right'] }, { label: 'サイズ', values: { full: '全面', large: '大', medium: '中', small: '小' } }, {
+		var selectiveClasses = [{ label: '位置', input: 'position', disable: ['left', 'center', 'right'] }, { label: 'サイズ', filter: 'size', values: { full: '全面', large: '大', medium: '中', small: '小' } }, {
 			label: 'タイプ',
+			filter: 'type',
 			values: { label: 'ラベル', container: 'コンテナ', collapsible: '折り畳み' },
 			sub: {
 				label: ['color'],

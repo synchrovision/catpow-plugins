@@ -86,7 +86,7 @@ registerBlockType('catpow/layouttable', {
 			reader.readAsText(attributes.file);
 		}
 
-		var selectiveClasses = [{ label: 'タイプ', values: ['spec', 'sheet', 'plan'] }, 'color'];
+		var selectiveClasses = [{ label: 'タイプ', filter: 'type', values: ['spec', 'sheet', 'plan'] }, 'color'];
 
 		var rtn = [];
 
@@ -399,8 +399,15 @@ registerBlockType('catpow/layouttable', {
 
 		var cellClasses = getCellClasses();
 
-		var selectCellClasses = function selectCellClasses(label, values) {
+		var selectCellClasses = function selectCellClasses(prm) {
+			var label = prm.label,
+			    values = prm.values;
+
 			var options, value;
+
+			if (prm.filter && CP.filters.layouttable[prm.filter]) {
+				CP.filters.layouttable[prm.filter](prm);
+			}
 			if (Array.isArray(values)) {
 				options = values.map(function (cls) {
 					return { label: cls, value: cls };
@@ -528,15 +535,15 @@ registerBlockType('catpow/layouttable', {
 			wp.element.createElement(
 				PanelBody,
 				{ title: '\u30BB\u30EB' },
-				selectCellClasses('タイプ', {
-					'default': '通常', 'th': "見出し", 'spacer': "空白"
-				}),
-				selectCellClasses('カラー', {
-					'default': 'なし', 'pale': '薄色', 'primary': "推奨", 'deprecated': "非推奨"
-				}),
-				selectCellClasses('文字', {
-					'default': 'なし', 'large': "大", 'medium': "中", 'small': "小"
-				}),
+				selectCellClasses({ label: 'タイプ', filter: 'role', values: {
+						'default': '通常', 'th': "見出し", 'spacer': "空白"
+					} }),
+				selectCellClasses({ label: 'カラー', filter: 'color', values: {
+						'default': 'なし', 'pale': '薄色', 'primary': "推奨", 'deprecated': "非推奨"
+					} }),
+				selectCellClasses({ label: '文字', filter: 'size', values: {
+						'default': 'なし', 'large': "大", 'medium': "中", 'small': "小"
+					} }),
 				wp.element.createElement(TextControl, {
 					label: '\u5E45',
 					value: getCellAttr('style').width || '',

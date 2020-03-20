@@ -49,6 +49,7 @@ registerBlockType('catpow/simpletable', {
 
 		var selectiveClasses = [{
 			label: 'タイプ',
+			filter: 'type',
 			values: ['spec', 'info', 'history', 'inputs'],
 			item: {
 				spec: [{ label: '種別', values: {

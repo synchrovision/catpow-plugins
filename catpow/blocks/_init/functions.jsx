@@ -764,6 +764,9 @@ const SelectItemClassPanel=(props)=>{
 
 	const selectItemClass=(prm)=>{
 		let rtn=[];
+		if(prm.filter && props.filters[prm.filter]){
+			props.filters[prm.filter](prm);
+		}
 		if(prm === 'color'){
 			rtn.push(
 				<SelectItemColorClass

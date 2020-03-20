@@ -39,6 +39,7 @@
 		var selectiveClasses=[
 			{
 				label:'タイプ',
+				filter:'type',
 				values:['block','frame','columns'],
 				sub:{
 					frame:[

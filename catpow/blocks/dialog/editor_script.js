@@ -53,7 +53,7 @@ registerBlockType('catpow/dialog', {
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 		var classNameArray = className.split(' ');
 
-		var itemClasses = ['color', { label: 'position', values: ['left', 'right'] }, { label: 'type', values: ['say', 'shout', 'think', 'whisper'] }];
+		var itemClasses = ['color', { label: 'position', values: ['left', 'right'] }, { label: 'type', filter: 'type', values: ['say', 'shout', 'think', 'whisper'] }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);

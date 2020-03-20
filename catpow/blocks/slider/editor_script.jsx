@@ -78,26 +78,7 @@
 			image:'vga'
 		};
 		
-		var states={
-			loop:false,
-			autoplay:false,
-			flickable:false,
-			scrollable:false,
-			stopbyhover:false,
-			closable:false,
-			
-			hasArrows:false,
-			hasDots:false,
-			hasThumbnail:false,
-			
-			hasTitle:false,
-			hasSubTitle:false,
-			hasText:false,
-			hasImage:false,
-			hasSlide:false,
-			hasBackgroundImage:false,
-			hasLink:false
-		}
+		var states=CP.wordsToFlags(classes);
 		var statesClasses=[
 			{label:'アロー',values:'hasArrows'},
 			{label:'ドット',values:'hasDots'},
@@ -121,6 +102,7 @@
 		var selectiveClasses=[
 			{
 				label:'タイプ',values:['visual','story','articles','index'],
+				filter:'type',
 				sub:{
 					visual:[
 						{label:'見出し',values:'hasTitle',sub:[
@@ -187,9 +169,6 @@
 		
 		let itemsCopy=items.map((obj)=>jQuery.extend(true,{},obj));
 
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
-		
 		
 		var rtn=[];
 		var thumbs=[];
@@ -395,31 +374,8 @@
 		const {classes,controlClasses,config,items}=attributes;
 		var classArray=_.uniq(attributes.classes.split(' '));
 		var controlClassArray=_.uniq(attributes.controlClasses.split(' '));
-		var states={
-			hasArrows:false,
-			hasDots:false,
-			hasThumbnail:false,
-			
-			hasTitle:false,
-			hasSubTitle:false,
-			hasText:false,
-			hasImage:false,
-			hasSlide:false,
-			hasBackgroundImage:false,
-			hasLink:false
-		};
-		var controlStates={
-			loop:false,
-			autoplay:false,
-			flickable:false,
-			scrollable:false,
-			stopbyhover:false,
-			closable:false,
-		};
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
-		const hasControlClass=(cls)=>(controlClassArray.indexOf(cls)!==-1);
-		Object.keys(controlStates).forEach(function(key){this[key]=hasClass(key);},controlStates);
+		
+		var states=CP.wordsToFlags(classes);
 		
 		const imageKeys={
 			image:{src:"src",alt:"alt",items:"items"},

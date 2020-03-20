@@ -80,17 +80,17 @@ registerBlockType('catpow/graphics', {
 		}];
 		selectiveClasses.push({ label: '高さ', input: 'text', key: 'height' });
 		selectiveClasses.push({ label: 'SP版高さ', input: 'text', key: 'heightSP' });
-		var selectiveItemClasses = [{ label: 'タイプ', values: { isImage: '画像', isText: 'テキスト' }, sub: {
-				isImage: [{ input: 'text', label: '代替テキスト', key: 'alt' }, { input: 'text', label: 'リンク', key: 'link' }],
-				isText: [{ label: 'タイプ', values: ['type1', 'type2', 'type3'] }, 'color', { label: 'ヌキ文字', values: 'inverse' }, { label: '見出し', values: 'hasTitle' }, { label: 'リード', values: 'hasLead' }, { label: 'テキスト', values: 'hasText' }]
-			} }, { label: 'フェードイン', values: 'fadeIn' }, { label: 'スライドイン', values: 'slideIn', sub: [{ type: 'radio', label: '方向', values: {
+		var selectiveItemClasses = [{ label: 'タイプ', filter: 'type', values: { isImage: '画像', isText: 'テキスト' }, sub: {
+				isImage: [{ label: 'タイプ', filter: 'imageType', values: ['type1', 'type2', 'type3'] }, { input: 'text', label: '代替テキスト', key: 'alt' }, { input: 'text', label: 'リンク', key: 'link' }],
+				isText: [{ label: 'タイプ', filter: 'textType', values: ['type1', 'type2', 'type3'] }, 'color', { label: 'ヌキ文字', values: 'inverse' }, { label: '見出し', values: 'hasTitle' }, { label: 'リード', values: 'hasLead' }, { label: 'テキスト', values: 'hasText' }]
+			} }, { label: 'フェードイン', values: 'fadeIn' }, { label: 'スライドイン', values: 'slideIn', sub: [{ type: 'radio', filer: 'slideIn', label: '方向', values: {
 					slideInLeft: '左',
 					slideInRight: '右',
 					slideInUp: '上',
 					slideInDown: '下',
 					slideInFront: '前',
 					slideInBack: '後'
-				} }] }, { label: '回転', values: 'roll', sub: [{ type: 'radio', label: '方向', values: { rollLeft: '左', rollRight: '右' } }, { type: 'radio', label: '速度', values: { rollSlow: '遅い', rollFast: '速い' } }] }, { label: 'ホバー', values: 'hover', sub: [{ label: 'フェード', values: 'hoverFade' }, { type: 'radio', label: '動き', values: {
+				} }] }, { label: '回転', filter: 'roll', values: 'roll', sub: [{ type: 'radio', label: '方向', values: { rollLeft: '左', rollRight: '右' } }, { type: 'radio', label: '速度', values: { rollSlow: '遅い', rollFast: '速い' } }] }, { label: 'ホバー', filter: 'hover', values: 'hover', sub: [{ label: 'フェード', values: 'hoverFade' }, { type: 'radio', label: '動き', values: {
 					hoverNoMove: 'なし',
 					hoverZoom: 'ズーム',
 					hoverLift: 'リフト',

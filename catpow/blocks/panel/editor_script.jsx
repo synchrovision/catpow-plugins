@@ -45,6 +45,7 @@
 		var selectiveClasses=[
 			{
 				label:'タイプ',
+				filter:'type',
 				values:{tile:'タイル',menu:'メニュー'},
 				item:{
 					tile:[

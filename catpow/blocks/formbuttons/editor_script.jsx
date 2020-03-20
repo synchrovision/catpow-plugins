@@ -26,31 +26,22 @@
 		
         
 		var selectiveClasses=[
-			{
-				label:'タイプ',
-				values:{buttons:'ボタン'},
-				sub:{
-					buttons:[
-						{label:'サイズ',values:{l:'大',m:'中',s:'小',ss:'極小'}}
-					]
-				},
-				item:{
-					buttons:[
-						'color',
-						{label:'属性',values:['default','primary','negative','danger','secure']},
-						{label:'アイコン','values':[
-							'play','next','back',
-							'file','home','trash',
-							'cart','mail','search',
-							'caution','help',
-							'open','close',
-							'plus','minus',
-							'refresh','edit','check'
-						]},
-						'event'
-					]
-				}
-			}
+			{label:'サイズ',filter:'size',values:{l:'大',m:'中',s:'小',ss:'極小'}},
+			{label:'インライン',values:'i'}
+		];
+		const itemClasses=[
+			'color',
+			{label:'属性',filter:'rank',values:['default','primary','negative','danger','secure']},
+			{label:'アイコン',filter:'icon','values':[
+				'play','next','back',
+				'file','home','trash',
+				'cart','mail','search',
+				'caution','help',
+				'open','close',
+				'plus','minus',
+				'refresh','edit','check'
+			]},
+			'event'
 		];
 		
 		let itemsCopy=items.map((obj)=>jQuery.extend(true,{},obj));
@@ -127,7 +118,8 @@
 					attr={attributes}
 					items={itemsCopy}
 					index={attributes.currentItemIndex}
-					triggerClasses={selectiveClasses[0]}
+					itemClasses={itemClasses}
+					filters={CP.filters.buttons || {}}
 				/>
 				<PanelBody title="CLASS" icon="admin-generic" initialOpen={false}>
 					<TextareaControl

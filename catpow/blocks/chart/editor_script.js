@@ -72,6 +72,7 @@ registerBlockType('catpow/chart', {
 
 		var selectiveClasses = [{
 			label: 'タイプ',
+			filter: 'type',
 			values: {
 				BarChart: '棒グラフ',
 				PieChat: '円グラフ',

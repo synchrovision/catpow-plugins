@@ -61,7 +61,7 @@ registerBlockType('catpow/sphere', {
 			hasText: false
 		};
 
-		var selectiveClasses = [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: '画像', values: 'hasSubImage' }, { label: 'タイトル', values: 'hasSubTitle' }, { label: 'テキスト', values: 'hasText' }];
+		var selectiveClasses = [{ label: 'サイズ', filter: 'size', values: ['small', 'medium', 'large'] }, { label: '画像', values: 'hasSubImage' }, { label: 'タイトル', values: 'hasSubTitle' }, { label: 'テキスト', values: 'hasText' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);

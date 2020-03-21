@@ -127,13 +127,13 @@ class CP{
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				$rtn[$f]=get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
-			if(is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){
+			if(get_template_directory()!==get_stylesheet_directory() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){
 				$rtn[$f]=get_template_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
 		}
 		if($flag&2){
 			if(file_exists($f=get_stylesheet_directory().'/'.$name)){$rtn[$f]=get_stylesheet_directory_uri().'/'.$name;}
-			if(is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){$rtn[$f]=get_template_directory_uri().'/'.$name;}
+			if(get_template_directory()!==get_stylesheet_directory() && file_exists($f=get_template_directory().'/'.$name)){$rtn[$f]=get_template_directory_uri().'/'.$name;}
 		}
 		if($flag&4){
             $name=self::get_file_path_in_default_dir($name);
@@ -1170,11 +1170,9 @@ class CP{
             switch($path_data['data_name']){
                 case 'page':
                     global $static_pages;
-					if(empty($post->post_parent)){
+					$data_name=$post->post_name;
+					if($post->post_parent>0){
 						$data_name=$post->post_name;
-					}
-					else{
-						$data_name='';
 						foreach($post->ancestors as $parent){
 							$parent=get_post($parent);
 							if($parent && $parent->post_name){
@@ -1183,12 +1181,12 @@ class CP{
 						}
 					}
 					if(
-						isset($static_pages[$post->post_name]) && 
-						in_array('single',$static_pages[$post->post_name]['template']) ||
-						isset($static_pages[$post->post_name]['meta'])
+						isset($static_pages[$data_name]) && 
+						in_array('single',$static_pages[$data_name]['template']) ||
+						isset($static_pages[$data_name]['meta'])
 					){
 						$path_data['data_type']='page';
-						$path_data['data_name']=$post->post_name;
+						$path_data['data_name']=$data_name;
 					}
                     break;
                 case 'nav':
@@ -1798,6 +1796,29 @@ class CP{
         }
         return $all_functions;
     }
+	public static function get_all_blocks(){
+        static $all_blocks;
+        if(isset($all_blocks)){return $all_blocks;}
+		foreach(self::get_file_urls('blocks') as $block_dir=>$block_url){
+			foreach(glob($block_dir.'/*/editor_script.js') as $editor_script){
+				$all_blocks[]=basename(dirname($editor_script));
+			}
+		}
+        return $all_blocks;
+	}
+	public static function get_supported_blocks(){
+		static $supported_blocks;
+        if(isset($supported_blocks)){return $supported_blocks;}
+		$supported_blocks=array_intersect(
+			self::get_all_blocks(),
+			array_merge(
+				scandir(get_stylesheet_directory().'/blocks'),
+				scandir(get_template_directory().'/blocks'),
+				['loop','form','embed']
+			)
+		);
+        return $supported_blocks;
+	}
 	
 	/*接続情報*/
 	public static function is_ajax(){

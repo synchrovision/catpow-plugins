@@ -2,7 +2,7 @@
 
 /*plugins_loaded*/
 add_action('plugins_loaded',function(){
-    global $use_functions;
+    global $use_functions,$use_blocks;
     cp::$extensions=apply_filters('catpow_extensions',[]);
     cp::$data_types=apply_filters('catpow_data_types',['post','page','nav','term','comment','user','site','view','cpdb']);
     spl_autoload_register(function($class){
@@ -24,7 +24,8 @@ add_action('plugins_loaded',function(){
     do_action('cp_init');
 	
 
-	$use_functions=array_merge(['catpow','config'],(array)\cp::get_meta('catpow','config',1,'use_functions'));
+	$use_functions=array_merge(['catpow','config','blocks'],(array)\cp::get_meta('catpow','config',1,'use_functions'));
+	$use_blocks=(array)\cp::get_meta('catpow','blocks',1,'use_blocks');
     foreach($use_functions as $n){
         cp::include_plugin_files('functions/'.$n.'/functions');
         cp::include_template_files('functions/'.$n.'/functions');

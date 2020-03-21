@@ -51,6 +51,7 @@ add_action('wp_ajax_nopriv_cp_form',[\cp::get_class_name('content','form'),'resp
 
 /*blocks*/
 if(function_exists('register_block_type')){
+	global $use_blocks;
 	add_filter('block_categories',function($cats,$post){
 		$cats[]=[
 			'slug'=>'catpow',
@@ -83,10 +84,7 @@ if(function_exists('register_block_type')){
 		}
 		foreach(glob($block_dir.'/*/editor_script.js') as $editor_script){
 			$block_name=basename(dirname($editor_script));
-			if(
-				!file_exists(get_template_directory().'/blocks/'.$block_name) &&
-				!file_exists(get_stylesheet_directory().'/blocks/'.$block_name)
-			){continue;}
+			if(!in_array($block_name,$use_blocks)){continue;}
 			$block_style_names[]='blocks/'.$block_name.'/editor_style';
 			$block_style_names[]='blocks/'.$block_name.'/style';
 			unset($attributes);

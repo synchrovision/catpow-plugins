@@ -1,6 +1,6 @@
 ﻿registerBlockType('catpow/banners',{
 	title: '🐾 Banners',
-	icon: 'image-alt',
+	icon: 'images-alt',
 	category: 'catpow',
 	transforms:{
 		from: [

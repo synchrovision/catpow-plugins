@@ -1,6 +1,6 @@
 registerBlockType('catpow/banners', {
 	title: '🐾 Banners',
-	icon: 'image-alt',
+	icon: 'images-alt',
 	category: 'catpow',
 	transforms: {
 		from: [{
@@ -139,7 +139,7 @@ registerBlockType('catpow/banners', {
 				items: itemsCopy,
 				index: attributes.currentItemIndex,
 				itemClasses: selectiveItemClasses,
-				filters: CP.filters.simpletable || {}
+				filters: CP.filters.banners || {}
 			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
 		), wp.element.createElement(

@@ -16,20 +16,20 @@ class database implements iSetup{
 		$fnc_update_cpdb_table=function($conf)use(&$fnc_update_cpdb_table,&$created_tables,&$update_logs,&$table_data,$org_tables){
 			global $wpdb,$cpdb;
 			$rtn=[];
-			$class_name=cp::get_class_name('meta',$conf['type']);
+			$class_name=\cp::get_class_name('meta',$conf['type']);
 			if(!$class_name::$is_database){return $rtn;}
 
 			$name=explode('/',$conf['path']);
 
 			$unique_key='meta_id';
 
-			$table_name=cpdb::get_table_name($name);
+			$table_name=\cpdb::get_table_name($name);
 			if(!isset($table_data[$table_name])){
 				$table_data[$table_name]=[
 					'path'=>$name,
 					'columns'=>[],
 					'children'=>[],
-					'parent'=>(($cnt=count($name))>3)?cpdb::get_table_name(array_slice($name,0,$cnt-1)):false
+					'parent'=>(($cnt=count($name))>3)?\cpdb::get_table_name(array_slice($name,0,$cnt-1)):false
 				];
 			}
 
@@ -39,10 +39,10 @@ class database implements iSetup{
 
 			$cols=[];
 			foreach($conf['meta'] as $col_name=>$col_data){
-				$col_class_name=cp::get_class_name('meta',$col_data['type']);
+				$col_class_name=\cp::get_class_name('meta',$col_data['type']);
 				if($col_class_name::$is_database){
 					$rtn=array_merge($rtn,$fnc_update_cpdb_table($col_data));
-					$table_data[$table_name]['children'][$col_name]=cpdb::get_table_name(array_merge($name,[$col_name]));
+					$table_data[$table_name]['children'][$col_name]=\cpdb::get_table_name(array_merge($name,[$col_name]));
 					continue;
 				}
 				$multiple=(!empty($col_data['multiple']) or $col_class_name::$is_bulk_input);
@@ -112,7 +112,7 @@ class database implements iSetup{
 			return $rtn;
 		};
 		$new_tables=[];
-		cp::conf_data_walk(function($data_type,$data_name,$conf_data)use($fnc_update_cpdb_table,&$new_tables){
+		\cp::conf_data_walk(function($data_type,$data_name,$conf_data)use($fnc_update_cpdb_table,&$new_tables){
 			if(empty($conf_data['meta']))return;
 			foreach($conf_data['meta'] as $meta_name=>$conf){
 				$new_tables=array_merge($new_tables,$fnc_update_cpdb_table($conf));

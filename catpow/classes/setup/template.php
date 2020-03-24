@@ -5,7 +5,7 @@ class template implements iSetup{
 	static function exec(){
 		try{
 			global $cptc;
-			Catpow\template_creator::init();
+			\Catpow\template_creator::init();
 			$cptc->create();
 			$cptc->log();
 		}

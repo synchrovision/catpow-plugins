@@ -4,22 +4,22 @@ namespace Catpow\setup;
 class posts implements iSetup{
 	static function exec(){
 		$contents=[];
-		cp::conf_data_walk(function($data_type,$data_name,$conf_data)use(&$contents){
+		\cp::conf_data_walk(function($data_type,$data_name,$conf_data)use(&$contents){
 			if(isset($conf_data['article_type'])){
-				$class_name=cp::get_class_name('article_type',$conf_data['article_type']);
+				$class_name=\cp::get_class_name('article_type',$conf_data['article_type']);
 				$contents+=$class_name::get_default_post_datas($conf_data);
 			}
 			if(isset($conf_data['template'])){
 				foreach($conf_data['template'] as $template){
-					$class_name=cp::get_class_name('template_type',explode('-',$template)[0]);
+					$class_name=\cp::get_class_name('template_type',explode('-',$template)[0]);
 					$contents+=$class_name::get_default_post_datas($conf_data);
 				}
 			}
 		});
 		ksort($contents);
 		array_walk($contents,function($post_data,$path){
-			if(empty(cp::get_post($path))){
-				$post_data=array_merge(cp::get_default_post_data($path),$post_data);
+			if(empty(\cp::get_post($path))){
+				$post_data=array_merge(\cp::get_default_post_data($path),$post_data);
 				$post_id=wp_insert_post($post_data);
 				if(!empty($post_data['meta'])){
 					foreach($post_data['meta'] as $key=>$vals){

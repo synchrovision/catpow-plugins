@@ -281,7 +281,7 @@ class cpdb{
 			}
 			else{
 				if($table_conf['has_parent']){
-					_a(isset($row['parent_id']),sprintf(__('%sへのinsertにparent_idは必須です','catpow'),$table_name));
+					_a(isset($row['parent_id']),sprintf(__('%sへのinsertにparent_idは必須です','catpow'),$_table_name));
 					$parent_id=$cols['parent_id']=$row['parent_id'];
 					if(isset($row['root_object_id'])){$root_object_id=$cols['root_object_id']=$row['root_object_id'];}
 					else{

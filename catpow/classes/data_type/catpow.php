@@ -3,8 +3,7 @@ namespace Catpow\data_type;
 
 class catpow extends data_type{
 	public static
-        $data_type='catpow',
-		$default_template=[];
+        $data_type='catpow';
     
     
     public static function get_meta($data_name,$data_id,$meta_name,$single=false){

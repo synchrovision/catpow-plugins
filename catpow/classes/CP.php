@@ -290,22 +290,6 @@ class CP{
         ob_start();self::get_template_part($name,$vars);
         return ob_get_clean();
     }
-	
-	public static function get_default_templates($data_type){
-		switch($data_type){
-			case 'post':return array('single','admin');
-			case 'page':return array('page');
-			case 'term':return array('single','admin');
-			case 'comment':return array('comment');
-			case 'nav':return array('menu');
-			case 'site':return array('single','admin');
-			case 'user':return array('me');
-			case 'view':return array('single');
-			default:
-				$data_type_class=self::get_class_name('data_type',$data_type);
-				return $data_type_class::$default_template;
-		}
-	}
     
     public static function get_file_path_in_default_dir($path){
         $path_data=self::parse_content_file_path($path);
@@ -562,8 +546,8 @@ class CP{
 			$class_name::fill_conf_data($conf_data);
 		}
 		if(!isset($conf_data['template'])){
-			$conf_data['template']=cp::get_default_templates($data_type);
-			if(isset($data['meta']))$data['template'][]='admin';
+			$data_type_class=self::get_class_name('data_type',$data_type);
+			$conf_data['template']=$data_type_class::get_default_templates($conf_data);
 		}
 		foreach($conf_data['template'] as $template){
 			$class_name=cp::get_class_name('template_type',explode('-',$template)[0]);
@@ -1182,8 +1166,7 @@ class CP{
 					}
 					if(
 						isset($static_pages[$data_name]) && 
-						in_array('single',$static_pages[$data_name]['template']) ||
-						isset($static_pages[$data_name]['meta'])
+						in_array('single',$static_pages[$data_name]['template'])
 					){
 						$path_data['data_type']='page';
 						$path_data['data_name']=$data_name;

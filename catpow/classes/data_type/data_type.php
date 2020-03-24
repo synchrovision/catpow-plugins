@@ -15,6 +15,10 @@ abstract class data_type{
     public static function update_meta($data_name,$data_id,$meta_name,$val,$prev_value=false){
         return update_metadata(static::$data_type,$data_id,$meta_name,$val,$prev_value);
     }
+	public static function get_default_templates($conf){
+		if(empty($conf['meta'])){return ['single'];}
+		return ['single','admin'];
+	}
 }
 
 ?>

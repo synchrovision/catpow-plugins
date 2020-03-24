@@ -126,7 +126,8 @@ registerBlockType('catpow/formbuttons', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.buttons || {}
 			}),
 			wp.element.createElement(SelectItemClassPanel, {
 				title: '\u30DC\u30BF\u30F3',

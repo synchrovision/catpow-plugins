@@ -110,6 +110,7 @@
 					set={setAttributes}
 					attr={attributes}
 					selectiveClasses={selectiveClasses}
+					filters={CP.filters.buttons || {}}
 				/>
 				<SelectItemClassPanel
 					title='ボタン'

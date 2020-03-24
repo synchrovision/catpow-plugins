@@ -26,6 +26,7 @@ add_action('plugins_loaded',function(){
 
 	$use_functions=array_merge(['catpow','config','blocks'],(array)\cp::get_meta('catpow','config',1,'use_functions'));
 	$use_blocks=(array)\cp::get_meta('catpow','blocks',1,'use_blocks');
+	if(empty($use_blocks)){$use_blocks=cp::get_supported_blocks();}
     foreach($use_functions as $n){
         cp::include_plugin_files('functions/'.$n.'/functions');
         cp::include_template_files('functions/'.$n.'/functions');

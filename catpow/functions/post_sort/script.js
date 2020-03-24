@@ -24,7 +24,7 @@ jQuery(function($){
 			fd.append('_wp_http_referer',$form.find('[name="_wp_http_referer"]').val());
 			fd.append('sort_data',sort_data);
 			$.ajax({
-				url:wp_ajax_url,
+				url:cp.ajax_url,
 				type:'post',
 				dataType:'jsonp',
 				data:fd,
@@ -39,7 +39,7 @@ jQuery(function($){
 				if(e.status=='200'){
 					console.log('data:');
 					$.ajax({
-						url:wp_ajax_url,
+						url:cp.ajax_url,
 						type:'post',
 						dataType:'html',
 						data:fd,

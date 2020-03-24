@@ -1,6 +1,7 @@
 <?php
 namespace Catpow;
 $fnc=this()->data_name;
+this()->clear();
 ?>
 <?php if($f=cp::get_file_url('functions/'.$fnc.'/image.svg')): ?>
 <div class="image">

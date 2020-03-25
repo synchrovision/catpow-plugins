@@ -1,6 +1,4 @@
 <?php
-$use_functions=[];
-
 $post_types=[];
 
 $static_pages=[];

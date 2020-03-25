@@ -39,7 +39,7 @@ $data['embed']['none']=[
     'id'=>'',
     'conf'=>[],
 ];
-foreach($GLOBALS['use_functions'] as $func){
+foreach(cp::$use_functions as $func){
     if($f=\cp::get_file_path('functions/'.$func.'/block.php')){
         include_once($f);
         $class_name='\\Catpow\\blocks\\'.$func;

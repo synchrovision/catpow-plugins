@@ -2,7 +2,6 @@
 
 /*plugins_loaded*/
 add_action('plugins_loaded',function(){
-    global $use_functions,$use_blocks;
     cp::$extensions=apply_filters('catpow_extensions',[]);
     cp::$data_types=apply_filters('catpow_data_types',['post','page','nav','term','comment','user','site','view','cpdb']);
     spl_autoload_register(function($class){
@@ -12,7 +11,7 @@ add_action('plugins_loaded',function(){
 			if(cp::include_template_file('classes/'.$class)){return true;}
 			$class_path_data=explode('/',$class);
 			$func=array_shift($class_path_data);
-			if(in_array($func,$GLOBALS['use_functions'])){
+			if(in_array($func,cp::$use_functions)){
 				if(cp::include_plugin_file('functions/'.$func.'/classes/'.implode('/',$class_path_data))){return true;}
 			}
 		}
@@ -24,10 +23,10 @@ add_action('plugins_loaded',function(){
     do_action('cp_init');
 	
 
-	$use_functions=array_merge(['catpow','config','blocks'],(array)\cp::get_meta('catpow','config',1,'use_functions'));
-	$use_blocks=(array)\cp::get_meta('catpow','blocks',1,'use_blocks');
-	if(empty($use_blocks)){$use_blocks=cp::get_supported_blocks();}
-    foreach($use_functions as $n){
+	cp::$use_functions=array_merge(['catpow','config','blocks'],(array)\cp::get_meta('catpow','config',1,'use_functions'));
+	cp::$use_blocks=(array)\cp::get_meta('catpow','blocks',1,'use_blocks');
+	if(empty(cp::$use_blocks)){cp::$use_blocks=cp::get_supported_blocks();}
+    foreach(cp::$use_functions as $n){
         cp::include_plugin_files('functions/'.$n.'/functions');
         cp::include_template_files('functions/'.$n.'/functions');
     }

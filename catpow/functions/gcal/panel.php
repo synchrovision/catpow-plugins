@@ -1,4 +1,4 @@
-<?php global $use_functions;if(!in_array('gauth',$use_functions)):?>
+<?php if(!in_array('gauth',cp::$use_functions)):?>
 	<ul>
 		<li>
 			<p class="caption">

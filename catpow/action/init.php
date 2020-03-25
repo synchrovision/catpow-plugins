@@ -30,7 +30,7 @@ wp_localize_script('catpow','cp',array(
 	'upload_url'=>admin_url().'async-upload.php',
 	'home_url'=>home_url(),
 	'theme_url'=>get_stylesheet_directory_uri(),
-	'use_functions'=>$GLOBALS['use_functions']
+	'use_functions'=>cp::$use_functions
 ));
 
 /*add_image_size*/
@@ -51,7 +51,6 @@ add_action('wp_ajax_nopriv_cp_form',[\cp::get_class_name('content','form'),'resp
 
 /*blocks*/
 if(function_exists('register_block_type')){
-	global $use_blocks;
 	add_filter('block_categories',function($cats,$post){
 		$cats[]=[
 			'slug'=>'catpow',
@@ -68,7 +67,7 @@ if(function_exists('register_block_type')){
 		'component'=>['wp-element','wp-api-fetch','catpow'],
 		'script'=>['catpow']
 	];
-	foreach(cp::get_file_urls('blocks') as $block_dir=>$block_url){
+	foreach(cp::get_file_urls('blocks',19) as $block_dir=>$block_url){
 		foreach(glob($block_dir.'/_init/*.js') as $format_script){
 			$fname=basename($format_script);
 			$code_name='cp_blocks_init_'.substr($fname,0,-3);
@@ -84,7 +83,7 @@ if(function_exists('register_block_type')){
 		}
 		foreach(glob($block_dir.'/*/editor_script.js') as $editor_script){
 			$block_name=basename(dirname($editor_script));
-			if(!in_array($block_name,$use_blocks)){continue;}
+			if(!in_array($block_name,cp::$use_blocks)){continue;}
 			$block_style_names[]='blocks/'.$block_name.'/editor_style';
 			$block_style_names[]='blocks/'.$block_name.'/style';
 			unset($attributes);

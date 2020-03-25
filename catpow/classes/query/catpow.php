@@ -20,8 +20,7 @@ class catpow extends query{
         if(isset($q['data_id'])){$this->results=$q['data_id'];return;}
         switch($q['data_name']){
             case 'function':
-                global $cp_core_functions,$use_functions;
-                $this->results=array_merge($cp_core_functions,$use_functions);
+                $this->results=array_merge(\cp::$core_functions,\cp::$use_functions);
                 //coreおよびfunctionsフォルダから全てのファイル名を抽出
                 //テーマおよびCatpow拡張プラグインも対象
                 break;

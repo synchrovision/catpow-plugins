@@ -6,7 +6,7 @@ this file is included in plugins_loaded hook
 so you have chance to extend them with other plugins 
 */
 global $is_auth_ip,$ajax_response,$auth_ip,
-$use_functions,$post_types,$taxonomies,$static_pages,$comment_datas,
+$post_types,$taxonomies,$static_pages,$comment_datas,
 $menu_datas,$user_datas,$site_datas,$view_datas,$sidebar_datas,$use_widgets,
 $wp_query,$cp_mode,$catpow_extensions;
 

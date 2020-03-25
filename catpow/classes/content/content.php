@@ -179,11 +179,11 @@ abstract class content{
             if(isset($this->data[$this->loop_id][$name])){return $this->data[$this->loop_id][$name];}
             
             $id=$this->data_id??$this->loop_id;
-
-            $class_name=\cp::get_class_name('meta',$this->conf['meta'][$name]['type']??'text');
-            if($vals=\cp::get_the_meta_value($this->the_data_path.'/'.$name,$this->tmp_name)){return $vals;}
-            
-            return (array)$class_name::default_value($this->conf['meta'][$name]);
+			
+			if($vals=\cp::get_the_meta_value($this->the_data_path.'/'.$name,$this->tmp_name)){return $vals;}
+			
+			$class_name=\cp::get_class_name('meta',$this->conf['meta'][$name]['type']??'text');
+			return (array)$class_name::default_value($this->conf['meta'][$name]??[]);
         }
         else{
             $class_name=\cp::get_class_name('meta',$this->conf['type']??'text');

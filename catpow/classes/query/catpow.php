@@ -15,7 +15,7 @@ class catpow extends query{
     }
     public function query($q){
 		//data_nameはfunctionsの一つ
-		if(empty($q['data_name'])){$q['data_name']=$q['catpow_type']?:'function';}
+		if(empty($q['data_name'])){$q['data_name']=$q['catpow_type']??'function';}
         $this->q=$q;
         if(isset($q['data_id'])){$this->results=$q['data_id'];return;}
         switch($q['data_name']){

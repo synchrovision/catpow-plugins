@@ -10,7 +10,7 @@ $wp_query,$cp_mode;
 
 $cp_mode=isset($wp_query->query['cp_mode'])?$wp_query->query['cp_mode']:'';
 
-include cp::get_file_path('config/site_config.php',6);
+include cp::get_file_path('config/site_config.php',cp::FROM_THEME|cp::FROM_DEFAULT);
 
 if(!empty($auth_ip)){
 	add_action('admin_init','ip_auth');
@@ -44,6 +44,6 @@ add_filter('option_home',function($url){
 });
 
 
-include cp::get_file_path('config/system_config.php',6);
-include cp::get_file_path('config/theme_config.php',6);
+include cp::get_file_path('config/system_config.php',cp::FROM_THEME|cp::FROM_DEFAULT);
+include cp::get_file_path('config/theme_config.php',cp::FROM_THEME|cp::FROM_DEFAULT);
 

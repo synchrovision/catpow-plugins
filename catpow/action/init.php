@@ -97,15 +97,15 @@ if(function_exists('register_block_type')){
 				'render'=>'php'
 			] as $fname=>$ext){
 				$file_name=$block_name.'/'.$fname.'.'.$ext;
-				if($fname==='editor_script' || $fname==='editor_style'){
-					if(!file_exists($file_path=$block_dir.'/'.$file_name)){continue;}
-					$file_url=$block_url.'/'.$file_name;
-				}
-				else{
+				if($fname==='script' || $fname==='style'){
 					$file_path_url=cp::get_file_path_url('blocks/'.$file_name);
 					if(empty($file_path_url)){continue;}
 					$file_path=key($file_path_url);
 					$file_url=reset($file_path_url);
+				}
+				else{
+					if(!file_exists($file_path=$block_dir.'/'.$file_name)){continue;}
+					$file_url=$block_url.'/'.$file_name;
 				}
 				$code_name='cp_blocks_'.$fname.'_'.$block_name;
 				switch($ext){
@@ -145,7 +145,7 @@ if(function_exists('register_block_type')){
 		if(!empty($done[$block['blockName']])){return $block;}
 		$block_name=explode('/',$block['blockName'])[1]??null;
 		if(empty($block_name)){return $block;}
-		if($f=cp::get_file_path('blocks/'.$block_name.'/front_init.php',3)){include $f;}
+		if($f=cp::get_file_path('blocks/'.$block_name.'/front_init.php')){include $f;}
 		cp::enqueue_style(
 			'blocks/'.$block_name.'/front_style.css',
 			$deps['front_style']

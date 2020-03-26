@@ -7,7 +7,10 @@ namespace Catpow;
 * セッションにデータを保持する役割も担う
 */
 class CP{
-    const INPUT_ID_DELIMITER='--',FROM_PLUGIN=1,FROM_THEME=2,FROM_DEFAULT=4,FROM_TEMPLATE=8;
+    const
+		INPUT_ID_DELIMITER='--',
+		FROM_PLUGIN=001,FROM_FUNCTIONS=002,FROM_DEFAULT=004,
+		FROM_STYLESHEET_DIR=010,FROM_TEMPLATE_DIR=020,FROM_THEME=030,FROM_CONTENT_DIR=040;
     
 	public static
         $cp,$id,$extensions,$data_types,$content,$content_path,$inputs,$forms,$form,$data,
@@ -38,30 +41,29 @@ class CP{
     }
     
     /*ファイル取得・読み込み*/
-	public static function get_file_path($name,$flag=7){
-		if($flag&1){
+	public static function get_file_path($name,$flag=037){
+		if($flag&self::FROM_PLUGIN){
             foreach(self::$extensions as $catpow_extension){
                 if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/'.$name)){return $f;}
 			}
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/'.$name)){return $f;}
 		}
-		if($flag&8 && isset(self::$content_path)){
+		if($flag&self::FROM_CONTENT && isset(self::$content_path)){
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){return $f;}
 			if(file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){return $f;}
 		}
-		if($flag&2){
+		if($flag&self::FROM_STYLESHEET_DIR){
 			if(file_exists($f=get_stylesheet_directory().'/'.$name)){return $f;}
+		}
+		if($flag&self::FROM_TEMPLATE_DIR){
 			if(file_exists($f=get_template_directory().'/'.$name)){return $f;}
 		}
-		if($flag&16 && isset(self::$use_functions)){
-			foreach(self::$use_functions as $fnc){
-				foreach(self::$extensions as $catpow_extension){
-					if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/functions/'.$fnc.'/'.$name)){return $f;}
-				}
-				if(file_exists($f=WP_PLUGIN_DIR.'/catpow/functions/'.$fnc.'/'.$name)){return $f;}
+		if($flag&self::FROM_FUNCTIONS){
+			foreach(self::get_use_functions_dir() as $dir){
+				if(file_exists($f=$dir.'/'.$name)){return $f;}
 			}
 		}
-		if($flag&4){
+		if($flag&self::FROM_DEFAULT){
             $name=self::get_file_path_in_default_dir($name);
             foreach(self::$extensions as $catpow_extension){
                 if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/default/'.$name)){return $f;}
@@ -70,31 +72,30 @@ class CP{
 		}
 		return null;
 	}
-	public static function get_file_paths($name,$flag=7){
+	public static function get_file_paths($name,$flag=037){
 		$rtn=[];
-		if($flag&1){
+		if($flag&self::FROM_PLUGIN){
             foreach(self::$extensions as $catpow_extension){
                 if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/'.$name)){$rtn[]=$f;}
 			}
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/'.$name)){$rtn[]=$f;}
 		}
-		if($flag&8 && isset(self::$content_path)){
+		if($flag&self::FROM_CONTENT && isset(self::$content_path)){
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){$rtn[]=$f;}
 			if(is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){$rtn[]=$f;}
 		}
-		if($flag&2){
+		if($flag&self::FROM_STYLESHEET_DIR){
 			if(file_exists($f=get_stylesheet_directory().'/'.$name)){$rtn[]=$f;}
+		}
+		if($flag&self::FROM_TEMPLATE_DIR){
 			if(is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){$rtn[]=$f;}
 		}
-		if($flag&16 && isset(self::$use_functions)){
-			foreach(self::$use_functions as $fnc){
-				foreach(self::$extensions as $catpow_extension){
-					if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/functions/'.$fnc.'/'.$name)){$rtn[]=$f;}
-				}
-				if(file_exists($f=WP_PLUGIN_DIR.'/catpow/functions/'.$fnc.'/'.$name)){$rtn[]=$f;}
+		if($flag&self::FROM_FUNCTIONS){
+			foreach(self::get_use_functions_dir() as $dir){
+				if(file_exists($f=$dir.'/'.$name)){$rtn[]=$f;}
 			}
 		}
-		if($flag&4){
+		if($flag&self::FROM_DEFAULT){
             $name=self::get_file_path_in_default_dir($name);
             foreach(self::$extensions as $catpow_extension){
                 if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/default/'.$name)){$rtn[]=$f;}
@@ -103,14 +104,14 @@ class CP{
 		}
 		return $rtn;
 	}
-	public static function get_file_url($name,$flag=7){
-		if($flag&1){
+	public static function get_file_url($name,$flag=037){
+		if($flag&self::FROM_PLUGIN){
             foreach(self::$extensions as $catpow_extension){
                 if(file_exists(WP_PLUGIN_DIR.'/'.$catpow_extension.'/'.$name)){return plugins_url().'/'.$catpow_extension.'/'.$name;}
 			}
 			if(file_exists(WP_PLUGIN_DIR.'/catpow/'.$name)){return plugins_url().'/catpow/'.$name;;}
 		}
-		if($flag&8 && isset(self::$content_path)){
+		if($flag&self::FROM_CONTENT && isset(self::$content_path)){
 			if(file_exists(get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				return get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
@@ -118,23 +119,18 @@ class CP{
 				return get_template_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
 		}
-		if($flag&2){
+		if($flag&self::FROM_STYLESHEET_DIR){
 			if(file_exists(get_stylesheet_directory().'/'.$name)){return get_stylesheet_directory_uri().'/'.$name;}
+		}
+		if($flag&self::FROM_TEMPLATE_DIR){
 			if(is_child_theme() && file_exists(get_template_directory().'/'.$name)){return get_template_directory_uri().'/'.$name;}
 		}
-		if($flag&16 && isset(self::$use_functions)){
-			foreach(self::$use_functions as $fnc){
-				foreach(self::$extensions as $catpow_extension){
-					if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/functions/'.$fnc.'/'.$name)){
-						return plugins_url().'/'.$catpow_extension.'/functions/'.$fnc.'/'.'/'.$name;
-					}
-				}
-				if(file_exists($f=WP_PLUGIN_DIR.'/catpow/functions/'.$fnc.'/'.$name)){
-					return plugins_url().'/catpow/functions/'.$fnc.'/'.$name;
-				}
+		if($flag&self::FROM_FUNCTIONS){
+			foreach(self::get_use_functions_dir_url() as $dir=>$url){
+				if(file_exists($f=$dir.'/'.$name)){return $url.'/'.$name;}
 			}
 		}
-		if($flag&4){
+		if($flag&self::FROM_DEFAULT){
             $name=self::get_file_path_in_default_dir($name);
             foreach(self::$extensions as $catpow_extension){
                 if(file_exists(WP_PLUGIN_DIR.'/'.$catpow_extension.'/default/'.$name)){return plugins_url().'/'.$catpow_extension.'/default/'.$name;}
@@ -143,15 +139,15 @@ class CP{
 		}
 		return null;
 	}
-	public static function get_file_urls($name,$flag=7){
+	public static function get_file_urls($name,$flag=037){
 		$rtn=[];
-		if($flag&1){
+		if($flag&self::FROM_PLUGIN){
             foreach(self::$extensions as $catpow_extension){
                 if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/'.$name)){$rtn[$f]=plugins_url().'/'.$catpow_extension.'/'.$name;}
 			}
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/'.$name)){$rtn[$f]=plugins_url().'/catpow/'.$name;}
 		}
-		if($flag&8 && isset(self::$content_path)){
+		if($flag&self::FROM_CONTENT && isset(self::$content_path)){
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				$rtn[$f]=get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
@@ -159,23 +155,18 @@ class CP{
 				$rtn[$f]=get_template_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
 		}
-		if($flag&2){
+		if($flag&self::FROM_STYLESHEET_DIR){
 			if(file_exists($f=get_stylesheet_directory().'/'.$name)){$rtn[$f]=get_stylesheet_directory_uri().'/'.$name;}
+		}
+		if($flag&self::FROM_TEMPLATE_DIR){
 			if(get_template_directory()!==get_stylesheet_directory() && file_exists($f=get_template_directory().'/'.$name)){$rtn[$f]=get_template_directory_uri().'/'.$name;}
 		}
-		if($flag&16 && isset(self::$use_functions)){
-			foreach(self::$use_functions as $fnc){
-				foreach(self::$extensions as $catpow_extension){
-					if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/functions/'.$fnc.'/'.$name)){
-						$rtn[$f]=plugins_url().'/'.$catpow_extension.'/functions/'.$fnc.'/'.'/'.$name;
-					}
-				}
-				if(file_exists($f=WP_PLUGIN_DIR.'/catpow/functions/'.$fnc.'/'.$name)){
-					$rtn[$f]=plugins_url().'/catpow/functions/'.$fnc.'/'.$name;
-				}
+		if($flag&self::FROM_FUNCTIONS){
+			foreach(self::get_use_functions_dir_url() as $dir=>$url){
+				if(file_exists($f=$dir.'/'.$name)){$rnt[$f]=$url.'/'.$name;}
 			}
 		}
-		if($flag&4){
+		if($flag&self::FROM_DEFAULT){
             $name=self::get_file_path_in_default_dir($name);
             foreach(self::$extensions as $catpow_extension){
                 if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/default/'.$name)){$rtn[$f]=plugins_url().'/'.$catpow_extension.'/default/'.$name;}
@@ -184,8 +175,8 @@ class CP{
 		}
 		return $rtn;
 	}
-	public static function get_file_path_url($name,$flag=7){
-		if($flag&1){
+	public static function get_file_path_url($name,$flag=037){
+		if($flag&self::FROM_PLUGIN){
             foreach(self::$extensions as $catpow_extension){
                 if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/'.$name)){
 					return [$f=>plugins_url().'/'.$catpow_extension.'/'.$name];
@@ -195,7 +186,7 @@ class CP{
 				return [$f=>plugins_url().'/catpow/'.$name];
 			}
 		}
-		if($flag&8 && isset(self::$content_path)){
+		if($flag&self::FROM_CONTENT && isset(self::$content_path)){
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				return [$f=>get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name];
 			}
@@ -203,27 +194,22 @@ class CP{
 				return [$f=>get_template_directory_uri().'/'.self::$content_path.'/'.$name];
 			}
 		}
-		if($flag&2){
+		if($flag&self::FROM_STYLESHEET_DIR){
 			if(file_exists($f=get_stylesheet_directory().'/'.$name)){
 				return [$f=>get_stylesheet_directory_uri().'/'.$name];
 			}
+		}
+		if($flag&self::FROM_TEMPLATE_DIR){
 			if(is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){
 				return [$f=>get_template_directory_uri().'/'.$name];
 			}
 		}
-		if($flag&16 && isset(self::$use_functions)){
-			foreach(self::$use_functions as $fnc){
-				foreach(self::$extensions as $catpow_extension){
-					if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/functions/'.$fnc.'/'.$name)){
-						return [$f=>plugins_url().'/'.$catpow_extension.'/functions/'.$fnc.'/'.'/'.$name];
-					}
-				}
-				if(file_exists($f=WP_PLUGIN_DIR.'/catpow/functions/'.$fnc.'/'.$name)){
-					return [$f=>plugins_url().'/catpow/functions/'.$fnc.'/'.$name];
-				}
+		if($flag&self::FROM_FUNCTIONS){
+			foreach(self::get_use_functions_dir_url() as $dir=>$url){
+				if(file_exists($f=$dir.'/'.$name)){return [$f=>$url.'/'.$name];}
 			}
 		}
-		if($flag&4){
+		if($flag&self::FROM_DEFAULT){
             $name=self::get_file_path_in_default_dir($name);
             foreach(self::$extensions as $catpow_extension){
                 if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/default/'.$name)){
@@ -354,17 +340,17 @@ class CP{
         return $path;
     }
 
-    public static function enqueue_script($src=false,$deps=array(),$ver=false,$in_footer=true){
+    public static function enqueue_script($src=false,$deps=array(),$flag=037,$ver=false,$in_footer=true){
 		static $missed=[];
 		if(wp_script_is($src) || isset($missed[$src])){return false;}
-        if(empty($file=self::get_file_path_url($src))){$missed[$src]=1;return false;}
+        if(empty($file=self::get_file_path_url($src,$flag))){$missed[$src]=1;return false;}
 		if(empty($ver)){$ver=filemtime(key($file));}
 		wp_enqueue_script($src,reset($file),$deps,$ver,$in_footer);
 	}
-	public static function enqueue_style($src=false,$deps=array(),$ver=false,$media=false){
+	public static function enqueue_style($src=false,$deps=array(),$flag=037,$ver=false,$media=false){
 		static $missed=[];
 		if(wp_script_is($src) || isset($missed[$src])){return false;}
-        if(empty($file=self::get_file_path_url($src))){$missed[$src]=1;return false;}
+        if(empty($file=self::get_file_path_url($src,$flag))){$missed[$src]=1;return false;}
 		self::scss_compile([substr($src,0,-4)]);
 		if(empty($ver)){$ver=filemtime(key($file));}
 		wp_enqueue_style($src,reset($file),$deps,$ver,$media);
@@ -372,8 +358,8 @@ class CP{
 	public static function use_ui($name){
 		static $done=[];
 		if(isset($done[$name])){return false;}
-		self::enqueue_script('ui/'.$name.'/component.js');
-		self::enqueue_style('ui/'.$name.'/style.css');
+		self::enqueue_script('ui/'.$name.'/component.js',23);
+		self::enqueue_style('ui/'.$name.'/style.css',23);
 		$done[$name]=1;
 	}
 	
@@ -1809,32 +1795,36 @@ class CP{
     public static function get_all_functions(){
         static $all_functions;
         if(isset($all_functions)){return $all_functions;}
-        $rtn=[];
-        foreach(glob(WP_PLUGIN_DIR.'/catpow/functions/*',GLOB_ONLYDIR) as $path){
-            $rtn[basename($path)]=1;
-        }
-        foreach(glob(get_stylesheet_directory().'/catpow/functions/*',GLOB_ONLYDIR) as $path){
-            $rtn[basename($path)]=1;
-        }
-        foreach(glob(get_template_directory().'/catpow/functions/*',GLOB_ONLYDIR) as $path){
-            $rtn[basename($path)]=1;
-        }
-        foreach(self::$extensions as $catpow_extension){
-            foreach(glob(get_template_directory().'/'.$catpow_extension.'/functions/*',GLOB_ONLYDIR) as $path){
-                $rtn[basename($path)]=1;
-            }
-        }
-		$all_functions=[];
-        foreach($rtn as $fnc=>$n){
-            if($fnc[0]==='_')continue;
-            $all_functions[]=$fnc;
-        }
-        return $all_functions;
+		return $all_functions=array_map('basename',glob(
+			WP_PLUGIN_DIR.'/{catpow,'.implode(',',self::$extensions).'}/functions/[!_]*',
+			GLOB_ONLYDIR|GLOB_BRACE
+		));
     }
+	public static function get_use_functions_dir(){
+		static $functions_dirs;
+		if(empty(self::$use_functions)){return [];}
+		if(isset($functions_dirs)){return $functions_dirs;}
+		return $functions_dirs=glob(
+			WP_PLUGIN_DIR.'/{catpow,'.implode(',',self::$extensions).'}'.
+			'/functions/{'.implode(',',self::$use_functions).'}',
+			GLOB_ONLYDIR|GLOB_BRACE
+		);
+	}
+	public static function get_use_functions_dir_url(){
+		static $functions_dir_urls;
+		if(empty(self::$use_functions)){return [];}
+		if(isset($functions_dir_urls)){return $functions_dir_urls;}
+		$functions_dir_urls=[];
+		$l=strlen(WP_PLUGIN_DIR);
+		foreach(self::get_use_functions_dir() as $dir){
+			$functions_dir_urls[$dir]=plugins_url().substr($dir,$l);
+		}
+		return $functions_dir_urls;
+	}
 	public static function get_all_blocks(){
         static $all_blocks;
         if(isset($all_blocks)){return $all_blocks;}
-		foreach(self::get_file_urls('blocks') as $block_dir=>$block_url){
+		foreach(self::get_file_urls('blocks',19) as $block_dir=>$block_url){
 			foreach(glob($block_dir.'/*/editor_script.js') as $editor_script){
 				$all_blocks[]=basename(dirname($editor_script));
 			}

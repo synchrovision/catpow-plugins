@@ -1,4 +1,4 @@
-Catpow.AmazonPay = function (_wp$element$Component) {
+Catpow.Zeus = function (_wp$element$Component) {
 	babelHelpers.inherits(_class, _wp$element$Component);
 
 	function _class(props) {
@@ -36,24 +36,23 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 				"div",
 				{
 					id: "ZeusButton",
+					className: "wp-block-catpow-zeus",
 					onClick: function onClick() {
-						zeusToken.getToken(function (zeus_token_response_data) {
-							if (!zeus_token_response_data['result']) {
-								alert(zeusToken.getErrorMessage(zeus_token_response_data['error_code']));
-							} else {
-								component.token_key = zeus_token_response_data.token_key;
-								component.setState({ popupOpen: true });
-							}
-						});
+						component.setState({ popupOpen: true });
 					}
 				},
-				"\u30AF\u30EC\u30B8\u30C3\u30C8\u30AB\u30FC\u30C9"
+				this.props.text || 'カードでお支払い'
 			), wp.element.createElement(
 				"div",
 				{ className: popup_classes },
 				wp.element.createElement(
 					"div",
 					{ "class": "zeusPopupContent" },
+					wp.element.createElement(
+						"h3",
+						{ className: "popupTitle" },
+						this.props.popupTitle || 'カードでお支払い'
+					),
 					wp.element.createElement("div", { id: "zeus_token_card_info_area", className: "zeusWidget" }),
 					wp.element.createElement(
 						"div",
@@ -63,13 +62,20 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 								if (!canCheckout) {
 									return false;
 								}
-								cp_form_submit(component.$ref, component.props.action, function ($item, res) {
-									console.log(res);
-									this.setState({ popupOpen: false });
-								}, { task: 'checkout', orderReferenceId: component.orderReferenceId });
+								zeusToken.getToken(function (zeus_token_response_data) {
+									if (!zeus_token_response_data['result']) {
+										alert(zeusToken.getErrorMessage(zeus_token_response_data['error_code']));
+									} else {
+										component.token_key = zeus_token_response_data.token_key;
+										cp_form_submit(component.$ref, component.props.action, function ($item, res) {
+											console.log(res);
+											this.setState({ popupOpen: false });
+										}, { token_key: zeus_token_response_data.token_key });
+									}
+								});
 							}
 						},
-						this.checkoutText
+						this.props.checkoutText || '購入する'
 					),
 					wp.element.createElement("div", { id: "zeusError" })
 				)

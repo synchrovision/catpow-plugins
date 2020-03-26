@@ -40,7 +40,7 @@ class Agent{
 		?>
 		<div id="<?=$id?>"></div>
 		<script type="text/javascript">  
-			var zeusTokenIpcode= "<?=$this->config['ipcode']?>";
+			var zeusTokenIpcode= "<?=$this->config['ipcode']??'null'?>";
 			jQuery(function($){ 
 				wp.element.render(
 					wp.element.createElement(
@@ -51,43 +51,6 @@ class Agent{
 				);
 			});
 		</script>
-		<div id="ZeusButtonContainer">
-			<link rel="stylesheet" href="s"/>
-			<div id="ZeusButton">クレジットカード</div>
-			<div id="ZeusWidgetContainer">
-				<div id="zeus_token_card_info_area"></div>
-				<div id="ZeusCheckoutButton"></div>
-			</div>
-			<script>
-				
-				
-				jQuery(function($){
-					var $zeusButton=$('#ZeusButton');
-					var $zeusCheckoutButton=$('#ZeusCheckoutButton');
-					var initZeusWidget=function(){
-						zeusTokenStart();
-					};
-					if(window.zeusTokenStart===undefined){
-						$.getScript(,initZeusWidget);
-					}
-					else{
-						initZeusWidget();
-					}
-					$zeusCheckoutButton.on('click',function(){
-						zeusToken.getToken(function(zeus_token_response_data){
-							if (!zeus_token_response_data['result']){
-								alert(zeusToken.getErrorMessage(zeus_token_response_data['error_code']));
-							}
-							else {
-								cp_form_submit($zeusCheckoutButton,'<?=$prm['action']??'zeus'?>',function($item,res){
-									console.log(res);
-								},{token_key:zeus_token_response_data.token_key});
-							}
-						});
-					});
-				});
-			</script>
-		</div>
 		<?php
 	}
 	public function setToken($token_key){

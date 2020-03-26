@@ -1,11 +1,9 @@
 <?php 
 namespace Catpow;
 add_menu_page('CATPOW','CATPOW','edit_themes','catpow-main',function(){
-    cp::enqueue_style('site-content','content.css');
     this()->render();
 });
 add_submenu_page('catpow-main','リファレンス','リファレンス','edit_themes','catpow-refelence',function(){
-    cp::enqueue_style('site-content','content.css');
     this()->render();
 });
 

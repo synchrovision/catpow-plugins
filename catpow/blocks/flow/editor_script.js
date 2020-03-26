@@ -220,7 +220,8 @@ registerBlockType('catpow/flow', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.flow || {}
 			}),
 			wp.element.createElement(
 				PanelBody,

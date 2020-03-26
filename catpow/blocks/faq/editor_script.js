@@ -217,7 +217,8 @@ registerBlockType('catpow/faq', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.faq || {}
 			}),
 			wp.element.createElement(
 				PanelBody,

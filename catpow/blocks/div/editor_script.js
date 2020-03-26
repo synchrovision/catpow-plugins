@@ -86,7 +86,8 @@ registerBlockType('catpow/div', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.div || {}
 			}),
 			wp.element.createElement(
 				PanelBody,

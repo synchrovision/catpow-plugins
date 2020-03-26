@@ -1,41 +1,5 @@
 <?php
 
-/*plugins_loaded*/
-add_action('plugins_loaded',function(){
-    cp::$extensions=apply_filters('catpow_extensions',[]);
-    cp::$data_types=apply_filters('catpow_data_types',['post','page','nav','term','comment','user','site','view','cpdb']);
-    spl_autoload_register(function($class){
-        if(substr($class,0,7)==='Catpow\\'){
-			$class=str_replace('\\','/',substr($class,7));
-			if(cp::include_plugin_file('classes/'.$class)){return true;}
-			if(cp::include_template_file('classes/'.$class)){return true;}
-			$class_path_data=explode('/',$class);
-			$func=array_shift($class_path_data);
-			if(in_array($func,cp::$use_functions)){
-				if(cp::include_plugin_file('functions/'.$func.'/classes/'.implode('/',$class_path_data))){return true;}
-			}
-		}
-		else{
-			$class=str_replace('\\','/',$class);
-			if(cp::include_plugin_file('lib/'.$class)){return true;}
-		}
-    });
-    do_action('cp_init');
-	
-
-	cp::$use_functions=array_merge(['catpow','config','blocks'],(array)\cp::get_meta('catpow','config',1,'use_functions'));
-	cp::$use_blocks=(array)\cp::get_meta('catpow','blocks',1,'use_blocks');
-	if(empty(cp::$use_blocks)){cp::$use_blocks=cp::get_supported_blocks();}
-    foreach(cp::$use_functions as $n){
-        cp::include_plugin_files('functions/'.$n.'/functions');
-        cp::include_template_files('functions/'.$n.'/functions');
-    }
-	session_start();
-	if($mo_file=cp::get_file_path('languages/catpow-'.get_locale().'.mo')){load_textdomain('catpow',$mo_file);}
-	if($mo_file=cp::get_file_path('languages/'.get_locale().'.mo',2)){load_textdomain('theme',$mo_file);}
-	do_action('cp_setup');
-});
-
 add_action('cp_init',function(){
     cp::include_plugin_files('action/cp_init');
 },10,1);

@@ -28,6 +28,37 @@ class CP{
         $this->stock['id']=self::rand_id();
     }
     public static function init(){
+		self::$extensions=apply_filters('catpow_extensions',[]);
+		self::$data_types=apply_filters('catpow_data_types',['post','page','nav','term','comment','user','site','view','cpdb']);
+		spl_autoload_register(function($class){
+			if(substr($class,0,7)==='Catpow\\'){
+				$class=str_replace('\\','/',substr($class,7));
+				if(self::include_plugin_file('classes/'.$class)){return true;}
+				if(self::include_template_file('classes/'.$class)){return true;}
+				$class_path_data=explode('/',$class);
+				$func=array_shift($class_path_data);
+				if(in_array($func,self::$use_functions)){
+					if(self::include_plugin_file('functions/'.$func.'/classes/'.implode('/',$class_path_data))){return true;}
+				}
+			}
+			else{
+				$class=str_replace('\\','/',$class);
+				if(self::include_plugin_file('lib/'.$class)){return true;}
+			}
+		});
+		do_action('cp_init');
+
+		self::$use_functions=array_merge(['catpow','config','blocks'],(array)self::get_meta('catpow','config',1,'use_functions'));
+		self::$use_blocks=(array)self::get_meta('catpow','blocks',1,'use_blocks');
+		if(empty(self::$use_blocks)){self::$use_blocks=self::get_supported_blocks();}
+		foreach(self::$use_functions as $n){
+			self::include_plugin_files('functions/'.$n.'/functions');
+			self::include_template_files('functions/'.$n.'/functions');
+		}
+		session_start();
+		if($mo_file=self::get_file_path('languages/catpow-'.get_locale().'.mo')){load_textdomain('catpow',$mo_file);}
+		if($mo_file=self::get_file_path('languages/'.get_locale().'.mo',2)){load_textdomain('theme',$mo_file);}
+		
         if(!isset($_SESSION['catpow'])){
             $_SESSION['catpow']=new self();
         }
@@ -38,6 +69,7 @@ class CP{
         self::$inputs=&$_SESSION['catpow']->stock['inputs'];
         self::$forms=&$_SESSION['catpow']->stock['forms'];
         self::$data=&$_SESSION['catpow']->stock['data'];
+		do_action('cp_setup');
     }
     
     /*ファイル取得・読み込み*/
@@ -48,7 +80,7 @@ class CP{
 			}
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/'.$name)){return $f;}
 		}
-		if($flag&self::FROM_CONTENT && isset(self::$content_path)){
+		if($flag&self::FROM_CONTENT_DIR && isset(self::$content_path)){
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){return $f;}
 			if(file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){return $f;}
 		}
@@ -80,7 +112,7 @@ class CP{
 			}
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/'.$name)){$rtn[]=$f;}
 		}
-		if($flag&self::FROM_CONTENT && isset(self::$content_path)){
+		if($flag&self::FROM_CONTENT_DIR && isset(self::$content_path)){
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){$rtn[]=$f;}
 			if(is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){$rtn[]=$f;}
 		}
@@ -111,7 +143,7 @@ class CP{
 			}
 			if(file_exists(WP_PLUGIN_DIR.'/catpow/'.$name)){return plugins_url().'/catpow/'.$name;;}
 		}
-		if($flag&self::FROM_CONTENT && isset(self::$content_path)){
+		if($flag&self::FROM_CONTENT_DIR && isset(self::$content_path)){
 			if(file_exists(get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				return get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
@@ -147,7 +179,7 @@ class CP{
 			}
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/'.$name)){$rtn[$f]=plugins_url().'/catpow/'.$name;}
 		}
-		if($flag&self::FROM_CONTENT && isset(self::$content_path)){
+		if($flag&self::FROM_CONTENT_DIR && isset(self::$content_path)){
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				$rtn[$f]=get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
@@ -186,7 +218,7 @@ class CP{
 				return [$f=>plugins_url().'/catpow/'.$name];
 			}
 		}
-		if($flag&self::FROM_CONTENT && isset(self::$content_path)){
+		if($flag&self::FROM_CONTENT_DIR && isset(self::$content_path)){
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				return [$f=>get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name];
 			}
@@ -383,7 +415,7 @@ class CP{
 		if(isset($cache[$path])){return $cache[$path];}
 		$path_data=explode('/',$path);
 		$post_type=reset($path_data);
-		$parent=cp::get_post(dirname($path));
+		$parent=self::get_post(dirname($path));
 		$conf_data=$GLOBALS['post_types'][$post_type];
 		$post_data=[
 			'post_type'=>$post_type,
@@ -422,7 +454,7 @@ class CP{
 	public static function page_content($name=false,$vars=false){
 		if(is_page() || is_single()){the_post();}
 		echo('<div class="page_content">');
-		if(is_a(cp::$content,'Catpow\content\form')){cp::$content->render();}
+		if(is_a(self::$content,'Catpow\content\form')){self::$content->render();}
 		else{self::get_template_part(self::get_the_content_file_path(),$name,$vars);}
 		echo('</div>');
 	}
@@ -580,7 +612,7 @@ class CP{
 		$conf_data['data_name']=$data_name;
 		$conf_data['path']=$data_type.'/'.$data_name;
 		if(isset($conf_data['article_type'])){
-			$class_name=cp::get_class_name('article_type',$conf_data['article_type']);
+			$class_name=self::get_class_name('article_type',$conf_data['article_type']);
 			$class_name::fill_conf_data($conf_data);
 		}
 		if(!isset($conf_data['template'])){
@@ -588,11 +620,11 @@ class CP{
 			$conf_data['template']=$data_type_class::get_default_templates($conf_data);
 		}
 		foreach($conf_data['template'] as $template){
-			$class_name=cp::get_class_name('template_type',explode('-',$template)[0]);
+			$class_name=self::get_class_name('template_type',explode('-',$template)[0]);
 			$class_name::fill_conf_data($conf_data);
 		}
 		if(isset($conf_data['meta'])){
-			cp::fill_confs($conf_data['meta'],$conf_data['path']);
+			self::fill_confs($conf_data['meta'],$conf_data['path']);
 		}
 		if(!isset($conf_data['label'])){$conf_data['label']=$data_name;}
 		if($data_type==='page'){
@@ -672,8 +704,8 @@ class CP{
         $class_name=get_class($object);
         if(substr($class_name,0,3)==='WP_'){$data_type=strtolower(substr($class_name,3));}
         else{$data_type=end(explode('\\',$class_name));}
-		$data_name=$object->{cp::get_data_type_name($data_type)};
-		$data_id=$object->{cp::get_data_id_name($data_type)};
+		$data_name=$object->{self::get_data_type_name($data_type)};
+		$data_id=$object->{self::get_data_id_name($data_type)};
         if($data_type==='post'){
             switch($data_name){
                 case 'page':
@@ -1575,8 +1607,8 @@ class CP{
         $role=get_user_role($user_id);
         
         if(
-			$f=cp::get_file_path("user/{$role}/notice/{$notice_type}.php") ||
-			$f=cp::get_file_path("user/common/notice/{$notice_type}.php")
+			$f=self::get_file_path("user/{$role}/notice/{$notice_type}.php") ||
+			$f=self::get_file_path("user/common/notice/{$notice_type}.php")
 		 ){
             ob_start();
             if(is_array($vars)){extract($vars);}
@@ -1730,11 +1762,11 @@ class CP{
         static $scssc,$admin_config_filemtime,$config_filemtime;
 		$css_files=[];
 		if(empty($config_filemtime)){
-			if(empty($config_file=cp::get_file_path('config/style_config.scss',6))){$config_filemtime=0;}
+			if(empty($config_file=self::get_file_path('config/style_config.scss',6))){$config_filemtime=0;}
 			else{$config_filemtime=filemtime($config_file);}
 		}
 		if(empty($admin_config_filemtime)){
-			if(empty($admin_config_file=cp::get_file_path('scss/admin_style_config.scss',1))){$admin_config_filemtime=0;}
+			if(empty($admin_config_file=self::get_file_path('scss/admin_style_config.scss',1))){$admin_config_filemtime=0;}
 			else{$admin_config_filemtime=filemtime($admin_config_file);}
 		}
         foreach($scss_names as $scss_base_name){
@@ -1895,6 +1927,6 @@ class CP{
 }
 class_alias('Catpow\CP','cp');
 
-add_action('cp_setup',function(){CP::init();});
+add_action('plugins_loaded',['CP','init']);
 
 ?>

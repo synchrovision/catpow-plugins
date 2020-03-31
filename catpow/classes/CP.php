@@ -30,15 +30,28 @@ class CP{
     public static function init(){
 		self::$extensions=apply_filters('catpow_extensions',[]);
 		self::$data_types=apply_filters('catpow_data_types',['post','page','nav','term','comment','user','site','view','cpdb']);
+		
+		if($f=\cp::get_file_path('config/catpow/config.php',\cp::FROM_THEME)){
+			include $f;
+			self::$use_functions=array_merge(['catpow','config','blocks'],$value['use_functions']);
+		}
+		else{
+			self::$use_functions=['catpow','config','blocks'];
+		}
+		if($f=\cp::get_file_path('config/catpow/blocks.php',\cp::FROM_THEME)){
+			include $f;
+			self::$use_blocks=$value['use_blocks'];
+		}
+		else{
+			self::$use_blocks=self::get_supported_blocks();
+		}
 		spl_autoload_register(function($class){
+			static $classes_dirs;
+			if(!isset($classes_dirs)){$classes_dirs=self::get_file_paths('classes');}
 			if(substr($class,0,7)==='Catpow\\'){
 				$class=str_replace('\\','/',substr($class,7));
-				if(self::include_plugin_file('classes/'.$class)){return true;}
-				if(self::include_template_file('classes/'.$class)){return true;}
-				$class_path_data=explode('/',$class);
-				$func=array_shift($class_path_data);
-				if(in_array($func,self::$use_functions)){
-					if(self::include_plugin_file('functions/'.$func.'/classes/'.implode('/',$class_path_data))){return true;}
+				foreach($classes_dirs as $dir){
+					if(file_exists($f=$dir.'/'.$class.'.php')){include $f;break;}
 				}
 			}
 			else{
@@ -48,9 +61,6 @@ class CP{
 		});
 		do_action('cp_init');
 
-		self::$use_functions=array_merge(['catpow','config','blocks'],(array)self::get_meta('catpow','config',1,'use_functions'));
-		self::$use_blocks=(array)self::get_meta('catpow','blocks',1,'use_blocks');
-		if(empty(self::$use_blocks)){self::$use_blocks=self::get_supported_blocks();}
 		foreach(self::$use_functions as $n){
 			self::include_plugin_files('functions/'.$n.'/functions');
 			self::include_template_files('functions/'.$n.'/functions');
@@ -71,6 +81,7 @@ class CP{
         self::$data=&$_SESSION['catpow']->stock['data'];
 		do_action('cp_setup');
     }
+	
     
     /*ファイル取得・読み込み*/
 	public static function get_file_path($name,$flag=037){
@@ -114,13 +125,13 @@ class CP{
 		}
 		if($flag&self::FROM_CONTENT_DIR && isset(self::$content_path)){
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){$rtn[]=$f;}
-			if(is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){$rtn[]=$f;}
+			if(@is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){$rtn[]=$f;}
 		}
 		if($flag&self::FROM_STYLESHEET_DIR){
 			if(file_exists($f=get_stylesheet_directory().'/'.$name)){$rtn[]=$f;}
 		}
 		if($flag&self::FROM_TEMPLATE_DIR){
-			if(is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){$rtn[]=$f;}
+			if(@is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){$rtn[]=$f;}
 		}
 		if($flag&self::FROM_FUNCTIONS){
 			foreach(self::get_use_functions_dir() as $dir){
@@ -147,7 +158,7 @@ class CP{
 			if(file_exists(get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				return get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
-			if(is_child_theme() && file_exists(get_template_directory().'/'.self::$content_path.'/'.$name)){
+			if(@is_child_theme() && file_exists(get_template_directory().'/'.self::$content_path.'/'.$name)){
 				return get_template_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
 		}
@@ -155,7 +166,7 @@ class CP{
 			if(file_exists(get_stylesheet_directory().'/'.$name)){return get_stylesheet_directory_uri().'/'.$name;}
 		}
 		if($flag&self::FROM_TEMPLATE_DIR){
-			if(is_child_theme() && file_exists(get_template_directory().'/'.$name)){return get_template_directory_uri().'/'.$name;}
+			if(@is_child_theme() && file_exists(get_template_directory().'/'.$name)){return get_template_directory_uri().'/'.$name;}
 		}
 		if($flag&self::FROM_FUNCTIONS){
 			foreach(self::get_use_functions_dir_url() as $dir=>$url){
@@ -195,7 +206,7 @@ class CP{
 		}
 		if($flag&self::FROM_FUNCTIONS){
 			foreach(self::get_use_functions_dir_url() as $dir=>$url){
-				if(file_exists($f=$dir.'/'.$name)){$rnt[$f]=$url.'/'.$name;}
+				if(file_exists($f=$dir.'/'.$name)){$rtn[$f]=$url.'/'.$name;}
 			}
 		}
 		if($flag&self::FROM_DEFAULT){
@@ -222,7 +233,7 @@ class CP{
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				return [$f=>get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name];
 			}
-			if(is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){
+			if(@is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){
 				return [$f=>get_template_directory_uri().'/'.self::$content_path.'/'.$name];
 			}
 		}
@@ -232,7 +243,7 @@ class CP{
 			}
 		}
 		if($flag&self::FROM_TEMPLATE_DIR){
-			if(is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){
+			if(@is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){
 				return [$f=>get_template_directory_uri().'/'.$name];
 			}
 		}
@@ -1173,7 +1184,8 @@ class CP{
 					else{$path_data['data_name']='post';}
 					break;
 				case 'user':
-					$path_data['data_name']=get_user_role($wp_query->query_vars['user_id']?:false);
+					$role=get_user_role($wp_query->query_vars['user_id']??false);
+						$path_data['data_name']=$role;
                     break;
                 default:
                     $data_type_name=self::get_data_type_name($path_data['data_type']);
@@ -1856,7 +1868,7 @@ class CP{
 	public static function get_all_blocks(){
         static $all_blocks;
         if(isset($all_blocks)){return $all_blocks;}
-		foreach(self::get_file_urls('blocks',19) as $block_dir=>$block_url){
+		foreach(self::get_file_urls('blocks') as $block_dir=>$block_url){
 			foreach(glob($block_dir.'/*/editor_script.js') as $editor_script){
 				$all_blocks[]=basename(dirname($editor_script));
 			}

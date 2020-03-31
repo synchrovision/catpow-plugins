@@ -288,6 +288,7 @@
 					set={setAttributes}
 					attr={attributes}
 					selectiveClasses={selectiveClasses}
+					filters={CP.filters.listed || {}}
 				/>
 				<PanelBody title="CLASS" icon="admin-generic" initialOpen={false}>
 					<TextareaControl
@@ -304,6 +305,7 @@
 					items={itemsCopy}
 					index={attributes.currentItemIndex}
 					triggerClasses={selectiveClasses[0]}
+					filters={CP.filters.listed || {}}
 				/>
 				<ItemControlInfoPanel/>
 			</InspectorControls>,

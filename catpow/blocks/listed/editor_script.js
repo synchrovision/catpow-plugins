@@ -318,7 +318,8 @@ registerBlockType('catpow/listed', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.listed || {}
 			}),
 			wp.element.createElement(
 				PanelBody,
@@ -338,7 +339,8 @@ registerBlockType('catpow/listed', {
 				attr: attributes,
 				items: itemsCopy,
 				index: attributes.currentItemIndex,
-				triggerClasses: selectiveClasses[0]
+				triggerClasses: selectiveClasses[0],
+				filters: CP.filters.listed || {}
 			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
 		), wp.element.createElement(

@@ -13,7 +13,7 @@ class database extends data{
 			return $cpdb->select($cpdb->structure[\cpdb::get_table_name($data_name)]['children'][$meta_name],$where);
 		}
 		if(static::$has_parent){$where=['parent_id'=>$id];}else{$where=[];}
-		return $cpdb->select([$data_type,$data_name,$meta_name],$where);
+		return $cpdb->select($conf['path'],$where);
 	}
 	public static function set($data_type,$data_name,$id,$meta_name,$vals,$conf){
 		global $cpdb;

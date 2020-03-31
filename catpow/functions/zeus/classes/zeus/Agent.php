@@ -53,6 +53,29 @@ class Agent{
 		</script>
 		<?php
 	}
+	public function getToken($name,$number,$month,$year){
+		$url='https://linkpt.cardservice.co.jp/cgi-bin/token/token.cgi';
+		$card_data=array_merge([
+			'name'=>'',
+			'number'=>'',
+			'expire'=>['year'=>'','month'=>'']
+		],$card_data);
+		$data=[
+			'request'=>['service'=>'token','action'=>'newcard'],
+			'authentication'=>['clientip'=>$this->config['ipcode']],
+			'card'=>$card_data
+		];
+		$res=file_get_contents($action_to_url[$action],false,stream_context_create([
+			'http'=>[
+				'method'=>'POST',
+				'header'=> "Content-type: application/x-www-form-urlencoded\r\nContent-Length:".strlen($data)."\r\n",
+				'content'=>$data
+			]
+		]));
+		$res=simplexml_load_string($res);
+		$this->token_key=$token_key;
+		return $res;
+	}
 	public function setToken($token_key){
 		$this->token_key=$token_key;
 	}

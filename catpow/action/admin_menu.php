@@ -66,8 +66,8 @@ function get_menu_link($slug){
 						§form($slug.'/manage/admin.php');
 						echo('</div></div>');
 						cp::enqueue_style('content.css');
-						cp::enqueue_script($slug.'/script.js');
-						cp::enqueue_style($slug.'/style.css');
+						cp::enqueue_script($slug.'/manage/script.js');
+						cp::enqueue_style($slug.'/manage/style.css');
 					};
 				}
 				return [$key=>$hooks[$key]];

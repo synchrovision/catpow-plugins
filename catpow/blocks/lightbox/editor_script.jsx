@@ -97,6 +97,7 @@
 						set={setAttributes}
 						attr={attributes}
 						selectiveClasses={selectiveClasses}
+						filters={CP.filters.lightbox || {}}
 					/>
 					<PanelBody title="CLASS" icon="admin-generic" initialOpen={false}>
 						<TextareaControl
@@ -118,6 +119,7 @@
 						items={itemsCopy}
 						index={attributes.currentItemIndex}
 						triggerClasses={selectiveClasses[0]}
+						filters={CP.filters.lightbox || {}}
 					/>
 					<ItemControlInfoPanel/>
 				</InspectorControls>

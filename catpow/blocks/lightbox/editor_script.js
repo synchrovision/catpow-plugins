@@ -102,7 +102,8 @@ registerBlockType('catpow/lightbox', {
 					icon: 'art',
 					set: setAttributes,
 					attr: attributes,
-					selectiveClasses: selectiveClasses
+					selectiveClasses: selectiveClasses,
+					filters: CP.filters.lightbox || {}
 				}),
 				wp.element.createElement(
 					PanelBody,
@@ -129,7 +130,8 @@ registerBlockType('catpow/lightbox', {
 					attr: attributes,
 					items: itemsCopy,
 					index: attributes.currentItemIndex,
-					triggerClasses: selectiveClasses[0]
+					triggerClasses: selectiveClasses[0],
+					filters: CP.filters.lightbox || {}
 				}),
 				wp.element.createElement(ItemControlInfoPanel, null)
 			),

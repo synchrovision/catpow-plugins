@@ -46,7 +46,7 @@ function cp_gauth_get_profile($token){
 
 function get_cp_gcal_task_time(){
 	global $wpdb;
-	$client = Catpow\gauth\cpgouth::get_gc();
+	$client = Catpow\gauth\cpgauth::get_gc();
 	$service = new Google_Service_Calendar($client);
 	$calendarList = $service->calendarList->listCalendarList();
 	$nextSyncToken=$calendarList->getNextSyncToken();

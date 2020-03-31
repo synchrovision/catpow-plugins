@@ -34,7 +34,7 @@ class database implements iSetup{
 			}
 
 			$table_data[$table_name]['has_parent']=$class_name::$has_parent;
-			$table_data[$table_name]['alias']=$conf['alias']?:str_replace('/','_',$conf['path']);
+			$table_data[$table_name]['alias']=$conf['alias']??str_replace('/','_',$conf['path']);
 
 
 			$cols=[];
@@ -60,7 +60,7 @@ class database implements iSetup{
 				}
 			}
 			$table_data[$table_name]['columns']=$cols;
-			if(in_array($table_name,$org_tables) and $cpdb->query("SHOW TABLES LIKE '{$table_name}'")->fetch(PDO::FETCH_NUM)){
+			if(in_array($table_name,$org_tables) and $cpdb->query("SHOW TABLES LIKE '{$table_name}'")->fetch(\PDO::FETCH_NUM)){
 				$org_cols=[];
 
 				foreach($cpdb->query('SHOW COLUMNS FROM '.$table_name) as $org_col_data){
@@ -80,7 +80,7 @@ class database implements iSetup{
 					$update_logs[$table_name][]='create column '.$new_col_name;
 				}
 				foreach($com_cols as $com_col_name=>$com_col){
-					if($com_cols['data_type']==$org_cols['data_type'])continue;
+					if(empty($com_cols['data_type']) || $com_cols['data_type']==$org_cols['data_type'])continue;
 					$cpdb->query("ALTER TABLE {$table_name} MODIFY `{$com_col_name}` {$com_cols['data_type']};");
 					$update_logs[$table_name][]='modify column '.$com_col_name.
 						' from '.$org_cols['data_type'].

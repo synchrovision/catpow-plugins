@@ -1,7 +1,7 @@
 <?php
 namespace Catpow\template_type;
 /**
-* メール
+* @deprecated Catpowのメールフォームは管理画面でフォームの内容を編集できる形を基本にする
 */
 
 class mail extends template_type{

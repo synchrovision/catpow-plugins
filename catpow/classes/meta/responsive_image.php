@@ -15,7 +15,7 @@ class responsive_image extends media{
         $vals=$meta->value;
         uksort($vals,function($a,$b){if($a==0)return -1;if($b==0)return 1;return $a-$b;});
         foreach($vals as $bp=>$vs){
-            $img_data=wp_get_attachment_image_src(reset($vs),'full');
+            $img_data=wp_get_attachment_image_src(reset($vs),$meta->conf['meta'][$bp]['size']??'full');
 			if($bp<0)$styles.=sprintf("@media(max-width:%dpx){",abs($bp));
 			if($bp>0)$styles.=sprintf("@media(min-width:%dpx){",$bp);
             $styles.=sprintf("#%s{background:url('%s') %s / %s no-repeat;}",$id,$img_data[0],$position,$size);
@@ -29,12 +29,23 @@ class responsive_image extends media{
         $val=$meta->value;
         $rtn='<ul class="inputs">';
         foreach($meta->conf['meta'] as $bp=>$child_meta){
-            $rtn.=sprintf('<li><h3>%spx</h3>',$bp);
+            $rtn.=sprintf('<li><h3>%s</h3>',$child_meta['label']??($bp==0)?'default':$bp.'px');
             $rtn.=media::get_input($path.'/'.$bp.'/0',$child_meta,$val[$bp][0]?:null);
             $rtn.='</li>';
         }
         $rtn.='</ul>';
         return $rtn;
+	}
+	public static function fill_conf(&$conf){
+		if(empty($conf['meta'])){
+			$conf['meta']=[
+				0=>[],
+				640=>['size'=>'medium_large']
+			];
+		}
+		foreach($conf['meta'] as $bp=>$child_meta){
+			$conf['meta'][$bp]['type']=$conf['meta'][$bp]['type']??'media';
+		}
 	}
 }
 ?>

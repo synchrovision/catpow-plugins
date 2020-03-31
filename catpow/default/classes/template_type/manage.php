@@ -35,7 +35,7 @@ class manage extends template_type{
 							'@inputs_search',
 							[
 								'ul.buttons',
-								['li.primary',['php',"button(_('検索'),'results','update_results');"]]
+								['li.primary',['php',"button(_('検索'),'results','replace');"]]
 							]
 						]
 					]
@@ -74,7 +74,7 @@ class manage extends template_type{
 				'',
 				'@catpow',
 				"@inputs 1",
-				"@button center close.danger:削除:delete:remove_section refresh:更新:save:update_section"
+				"@button center close.danger:削除:delete:remove refresh:更新:save:replace"
 			],
 			'sec_manage_item-save.php'=>[
 				'php',

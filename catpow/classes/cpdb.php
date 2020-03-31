@@ -48,6 +48,7 @@ class cpdb{
 		global $wpdb;
 		if(empty($name)){return null;}
         if(is_string($name)){
+			$name=str_replace('/','_',$name);
             if(isset(self::$cpdb->alias[$name])){return self::$cpdb->alias[$name];}
             return $name;
         }

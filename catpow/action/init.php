@@ -67,7 +67,7 @@ if(function_exists('register_block_type')){
 		'component'=>['wp-element','wp-api-fetch','catpow'],
 		'script'=>['catpow']
 	];
-	foreach(cp::get_file_urls('blocks',19) as $block_dir=>$block_url){
+	foreach(cp::get_file_urls('blocks') as $block_dir=>$block_url){
 		foreach(glob($block_dir.'/_init/*.js') as $format_script){
 			$fname=basename($format_script);
 			$code_name='cp_blocks_init_'.substr($fname,0,-3);
@@ -166,7 +166,7 @@ if(function_exists('register_block_type')){
 		$block_registry=WP_Block_Type_Registry::get_instance();
 		foreach($block_registry->get_all_registered() as $block_name=>$block_type){
 			$block_base_name=explode('/',$block_name)[1];
-			if($f=cp::get_file_path('blocks/'.$block_base_name.'/editor_init.php',3)){include $f;}
+			if($f=cp::get_file_path('blocks/'.$block_base_name.'/editor_init.php')){include $f;}
 			cp::enqueue_script(
 				'blocks/'.$block_base_name.'/editor_init.js',
 				$deps['editor_script']

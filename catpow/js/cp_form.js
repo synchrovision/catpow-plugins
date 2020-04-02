@@ -128,6 +128,10 @@ function cp_form_submit($item,action,callback,param){
                 }
             }
             $form.trigger('before_cp_form_callback',res);
+			if(res.nonce){
+				window.console.log('reset nonce : from '+$('[name="_cp_form_nonce"]',$form).val()+' to '+res.nonce);
+				$('[name="_cp_form_nonce"]',$form).val(res.nonce);
+			}
             $.each(cbs,function(cbn,cb){
                 if(cbn){$form.trigger(new $.Event('before_'+cbn));}
                 cb($item,res);

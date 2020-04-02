@@ -2,16 +2,10 @@
 namespace Catpow\zeus;
 
 class Agent{
+	use \Catpow\traits\SessionSingleton;
+	
 	public $config,$token_key;
 	const INSTANCE_NAME='CatpowZeusAgent';
-	
-	public static function getInstance(){
-		if(isset($_SESSION[self::INSTANCE_NAME])){
-			return $_SESSION[self::INSTANCE_NAME];
-		}
-		$_SESSION[self::INSTANCE_NAME]=new self();
-		return $_SESSION[self::INSTANCE_NAME];
-	}
 	
 	public function __construct(){
 		$this->init();
@@ -55,17 +49,13 @@ class Agent{
 	}
 	public function getToken($name,$number,$month,$year){
 		$url='https://linkpt.cardservice.co.jp/cgi-bin/token/token.cgi';
-		$card_data=array_merge([
-			'name'=>'',
-			'number'=>'',
-			'expire'=>['year'=>'','month'=>'']
-		],$card_data);
 		$data=[
 			'request'=>['service'=>'token','action'=>'newcard'],
 			'authentication'=>['clientip'=>$this->config['ipcode']],
-			'card'=>$card_data
+			'card'=>['name'=>$name,'number'=>$number,'expire'=>['year'=>$year,'month'=>$month]]
 		];
-		$res=file_get_contents($action_to_url[$action],false,stream_context_create([
+		$data=http_build_query($data);
+		$res=file_get_contents($url,false,stream_context_create([
 			'http'=>[
 				'method'=>'POST',
 				'header'=> "Content-type: application/x-www-form-urlencoded\r\nContent-Length:".strlen($data)."\r\n",
@@ -107,14 +97,14 @@ class Agent{
 			'clientip'=>$this->config['ipcode'],
 			'token_key'=>$this->token_key
 		],$data);
-		$res=file_get_contents($action_to_url[$action],false,stream_context_create([
+		$data=http_build_query($data);
+		return file_get_contents($url,false,stream_context_create([
 			'http'=>[
 				'method'=>'POST',
 				'header'=> "Content-type: application/x-www-form-urlencoded\r\nContent-Length:".strlen($data)."\r\n",
 				'content'=>$data
 			]
 		]));
-		return simplexml_load_string($res);
 	}
 	
 	function __sleep(){

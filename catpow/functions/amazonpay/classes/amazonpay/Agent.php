@@ -2,16 +2,10 @@
 namespace Catpow\amazonpay;
 
 class Agent{
+	use \Catpow\traits\SessionSingleton;
+	
 	public $client,$config,$access_token,$orderReferenceId;
 	const INSTANCE_NAME='CatpowAmazonPayAgent';
-	
-	public static function getInstance(){
-		if(isset($_SESSION[self::INSTANCE_NAME])){
-			return $_SESSION[self::INSTANCE_NAME];
-		}
-		$_SESSION[self::INSTANCE_NAME]=new self();
-		return $_SESSION[self::INSTANCE_NAME];
-	}
 	
 	public function __construct(){
 		$this->init();

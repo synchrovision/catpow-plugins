@@ -1436,16 +1436,21 @@ class CP{
         $data_id=$path_data['data_id'];
         
 		$rtn=$path_data;
+		$rtn['object_data'][self::get_data_type_name($data_type)]=$data_name;
 		
         
 		if(!isset($req[$data_type][$data_name][$data_id])){return $rtn;}
         $metas=self::get_conf_data([$data_type,$data_name])['meta'];
+		$query_class_name=self::get_class_name('query',$data_type);
         foreach($req[$data_type][$data_name][$data_id] as $name=>$vals){
             if(substr($name,0,2)=='__'){continue;}
 			if(isset($metas[$name])){
 				$conf=$metas[$name];
 				$class_name=self::get_class_name('meta',$conf['type']);
 				$class_name::reflect_to_data($rtn,$data_type,$data_name,$name,$data_id,$vals,$conf);
+			}
+			elseif(in_array($name,$query_class_name::$data_keys)){
+				$rtn['object_data'][$name]=$vals;
 			}
         }
 		if(!empty($rtn['meta_data'])){
@@ -1503,7 +1508,6 @@ class CP{
 			}
 		}
 		else{
-        	$data['object_data'][self::get_data_type_name($data_type)]=$data_name;
 			$data_id=$query_class_name::insert($data['object_data']);
 			if(!empty($data['meta_data'])){
 				foreach($data['meta_data'] as $meta_name=>$vals){

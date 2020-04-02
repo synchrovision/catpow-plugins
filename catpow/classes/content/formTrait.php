@@ -312,6 +312,9 @@ trait formTrait{
     public static function response(){
         check_ajax_referer('cp_form','_cp_form_nonce');
         global $res;
+		add_action('set_logged_in_cookie',function($logged_in_cookie){
+			$_COOKIE[LOGGED_IN_COOKIE]=$logged_in_cookie;
+		});
         ob_start();
         try{
             $form=\cp::get_the_form();

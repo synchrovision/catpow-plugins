@@ -19,9 +19,11 @@ class cpgc{
 		}
 		else{
 			try{
-				include(dirname(__DIR__).'/vendor/autoload.php');
+				include(dirname(dirname(__DIR__)).'/vendor/autoload.php');
 				
-				$conf=get_option('gauth_conf')[0];
+				$conf=get_option('gauth_conf')[0]??null;
+				
+				if(empty($conf)){return false;}
 
 				self::$gc=new \Google_Client([
 					'application_name'=>$conf['application_name'][0],

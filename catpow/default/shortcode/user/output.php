@@ -11,6 +11,10 @@ switch($prm[0]){
 	case 'lost_password_url':echo wp_lostpassword_url();break;
 	case 'reset_password_url':
 		$key=get_password_reset_key($user);
+		if(is_wp_error($key)){
+			error_log($key->get_error_message());
+			return '';
+		}
 		echo network_site_url("wp-login.php?action=rp&key=$key&login=".rawurlencode($user->user_login));
 		break;
 	default:

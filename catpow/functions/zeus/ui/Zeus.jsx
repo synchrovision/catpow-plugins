@@ -25,7 +25,14 @@
 			<div className={popup_classes}>
 				<div class="zeusPopupContent">
 					<h3 className="popupTitle">{this.props.popupTitle || 'カードでお支払い'}</h3>
-					<div id="zeus_token_card_info_area" className="zeusWidget"></div>
+					<div
+						id="zeus_token_card_info_area"
+						className="zeusWidget"
+						onInput={()=>{
+							console.log('onInput');
+							component.setState({canCheckout:zeusToken.validateCardForm()});
+						}}
+					></div>
 					<div
 						className={checkoutbutton_classes}
 						onClick={(e)=>{

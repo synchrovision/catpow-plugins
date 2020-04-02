@@ -53,7 +53,14 @@ Catpow.Zeus = function (_wp$element$Component) {
 						{ className: "popupTitle" },
 						this.props.popupTitle || 'カードでお支払い'
 					),
-					wp.element.createElement("div", { id: "zeus_token_card_info_area", className: "zeusWidget" }),
+					wp.element.createElement("div", {
+						id: "zeus_token_card_info_area",
+						className: "zeusWidget",
+						onInput: function onInput() {
+							console.log('onInput');
+							component.setState({ canCheckout: zeusToken.validateCardForm() });
+						}
+					}),
 					wp.element.createElement(
 						"div",
 						{

@@ -1436,7 +1436,7 @@ class CP{
         $data_id=$path_data['data_id'];
         
 		$rtn=$path_data;
-		$rtn['object_data'][self::get_data_type_name($data_type)]=$data_name;
+		
 		
         
 		if(!isset($req[$data_type][$data_name][$data_id])){return $rtn;}
@@ -1457,6 +1457,10 @@ class CP{
 			foreach($rtn['meta_data'] as &$meta_data){
 				if(!empty($meta_data)){ksort($meta_data,SORT_NUMERIC);}
 			}
+		}
+		$data_type_name=self::get_data_type_name($data_type);
+		if(isset($rtn['object_data']) && empty($rtn['object_data'][$data_type_name])){
+			$rtn['object_data'][$data_type_name]=$data_name;
 		}
         return $rtn;
     }

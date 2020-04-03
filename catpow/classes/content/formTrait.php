@@ -173,7 +173,7 @@ trait formTrait{
         $this->allowed_actions[]=$action;
     }
     public function allow_input($name,$meta){
-        $ref=$this->allowed_inputs[\cp::get_input_id($name)]=$meta;
+        $this->allowed_inputs[\cp::get_input_id($name)]=$meta;
     }
     public function receive($req=false){
         if($req===false){$req=$_REQUEST;}
@@ -217,7 +217,6 @@ trait formTrait{
         }
         if(!empty($errors)){throw new form_exception(['message'=>$errors]);}
         
-		
         foreach($inputs as $input_id=>$vals){
 			$meta=$this->allowed_inputs[$input_id];
 			if(empty($meta->conf['type'])){continue;}

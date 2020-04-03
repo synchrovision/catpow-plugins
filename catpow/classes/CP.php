@@ -1459,6 +1459,10 @@ class CP{
 			}
 		}
 		$data_type_name=self::get_data_type_name($data_type);
+		if($query_class_name::$united){
+			$rtn['object_data']=$rtn['meta_data'];
+			unset($rtn['meta_data']);
+		}
 		if(isset($rtn['object_data']) && empty($rtn['object_data'][$data_type_name])){
 			$rtn['object_data'][$data_type_name]=$data_name;
 		}
@@ -1486,8 +1490,6 @@ class CP{
         $query_class_name=self::get_class_name('query',$data_type);
         $data_id=$data['data_id'];
         $conf_data_path=$data_type.'/'.$data_name.'/';
-		
-		if($query_class_name::$united){$data['object_data']=$data['meta_data'];unset($data['meta_data']);}
 		
 		if($query_class_name::is_available_id($data_id)){
 			if(!empty($data['object_data'])){

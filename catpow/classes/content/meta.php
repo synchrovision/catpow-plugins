@@ -84,7 +84,7 @@ class meta extends content{
         return ob_get_clean();
     }
 	public function allow_input(){
-		if(empty($this->form)){return false;}
+		if(is_null($this->form??null)){return false;}
 		$this->form->allow_input($this->data_path,$this);
 		return true;
 	}

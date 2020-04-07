@@ -383,6 +383,37 @@ class cpdb{
 		}
 		return $rtn;
 	}
+	public function count($table,$where=[]){
+        $table_name=self::get_table_name($table);
+		if(empty($this->structure[$table_name])){return [];}
+		$table_conf=$this->structure[$table_name];
+        $path=$table_conf['path'];
+        $cols=$table_conf['columns'];
+		$rtn=[];
+        $q=['SELECT COUNT(*) ',self::get_sql_data_from(is_array($table)?$table:$table_name)];
+		if(is_numeric($where)){$where=['meta_id'=>$where];}
+        elseif(is_array($where)){
+            foreach($where as $key=>&$val){
+                if(!empty($cols[$key]['multiple'])){
+                    $new=[];
+                    if(is_array($val)){
+                        foreach($val as $k=>$v){
+                            if(is_numeric($k)){$k='ANY';}
+                            if(is_array($v)){$new[$k]=array_merge((array)$new[$k],$v);}
+                            else{$new[$k][]=$v;}
+                        }
+                    }
+                    else{$new['ANY'][]=$val;}
+                    $val=$new;
+                }
+                unset($val);
+            }
+        }
+        
+        $q[]=self::get_sql_data_where($where);
+		$sth=$this->query($q);
+		return $sth->fetchColumn();
+	}
 	public function delete($table,$where,$include_children=true){
 		$table_name=self::get_table_name($table);
 		if(empty($this->structure[$table_name])){return [];}

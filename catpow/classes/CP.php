@@ -1159,7 +1159,7 @@ class CP{
         if(is_admin()){
             global $pagenow;
             if($pagenow==='admin.php'){
-                if(preg_match('/^(catpow|site|cpdb)\-([\w_].+)$/',$_GET['page'],$matches)){
+                if(preg_match('/^(catpow|site|cpdb)\-([\w_].+)$/',$_GET['page']??'',$matches)){
                     return $path_data=[
                         'data_type'=>$matches[1],
                         'data_name'=>$matches[2],

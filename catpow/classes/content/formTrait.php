@@ -103,15 +103,15 @@ trait formTrait{
         return $rtn;
     }
     /*buttons*/
-    public function buttons($action=false,$key='paged',$values=null,$callback='update_results'){
+    public function buttons($action=false,$key='paged',$values=null,$callback='replace'){
         printf('<ul class="buttons %s" %s>',$action,$this->button_attr($action,$key,$callback));
         foreach($values as $key=>$val){
             printf('<li %s>%s</li>',$this->buttons_item_attr($val),is_int($key)?$val:$key);
         }
         echo '</ul>';
     }
-    public function buttons_attr($action='action',$key='paged',$callback='update_results'){
-        $rtn=sprintf('data-role="cp_form_action_submit_group" data-param-key="%s" data-callback="%s"',$action,$key,$callback);
+    public function buttons_attr($action=false,$key='paged',$callback='replace'){
+        $rtn=sprintf('data-role="cp_form_action_submit_group" data-param-key="%s" data-callback="%s"',$key,$callback);
         if(!empty($action)){$this->allow_action($action);$rtn.=' data-action="'.$action.'"';}
         return $rtn;
     }

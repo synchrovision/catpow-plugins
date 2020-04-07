@@ -9,8 +9,8 @@ class cpdb extends query{
         $query_class=false,
 		$united=true,
 		$is_meta=true,
-        $search_keys=['join'=>1,'orderby'=>1],
-		$q_default=['table'=>false,'where'=>false,'orderby'=>false,'join'=>false,'limit'=>false];
+        $search_keys=['join'=>1,'orderby'=>1,'limit'=>0,'paged'=>0],
+		$q_default=['table'=>false,'where'=>false,'orderby'=>false,'join'=>false,'limit'=>false,'offset'=>false];
     public $table,$path,$columns,$rows,$where,$orderby,$join,$limit;
     
     public function __construct($q){
@@ -41,7 +41,7 @@ class cpdb extends query{
     
 	public static function fill_query_vars($q){
 		if(isset($q['data_name'])){$q['table']=$q['data_name'];}
-		if(isset($q['paged']) && isset($q['limit'])){$q['offset']=$q['limit']*$q['paged'];}
+		if(isset($q['paged']) && $q['paged']>1 && isset($q['limit'])){$q['offset']=$q['limit']*($q['paged']-1);}
 		if(isset($q['meta_query'])){
 			foreach($q['meta_query'] as $meta_name=>$meta_query){
 				$q['where'][$meta_query['key']][$meta_query['compare']]=$meta_query['value'];
@@ -63,8 +63,8 @@ class cpdb extends query{
         $this->where=$where;
         $this->orderby=$orderby;
         $this->join=$join;
-        $this->limit=$limit;
-		if(isset($offset)){$limit=$offset.','.$limit;}
+		$this->limit=$limit;
+		if(!empty($offset)){$limit=$offset.','.$limit;}
         return $this->rows=$cpdb->select($table,$where,true,'*',$orderby,$join,$limit);
     }
     
@@ -117,6 +117,28 @@ class cpdb extends query{
 			else{static::update($row);}
 		}
 	}
+	
+	
+    /*magic method*/
+    public function __get($name){
+        global $cpdb;
+		if(isset(static::$key_translation[$name])){$name=static::$key_translation[$name];}
+		switch($name){
+			case 'total':
+				return $this->total=$cpdb->count($this->table,$this->where);
+			case 'max_num_pages':
+				return $this->max_num_pages=$this->limit?ceil($this->total/$this->limit):1;
+		}
+		
+    }
+    public function __set($name,$val){
+		if(isset(static::$key_translation[$name])){$name=static::$key_translation[$name];}
+    }
+    public function __call($name,$args){
+        if(isset($this->query)){
+            return call_user_func_array([$this->query,$name],$args);
+        }
+    }
 }
 class_alias('Catpow\query\cpdb','cpdb_query');
 

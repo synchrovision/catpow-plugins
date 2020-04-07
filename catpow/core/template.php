@@ -156,9 +156,9 @@ function pagenate($prm=false){
 			'prev_text'=>'＜',
 			'next_text'=>'＞',
 			'total'=>$q->max_num_pages
-		],$prm);
+		],(array)$prm);
 		?>
-		<ul class="pagenate" <?=_buttons()?>>
+		<ul class="pagenate" <?=_buttons('results')?>>
 			<?php for($i=1;$i<=$prm['total'];$i++): ?>
 			<li class="item" <?=_buttons_item($i);?>><?=$i?></li>
 			<?php endfor; ?>
@@ -470,10 +470,10 @@ function button($content='送信',$action=false,$callback=null,$param=null,$targ
 function _button($action=false,$callback=null,$param=null,$target=null,$ignore_message=null){
     return \cp::$content->form->button_attr($action,$callback,$param,$target,$ignore_message);
 }
-function buttons($action=false,$key='paged',$values=null,$callback='update_results'){
+function buttons($action=false,$key='paged',$values=null,$callback='replace'){
     \cp::$content->form->buttons($action,$key,$values,$callback);
 }
-function _buttons($action=false,$key='paged',$callback='update_results'){
+function _buttons($action=false,$key='paged',$callback='replace'){
     return \cp::$content->form->buttons_attr($action,$key,$callback);
 }
 function _buttons_item($value){

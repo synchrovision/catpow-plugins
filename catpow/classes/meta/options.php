@@ -3,7 +3,7 @@ namespace Catpow\meta;
 
 class options extends meta{
 	public static $can_search=false;
-    
+	
 	public static function get($data_type,$data_name,$id,$meta_name,$conf){
 		return get_option($conf['option']);
 	}
@@ -29,7 +29,7 @@ class options extends meta{
 		if(isset($conf['meta'])){return data::input($meta,$prm);}
 		return parent::input($meta,$prm);
 	}
-    
-    public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){}
+	
+	public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){}
 }
 ?>

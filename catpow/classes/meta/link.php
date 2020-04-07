@@ -5,7 +5,7 @@ class link extends data{
 	
 	public static function output($meta,$prm){
 		$val=$meta->value;
-        return sprintf('<a class="link" href="%s">%s</a>',$val['url'][0],$val['text'][0]);
+		return sprintf('<a class="link" href="%s">%s</a>',$val['url'][0],$val['text'][0]);
 	}
 	public static function fill_conf(&$conf){
 		$default=['meta'=>[

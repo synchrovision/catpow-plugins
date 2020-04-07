@@ -13,8 +13,8 @@ registerBlockType('catpow/cond', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes;
 
 		return [wp.element.createElement(
 			'div',
@@ -44,7 +44,7 @@ registerBlockType('catpow/cond', {
 						setAttributes({ is_user_logged_in: is_user_logged_in });
 					},
 					value: attributes.is_user_logged_in,
-					options: [{ label: 'していない', value: '-1' }, { label: 'どちらでも', value: '0' }, { label: 'している', value: '1' }]
+					options: [{ label: 'して�?���?', value: '-1' }, { label: 'どちらで�?', value: '0' }, { label: 'して�?��', value: '1' }]
 				}),
 				attributes.is_user_logged_in !== '-1' && wp.element.createElement(TextareaControl, {
 					label: '\u6A29\u9650',
@@ -58,8 +58,8 @@ registerBlockType('catpow/cond', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className,
-		    setAttributes = _ref2.setAttributes;
+			className = _ref2.className,
+			setAttributes = _ref2.setAttributes;
 
 		return wp.element.createElement(InnerBlocks.Content, null);
 	}

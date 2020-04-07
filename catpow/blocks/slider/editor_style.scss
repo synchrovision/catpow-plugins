@@ -9,9 +9,9 @@ div.wp-block-catpow-slider{
 	ul.contents{
 		li{
 			@include bnd((p:r));
-            div.itemControl{
-                @include bnd((p:a,t:.5rem,r:.5rem));
-            }
+			div.itemControl{
+				@include bnd((p:a,t:.5rem,r:.5rem));
+			}
 		}
 	}
 	&.edit{
@@ -48,9 +48,9 @@ div.wp-block-catpow-slider{
 					img,video{
 						@include bnd((w:f,h:a));
 					}
-                    &::before,&::after{
-                        @include bnd((d:n));
-                    }
+					&::before,&::after{
+						@include bnd((d:n));
+					}
 				}
 			}
 		}

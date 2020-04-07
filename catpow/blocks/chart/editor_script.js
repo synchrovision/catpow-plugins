@@ -40,7 +40,7 @@ registerBlockType('catpow/chart', {
 				}
 			},
 			default: [{
-				title: '男女比',
+				title: '男女�?',
 				unit: '%',
 				rowTitle: '性別',
 				rowUnit: '',
@@ -53,11 +53,11 @@ registerBlockType('catpow/chart', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes,
-		    isSelected = _ref.isSelected;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes,
+			isSelected = _ref.isSelected;
 		var classes = attributes.classes,
-		    graph = attributes.graph;
+			graph = attributes.graph;
 
 		var primaryClass = 'wp-block-catpow-chart';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -71,13 +71,13 @@ registerBlockType('catpow/chart', {
 		};
 
 		var selectiveClasses = [{
-			label: 'タイプ',
+			label: 'タイ�?',
 			filter: 'type',
 			values: {
-				BarChart: '棒グラフ',
-				PieChat: '円グラフ',
-				LineChart: '折れ線グラフ',
-				RadarChart: 'レーダーチャート'
+				BarChart: '棒グラ�?',
+				PieChat: '�?��ラ�?',
+				LineChart: '折れ線グラ�?',
+				RadarChart: 'レー�?ーチャー�?'
 			}
 		}];
 		var type = CP.getSelectiveClass({ attr: attributes }, selectiveClasses[0].values);
@@ -131,7 +131,7 @@ registerBlockType('catpow/chart', {
 											setAttributes({ graph: graphCopy });
 										},
 										value: col.label,
-										placeholder: '項目' + (c + 1)
+										placeholder: '�?��' + (c + 1)
 									})
 								);
 							})
@@ -153,7 +153,7 @@ registerBlockType('catpow/chart', {
 											setAttributes({ graph: graphCopy });
 										},
 										value: row.label,
-										placeholder: '項目' + (r + 1)
+										placeholder: '�?��' + (r + 1)
 									})
 								),
 								row.vals.map(function (val, c) {
@@ -207,19 +207,19 @@ registerBlockType('catpow/chart', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className;
+			className = _ref2.className;
 		var classes = attributes.classes,
-		    graph = attributes.graph;
+			graph = attributes.graph;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 
 		var selectiveClasses = [{
-			label: 'タイプ',
+			label: 'タイ�?',
 			values: {
-				BarChart: '棒グラフ',
-				PieChat: '円グラフ',
-				LineChart: '折れ線グラフ',
-				RadarChart: 'レーダーチャート'
+				BarChart: '棒グラ�?',
+				PieChat: '�?��ラ�?',
+				LineChart: '折れ線グラ�?',
+				RadarChart: 'レー�?ーチャー�?'
 			}
 		}];
 		var type = CP.getSelectiveClass({ attr: attributes }, selectiveClasses[0].values);

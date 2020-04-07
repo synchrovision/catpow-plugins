@@ -10,8 +10,8 @@ $css_arr=[
 ];
 foreach($css_arr as $path){cp::enqueue_style($path);}
 $js_arr=[
-    'script.js',
-    cp::$content_path.'/script.js'
+	'script.js',
+	cp::$content_path.'/script.js'
 ];
 foreach($js_arr as $path){cp::enqueue_script($path);}
 

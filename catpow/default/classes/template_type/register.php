@@ -51,7 +51,7 @@ class register extends template_type{
 			\cp::fill_conf_data('post','register_mail',$GLOBALS['post_types']['register_mail']);
 		}
 	}
-    public static function get_default_post_datas($conf_data){
+	public static function get_default_post_datas($conf_data){
 		$name=basename($conf_data['path']);
 		return [
 			'register_form/form-'.$name=>['post_title'=>$conf_data['label'].'登録申請'],
@@ -105,15 +105,15 @@ class register extends template_type{
 			'script.js'=>[],
 		];
 	}
-    public static function get_form_type($file){
-        switch($file){
-            case 'form.php':
-            case 'task.php':
+	public static function get_form_type($file){
+		switch($file){
+			case 'form.php':
+			case 'task.php':
 				return 1;
-            default:
-                return 8;
-        }
-    }
+			default:
+				return 8;
+		}
+	}
 }
 
 ?>

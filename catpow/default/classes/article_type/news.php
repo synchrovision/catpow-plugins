@@ -5,8 +5,8 @@ namespace Catpow\article_type;
 */
 
 abstract class news extends article_type{
-    public static function fill_conf_data(&$conf_data){
-    }
+	public static function fill_conf_data(&$conf_data){
+	}
 }
 
 ?>

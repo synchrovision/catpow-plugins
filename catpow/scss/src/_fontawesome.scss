@@ -2,7 +2,7 @@
 	@if map-has-key($fa_icons,$ico){content: map-get($fa_icons,$ico);}
 	@else {content:map-get($fa_icons,question-circle);}
 	font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
+	font-weight: 900;
 }
 
 $fa_icons:(

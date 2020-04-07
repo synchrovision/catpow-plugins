@@ -1,8 +1,8 @@
 <?php
 namespace Catpow\util;
 class cache{
-    
-    public static function get_closure_code($fnc){
+	
+	public static function get_closure_code($fnc){
 		$ref=new ReflectionFunction($fnc);
 		$lines=array_slice(file($ref->getFileName()),$ref->getStartLine()-1,$ref->getEndLine()-$ref->getStartLine()+1);
 		$lines[0]=substr($lines[0],strrpos($lines[0],'function('));

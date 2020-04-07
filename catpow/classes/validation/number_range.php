@@ -2,9 +2,9 @@
 namespace Catpow\validation;
 
 class number_length extends validation{
-    public static $message_keys=['min','max'];
+	public static $message_keys=['min','max'];
 	
-    public static function is_valid(&$val,$conf){
+	public static function is_valid(&$val,$conf){
 		return (float)$val>=(float)$conf['min'] and (float)$val<=(float)$conf['max'];
 	}
 	

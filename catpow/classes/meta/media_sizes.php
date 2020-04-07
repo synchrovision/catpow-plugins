@@ -2,11 +2,11 @@
 namespace Catpow\meta;
 
 class media_sizes extends media_set{
-    public static
-        $has_children=true,
-        $is_unit_output=true,
+	public static
+		$has_children=true,
+		$is_unit_output=true,
 		$is_unit_input=true;
-    
+	
 	public static function get($data_type,$data_name,$id,$meta_name,$conf){
 		$data=wp_get_attachment_metadata($id);
 		$rtn=[];
@@ -26,18 +26,18 @@ class media_sizes extends media_set{
 		wp_update_attachment_metadata($id,$data);
 	}
 	public static function input($meta,$prm){
-        $path=$meta->the_data_path;
-        $val=$meta->value;
-        $rtn='<ul class="inputs">';
-        foreach($meta->conf['meta'] as $w=>$child_meta){
-            $rtn.=sprintf('<li><h3>%s</h3>',$child_meta['label']);
-            $rtn.=media::get_input($path.'/'.$w.'/0',$child_meta,$val[$w][0]?:null);
-            $rtn.='</li>';
-        }
-        $rtn.='</ul>';
-        return $rtn;
+		$path=$meta->the_data_path;
+		$val=$meta->value;
+		$rtn='<ul class="inputs">';
+		foreach($meta->conf['meta'] as $w=>$child_meta){
+			$rtn.=sprintf('<li><h3>%s</h3>',$child_meta['label']);
+			$rtn.=media::get_input($path.'/'.$w.'/0',$child_meta,$val[$w][0]?:null);
+			$rtn.='</li>';
+		}
+		$rtn.='</ul>';
+		return $rtn;
 	}
-    
+	
 	public static function fill_conf(&$conf){
 		if(!isset($conf['meta'])){
 			foreach(get_intermediate_image_sizes() as $size){

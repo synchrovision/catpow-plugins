@@ -9,7 +9,7 @@ namespace Catpow\meta;
 * orders	注文情報（orderedのグループ）
 */
 class wares extends database{
-    
+	
 	public static function fill_conf(&$conf){
 		$default=['meta'=>[
 			'name'=>['type'=>'text','label'=>__('品名','catpow')],

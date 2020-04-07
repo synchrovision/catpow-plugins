@@ -1,6 +1,6 @@
 registerBlockType('catpow/section', {
 	title: '🐾 Section',
-	description: '見出しと本文のセット',
+	description: '見�?しと本�??セ�?��',
 	icon: 'id-alt',
 	category: 'catpow',
 	attributes: {
@@ -32,22 +32,22 @@ registerBlockType('catpow/section', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes;
 		var id = attributes.id,
-		    classes = attributes.classes,
-		    prefix = attributes.prefix,
-		    title = attributes.title,
-		    headerImageMime = attributes.headerImageMime,
-		    headerImageSrc = attributes.headerImageSrc,
-		    headerImageSrcset = attributes.headerImageSrcset,
-		    headerImageAlt = attributes.headerImageAlt,
-		    read = attributes.read,
-		    imageMime = attributes.imageMime,
-		    imageSrc = attributes.imageSrc,
-		    imageSrcset = attributes.imageSrcset,
-		    imageAlt = attributes.imageAlt,
-		    backgroundImageSrc = attributes.backgroundImageSrc;
+			classes = attributes.classes,
+			prefix = attributes.prefix,
+			title = attributes.title,
+			headerImageMime = attributes.headerImageMime,
+			headerImageSrc = attributes.headerImageSrc,
+			headerImageSrcset = attributes.headerImageSrcset,
+			headerImageAlt = attributes.headerImageAlt,
+			read = attributes.read,
+			imageMime = attributes.imageMime,
+			imageSrc = attributes.imageSrc,
+			imageSrcset = attributes.imageSrcset,
+			imageAlt = attributes.imageAlt,
+			backgroundImageSrc = attributes.backgroundImageSrc;
 
 		var primaryClass = 'wp-block-catpow-section';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -67,13 +67,13 @@ registerBlockType('catpow/section', {
 		};
 
 		var selectiveClasses = [{
-			label: 'タイプ',
+			label: 'タイ�?',
 			filter: 'type',
 			values: ['scene', 'article', 'column'],
 			sub: {
-				scene: ['color', 'pattern', { label: 'プレフィクス', values: 'hasPrefix' }, { label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{ input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage }] }, { label: 'ヘッダ背景画像', values: 'hasHeaderBackgroundImage', sub: [{ input: 'image', keys: imageKeys.headerBackgroundImage }, { label: '薄く', values: 'paleHeaderBG' }] }, { label: '抜き色文字', values: 'inverseText', sub: [{ label: 'ヘッダ背景色', values: 'hasHeaderBackgroundColor' }] }, { label: 'リード', values: 'hasRead' }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }],
-				article: ['color', { label: 'レベル', values: { level2: '2', level3: '3', level4: '4' } }, { label: '見出しタイプ', values: { header: 'ヘッダ', headline: 'ヘッドライン', catch: 'キャッチ' } }, { label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{ input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage }] }, { label: 'リード', values: 'hasRead' }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }],
-				column: ['color', 'pattern', { label: 'アイコン', values: 'hasIcon', sub: [{ label: '種類', values: ['check', 'help', 'alert', 'caution', 'warn'] }] }, { label: '画像', values: 'hasImage', sub: [{ input: 'image', keys: imageKeys.image }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '薄く', values: 'paleBG' }] }, { label: '線', values: { no_border: 'なし', thin_border: '細', bold_border: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '内側', values: 'inset' }] }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }]
+				scene: ['color', 'pattern', { label: 'プレフィクス', values: 'hasPrefix' }, { label: 'ヘッ�?画�?', values: 'hasHeaderImage', sub: [{ input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage }] }, { label: 'ヘッ�?背景画�?', values: 'hasHeaderBackgroundImage', sub: [{ input: 'image', keys: imageKeys.headerBackgroundImage }, { label: '�?��', values: 'paleHeaderBG' }] }, { label: '抜き色�?�?', values: 'inverseText', sub: [{ label: 'ヘッ�?背景色', values: 'hasHeaderBackgroundColor' }] }, { label: 'リー�?', values: 'hasRead' }, { label: '背景画�?', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '�?��', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }],
+				article: ['color', { label: 'レベル', values: { level2: '2', level3: '3', level4: '4' } }, { label: '見�?しタイ�?', values: { header: 'ヘッ�?', headline: 'ヘッドライン', catch: 'キャ�?��' } }, { label: 'ヘッ�?画�?', values: 'hasHeaderImage', sub: [{ input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage }] }, { label: 'リー�?', values: 'hasRead' }, { label: '背景画�?', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '�?��', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }],
+				column: ['color', 'pattern', { label: 'アイコン', values: 'hasIcon', sub: [{ label: '種�?', values: ['check', 'help', 'alert', 'caution', 'warn'] }] }, { label: '画�?', values: 'hasImage', sub: [{ input: 'image', keys: imageKeys.image }] }, { label: '背景画�?', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }, { label: '�?��', values: 'paleBG' }] }, { label: '�?', values: { no_border: 'な�?', thin_border: '細', bold_border: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '�??', values: 'inset' }] }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }]
 			},
 			bind: {
 				scene: ['level1'],
@@ -199,21 +199,21 @@ registerBlockType('catpow/section', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className,
-		    setAttributes = _ref2.setAttributes;
+			className = _ref2.className,
+			setAttributes = _ref2.setAttributes;
 		var id = attributes.id,
-		    icon = attributes.icon,
-		    classes = attributes.classes,
-		    prefix = attributes.prefix,
-		    title = attributes.title,
-		    headerImageSrc = attributes.headerImageSrc,
-		    headerImageSrcset = attributes.headerImageSrcset,
-		    headerImageAlt = attributes.headerImageAlt,
-		    read = attributes.read,
-		    imageSrc = attributes.imageSrc,
-		    imageSrcset = attributes.imageSrcset,
-		    imageAlt = attributes.imageAlt,
-		    backgroundImageSrc = attributes.backgroundImageSrc;
+			icon = attributes.icon,
+			classes = attributes.classes,
+			prefix = attributes.prefix,
+			title = attributes.title,
+			headerImageSrc = attributes.headerImageSrc,
+			headerImageSrcset = attributes.headerImageSrcset,
+			headerImageAlt = attributes.headerImageAlt,
+			read = attributes.read,
+			imageSrc = attributes.imageSrc,
+			imageSrcset = attributes.imageSrcset,
+			imageAlt = attributes.imageAlt,
+			backgroundImageSrc = attributes.backgroundImageSrc;
 
 
 		var states = CP.wordsToFlags(classes);

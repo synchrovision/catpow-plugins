@@ -70,12 +70,12 @@ class recent_posts extends \WP_Widget {
 
 		<p><label for="<?php echo $this->get_field_id('number'); ?>">表示件数</label>
 		<input id="<?php echo $this->get_field_id('number'); ?>" name="<?php echo $this->get_field_name('number'); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
-        
+		
 		<p><label for="<?php echo $this->get_field_id('type'); ?>">表示投稿タイプ</label>
 		<select id="<?php echo $this->get_field_id('type'); ?>" name="<?php echo $this->get_field_name('type'); ?>">
-        <?php foreach($post_types as $post_type=>$type_vals){if(isset($type_vals['name']))printf('<option value="%1$s">%2$s</option>'.chr(10),$post_type,$type_vals['name']);} ?>
-        </select>
-        </p>
+		<?php foreach($post_types as $post_type=>$type_vals){if(isset($type_vals['name']))printf('<option value="%1$s">%2$s</option>'.chr(10),$post_type,$type_vals['name']);} ?>
+		</select>
+		</p>
 <?php
 	}
 }

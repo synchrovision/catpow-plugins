@@ -5,7 +5,7 @@ namespace Catpow\template_item\php;
 */
 
 class user_panel extends \Catpow\template_item\php{
-    public static function get_code_data($path_data,$conf_data,$param){
+	public static function get_code_data($path_data,$conf_data,$param){
 		return [
 			'',
 			['div.user_panel',
@@ -20,7 +20,7 @@ class user_panel extends \Catpow\template_item\php{
 				'<?php endif; ?>'
 			]
 		];
-    }
+	}
 }
 
 ?>

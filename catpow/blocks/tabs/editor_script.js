@@ -17,15 +17,15 @@ registerBlockType('catpow/tabs', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes;
 		var classes = attributes.classes,
-		    items = attributes.items;
+			items = attributes.items;
 
 		var primaryClass = 'wp-block-catpow-tabs';
 
 		var template = [],
-		    realTabs = [];
+			realTabs = [];
 		for (var i = 0; i < items.length; i++) {
 			template.push(['catpow/tabscontent']);
 		}
@@ -85,10 +85,10 @@ registerBlockType('catpow/tabs', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className,
-		    setAttributes = _ref2.setAttributes;
+			className = _ref2.className,
+			setAttributes = _ref2.setAttributes;
 		var classes = attributes.classes,
-		    items = attributes.items;
+			items = attributes.items;
 
 
 		var rtn = [];
@@ -128,8 +128,8 @@ registerBlockType('catpow/tabscontent', {
 	parent: ['catpow/tabs'],
 	edit: function edit(_ref3) {
 		var attributes = _ref3.attributes,
-		    className = _ref3.className,
-		    setAttributes = _ref3.setAttributes;
+			className = _ref3.className,
+			setAttributes = _ref3.setAttributes;
 
 		return [wp.element.createElement(
 			'div',
@@ -139,8 +139,8 @@ registerBlockType('catpow/tabscontent', {
 	},
 	save: function save(_ref4) {
 		var attributes = _ref4.attributes,
-		    className = _ref4.className,
-		    setAttributes = _ref4.setAttributes;
+			className = _ref4.className,
+			setAttributes = _ref4.setAttributes;
 
 		return wp.element.createElement(
 			'div',

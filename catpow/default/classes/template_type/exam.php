@@ -22,14 +22,14 @@ class exam extends template_type{
 		];
 	}
 	
-    public static function get_form_type($file){
+	public static function get_form_type($file){
 		switch($file){
 			case 'form.php':
 				return 1;
 			default:
 				return parent::get_form_type($file);
 		}
-    }
+	}
 }
 
 ?>

@@ -5,7 +5,7 @@ namespace Catpow\template_item\php;
 */
 
 class date extends \Catpow\template_item\php{
-    public static function get_code_data($path_data,$conf_data,$param){
+	public static function get_code_data($path_data,$conf_data,$param){
 		$metas=$conf_data['meta']?:null;
 		switch($path_data['data_type']){
 			case 'post':
@@ -31,8 +31,8 @@ class date extends \Catpow\template_item\php{
 			default:
 				if(isset($metas['date'])){return "<?php output('date'); ?>";}
 		}
-        return $conf_data['label'];
-    }
+		return $conf_data['label'];
+	}
 }
 
 ?>

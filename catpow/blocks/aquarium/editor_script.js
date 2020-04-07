@@ -1,6 +1,6 @@
 registerBlockType('catpow/aquarium', {
 	title: '🐾 aquarium',
-	description: '画像とテキストを３次元にレイアウト',
+	description: '画像と�?��ストを?�次�?��レイアウ�?',
 	icon: wp.element.createElement(
 		'svg',
 		{ role: 'img', focusable: 'false', xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 20 20', 'aria-hidden': 'true' },
@@ -47,10 +47,10 @@ registerBlockType('catpow/aquarium', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes;
 		var classes = attributes.classes,
-		    layers = attributes.layers;
+			layers = attributes.layers;
 
 		var primaryClass = 'wp-block-catpow-aquarium';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -115,10 +115,10 @@ registerBlockType('catpow/aquarium', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className,
-		    setAttributes = _ref2.setAttributes;
+			className = _ref2.className,
+			setAttributes = _ref2.setAttributes;
 		var classes = attributes.classes,
-		    layers = attributes.layers;
+			layers = attributes.layers;
 
 
 		return wp.element.createElement(

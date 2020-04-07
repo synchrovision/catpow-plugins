@@ -11,7 +11,7 @@ class menu_order extends meta{
 		));
 		return $rtn;
 	}
-    
+	
 	public static function set($data_type,$data_name,$id,$meta_name,$vals,$conf){
 		global $wpdb;
 		$wpdb->query($wpdb->prepare(
@@ -19,10 +19,10 @@ class menu_order extends meta{
 			(int)reset($vals),$id
 		));
 	}
-    public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){
-        if(empty(array_filter($input['value']))){return false;}
-        $query['menu_order']=reset($input['value']);
-    }
+	public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){
+		if(empty(array_filter($input['value']))){return false;}
+		$query['menu_order']=reset($input['value']);
+	}
 	public static function reflect_to_order(&$order_data,$data_type,$data_name,$meta_name,$conf){
 		$order_data['orderby']='menu_order';
 		$order_data['desc_first']=false;

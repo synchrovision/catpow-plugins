@@ -4,9 +4,9 @@ namespace Catpow\meta;
 class gmap extends data{
 	public static
 		$is_bulk_output=true;
-    
+	
 	public static function output($meta,$prm){
-        $val=$meta->value;
+		$val=$meta->value;
 		static $token,$mapOptions_default,$markerOptions_default,$is_called;
 		
 		wp_enqueue_script('cp_gmap');
@@ -52,7 +52,7 @@ class gmap extends data{
 		return ob_get_clean();
 	}
 	public static function fill_conf(&$conf){
-        if(!isset($conf['meta'])){
+		if(!isset($conf['meta'])){
 			$conf['meta']=[
 				'address'=>['type'=>'text']
 			];

@@ -5,9 +5,9 @@ ul.wp-block-catpow-formbuttons{
 		@include bnd((w:a,mg:20 a,pd:0));
 		@include flx((w:w,c:1));
 		@include txt((l:n));
-        .itemControl{
-            @include bnd((p:a,t:-2rem,r:0));
-        }
+		.itemControl{
+			@include bnd((p:a,t:-2rem,r:0));
+		}
 		div.button{
 			.action{
 				@include bnd((d:b,p:a,t:f,l:0,r:0,mg:a,pd:3,z:7));

@@ -1,11 +1,11 @@
 @import 'admin_style_config.scss';
 
 body table.wp-block-catpow-layouttable{
-    @include bnd((w:f));
-    thead,tbody{
-        tr{
-            th,td{
-                @include bnd((p:r));
+	@include bnd((w:f));
+	thead,tbody{
+		tr{
+			th,td{
+				@include bnd((p:r));
 				div.itemControl{
 					@include bnd((w:7rem));
 					&.columnControl{@include bnd((p:a,b:-2rem,l:0,r:0,mg:a));}
@@ -17,7 +17,7 @@ body table.wp-block-catpow-layouttable{
 					@include trn((o:.2));
 					@include usr((e:n));
 				}
-            }
-        }
-    }
+			}
+		}
+	}
 }

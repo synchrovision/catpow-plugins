@@ -158,9 +158,7 @@ class button{
 
     
   </script>
-  <script type="text/javascript" 
-    src="https://static-fe.payments-amazon.com/OffAmazonPayments/jp/sandbox/lpa/js/Widgets.js" 
-     async></script>
+  <script type="text/javascript" src="https://static-fe.payments-amazon.com/OffAmazonPayments/jp/sandbox/lpa/js/Widgets.js" async></script>
 </body>
 </html>
 <?php

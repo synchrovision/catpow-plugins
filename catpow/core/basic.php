@@ -11,26 +11,26 @@ function _d($val){
 		$is_first=false;
 	}
 	echo '<div id="cp_log">';
-    $bt=debug_backtrace()[0];
-    printf('<small>%s(%s)</small><br/>',basename($bt['file']),$bt['line']);
-    $fnc_dump_as_table=function($vals,$refs=[])use(&$fnc_dump_as_table){
-        if(is_array($vals) || is_object($vals)){
-            if(is_object($vals)){
-                if(in_array($vals,$refs)){echo '...';return;}
-                else{$refs[]=$vals;}
-            }
-            echo '<table>';
-            foreach($vals as $key=>$val){
-                printf('<tr><th>%s<span class="type">(%s)</span></th><td>',$key,is_object($val)?get_class($val):gettype($val));
-                $fnc_dump_as_table($val,$refs);
-                echo('</td></tr>');
-            }
-            echo '</table>';
-        }
-        else{
-            var_export($vals);
-        }
-    };
+	$bt=debug_backtrace()[0];
+	printf('<small>%s(%s)</small><br/>',basename($bt['file']),$bt['line']);
+	$fnc_dump_as_table=function($vals,$refs=[])use(&$fnc_dump_as_table){
+		if(is_array($vals) || is_object($vals)){
+			if(is_object($vals)){
+				if(in_array($vals,$refs)){echo '...';return;}
+				else{$refs[]=$vals;}
+			}
+			echo '<table>';
+			foreach($vals as $key=>$val){
+				printf('<tr><th>%s<span class="type">(%s)</span></th><td>',$key,is_object($val)?get_class($val):gettype($val));
+				$fnc_dump_as_table($val,$refs);
+				echo('</td></tr>');
+			}
+			echo '</table>';
+		}
+		else{
+			var_export($vals);
+		}
+	};
 	$fnc_dump_as_table($val);
 	echo('</div>');
 }
@@ -55,22 +55,22 @@ function array_get(){
 	return $val;
 }
 function &array_get_ref(&$arr,$names){
-    if(isset($names[0])){
-        $rtn=&array_get_ref($arr[array_shift($names)],$names);
-        return $rtn;
-    }
-    else{
-        return $arr;
-    }
+	if(isset($names[0])){
+		$rtn=&array_get_ref($arr[array_shift($names)],$names);
+		return $rtn;
+	}
+	else{
+		return $arr;
+	}
 }
 function array_isset($arr,$names){
-    $name=array_shift($names);
-    if(!isset($arr[$name])){return false;}
-    if(isset($names[0])){
-        if(!is_array($arr[$name])){return false;}
-        return array_isset($arr[$name],$names);
-    }
-    return true;
+	$name=array_shift($names);
+	if(!isset($arr[$name])){return false;}
+	if(isset($names[0])){
+		if(!is_array($arr[$name])){return false;}
+		return array_isset($arr[$name],$names);
+	}
+	return true;
 }
 function is_hash(&$array){
 	$i=0;
@@ -93,16 +93,16 @@ function dir_copy($dir_name, $new_dir){
 	return true;
 }
 function dir_delete($dir){
-    foreach(scandir($dir) as $file) {
-        if ('.' === $file || '..' === $file) continue;
-        if (is_dir("$dir/$file")) dir_delete("$dir/$file");
-        else unlink("$dir/$file");
-    }
-    rmdir($dir);
+	foreach(scandir($dir) as $file) {
+		if ('.' === $file || '..' === $file) continue;
+		if (is_dir("$dir/$file")) dir_delete("$dir/$file");
+		else unlink("$dir/$file");
+	}
+	rmdir($dir);
 }
 function dir_create($dir){
-    if(!is_dir(dirname($dir))){dir_create(dirname($dir));}
-    if(!is_dir($dir)){mkdir($dir);}
+	if(!is_dir(dirname($dir))){dir_create(dirname($dir));}
+	if(!is_dir($dir)){mkdir($dir);}
 }
 function counter($id,$val=0,$ope='+'){
 	static $data;
@@ -205,8 +205,8 @@ function ajax_url($action,$prm){
 /*wp補助*/
 function get_the_slug($id=null){
 	if(isset($id)){return get_post($id)->post_name;}
-    global $post;
-    return $post->post_name;
+	global $post;
+	return $post->post_name;
 }
 function the_slug($id=false){
 	echo get_the_slug($id);

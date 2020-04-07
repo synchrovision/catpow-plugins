@@ -7,20 +7,20 @@ namespace Catpow\template_type;
 class primary extends template_type{
 	public static function get_template_files($conf_data){
 		return [
-            'style.scss'=>[
+			'style.scss'=>[
 				'@config',
 			],
-            'admin.scss'=>[
+			'admin.scss'=>[
 				'@config',
 			],
-            'content.scss'=>[
+			'content.scss'=>[
 				'@config',
 				'#{sel(m e u)}'=>[
 					
 				]
 			],
-            'header.php'=>['',
-                '@catpow',
+			'header.php'=>['',
+				'@catpow',
 				'<!DOCTYPE html>',
 				['html/',
 				 	['head[<?php language_attributes(); ?>]',
@@ -50,8 +50,8 @@ class primary extends template_type{
 					]
 				]
 			],
-            'footer.php'=>['',
-                '@catpow',
+			'footer.php'=>['',
+				'@catpow',
 				['/html',
 					['/body',
 						['/main'],
@@ -63,18 +63,18 @@ class primary extends template_type{
 					]
 				]
 			],
-            'sidebar.php'=>[
+			'sidebar.php'=>[
 				'',
 				'@catpow',
 				'@menu side',
 				'<div class="sidebar_button"></div>',
 			],
-            'config/style_config.scss'=>[],
+			'config/style_config.scss'=>[],
 			'404.php'=>['','not found'],
 			'attachment.php'=>['php','header("HTTP/1.1 404 Not Found");','include __DIR__.(\'/404.php\');'],
 			'maintenance.php'=>['php','header (\'HTTP/1.0 503 Service Temporarily Unavailable\')']
 			
-        ];
+		];
 	}
 }
 

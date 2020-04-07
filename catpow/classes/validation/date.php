@@ -3,7 +3,7 @@ namespace Catpow\validation;
 
 class date extends validation{
 	
-    public static function is_valid(&$val,$conf,$input_id){
+	public static function is_valid(&$val,$conf,$input_id){
 		$time=strtotime($val);
 		if($time==false){return false;}
 		$val=date('Y-m-d',$time);

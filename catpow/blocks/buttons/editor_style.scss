@@ -5,9 +5,9 @@ ul.wp-block-catpow-buttons{
 		@include bnd((w:a,p:r,mg:20 a,pd:0));
 		@include flx((w:w,c:1));
 		@include txt((l:n));
-        .itemControl{
-            @include bnd((p:a,t:-2rem,r:0));
-        }
+		.itemControl{
+			@include bnd((p:a,t:-2rem,r:0));
+		}
 		div.button{
 			@include bnd((h:a a a));
 			.url{

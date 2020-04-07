@@ -57,15 +57,15 @@ registerBlockType('catpow/listed', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes,
-		    isSelected = _ref.isSelected;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes,
+			isSelected = _ref.isSelected;
 		var items = attributes.items,
-		    classes = attributes.classes,
-		    countPrefix = attributes.countPrefix,
-		    countSuffix = attributes.countSuffix,
-		    subCountPrefix = attributes.subCountPrefix,
-		    subCountSuffix = attributes.subCountSuffix;
+			classes = attributes.classes,
+			countPrefix = attributes.countPrefix,
+			countSuffix = attributes.countSuffix,
+			subCountPrefix = attributes.subCountPrefix,
+			subCountSuffix = attributes.subCountSuffix;
 
 		var primaryClass = 'wp-block-catpow-listed';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -87,19 +87,19 @@ registerBlockType('catpow/listed', {
 		};
 
 		var selectiveClasses = [{
-			label: 'タイプ',
+			label: 'タイ�?',
 			filter: 'type',
 			values: {
-				orderd: '連番リスト',
+				orderd: '連番リス�?',
 				news: 'お知らせ',
 				index: '目次',
 				menu: 'メニュー'
 			},
 			sub: {
-				orderd: [{ label: '画像', values: 'hasImage' }, { input: 'text', label: '番号前置テキスト', key: 'countPrefix' }, { input: 'text', label: '番号後置テキスト', key: 'countSuffix' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'リンク', values: 'hasLink' }],
+				orderd: [{ label: '画�?', values: 'hasImage' }, { input: 'text', label: '番号前置�?��ス�?', key: 'countPrefix' }, { input: 'text', label: '番号後置�?��ス�?', key: 'countSuffix' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'リンク', values: 'hasLink' }],
 				news: [],
 				index: [{ label: 'レベル', 'values': ['level0', 'level1', 'level2', 'level3'] }],
-				menu: [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: '画像', values: { noImage: 'なし', hasImage: '大', hasHeaderImage: '小' } }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: '抜き色文字', values: 'inverseText' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'テキスト', values: 'hasText' }, { label: 'リンク', values: 'hasLink' }]
+				menu: [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: '画�?', values: { noImage: 'な�?', hasImage: '大', hasHeaderImage: '�?' } }, { label: '背景画�?', values: 'hasBackgroundImage', sub: [{ label: '�?��', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: '抜き色�?�?', values: 'inverseText' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: '�?��ス�?', values: 'hasText' }, { label: 'リンク', values: 'hasLink' }]
 			},
 			bind: {
 				orderd: ['hasHeader', 'hasCounter', 'hasTitle', 'hasText'],
@@ -351,15 +351,15 @@ registerBlockType('catpow/listed', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className;
+			className = _ref2.className;
 		var items = attributes.items,
-		    classes = attributes.classes,
-		    countPrefix = attributes.countPrefix,
-		    countSuffix = attributes.countSuffix,
-		    subCountPrefix = attributes.subCountPrefix,
-		    subCountSuffix = attributes.subCountSuffix,
-		    linkUrl = attributes.linkUrl,
-		    linkText = attributes.linkText;
+			classes = attributes.classes,
+			countPrefix = attributes.countPrefix,
+			countSuffix = attributes.countSuffix,
+			subCountPrefix = attributes.subCountPrefix,
+			subCountSuffix = attributes.subCountSuffix,
+			linkUrl = attributes.linkUrl,
+			linkText = attributes.linkText;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 

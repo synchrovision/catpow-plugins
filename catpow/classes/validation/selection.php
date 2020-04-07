@@ -2,7 +2,7 @@
 namespace Catpow\validation;
 
 class selection extends validation{
-    public static function is_valid(&$val,$conf){
+	public static function is_valid(&$val,$conf){
 		$class_name=\cp::get_class_name('meta',$conf['type']);
 		$sels=$class_name::get_selections($conf);
 		foreach($sels as $sel){

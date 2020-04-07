@@ -5,7 +5,7 @@ namespace Catpow\template_item\php;
 */
 
 class page_content extends \Catpow\template_item\php{
-    public static function get_code_data($path_data,$conf_data,$param){
+	public static function get_code_data($path_data,$conf_data,$param){
 		$rtn=[''];
 		switch($path_data['tmp_name']){
 			case 'single':
@@ -30,7 +30,7 @@ class page_content extends \Catpow\template_item\php{
 				];
 		}
 		return $rtn;
-    }
+	}
 }
 
 ?>

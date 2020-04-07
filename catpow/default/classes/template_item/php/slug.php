@@ -5,7 +5,7 @@ namespace Catpow\template_item\php;
 */
 
 class slug extends \Catpow\template_item\php{
-    public static function get_code_data($path_data,$conf_data,$param){
+	public static function get_code_data($path_data,$conf_data,$param){
 		$metas=$conf_data['meta']?:null;
 		switch($path_data['data_type']){
 			case 'post':
@@ -33,8 +33,8 @@ class slug extends \Catpow\template_item\php{
 				if(isset($metas['label'])){return "<?php output('label'); ?>";}
 				if(isset($metas['title'])){return "<?php output('title'); ?>";}
 		}
-        return $conf_data['label'];
-    }
+		return $conf_data['label'];
+	}
 }
 
 ?>

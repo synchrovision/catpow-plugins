@@ -2,7 +2,7 @@
 namespace Catpow\validation;
 
 class email extends pattern{
-    public static $pattern='/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
+	public static $pattern='/^[a-zA-Z0-9.!#$%&\'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
 	
 	public static function get_message($meta){
 		return __('メールアドレスを入力してください','catpow');

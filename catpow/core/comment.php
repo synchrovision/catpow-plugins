@@ -1,22 +1,22 @@
 <?php
 /*action*/
 add_action('wp_insert_comment',function($id,$comment){
-    cp::get_template_part(
-        'post/'.get_post_type($comment->comment_post_ID).'/comment/'.$comment->comment_type.'/action/create',
-        false,['comment_id'=>$id]
-    );
+	cp::get_template_part(
+		'post/'.get_post_type($comment->comment_post_ID).'/comment/'.$comment->comment_type.'/action/create',
+		false,['comment_id'=>$id]
+	);
 },10,2);
 add_action('edit_comment',function($id,$comment){
-    cp::get_template_part(
-        'post/'.get_post_type($comment->comment_post_ID).'/comment/'.$comment->comment_type.'/action/update',
-        false,['comment_id'=>$id]
-    );
+	cp::get_template_part(
+		'post/'.get_post_type($comment->comment_post_ID).'/comment/'.$comment->comment_type.'/action/update',
+		false,['comment_id'=>$id]
+	);
 },10,2);
 add_action('delete_comment',function($id,$comment){
-    cp::get_template_part(
-        'post/'.get_post_type($comment->comment_post_ID).'/comment/'.$comment->comment_type.'/action/delete',
-        false,['comment_id'=>$id]
-    );
+	cp::get_template_part(
+		'post/'.get_post_type($comment->comment_post_ID).'/comment/'.$comment->comment_type.'/action/delete',
+		false,['comment_id'=>$id]
+	);
 },10,2);
 add_action('wp_insert_comment', function($id){
 	if(!wp_verify_nonce($_POST['_cpnonce'],'insert_comment')){return;}

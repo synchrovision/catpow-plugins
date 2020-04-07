@@ -5,7 +5,7 @@ namespace Catpow\meta;
 */
 class mail extends database{
 	static $has_parent=false;
-    
+	
 	public static function fill_conf(&$conf){
 		$conf=array_merge([
 			'meta'=>[],'alias'=>'mails','alias_template'=>['mailform']

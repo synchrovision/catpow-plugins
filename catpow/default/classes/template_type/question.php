@@ -8,7 +8,7 @@ class question extends template_type{
 	public static function get_embeddables($conf_data){
 		return ['loop'=>['質問'=>'loop.php']];
 	}
-    public static function fill_conf_data(&$conf_data){
+	public static function fill_conf_data(&$conf_data){
 		$conf_data['meta']=array_merge([
 			'order'=>['type'=>'menu_order','label'=>'表示順'],
 			'conf'=>['type'=>'data','label'=>'設定','meta'=>[
@@ -28,7 +28,7 @@ class question extends template_type{
 			]],
 			'answers'=>['type'=>'checksheet']
 		],(array)$conf_data['meta']);
-    }
+	}
 	public static function get_template_files($conf_data){
 		$form_post_type=$conf_data['data_name'];
 		return[
@@ -45,7 +45,7 @@ class question extends template_type{
 			]
 		];
 	}
-    public static function get_default_post_datas($conf_data){
+	public static function get_default_post_datas($conf_data){
 		return [
 			$conf_data['data_name'].'/question1'=>['post_title'=>'質問１'],
 			$conf_data['data_name'].'/question2'=>['post_title'=>'質問２'],

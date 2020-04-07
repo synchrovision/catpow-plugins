@@ -47,13 +47,13 @@ registerBlockType('catpow/lightbox', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes,
-		    isSelected = _ref.isSelected;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes,
+			isSelected = _ref.isSelected;
 		var items = attributes.items,
-		    classes = attributes.classes,
-		    boxClasses = attributes.boxClasses,
-		    blockState = attributes.blockState;
+			classes = attributes.classes,
+			boxClasses = attributes.boxClasses,
+			blockState = attributes.blockState;
 
 		var primaryClass = 'wp-block-catpow-lightbox';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -61,7 +61,7 @@ registerBlockType('catpow/lightbox', {
 
 		var states = CP.wordsToFlags(classes);
 
-		var selectiveClasses = [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: 'サムネール画像', values: 'hasHeaderImage' }, { label: 'タイトル', values: 'hasTitle' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: '画像', values: 'hasImage' }, { label: 'タイトル', values: 'hasSubTitle' }, { label: 'テキスト', values: 'hasText' }, { label: 'ボックスサイズ', values: ['small', 'medium', 'large'], key: 'boxClasses' }];
+		var selectiveClasses = [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: 'サムネ�?ル画�?', values: 'hasHeaderImage' }, { label: 'タイトル', values: 'hasTitle' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: '画�?', values: 'hasImage' }, { label: 'タイトル', values: 'hasSubTitle' }, { label: '�?��ス�?', values: 'hasText' }, { label: 'ボックスサイズ', values: ['small', 'medium', 'large'], key: 'boxClasses' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -287,11 +287,11 @@ registerBlockType('catpow/lightbox', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className;
+			className = _ref2.className;
 		var items = attributes.items,
-		    classes = attributes.classes,
-		    boxClasses = attributes.boxClasses,
-		    blockState = attributes.blockState;
+			classes = attributes.classes,
+			boxClasses = attributes.boxClasses,
+			blockState = attributes.blockState;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 

@@ -55,11 +55,11 @@ registerBlockType('catpow/datatable', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes,
-		    isSelected = _ref.isSelected;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes,
+			isSelected = _ref.isSelected;
 		var classes = attributes.classes,
-		    rows = attributes.rows;
+			rows = attributes.rows;
 
 		var primaryClass = 'wp-block-catpow-datatable';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -89,8 +89,8 @@ registerBlockType('catpow/datatable', {
 			hasHeaderColumn: false
 		};
 
-		var statesClasses = [{ label: 'ヘッダ行', values: 'hasHeaderRow' }, { label: 'ヘッダ列', values: 'hasHeaderColumn' }];
-		var selectiveClasses = [{ label: 'タイプ', filter: 'type', values: ['spec', 'sheet', 'plan'] }, 'color'];
+		var statesClasses = [{ label: 'ヘッ�?�?', values: 'hasHeaderRow' }, { label: 'ヘッ�?�?', values: 'hasHeaderColumn' }];
+		var selectiveClasses = [{ label: 'タイ�?', filter: 'type', values: ['spec', 'sheet', 'plan'] }, 'color'];
 
 		var hasClass = function hasClass(cls) {
 			return classArray.indexOf(cls) !== -1;
@@ -261,9 +261,9 @@ registerBlockType('catpow/datatable', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className;
+			className = _ref2.className;
 		var classes = attributes.classes,
-		    rows = attributes.rows;
+			rows = attributes.rows;
 
 		var classArray = classes.split(' ');
 

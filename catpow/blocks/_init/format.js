@@ -4,8 +4,8 @@ registerFormatType('catpow/ruby', {
 	className: null,
 	edit: function edit(_ref) {
 		var isActive = _ref.isActive,
-		    value = _ref.value,
-		    onChange = _ref.onChange;
+			value = _ref.value,
+			onChange = _ref.onChange;
 
 		var onToggle = function onToggle() {
 			if (isActive) {
@@ -58,8 +58,8 @@ registerFormatType('catpow/small', {
 	className: null,
 	edit: function edit(_ref2) {
 		var isActive = _ref2.isActive,
-		    value = _ref2.value,
-		    onChange = _ref2.onChange;
+			value = _ref2.value,
+			onChange = _ref2.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/small' }));
@@ -97,8 +97,8 @@ registerFormatType('catpow/sub', {
 	className: null,
 	edit: function edit(_ref3) {
 		var isActive = _ref3.isActive,
-		    value = _ref3.value,
-		    onChange = _ref3.onChange;
+			value = _ref3.value,
+			onChange = _ref3.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/sub' }));
@@ -129,8 +129,8 @@ registerFormatType('catpow/sup', {
 	className: null,
 	edit: function edit(_ref4) {
 		var isActive = _ref4.isActive,
-		    value = _ref4.value,
-		    onChange = _ref4.onChange;
+			value = _ref4.value,
+			onChange = _ref4.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/sup' }));
@@ -162,8 +162,8 @@ registerFormatType('catpow/mark', {
 	className: null,
 	edit: function edit(_ref5) {
 		var isActive = _ref5.isActive,
-		    value = _ref5.value,
-		    onChange = _ref5.onChange;
+			value = _ref5.value,
+			onChange = _ref5.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/mark' }));
@@ -194,8 +194,8 @@ registerFormatType('catpow/q', {
 	className: null,
 	edit: function edit(_ref6) {
 		var isActive = _ref6.isActive,
-		    value = _ref6.value,
-		    onChange = _ref6.onChange;
+			value = _ref6.value,
+			onChange = _ref6.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/q' }));
@@ -219,8 +219,8 @@ registerFormatType('catpow/dfn', {
 	className: null,
 	edit: function edit(_ref7) {
 		var isActive = _ref7.isActive,
-		    value = _ref7.value,
-		    onChange = _ref7.onChange;
+			value = _ref7.value,
+			onChange = _ref7.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/dfn' }));
@@ -245,16 +245,16 @@ registerFormatType('catpow/span', {
 	className: 'custom',
 	edit: function edit(_ref8) {
 		var isActive = _ref8.isActive,
-		    value = _ref8.value,
-		    onChange = _ref8.onChange;
+			value = _ref8.value,
+			onChange = _ref8.onChange;
 
 
 		var onToggle = function onToggle() {
 			var _wp$richText = wp.richText,
-			    removeFormat = _wp$richText.removeFormat,
-			    insert = _wp$richText.insert,
-			    create = _wp$richText.create,
-			    slice = _wp$richText.slice;
+				removeFormat = _wp$richText.removeFormat,
+				insert = _wp$richText.insert,
+				create = _wp$richText.create,
+				slice = _wp$richText.slice;
 
 			if (isActive) {
 				onChange(toggleFormat(value, { type: 'catpow/span' }));
@@ -288,18 +288,18 @@ registerFormatType('catpow/ul', {
 	className: null,
 	edit: function edit(_ref9) {
 		var isActive = _ref9.isActive,
-		    value = _ref9.value,
-		    onChange = _ref9.onChange;
+			value = _ref9.value,
+			onChange = _ref9.onChange;
 
 		if (!currentBlockCanInsertBlockFormat()) {
 			return '';
 		}
 		var onToggle = function onToggle() {
 			var _wp$richText2 = wp.richText,
-			    removeFormat = _wp$richText2.removeFormat,
-			    insert = _wp$richText2.insert,
-			    create = _wp$richText2.create,
-			    slice = _wp$richText2.slice;
+				removeFormat = _wp$richText2.removeFormat,
+				insert = _wp$richText2.insert,
+				create = _wp$richText2.create,
+				slice = _wp$richText2.slice;
 
 			if (isActive) {
 				return onChange(create({ html: value.text }));
@@ -344,18 +344,18 @@ registerFormatType('catpow/ol', {
 	className: null,
 	edit: function edit(_ref10) {
 		var isActive = _ref10.isActive,
-		    value = _ref10.value,
-		    onChange = _ref10.onChange;
+			value = _ref10.value,
+			onChange = _ref10.onChange;
 
 		if (!currentBlockCanInsertBlockFormat()) {
 			return '';
 		}
 		var onToggle = function onToggle() {
 			var _wp$richText3 = wp.richText,
-			    removeFormat = _wp$richText3.removeFormat,
-			    insert = _wp$richText3.insert,
-			    create = _wp$richText3.create,
-			    slice = _wp$richText3.slice;
+				removeFormat = _wp$richText3.removeFormat,
+				insert = _wp$richText3.insert,
+				create = _wp$richText3.create,
+				slice = _wp$richText3.slice;
 
 			if (isActive) {
 				return onChange(insert(value, create({ html: slice(value).text }), value.start, value.end));
@@ -387,18 +387,18 @@ registerFormatType('catpow/dl', {
 	className: null,
 	edit: function edit(_ref11) {
 		var isActive = _ref11.isActive,
-		    value = _ref11.value,
-		    onChange = _ref11.onChange;
+			value = _ref11.value,
+			onChange = _ref11.onChange;
 
 		if (!currentBlockCanInsertBlockFormat()) {
 			return '';
 		}
 		var onToggle = function onToggle() {
 			var _wp$richText4 = wp.richText,
-			    removeFormat = _wp$richText4.removeFormat,
-			    insert = _wp$richText4.insert,
-			    create = _wp$richText4.create,
-			    slice = _wp$richText4.slice;
+				removeFormat = _wp$richText4.removeFormat,
+				insert = _wp$richText4.insert,
+				create = _wp$richText4.create,
+				slice = _wp$richText4.slice;
 
 			if (isActive) {
 				return onChange(create({ html: value.text }));

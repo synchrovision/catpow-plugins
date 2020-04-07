@@ -39,13 +39,13 @@ class checksheet extends template_type{
 			]
 		];
 	}
-    public static function fill_conf_data(&$conf_data){
+	public static function fill_conf_data(&$conf_data){
 		$conf_data['meta']=array_merge([
 			'clear'=>['type'=>'checkbox','label'=>'クリア','value'=>['入力検証'=>1,'入力値'=>2,'フォーム'=>4]],
 			'receive'=>['type'=>'radio','label'=>'データ受信','value'=>['しない'=>-1,'する'=>1]],
 			'push'=>['type'=>'radio','label'=>'登録処理','value'=>['しない'=>-1,'する'=>1]]
 		],$conf_data['meta']);
-    }
+	}
 	public static function get_template_files($conf_data){
 		$form_post_type=$conf_data['data_name'];
 		return[
@@ -66,7 +66,7 @@ class checksheet extends template_type{
 			]
 		];
 	}
-    public static function get_default_post_datas($conf_data){
+	public static function get_default_post_datas($conf_data){
 		return [
 			$conf_data['data_name'].'/form'=>['post_title'=>$conf_data['label']],
 			$conf_data['data_name'].'/form/step1'=>['post_title'=>'Step1'],
@@ -75,14 +75,14 @@ class checksheet extends template_type{
 		];
 	}
 	
-    public static function get_form_type($file){
+	public static function get_form_type($file){
 		switch($file){
 			case 'form.php':
 				return 1;
 			default:
 				return parent::get_form_type($file);
 		}
-    }
+	}
 }
 
 ?>

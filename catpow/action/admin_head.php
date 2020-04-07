@@ -62,19 +62,19 @@ elseif($current_screen->base=='toplevel_page_catpow'){
 /*post_meta*/
 global $wp_query,$post_types,$static_pages;
 function _cp_post_edit_form($post,$box){
-    $sec_class=\cp::get_class_name('content','form_section');
-    $sec=$sec_class::from_object($post,'admin/form.php');
+	$sec_class=\cp::get_class_name('content','form_section');
+	$sec=$sec_class::from_object($post,'admin/form.php');
 	
 	wp_enqueue_script('cp_form');
 	cp::enqueue_style('content.css');
-    cp::enqueue_style($sec->path.'/style.css');
-    cp::enqueue_script($sec->path.'/script.css');
+	cp::enqueue_style($sec->path.'/style.css');
+	cp::enqueue_script($sec->path.'/script.css');
 
 	wp_nonce_field('cp_form','_cp_form_nonce');
-    printf('<input type="hidden" name="cp_form_section_id" value="%s"/>',$sec->form_id);
-    
-    $sec->render();
-    
+	printf('<input type="hidden" name="cp_form_section_id" value="%s"/>',$sec->form_id);
+	
+	$sec->render();
+	
 }
 foreach($post_types as $post_type=>$data){
 	if(empty($data['meta'])){continue;}
@@ -96,7 +96,7 @@ if($current_screen->base=='term'){
 		$tmp_path='term/'.$current_screen->taxonomy;
 		
 		wp_nonce_field('insert_post','_cpnonce');
-        wp_enqueue_script('cp_form');
+		wp_enqueue_script('cp_form');
 		cp::enqueue_style('content.css');
 		cp::enqueue_style('style.css');
 		cp::enqueue_style($tmp_path.'/admin/style.css');

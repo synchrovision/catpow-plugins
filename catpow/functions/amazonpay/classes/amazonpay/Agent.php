@@ -51,12 +51,12 @@ class Agent{
 		<script type="text/javascript">  
 			window.amazonpay_config=window.amazonpay_config || <?=json_encode($amazonpay_config)?>;
 			window.onAmazonLoginReady = function() {  
-                try {
+				try {
 					amazon.Login.setClientId(window.amazonpay_config.client_id);  
-                    amazon.Login.setUseCookie(true);
-                } catch (err) {
-                    console.error(err);
-                }
+					amazon.Login.setUseCookie(true);
+				} catch (err) {
+					console.error(err);
+				}
 			};  
 			window.onAmazonPaymentsReady = function() {
 			};
@@ -123,7 +123,7 @@ class Agent{
 	}
 	
 	function getWidgetsJsURL(){
-        $sandbox = $this->config['sandbox']?"sandbox/":"";
+		$sandbox = $this->config['sandbox']?"sandbox/":"";
 
 		switch (strtolower($this->config['region'])) {
 			case "us":

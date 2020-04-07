@@ -1,12 +1,12 @@
 @import 'admin_style_config.scss';
 
 div.itemControl{
-    @include bnd((pd:2 5,p:r,z:1000));
+	@include bnd((pd:2 5,p:r,z:1000));
 	@include txt((a:c,p:12,h:10));
-    @include bg((c:b));
-    @include bdr((r:1rem));
-    @include shd((b:1));
-    @include flx((w:n,j:a));
+	@include bg((c:b));
+	@include bdr((r:1rem));
+	@include shd((b:1));
+	@include flx((w:n,j:a));
 	div.btn{
 		@include bnd((d:ib,mg:2));
 		@include txt((a:c,p:12,h:10,c:t));
@@ -50,7 +50,7 @@ div.itemControl{
 		}
 	}
 	&.open{
-        @include bnd((z:1001));
+		@include bnd((z:1001));
 		div.btn{
 			&.edit{@include trn((o:1));}
 		}

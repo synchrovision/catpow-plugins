@@ -17,7 +17,7 @@ class checksheet extends article_type{
 			]
 		];
 	}
-    public static function fill_conf_data(&$conf_data){
+	public static function fill_conf_data(&$conf_data){
 		$question_post_type=$conf_data['data_name'].'_item';
 		$conf_data=array_merge([
 			'label'=>'チェックシート',
@@ -35,7 +35,7 @@ class checksheet extends article_type{
 			$GLOBALS['post_types'][$question_post_type]=['article_type'=>'question'];
 			\cp::fill_conf_data('post',$question_post_type,$GLOBALS['post_types'][$question_post_type]);
 		}
-    }
+	}
 }
 
 ?>

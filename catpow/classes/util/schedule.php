@@ -15,7 +15,7 @@ class schedule{
 	const SECONDS_OF_DAY=86400;
 	const DATETIME_PATTERN='/^(?:(?:(\d{4})\-)?(?:(\d{1,2})\-)?(\d{1,2}))?\b\s?(?:(\d{1,2}):(\d{2}))?$/';
 	
-    public $data=[];
+	public $data=[];
 	public function __construct($data){
 		if(is_string($data)){$data=explode("\n",$data);}
 		foreach($data as $line){

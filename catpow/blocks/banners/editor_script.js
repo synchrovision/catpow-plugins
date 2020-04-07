@@ -39,11 +39,11 @@ registerBlockType('catpow/banners', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes,
-		    isSelected = _ref.isSelected;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes,
+			isSelected = _ref.isSelected;
 		var items = attributes.items,
-		    classes = attributes.classes;
+			classes = attributes.classes;
 
 		var primaryClass = 'wp-block-catpow-banners';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -55,7 +55,7 @@ registerBlockType('catpow/banners', {
 		};
 
 		var selectiveClasses = [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: 'タイトル', values: 'hasTitle' }];
-		var selectiveItemClasses = [{ input: 'image', label: 'PC版画像', keys: imageKeys.image }, { input: 'image', label: 'SP版画像', keys: imageKeys.image, ofSP: true, sizes: '480px' }, { input: 'text', label: 'alt', key: 'alt' }, { input: 'text', label: 'target', key: 'target' }];
+		var selectiveItemClasses = [{ input: 'image', label: 'PC版画�?', keys: imageKeys.image }, { input: 'image', label: 'SP版画�?', keys: imageKeys.image, ofSP: true, sizes: '480px' }, { input: 'text', label: 'alt', key: 'alt' }, { input: 'text', label: 'target', key: 'target' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -150,9 +150,9 @@ registerBlockType('catpow/banners', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className;
+			className = _ref2.className;
 		var items = attributes.items,
-		    classes = attributes.classes;
+			classes = attributes.classes;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 

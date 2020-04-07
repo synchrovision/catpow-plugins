@@ -43,13 +43,13 @@ registerBlockType('catpow/sphere', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes,
-		    isSelected = _ref.isSelected;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes,
+			isSelected = _ref.isSelected;
 		var items = attributes.items,
-		    classes = attributes.classes,
-		    countPrefix = attributes.countPrefix,
-		    countSuffix = attributes.countSuffix;
+			classes = attributes.classes,
+			countPrefix = attributes.countPrefix,
+			countSuffix = attributes.countSuffix;
 
 		var primaryClass = 'wp-block-catpow-sphere';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -61,7 +61,7 @@ registerBlockType('catpow/sphere', {
 			hasText: false
 		};
 
-		var selectiveClasses = [{ label: 'サイズ', filter: 'size', values: ['small', 'medium', 'large'] }, { label: '画像', values: 'hasSubImage' }, { label: 'タイトル', values: 'hasSubTitle' }, { label: 'テキスト', values: 'hasText' }];
+		var selectiveClasses = [{ label: 'サイズ', filter: 'size', values: ['small', 'medium', 'large'] }, { label: '画�?', values: 'hasSubImage' }, { label: 'タイトル', values: 'hasSubTitle' }, { label: '�?��ス�?', values: 'hasText' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -188,11 +188,11 @@ registerBlockType('catpow/sphere', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className;
+			className = _ref2.className;
 		var items = attributes.items,
-		    classes = attributes.classes,
-		    countPrefix = attributes.countPrefix,
-		    countSuffix = attributes.countSuffix;
+			classes = attributes.classes,
+			countPrefix = attributes.countPrefix,
+			countSuffix = attributes.countSuffix;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 

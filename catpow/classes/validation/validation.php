@@ -7,39 +7,39 @@ namespace Catpow\validation;
 */
 
 abstract class validation{
-    public static
-        $is_bulk=false,
-        $message_keys=['label'];
-    
-    abstract public static function is_valid(&$val,$conf,$input_id);
-    public static function validate($input_id,&$vals,$conf,&$errors){
-        if(static::$is_bulk){
-            if(!static::is_valid($vals,$conf,$input_id)){
-                $errors[$input_id]=static::get_message($conf);
-            }
-        }
-        else{
-            foreach($vals as $id=>&$val){
-                if(!static::is_valid($val,$conf,$input_id.\cp::INPUT_ID_DELIMITER.$id)){
-                    $errors[$input_id.\cp::INPUT_ID_DELIMITER.$id]=static::get_message($conf);
-                }
-            }
-        }
-    }
+	public static
+		$is_bulk=false,
+		$message_keys=['label'];
+	
+	abstract public static function is_valid(&$val,$conf,$input_id);
+	public static function validate($input_id,&$vals,$conf,&$errors){
+		if(static::$is_bulk){
+			if(!static::is_valid($vals,$conf,$input_id)){
+				$errors[$input_id]=static::get_message($conf);
+			}
+		}
+		else{
+			foreach($vals as $id=>&$val){
+				if(!static::is_valid($val,$conf,$input_id.\cp::INPUT_ID_DELIMITER.$id)){
+					$errors[$input_id.\cp::INPUT_ID_DELIMITER.$id]=static::get_message($conf);
+				}
+			}
+		}
+	}
 	
 	public static function get_message_format($meta){
 		return __('%sの入力が正しくありません','catpow');
 	}
-    public static function get_message($meta){
-        $class_name=get_called_class();
-        $base_class_name=substr($class_name,strrpos($class_name,'\\')+1);
-        $message=$meta->conf['validation_message'][$base_class_name]??static::get_message_format($meta);
-        $message_vals=[];
-        foreach(static::$message_keys as $message_key){
-            $message_vals[]=$meta->conf[$message_key]??'';
-        }
-        return vsprintf($message,$message_vals);
-    }
+	public static function get_message($meta){
+		$class_name=get_called_class();
+		$base_class_name=substr($class_name,strrpos($class_name,'\\')+1);
+		$message=$meta->conf['validation_message'][$base_class_name]??static::get_message_format($meta);
+		$message_vals=[];
+		foreach(static::$message_keys as $message_key){
+			$message_vals[]=$meta->conf[$message_key]??'';
+		}
+		return vsprintf($message,$message_vals);
+	}
 }
 
 ?>

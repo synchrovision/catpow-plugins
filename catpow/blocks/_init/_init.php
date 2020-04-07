@@ -35,19 +35,19 @@ $data=[];
 	}
 });
 $data['embed']['none']=[
-    'name'=>'ブロックを選択',
-    'id'=>'',
-    'conf'=>[],
+	'name'=>'ブロックを選択',
+	'id'=>'',
+	'conf'=>[],
 ];
 foreach(cp::$use_functions as $func){
-    if($f=\cp::get_file_path('functions/'.$func.'/block.php')){
-        include_once($f);
-        $class_name='\\Catpow\\blocks\\'.$func;
-        $data['embed'][$func]=[
-            'name'=>$class_name::$label,
-            'id'=>$func,
-            'conf'=>$class_name::get_conf()
-        ];
-    }
+	if($f=\cp::get_file_path('functions/'.$func.'/block.php')){
+		include_once($f);
+		$class_name='\\Catpow\\blocks\\'.$func;
+		$data['embed'][$func]=[
+			'name'=>$class_name::$label,
+			'id'=>$func,
+			'conf'=>$class_name::get_conf()
+		];
+	}
 }
 wp_localize_script('catpow','cpEmbeddablesTree',$data);

@@ -2,10 +2,10 @@
 namespace Catpow\query;
 
 class term extends query{
-    public static
-        $data_type='term',
-        $query_class='WP_Term_Query',
-        $search_keys=[],
+	public static
+		$data_type='term',
+		$query_class='WP_Term_Query',
+		$search_keys=[],
 		$key_translation=[
 			'limit'=>'number',
 		],
@@ -18,18 +18,18 @@ class term extends query{
 			'description',
 			'parent'
 		];
-    
-    
+	
+	
 	public static function get($data_name,$data_id){
 		return get_term($data_id,$data_name);
 	}
-    public static function set($data_name,$data_id,$object_data){
-        return wp_update_term($data_id,$data_name,$object_data)['term_id'];
-    }
-    public static function insert($object_data){
-        $object_data=array_merge([
-            'term_name'=>\cp::date()
-        ],$object_data);
+	public static function set($data_name,$data_id,$object_data){
+		return wp_update_term($data_id,$data_name,$object_data)['term_id'];
+	}
+	public static function insert($object_data){
+		$object_data=array_merge([
+			'term_name'=>\cp::date()
+		],$object_data);
 		if(isset($object_data['term_id'])){
 			$new_term_id=$object_data['term_id'];
 			if(get_term($object_data['term_id'],$object_data['taxonomy'])){
@@ -53,11 +53,11 @@ class term extends query{
 			);
 			return $new_term_id;
 		}
-        return wp_insert_term($object_data['term_name'],$object_data['taxonomy'],$object_data)['term_id'];
-    }
-    public static function update($object_data){
-        return wp_update_term($object_data['term_id'],$object_data['taxonomy'],$object_data)['term_id'];
-    }
+		return wp_insert_term($object_data['term_name'],$object_data['taxonomy'],$object_data)['term_id'];
+	}
+	public static function update($object_data){
+		return wp_update_term($object_data['term_id'],$object_data['taxonomy'],$object_data)['term_id'];
+	}
 	public static function delete($data_name,$data_id){
 		return wp_delete_term($data_id,$data_name);
 	}
@@ -75,22 +75,22 @@ class term extends query{
 		return $q;
 	}
 	public static function get_the_url($object){return get_term_link($object);}
-    
-    public function is_empty(){
-        return empty($this->query->get_terms());
-    }
-    public function count(){
-        return count($this->query->terms);
-    }
-    public function loop(){
-        foreach($this->query->get_terms() as $term){
-            yield $term->term_id=>$term;
-        }
-    }
+	
+	public function is_empty(){
+		return empty($this->query->get_terms());
+	}
+	public function count(){
+		return count($this->query->terms);
+	}
+	public function loop(){
+		foreach($this->query->get_terms() as $term){
+			yield $term->term_id=>$term;
+		}
+	}
 	public static function manual_loop($terms){
-        foreach($terms as $term){
-            yield $term->term_id=>$term;
-        }
+		foreach($terms as $term){
+			yield $term->term_id=>$term;
+		}
 	}
 }
 

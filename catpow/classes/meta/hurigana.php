@@ -2,7 +2,7 @@
 namespace Catpow\meta;
 
 class hurigana extends katakana{
-    
+	
 	public static function input($meta,$prm){
 		if(empty($meta->conf['reflect'])){return parent::input($meta,$prm);}
 		wp_enqueue_script('cp_kana_reflection');

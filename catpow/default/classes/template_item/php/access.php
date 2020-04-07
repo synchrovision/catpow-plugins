@@ -8,7 +8,7 @@ namespace Catpow\template_item\php;
 */
 
 class access extends \Catpow\template_item\php{
-    public static function get_code_data($path_data,$conf_data,$param){
+	public static function get_code_data($path_data,$conf_data,$param){
 		$rtn=[
 			'',
 			'address'=>['div.address']
@@ -25,8 +25,8 @@ class access extends \Catpow\template_item\php{
 				$rtn['info'][]=['dd.'.$name,"<?php output('{$name}'); ?>"];
 			}
 		}
-        return $rtn;
-    }
+		return $rtn;
+	}
 }
 
 ?>

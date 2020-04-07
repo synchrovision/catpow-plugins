@@ -3,9 +3,9 @@ namespace Catpow\meta;
 use Catpow\content\task as taskContent;
 
 class task extends data{
-    
+	
 	public static function get($data_type,$data_name,$data_id,$meta_name,$conf){
-        $task_ids=call_user_func(['\\Catpow\\data_type\\'.$data_type,'get_meta'],$data_name,$data_id,$meta_name);
+		$task_ids=call_user_func(['\\Catpow\\data_type\\'.$data_type,'get_meta'],$data_name,$data_id,$meta_name);
 		$rtn=[];
 		foreach($task_ids as $task_id){
 			if($param=taskContent::parse_task_id($task_id)){
@@ -36,10 +36,10 @@ class task extends data{
 		meta::set($data_type,$data_name,$data_id,$meta_name,$new_task_ids,$conf);
 	}
 	public static function add($data_type,$data_name,$id,$meta_name,$vals,$conf){
-        foreach($vals as $val){
-            call_user_func(['\\Catpow\\data_type\\'.$data_type,'add_meta'],$data_name,$id,$meta_name,$val);
-        }
+		foreach($vals as $val){
+			call_user_func(['\\Catpow\\data_type\\'.$data_type,'add_meta'],$data_name,$id,$meta_name,$val);
+		}
 	}
-    public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){}
+	public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){}
 }
 ?>

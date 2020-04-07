@@ -233,11 +233,11 @@ class CSV{
 		}
 		echo("\t</tbody>\n</table>\n");
 	}
-    public function get_output_table($row_head=1,$col_head=1,$class="csv_table"){
-        ob_start();
-        $this->output_table($row_head,$col_head,$class);
-        return ob_get_clean();
-    }
+	public function get_output_table($row_head=1,$col_head=1,$class="csv_table"){
+		ob_start();
+		$this->output_table($row_head,$col_head,$class);
+		return ob_get_clean();
+	}
 	public function output(){
 		$f=fopen('php://output','w');
 		foreach($this->data as $i=>$row){
@@ -245,11 +245,11 @@ class CSV{
 		}
 		fclose($f);
 	}
-    public function get_output(){
-        ob_start();
-        $this->output();
-        return ob_get_clean();
-    }
+	public function get_output(){
+		ob_start();
+		$this->output();
+		return ob_get_clean();
+	}
 	public function download($fname='data'){
 		header('Content-Description: File Transfer');
 		header('Content-Type: application/octet-stream');

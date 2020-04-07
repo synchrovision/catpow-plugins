@@ -2,9 +2,9 @@
 namespace Catpow\meta;
 
 class lightbox extends media{
-    
+	
 	public static function output($meta,$prm){
-        $val=$meta->value;
+		$val=$meta->value;
 		$post=get_post($val);
 		$prm=(array)$prm;
 		$prm=array_merge([

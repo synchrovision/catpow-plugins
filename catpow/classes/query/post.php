@@ -2,21 +2,21 @@
 namespace Catpow\query;
 
 class post extends query{
-    public static
-        $data_type='post',
-        $query_class='WP_Query',
-        $search_keys=[
+	public static
+		$data_type='post',
+		$query_class='WP_Query',
+		$search_keys=[
 			's'=>0,'p'=>0,
-            'nopaging'=>0,'posts_per_page'=>0,'offset'=>0,'paged'=>0,'ignore_sticky_posts'=>0,
-            'post_status'=>1,'post_name'=>0,
-            'orderby'=>1,'order'=>1,'date_query'=>1,'meta_key'=>0,'meta_value'=>0,
-            'category__in'=>1, 'category__not_in'=>1, 'category__and'=>1,
-            'post__in'=>1, 'post__not_in'=>1, 'post_name__in'=>1,
-            'tag__in'=>1, 'tag__not_in'=>1, 'tag__and'=>1,
-            'tag_slug__in'=>1, 'tag_slug__and'=>1, 'post_parent__in'=>1,
-            'post_parent__not_in'=>1,
-            'author__in'=>1, 'author__not_in'=>1
-        ],
+			'nopaging'=>0,'posts_per_page'=>0,'offset'=>0,'paged'=>0,'ignore_sticky_posts'=>0,
+			'post_status'=>1,'post_name'=>0,
+			'orderby'=>1,'order'=>1,'date_query'=>1,'meta_key'=>0,'meta_value'=>0,
+			'category__in'=>1, 'category__not_in'=>1, 'category__and'=>1,
+			'post__in'=>1, 'post__not_in'=>1, 'post_name__in'=>1,
+			'tag__in'=>1, 'tag__not_in'=>1, 'tag__and'=>1,
+			'tag_slug__in'=>1, 'tag_slug__and'=>1, 'post_parent__in'=>1,
+			'post_parent__not_in'=>1,
+			'author__in'=>1, 'author__not_in'=>1
+		],
 		$key_translation=[
 			'limit'=>'posts_per_page',
 		],
@@ -31,7 +31,7 @@ class post extends query{
 			'post_parent',
 			'menu_order'
 		];
-    
+	
 	public static function get($data_name,$data_id){
 		return get_post($data_id);
 	}
@@ -41,7 +41,7 @@ class post extends query{
 		return wp_update_post($object_data);
 	}
 	
-    public static function insert($object_data){
+	public static function insert($object_data){
 		if(!empty($object_data['ID'])){
 			$org_post=get_post($object_data['ID']);
 			if(empty($org_post)){
@@ -62,11 +62,11 @@ class post extends query{
 				'post_status'=>'publish'
 			],$object_data);
 		}
-        return wp_insert_post($object_data);
-    }
-    public static function update($object_data){
-        return wp_update_post($object_data);
-    }
+		return wp_insert_post($object_data);
+	}
+	public static function update($object_data){
+		return wp_update_post($object_data);
+	}
 	public static function delete($data_name,$data_id){
 		return wp_delete_post($data_id,true);
 	}
@@ -82,15 +82,15 @@ class post extends query{
 		return $q;
 	}
 	public static function get_the_url($object){return get_permalink($object);}
-    
-    public function is_empty(){
-        return !$this->query->have_posts();
-    }
-    public function count(){
-        return $this->query->found_posts;
-    }
-    public function loop(){
-        $org_post=$GLOBALS['post'];
+	
+	public function is_empty(){
+		return !$this->query->have_posts();
+	}
+	public function count(){
+		return $this->query->found_posts;
+	}
+	public function loop(){
+		$org_post=$GLOBALS['post'];
 		if(isset($this->objects)){
 			foreach($this->objects as $GLOBALS['post']){
 				yield $GLOBALS['post']->ID=>$GLOBALS['post'];
@@ -102,14 +102,14 @@ class post extends query{
 				yield $GLOBALS['post']->ID=>$GLOBALS['post'];
 			}
 		}
-        $GLOBALS['post']=$org_post;
-    }
+		$GLOBALS['post']=$org_post;
+	}
 	public static function manual_loop($posts){
-        $org_post=$GLOBALS['post'];
-        foreach($posts as $GLOBALS['post']){
-            yield $GLOBALS['post']->ID=>$GLOBALS['post'];
-        }
-        $GLOBALS['post']=$org_post;
+		$org_post=$GLOBALS['post'];
+		foreach($posts as $GLOBALS['post']){
+			yield $GLOBALS['post']->ID=>$GLOBALS['post'];
+		}
+		$GLOBALS['post']=$org_post;
 	}
 }
 

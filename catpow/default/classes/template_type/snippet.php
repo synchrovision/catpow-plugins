@@ -14,9 +14,9 @@ class snippet extends template_type{
 			'loop.php'=>[
 				'',
 				[
-                    'php',
-                    'namespace Catpow;'
-                ],
+					'php',
+					'namespace Catpow;'
+				],
 				['div.snippet']
 			],
 		];

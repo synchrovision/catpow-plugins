@@ -3,9 +3,9 @@
 ul.wp-block-catpow-lightbox{
 	li.item{
 		@include bnd((p:r));
-        .itemControl{
-            @include bnd((p:a,t:.5rem,r:.5rem));
-        }
+		.itemControl{
+			@include bnd((p:a,t:.5rem,r:.5rem));
+		}
 		&>.link{
 			@include bnd((p:r));
 			input{

@@ -2,10 +2,10 @@
 namespace Catpow\meta;
 
 class database extends data{
-    public static
-        $can_search=true,
-        $is_database=true;
-    
+	public static
+		$can_search=true,
+		$is_database=true;
+	
 	public static function get($data_type,$data_name,$id,$meta_name,$conf){
 		global $cpdb;
 		if($data_type=='cpdb'){
@@ -18,16 +18,16 @@ class database extends data{
 	public static function set($data_type,$data_name,$id,$meta_name,$vals,$conf){
 		global $cpdb;
 		if($data_type=='cpdb'){
-            if(!static::$has_parent){foreach($vals as &$val){$val['parent_id']=$id;}}
-            return $cpdb->update($cpdb->structure[\cpdb::get_table_name($data_name)]['children'][$meta_name],$vals);
+			if(!static::$has_parent){foreach($vals as &$val){$val['parent_id']=$id;}}
+			return $cpdb->update($cpdb->structure[\cpdb::get_table_name($data_name)]['children'][$meta_name],$vals);
 		}
-        if(static::$has_parent){foreach($vals as &$val){$val['root_object_id']=$val['parent_id']=$id;}}
-        return $cpdb->update([$data_type,$data_name,$meta_name],$vals,true);
+		if(static::$has_parent){foreach($vals as &$val){$val['root_object_id']=$val['parent_id']=$id;}}
+		return $cpdb->update([$data_type,$data_name,$meta_name],$vals,true);
 	}
 	public static function add($data_type,$data_name,$id,$meta_name,$vals,$conf){
 		global $cpdb;
 		if($data_type=='cpdb'){
-            foreach($vals as &$val){
+			foreach($vals as &$val){
 				if(static::$has_parent){$val['parent_id']=$id;}
 				$cpdb->insert($cpdb->structure[\cpdb::get_table_name($data_name)]['children'][$meta_name],$val);
 			}
@@ -39,7 +39,7 @@ class database extends data{
 			}
 		}
 	}
-    public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){
+	public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){
 		global $cpdb;
 		$where=[];
 		foreach(reset($input['value']) as $key=>$val){
@@ -48,9 +48,9 @@ class database extends data{
 			else{$where[$key]=$val;}
 		}
 		if($data_type=='cpdb'){
-            $rows=$cpdb->select($cpdb->structure[\cpdb::get_table_name($data_name)]['children'][$meta_name],$where);
+			$rows=$cpdb->select($cpdb->structure[\cpdb::get_table_name($data_name)]['children'][$meta_name],$where);
 		}
-        else{
+		else{
 			$rows=$cpdb->select([$data_type,$data_name,$meta_name],$where);
 		}
 		if(empty($rows)){$query['include']=[-1];}

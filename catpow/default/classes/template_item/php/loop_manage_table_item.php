@@ -5,7 +5,7 @@ namespace Catpow\template_item\php;
 */
 
 class loop_manage_table_item extends \Catpow\template_item\php{
-    public static function get_code_data($path_data,$conf_data,$param){
+	public static function get_code_data($path_data,$conf_data,$param){
 		$metas=$conf_data['meta']?:null;
 		if(is_null($metas)){return false;}
 		$rtn=[
@@ -23,7 +23,7 @@ class loop_manage_table_item extends \Catpow\template_item\php{
 			$rtn[]=['td',"<?php output('{$name}'); ?>"];
 		}
 		return $rtn;
-    }
+	}
 }
 
 ?>

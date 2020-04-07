@@ -18,7 +18,7 @@ class mailform extends article_type{
 			]
 		];
 	}
-    public static function fill_conf_data(&$conf_data){
+	public static function fill_conf_data(&$conf_data){
 		$mailconf_post_type=$conf_data['data_name'].'_mail';
 		$conf_data=array_merge([
 			'label'=>'お問い合わせ',
@@ -51,8 +51,8 @@ class mailform extends article_type{
 			$GLOBALS['post_types'][$mailconf_post_type]=['article_type'=>'mailconf'];
 			\cp::fill_conf_data('post',$mailconf_post_type,$GLOBALS['post_types'][$mailconf_post_type]);
 		}
-    }
-    public static function get_default_post_datas($conf_data){
+	}
+	public static function get_default_post_datas($conf_data){
 		return [
 			$conf_data['data_name'].'/form'=>['post_title'=>$conf_data['label'].'フォーム'],
 			$conf_data['data_name'].'/form/confirm'=>['post_title'=>'確認'],

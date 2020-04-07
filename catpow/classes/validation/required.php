@@ -2,7 +2,7 @@
 namespace Catpow\validation;
 
 class required extends validation{
-    public static function is_valid(&$val,$conf,$input_id){
+	public static function is_valid(&$val,$conf,$input_id){
 		return !empty($val);
 	}
 	public static function get_message_format($meta){

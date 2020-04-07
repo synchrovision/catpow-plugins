@@ -7,8 +7,8 @@ registerBlockType('catpow/sidebar', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes;
 		var classes = attributes.classes;
 
 		var primaryClass = 'wp-block-catpow-sidebar';
@@ -29,8 +29,8 @@ registerBlockType('catpow/sidebar', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className,
-		    setAttributes = _ref2.setAttributes;
+			className = _ref2.className,
+			setAttributes = _ref2.setAttributes;
 		var classes = attributes.classes;
 
 		return wp.element.createElement(
@@ -48,8 +48,8 @@ registerBlockType('catpow/sidecolumn', {
 	parent: ['catpow/sidebar'],
 	edit: function edit(_ref3) {
 		var attributes = _ref3.attributes,
-		    className = _ref3.className,
-		    setAttributes = _ref3.setAttributes;
+			className = _ref3.className,
+			setAttributes = _ref3.setAttributes;
 
 		return [wp.element.createElement(
 			'div',
@@ -64,8 +64,8 @@ registerBlockType('catpow/sidecolumn', {
 	},
 	save: function save(_ref4) {
 		var attributes = _ref4.attributes,
-		    className = _ref4.className,
-		    setAttributes = _ref4.setAttributes;
+			className = _ref4.className,
+			setAttributes = _ref4.setAttributes;
 
 		return wp.element.createElement(
 			'div',
@@ -82,8 +82,8 @@ registerBlockType('catpow/sidecolumn', {
 	deprecated: [{
 		save: function save(_ref5) {
 			var attributes = _ref5.attributes,
-			    className = _ref5.className,
-			    setAttributes = _ref5.setAttributes;
+				className = _ref5.className,
+				setAttributes = _ref5.setAttributes;
 
 			return wp.element.createElement(
 				'div',
@@ -105,8 +105,8 @@ registerBlockType('catpow/maincolumn', {
 	parent: ['catpow/sidebar'],
 	edit: function edit(_ref6) {
 		var attributes = _ref6.attributes,
-		    className = _ref6.className,
-		    setAttributes = _ref6.setAttributes;
+			className = _ref6.className,
+			setAttributes = _ref6.setAttributes;
 
 		return [wp.element.createElement(
 			'div',
@@ -116,8 +116,8 @@ registerBlockType('catpow/maincolumn', {
 	},
 	save: function save(_ref7) {
 		var attributes = _ref7.attributes,
-		    className = _ref7.className,
-		    setAttributes = _ref7.setAttributes;
+			className = _ref7.className,
+			setAttributes = _ref7.setAttributes;
 
 		return wp.element.createElement(
 			'div',
@@ -134,8 +134,8 @@ registerBlockType('catpow/articlenav', {
 	parent: ['catpow/sidecolumn'],
 	edit: function edit(_ref8) {
 		var attributes = _ref8.attributes,
-		    className = _ref8.className,
-		    setAttributes = _ref8.setAttributes;
+			className = _ref8.className,
+			setAttributes = _ref8.setAttributes;
 
 		return [wp.element.createElement(
 			'div',
@@ -157,8 +157,8 @@ registerBlockType('catpow/articlenav', {
 	},
 	save: function save(_ref9) {
 		var attributes = _ref9.attributes,
-		    className = _ref9.className,
-		    setAttributes = _ref9.setAttributes;
+			className = _ref9.className,
+			setAttributes = _ref9.setAttributes;
 
 		return wp.element.createElement('div', { className: className });
 	}

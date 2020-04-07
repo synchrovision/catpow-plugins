@@ -7,7 +7,7 @@ namespace Catpow\template_type;
 
 class single extends template_type{
 	public static $permalinks=['single'];
-    public static function get_default_post_datas($conf_data){
+	public static function get_default_post_datas($conf_data){
 		if($conf_data['data_type']==='page'){
 			$name=$conf_data['page_name'];
 			$prm=[];

@@ -5,7 +5,7 @@ namespace Catpow\template_item\php;
 */
 
 class desc extends \Catpow\template_item\php{
-    public static function get_code_data($path_data,$conf_data,$param){
+	public static function get_code_data($path_data,$conf_data,$param){
 		if(isset($conf_data['meta']['desc'])){return "<?php output('desc'); ?>";}
 		switch($path_data['data_type']){
 			case 'post':
@@ -15,8 +15,8 @@ class desc extends \Catpow\template_item\php{
 			case 'term':
 				return '<?= obj()->description ?>';
 		}
-        return false;
-    }
+		return false;
+	}
 }
 
 ?>

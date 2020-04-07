@@ -2,7 +2,7 @@
 namespace Catpow\validation;
 
 class user_email extends validation{
-    public static function is_valid(&$val,$conf,$input_id){
+	public static function is_valid(&$val,$conf,$input_id){
 		if(email_exists($val)==false)return true;
 		
 		$path_data=\cp::parse_input_id($input_id);

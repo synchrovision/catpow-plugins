@@ -1,13 +1,13 @@
 <?php
 /*action*/
 add_action('create_term',function($id,$tt_id,$tax){
-    cp::get_template_part('term/'.$tax.'/action/create',false,['term_id'=>$id]);
+	cp::get_template_part('term/'.$tax.'/action/create',false,['term_id'=>$id]);
 },10,3);
 add_action('edit_term',function($id,$tt_id,$tax){
-    cp::get_template_part('term/'.$tax.'/action/update',false,['term_id'=>$id]);
+	cp::get_template_part('term/'.$tax.'/action/update',false,['term_id'=>$id]);
 },10,3);
 add_action('delete_term',function($id,$tt_id,$tax){
-    cp::get_template_part('term/'.$tax.'/action/delete',false,['term_id'=>$id]);
+	cp::get_template_part('term/'.$tax.'/action/delete',false,['term_id'=>$id]);
 },10,3);
 
 

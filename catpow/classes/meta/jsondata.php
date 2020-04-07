@@ -2,7 +2,7 @@
 namespace Catpow\meta;
 
 class jsondata extends json{
-    public static $has_children=true;
+	public static $has_children=true;
 	
 	public static function output($meta,$prm){
 		return data::output($meta,$prm);

@@ -49,13 +49,13 @@ registerBlockType('catpow/flow', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes,
-		    isSelected = _ref.isSelected;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes,
+			isSelected = _ref.isSelected;
 		var items = attributes.items,
-		    classes = attributes.classes,
-		    countPrefix = attributes.countPrefix,
-		    countSuffix = attributes.countSuffix;
+			classes = attributes.classes,
+			countPrefix = attributes.countPrefix,
+			countSuffix = attributes.countSuffix;
 
 		var primaryClass = 'wp-block-catpow-flow';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -69,7 +69,7 @@ registerBlockType('catpow/flow', {
 			hasLink: false
 		};
 
-		var selectiveClasses = [{ label: '番号', values: 'hasCounter', sub: [{ input: 'text', label: '番号前置テキスト', key: 'countPrefix' }, { input: 'text', label: '番号後置テキスト', key: 'countSuffix' }] }, { label: '画像', values: 'hasImage' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: 'リンク', values: 'hasLink' }];
+		var selectiveClasses = [{ label: '番号', values: 'hasCounter', sub: [{ input: 'text', label: '番号前置�?��ス�?', key: 'countPrefix' }, { input: 'text', label: '番号後置�?��ス�?', key: 'countSuffix' }] }, { label: '画�?', values: 'hasImage' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: 'リンク', values: 'hasLink' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -243,11 +243,11 @@ registerBlockType('catpow/flow', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className;
+			className = _ref2.className;
 		var items = attributes.items,
-		    classes = attributes.classes,
-		    countPrefix = attributes.countPrefix,
-		    countSuffix = attributes.countSuffix;
+			classes = attributes.classes,
+			countPrefix = attributes.countPrefix,
+			countSuffix = attributes.countSuffix;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 

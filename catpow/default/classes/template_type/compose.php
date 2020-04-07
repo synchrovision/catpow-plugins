@@ -20,11 +20,11 @@ class compose extends template_type{
 			'render.php'=>[
 				'',
 				[
-                    'php',
-                    'namespace Catpow;',
-				    "cp::enqueue_script('{$conf_data['path']}/compose/component.js',['wp-element','babelHelpers','wp-api-fetch','catpow']);",
-				    "cp::enqueue_script('{$conf_data['path']}/compose/script.js',['catpow']);",
-                ],
+					'php',
+					'namespace Catpow;',
+					"cp::enqueue_script('{$conf_data['path']}/compose/component.js',['wp-element','babelHelpers','wp-api-fetch','catpow']);",
+					"cp::enqueue_script('{$conf_data['path']}/compose/script.js',['catpow']);",
+				],
 				['div#compose[data-nonce="<?=wp_create_nonce(\'wp_rest\');?>" data-api-path="/cp/v1/'.$conf_data['path'].'/compose/response"]']
 			],
 			'response.php'=>'default',

@@ -5,9 +5,9 @@
 $js_files=[];
 $cpjs_dir=dir(WP_PLUGIN_DIR.'/catpow/js');
 while($fname = $cpjs_dir->read()){
-    if(strpos('.',$fname)===0)continue;
-    if(substr($fname,-3)==='.js'){
-        wp_register_script(
+	if(strpos('.',$fname)===0)continue;
+	if(substr($fname,-3)==='.js'){
+		wp_register_script(
 			substr($fname,0,-3),
 			plugins_url().'/catpow/js/'.$fname,
 			['jquery'],
@@ -15,7 +15,7 @@ while($fname = $cpjs_dir->read()){
 			true
 		);
 		$js_files[]=WP_PLUGIN_DIR.'/catpow/js/'.$fname;
-    }
+	}
 }
 \cp::gzip_compress($js_files);
 
@@ -270,7 +270,7 @@ add_filter('get_avatar_url',function($url,$id_or_email,$args){
 
 /*rewrite rules*/
 add_filter('query_vars', function($vars){
-    $vars=array_merge($vars,array(
+	$vars=array_merge($vars,array(
 		'cp_mode','cp_page_type',
 		'cp_data_type','cp_data_name','cp_data_id',
 		'cp_tmp_slug','cp_tmp_folder',
@@ -278,23 +278,23 @@ add_filter('query_vars', function($vars){
 		'meta_path',
 		'cp_token','cp_token_key',
 		'cp_callee'
-    ));
-    foreach(cp::$data_types as $data_type){
-        $vars[]=$data_type.'_id';
-    }
+	));
+	foreach(cp::$data_types as $data_type){
+		$vars[]=$data_type.'_id';
+	}
 	return $vars;
 });
 add_action('parse_request',function($wp_query){
 	if(!empty($wp_query->query_vars['cp_page_type'])){
-        if($wp_query->query_vars['cp_page_type']=='me'){
-            $wp_query->query_vars['user_id']=get_current_user_id();
-        }
-        if($wp_query->query_vars['cp_data_type']=='post'){
-            $wp_query->query_vars['post_type']=$wp_query->query_vars['cp_data_name'];
-            if($wp_query->query_vars['cp_page_type']=='search'){
-                $wp_query->query_vars+=cp::extract_query($_REQUEST,'post/'.$wp_query->query_vars['post_type'].'/s');
-            }
-        }
+		if($wp_query->query_vars['cp_page_type']=='me'){
+			$wp_query->query_vars['user_id']=get_current_user_id();
+		}
+		if($wp_query->query_vars['cp_data_type']=='post'){
+			$wp_query->query_vars['post_type']=$wp_query->query_vars['cp_data_name'];
+			if($wp_query->query_vars['cp_page_type']=='search'){
+				$wp_query->query_vars+=cp::extract_query($_REQUEST,'post/'.$wp_query->query_vars['post_type'].'/s');
+			}
+		}
 	}
 });
 add_action('parse_query',function($query){
@@ -332,35 +332,35 @@ add_filter('nav_menu_link_attributes',function($atts,$item,$args,$depth){
 global $pagenow;
 if($pagenow=='options-permalink.php'){
 	function cp_add_rewrite_rules($data_type){
-        $conf_data_name=cp::get_conf_data_name($data_type);
-        global $$conf_data_name;
+		$conf_data_name=cp::get_conf_data_name($data_type);
+		global $$conf_data_name;
 		$datas=$$conf_data_name;
 		if(empty($datas))return;
 		foreach($datas as $data_name=>$data){
-            foreach(['','alias_'] as $pref){
-                if(isset($data[$pref.'template'])){
-                    foreach($data[$pref.'template'] as $tmp){
-                        $tmp_data=explode('-',$tmp);
-                        $tmp_name=$tmp_data[0];
-                        $tmp_slug=$tmp_data[1]??null;
+			foreach(['','alias_'] as $pref){
+				if(isset($data[$pref.'template'])){
+					foreach($data[$pref.'template'] as $tmp){
+						$tmp_data=explode('-',$tmp);
+						$tmp_name=$tmp_data[0];
+						$tmp_slug=$tmp_data[1]??null;
 
-                        $class_name=cp::get_class_name('template_type',$tmp_name);
-                        foreach($class_name::get_rewrite_rule($data[$pref.'path']) as $rewrite_rule){
-                            if(isset($tmp_slug)){
-                                $rewrite_rule['reg'].="/{$tmp_slug}";
-                                $rewrite_rule['rep'].="&cp_tmp_slug={$tmp_slug}";
-                            }
-                            $rewrite_rule['reg'].='/?$';
-                            add_rewrite_rule($rewrite_rule['reg'],$rewrite_rule['rep'],'top');
-                        }
-                    }
-                }
-            }
+						$class_name=cp::get_class_name('template_type',$tmp_name);
+						foreach($class_name::get_rewrite_rule($data[$pref.'path']) as $rewrite_rule){
+							if(isset($tmp_slug)){
+								$rewrite_rule['reg'].="/{$tmp_slug}";
+								$rewrite_rule['rep'].="&cp_tmp_slug={$tmp_slug}";
+							}
+							$rewrite_rule['reg'].='/?$';
+							add_rewrite_rule($rewrite_rule['reg'],$rewrite_rule['rep'],'top');
+						}
+					}
+				}
+			}
 		}
 	}
-    foreach(cp::$data_types as $data_type){
-        cp_add_rewrite_rules($data_type);
-    }
+	foreach(cp::$data_types as $data_type){
+		cp_add_rewrite_rules($data_type);
+	}
 	add_rewrite_rule(
 		'callback/(.+)/?$',
 		'index.php?cp_callee=$matches[1]',

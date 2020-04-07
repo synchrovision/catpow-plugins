@@ -4,7 +4,7 @@ add_theme_support('menus');
 add_action('init',function(){
 	global $nav_datas;
 	foreach($nav_datas as $menu_name=>$menu_data){
-        register_nav_menu($menu_name,isset($menu_data['label'])?$menu_data['label']:$menu_name);
+		register_nav_menu($menu_name,isset($menu_data['label'])?$menu_data['label']:$menu_name);
 	}
 });
 add_filter('wp_nav_menu_objects',function($items){
@@ -44,10 +44,10 @@ function get_menu_location($menu_item_id,$single=false){
 			}
 		}
 	}
-    $term=get_the_terms($menu_item_id,'nav_menu');
+	$term=get_the_terms($menu_item_id,'nav_menu');
 	$menu_id=$term[0]->term_id;
-    if(!isset($menu_location[$menu_id])){return false;}
-    if($single){return reset($menu_location[$menu_id]);}
+	if(!isset($menu_location[$menu_id])){return false;}
+	if($single){return reset($menu_location[$menu_id]);}
 	return $menu_location[$menu_id];
 }
 

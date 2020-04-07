@@ -4,7 +4,7 @@ namespace Catpow\meta;
 * waresの子として利用される
 */
 class orders extends share{
-    
+	
 	public static function fill_conf(&$conf){
 		$default=['meta'=>[
 			'user'=>['type'=>'select_rel_users','label'=>__('購入者','catpow')],

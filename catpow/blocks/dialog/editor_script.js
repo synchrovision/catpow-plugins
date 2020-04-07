@@ -39,15 +39,15 @@ registerBlockType('catpow/dialog', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-		    className = _ref.className,
-		    setAttributes = _ref.setAttributes,
-		    isSelected = _ref.isSelected;
+			className = _ref.className,
+			setAttributes = _ref.setAttributes,
+			isSelected = _ref.isSelected;
 		var items = attributes.items,
-		    classes = attributes.classes,
-		    countPrefix = attributes.countPrefix,
-		    countSuffix = attributes.countSuffix,
-		    subCountPrefix = attributes.subCountPrefix,
-		    subCountSuffix = attributes.subCountSuffix;
+			classes = attributes.classes,
+			countPrefix = attributes.countPrefix,
+			countSuffix = attributes.countSuffix,
+			subCountPrefix = attributes.subCountPrefix,
+			subCountSuffix = attributes.subCountSuffix;
 
 		var primaryClass = 'wp-block-catpow-dialog';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -174,15 +174,15 @@ registerBlockType('catpow/dialog', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-		    className = _ref2.className;
+			className = _ref2.className;
 		var items = attributes.items,
-		    classes = attributes.classes,
-		    countPrefix = attributes.countPrefix,
-		    countSuffix = attributes.countSuffix,
-		    subCountPrefix = attributes.subCountPrefix,
-		    subCountSuffix = attributes.subCountSuffix,
-		    linkUrl = attributes.linkUrl,
-		    linkText = attributes.linkText;
+			classes = attributes.classes,
+			countPrefix = attributes.countPrefix,
+			countSuffix = attributes.countSuffix,
+			subCountPrefix = attributes.subCountPrefix,
+			subCountSuffix = attributes.subCountSuffix,
+			linkUrl = attributes.linkUrl,
+			linkText = attributes.linkText;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 

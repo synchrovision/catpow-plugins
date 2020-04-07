@@ -2,7 +2,7 @@
 namespace Catpow\meta;
 
 class code extends textarea{
-    public static
-        $validation=['html'];
+	public static
+		$validation=['html'];
 }
 ?>

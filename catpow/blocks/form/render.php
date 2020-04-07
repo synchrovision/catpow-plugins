@@ -11,10 +11,10 @@ if(!empty($attr['values'])){
 	else{
 		$values=wp_parse_args($attr['values']);
 	}
-    $data_path=$form->the_data_path;
-    foreach($values as $key=>$val){
-        if(strpos($key,'/')){$form->inputs->set($data_path.'/'.dirname($key),$val,basename($key));}
-        else{$form->inputs->set($data_path.'/'.$key,$val);}
-    }
+	$data_path=$form->the_data_path;
+	foreach($values as $key=>$val){
+		if(strpos($key,'/')){$form->inputs->set($data_path.'/'.dirname($key),$val,basename($key));}
+		else{$form->inputs->set($data_path.'/'.$key,$val);}
+	}
 }
 $form->render(null,['content'=>$content,'post_data_path'=>$attr['post_data_path']??false]);

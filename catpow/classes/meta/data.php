@@ -7,14 +7,14 @@ namespace Catpow\meta;
 */
 
 class data extends meta{
-    
-    public static
+	
+	public static
 		$can_search=false,
-        $has_children=true;
+		$has_children=true;
 	
 	public static function output($meta,$prm){
-        $val=$meta->value;
-        $rtn='<table class="inputs"><tbody>';
+		$val=$meta->value;
+		$rtn='<table class="inputs"><tbody>';
 		foreach((array)$meta->conf['meta'] as $n=>$child_meta){
 			$rtn.='<tr><th>'.$child_meta['label'].'</th><td>';
 			$rtn.=$meta->meta($n)->get_output();
@@ -24,9 +24,9 @@ class data extends meta{
 		return $rtn;
 	}
 	public static function input($meta,$prm){
-        $path=$meta->the_data_path;
-        $val=(array)$meta->value;
-        $rtn='<table class="inputs"><tbody>';
+		$path=$meta->the_data_path;
+		$val=(array)$meta->value;
+		$rtn='<table class="inputs"><tbody>';
 		foreach((array)$meta->conf['meta'] as $n=>$child_meta){
 			$rtn.='<tr><th>'.$child_meta['label'].'</th><td>';
 			$rtn.=$meta->meta($n)->get_input();

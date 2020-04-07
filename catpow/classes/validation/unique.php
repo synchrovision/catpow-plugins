@@ -2,7 +2,7 @@
 namespace Catpow\validation;
 
 class unique extends validation{
-    public static function is_valid(&$val,$conf,$input_id){
+	public static function is_valid(&$val,$conf,$input_id){
 		global $wpdb;
 		$path_data=\cp::parse_input_id($input_id);
 		$data_type=$path_data['data_type'];

@@ -12,8 +12,8 @@ namespace Catpow\content;
 class task extends form{
 	public $valid,$token,$token_key,$f,$param;
 	
-    public function __construct($param){
-        parent::__construct($param);
+	public function __construct($param){
+		parent::__construct($param);
 		if(isset($this->token)){
 			$this->f=$this->get_dir().$this->token.'.php';
 			$this->load();
@@ -21,14 +21,14 @@ class task extends form{
 		else{
 			$this->create();
 		}
-        if($this->parent && !is_null($this->parent->form)){
+		if($this->parent && !is_null($this->parent->form)){
 			if(isset($this->parent->form->tasks[$this->form_id])){
 				$this->parent->form->tasks[$this->form_id]->delete();
 			}
 			$this->parent->form->tasks[$this->form_id]=$this;
 			$this->inputs=$this->parent->form->inputs;
 		}
-    }
+	}
 	
 	public function get_dir(){
 		return WP_CONTENT_DIR.'/task/'.get_current_blog_id().'/'.substr($this->file_path,0,-4).'/';
@@ -77,7 +77,7 @@ class task extends form{
 		while(file_exists($f));
 		dir_create(dirname($f));
 		$str="<?php\n\$param=".var_export($param,true).';';
-        file_put_contents($f,$str);
+		file_put_contents($f,$str);
 		$this->f=$f;
 		$this->valid=true;
 		$this->token=$token;
@@ -91,7 +91,7 @@ class task extends form{
 		if(!$this->valid){return $this;}
 		$this->param['inputs_data']=$this->inputs->data;
 		$str="<?php\n\$param=".var_export($this->param,true).';';
-        file_put_contents($this->f,$str);
+		file_put_contents($this->f,$str);
 		return $this;
 	}
 	public function load(){

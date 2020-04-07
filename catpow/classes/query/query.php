@@ -6,37 +6,37 @@ namespace Catpow\query;
 
 abstract class query{
 	public static $data_type,$query_class,$united=false,$is_meta=false,$search_keys=[],$key_translation=[];
-    public $q,$query,$objects,$base_path;
-    
-    public function __construct($q){
-        if(is_object($q)){
-            _a(get_class($q)===static::$query_class,'Query object of '.static::class.' must be '.static::$query_class);
-            $this->q=$q->query_vars;
-            $this->query=$q;
-        }
-        else{
+	public $q,$query,$objects,$base_path;
+	
+	public function __construct($q){
+		if(is_object($q)){
+			_a(get_class($q)===static::$query_class,'Query object of '.static::class.' must be '.static::$query_class);
+			$this->q=$q->query_vars;
+			$this->query=$q;
+		}
+		else{
 			$this->q=static::fill_query_vars($q);
 			$this->query=new static::$query_class($this->q);
-        }
-    }
-    public static function create($q){
-        if(is_object($q)){
-            switch(get_class($q)){
-                case 'WP_query':$data_type='post';break;
-                case 'WP_user_query':$data_type='user';break;
-                case 'WP_term_query':$data_type='term';break;
-                case 'WP_comment_query':$data_type='comment';break;
-            }
-            $class_name=\cp::get_class_name('query',$data_type);
-        }
-        else{
-            $class_name=\cp::get_class_name('query',$q['data_type']);
-        }
-        return new $class_name($q);
-    }
-    public static function from_request($request,$data_name,$id='s'){
-        return new static(\cp::extract_query($request,static::$data_type.'/'.$data_name.'/'.$id));
-    }
+		}
+	}
+	public static function create($q){
+		if(is_object($q)){
+			switch(get_class($q)){
+				case 'WP_query':$data_type='post';break;
+				case 'WP_user_query':$data_type='user';break;
+				case 'WP_term_query':$data_type='term';break;
+				case 'WP_comment_query':$data_type='comment';break;
+			}
+			$class_name=\cp::get_class_name('query',$data_type);
+		}
+		else{
+			$class_name=\cp::get_class_name('query',$q['data_type']);
+		}
+		return new $class_name($q);
+	}
+	public static function from_request($request,$data_name,$id='s'){
+		return new static(\cp::extract_query($request,static::$data_type.'/'.$data_name.'/'.$id));
+	}
 	
 	public static function is_available_id($maybe_id){
 		return (is_numeric($maybe_id) && $maybe_id>0);
@@ -44,20 +44,20 @@ abstract class query{
 	
 	public static function get($data_name,$data_id){}
 	public static function set($data_name,$data_id,$object_data){}
-    public static function insert($object_data){}
-    public static function update($object_data){}
+	public static function insert($object_data){}
+	public static function update($object_data){}
 	public static function delete($data_name,$data_id){}
 	
 	public static function fill_query_vars($q){return $q;}
 	public static function realize_path_data($path_data){return $path_data;}
 	public static function get_the_url($object){return false;}
-    
-    abstract public function is_empty();
-    abstract public function count();
-    abstract public function loop();
+	
+	abstract public function is_empty();
+	abstract public function count();
+	abstract public function loop();
 	
 	
-    public function export(){
+	public function export(){
 		$datas=[];
 		$name_key=static::$data_keys[0];
 		$tmp=array_flip(static::$data_keys);
@@ -86,7 +86,7 @@ abstract class query{
 		}
 		return $datas;
 	}
-    public static function import($datas){
+	public static function import($datas){
 		$name_key=static::$data_keys[0];
 		$primary_key=static::$data_keys[1];
 		$tmp=array_flip(static::$data_keys);
@@ -109,25 +109,25 @@ abstract class query{
 			}
 		}
 	}
-    
-    /*magic method*/
-    public function __get($name){
+	
+	/*magic method*/
+	public function __get($name){
 		if(isset(static::$key_translation[$name])){$name=static::$key_translation[$name];}
-        if(isset($this->query)){
-            return $this->query->$name;
-        }
-    }
-    public function __set($name,$val){
+		if(isset($this->query)){
+			return $this->query->$name;
+		}
+	}
+	public function __set($name,$val){
 		if(isset(static::$key_translation[$name])){$name=static::$key_translation[$name];}
-        if(isset($this->query)){
-            $this->query->$name=$val;
-        }
-    }
-    public function __call($name,$args){
-        if(isset($this->query)){
-            return call_user_func_array([$this->query,$name],$args);
-        }
-    }
+		if(isset($this->query)){
+			$this->query->$name=$val;
+		}
+	}
+	public function __call($name,$args){
+		if(isset($this->query)){
+			return call_user_func_array([$this->query,$name],$args);
+		}
+	}
 }
 
 ?>

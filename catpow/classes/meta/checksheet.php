@@ -60,7 +60,7 @@ class checksheet extends database{
 		return $meta_class::get_validations($conf);
 	}
 	
-    public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){}
+	public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){}
 	
 	public static function fill_conf(&$conf){
 		$conf['meta']=array_merge([

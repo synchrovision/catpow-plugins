@@ -2,36 +2,36 @@
 namespace Catpow\meta;
 
 class select_post_datas extends meta{
-    
-    public static function output($meta,$prm){
-        $val=$meta->value;
-        if(empty($val))return false;
-        if(isset($meta->conf['addition'])){
-            if(is_string($meta->conf['addition'])){$addition=[0=>$meta->conf['addition']];}
-            else{$addition=array_flip($meta->conf['addition']);}
-        }
-        else{$addition=false;}
-        if($post_data=\cp::get_post_data($val)){
-            switch($prm){
+	
+	public static function output($meta,$prm){
+		$val=$meta->value;
+		if(empty($val))return false;
+		if(isset($meta->conf['addition'])){
+			if(is_string($meta->conf['addition'])){$addition=[0=>$meta->conf['addition']];}
+			else{$addition=array_flip($meta->conf['addition']);}
+		}
+		else{$addition=false;}
+		if($post_data=\cp::get_post_data($val)){
+			switch($prm){
 				case 'content':
 					return str_replace(']]>',']]&gt;',apply_filters('the_content',$post_data['post_content']));
-                default:
-                    return $post_data['post_title'];
-            }
+				default:
+					return $post_data['post_title'];
+			}
 
-        }
-        elseif($addition){
-            if(empty($val))$val=0;
-            return array_key_exists($val,$addition)?$addition[$val]:reset($addition);
-        }
-    }
-    
-	public static function input($meta,$prm){
-        $sels=self::get_selections($meta);
-        return select::get_input($meta->the_data_path,$meta->conf,$sels,$meta->value);
+		}
+		elseif($addition){
+			if(empty($val))$val=0;
+			return array_key_exists($val,$addition)?$addition[$val]:reset($addition);
+		}
 	}
-    
-    public static function get_selections($meta){
+	
+	public static function input($meta,$prm){
+		$sels=self::get_selections($meta);
+		return select::get_input($meta->the_data_path,$meta->conf,$sels,$meta->value);
+	}
+	
+	public static function get_selections($meta){
 		$rtn=select_rel_posts::get_selections($meta);
 		$has_post=false;
 		foreach($rtn as $key=>$val){
@@ -69,7 +69,7 @@ class select_post_datas extends meta{
 				else{$rtn[$meta->conf['addition']]=0;}
 			}
 		}
-        return $rtn;
-    }
+		return $rtn;
+	}
 }
 ?>

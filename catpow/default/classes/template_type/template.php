@@ -14,7 +14,7 @@ class template extends template_type{
 			]
 		];
 	}
-    public static function fill_conf_data(&$conf_data){
+	public static function fill_conf_data(&$conf_data){
 		$template_post_type=$conf_data['data_name'].'_template';
 		if(!isset($GLOBALS['post_types'][$template_post_type])){
 			$GLOBALS['post_types'][$template_post_type]=[
@@ -24,7 +24,7 @@ class template extends template_type{
 			];
 			\cp::fill_conf_data('post',$template_post_type,$GLOBALS['post_types'][$template_post_type]);
 		}
-    }
+	}
 }
 
 ?>

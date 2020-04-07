@@ -10,15 +10,15 @@ class UI extends meta{
 			return self::get_output($meta->the_data_path,$meta->conf,static::fill_param($prm,$meta->conf));
 		}
 		$class_name=\cp::get_class_name('meta',static::$output_type);
-        return $class_name::output($meta,$prm);
+		return $class_name::output($meta,$prm);
 	}
 	public static function input($meta,$prm){
 		if(static::$input_type===false){
 			$prm=array_merge((array)$prm,['value'=>$meta->value,'name'=>\cp::get_input_name($meta->the_data_path)]);
-        	return self::get_input($meta->the_data_path,$meta->conf,static::fill_param($prm,$meta->conf));
+			return self::get_input($meta->the_data_path,$meta->conf,static::fill_param($prm,$meta->conf));
 		}
 		$class_name=\cp::get_class_name('meta',static::$input_type);
-        return $class_name::input($meta,$prm);
+		return $class_name::input($meta,$prm);
 	}
 	
 	public static function fill_param($prm,$conf){
@@ -40,8 +40,8 @@ class UI extends meta{
 			)
 		);
 	}
-    
-    public static function get_output($path,$conf,$prm){
+	
+	public static function get_output($path,$conf,$prm){
 		$ui=$conf['ui']??static::$ui??static::get_type();
 		if(!wp_script_is('ui/'.$ui.'/output.js')){
 			\cp::enqueue_style('ui/'.$ui.'/output.css');
@@ -78,9 +78,9 @@ class UI extends meta{
 			</script>
 		</div>
 		<?php
-        return ob_get_clean();
-    }
-    public static function get_input($path,$conf,$prm){
+		return ob_get_clean();
+	}
+	public static function get_input($path,$conf,$prm){
 		$ui=$conf['ui']??static::$ui??static::get_type();
 		if(!wp_script_is('ui/'.$ui.'/input.js')){
 			\cp::enqueue_style('ui/'.$ui.'/input.css');
@@ -124,7 +124,7 @@ class UI extends meta{
 			</script>
 		</div>
 		<?php
-        return ob_get_clean();
-    }
+		return ob_get_clean();
+	}
 }
 ?>

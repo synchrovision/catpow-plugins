@@ -63,7 +63,9 @@ class template_creator{
 						if($default_file=CP::get_file_path(
 							'[data_type]/[data_name]/'.$path_data['tmp_name'].'/'.basename($path),4
 						)){
-							copy($default_file,$f);
+							$contents=file_get_contents($default_file);
+							$contents=self::do_template_code($contents,$path_data,$conf_data);
+							file_put_contents($f,$contents);
 							$this->_log[]='create:'.$path;
 						}
 					}
@@ -73,6 +75,38 @@ class template_creator{
 				$this->_log[]='error:'.$e->getMessage();
 			}
 		}
+	}
+	public static function do_template_code($contents,$path_data,$conf_data){
+		$contents=preg_replace_callback('|\t*<\!\-\-meta(:[\!:\w]+)?\-\->\n(.+?)\t*<\!\-\-/meta\-\->\n|s',function($matches)use($conf_data){
+			$rtn='';
+			$filters=[];
+			if($matches[1]){
+				foreach(explode(':',substr($matches[1],1)) as $key){
+					if($key[0]==='!'){
+						$filters[substr($key,1)]=false;
+					}
+					else{
+						$filters[$key]=true;
+					}
+				}
+			}
+			foreach($conf_data['meta'] as $name=>$conf){
+				$class_name=\cp::get_class_name('meta',$conf['type']);
+				if(!class_exists($class_name)){continue;}
+				foreach($filters as $key=>$flag){
+					if($class_name::$$key!=$flag){continue 2;}
+				}
+				$str=$matches[2];
+				$str=str_replace('<!--name-->',$name,$str);
+				$str=str_replace('<!--label-->',$conf['label'],$str);
+				$rtn.=$str;
+			}
+			return $rtn;
+		},$contents);
+		$contents=str_replace('<!--data_type-->',$path_data['data_type'],$contents);
+		$contents=str_replace('<!--data_name-->',$path_data['data_name'],$contents);
+		$contents=str_replace('<!--label-->',$conf_data['label'],$contents);
+		return $contents;
 	}
 	public function create(){
 		foreach($this->template_dirs as $template_dir){

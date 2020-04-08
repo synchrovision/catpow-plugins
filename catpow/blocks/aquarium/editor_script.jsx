@@ -66,7 +66,7 @@
 		}
 	},
 	edit({attributes,className,setAttributes}){
-        const {classes,layers}=attributes;
+		const {classes,layers}=attributes;
 		const primaryClass='wp-block-catpow-aquarium';
 		var classArray=_.uniq((className+' '+classes).split(' '));
 		
@@ -74,7 +74,7 @@
 			'color'
 		];
 		
-        return [
+		return [
 			<div className={classes}>
 				{layers.map((layer)=>{
 					return (
@@ -115,10 +115,10 @@
 					filters={CP.filters.aquarium || {}}
 				/>
 			</InspectorControls>
-        ];
-    },
+		];
+	},
 	save({attributes,className,setAttributes}){
-        const {classes,layers}=attributes;
+		const {classes,layers}=attributes;
 		
 		return (
 			<div className={classes}>

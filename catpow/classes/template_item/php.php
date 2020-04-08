@@ -9,7 +9,7 @@ abstract class php extends template_item{
 		$is_line_start=true;
 		$is_single_line=(count($code_data)<2 or (count($code_data)==2 and is_string(next($code_data))));
 		$tag_data=reset($code_data);
-		if(empty($tag_data)){
+		if(empty($tag_data) || $tag_data==='_'){
 			while($val=next($code_data)){
 				if(is_string($val) and $val[0]=='@'){
 					$val=explode(' ',substr($val,1));
@@ -17,7 +17,7 @@ abstract class php extends template_item{
 					$val=$class_name::get_code_data($path_data,$conf_data,$val);
 				}
 				if(is_array($val)){
-					self::render($path_data,$conf_data,$val,$indent);
+					self::render($path_data,$conf_data,$val,$tag_data==='_'?$indent+1:$indent);
 				}else{
 					printf(str_repeat("\t",$indent)."%s\n",$val);
 				}

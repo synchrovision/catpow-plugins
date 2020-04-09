@@ -40,6 +40,9 @@ add_action('admin_init',function(){
 add_action('admin_head',function(){
 	cp::include_plugin_files('action/admin_head');
 });
+add_action('admin_notices',function(){
+	cp::include_plugin_files('action/admin_notices');
+});
 add_action('admin_menu',function(){
 	cp::include_plugin_files('action/admin_menu');
 });

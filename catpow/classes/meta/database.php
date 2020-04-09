@@ -43,7 +43,7 @@ class database extends data{
 		global $cpdb;
 		$where=[];
 		foreach(reset($input['value']) as $key=>$val){
-			if(empty(array_filter($val))){continue;}
+			if(empty($val) || is_array($val) && empty(array_filter($val))){continue;}
 			if(isset($input['compare'][$key])){$where[$key][$input['compare'][$key]]=$val;}
 			else{$where[$key]=$val;}
 		}

@@ -18,7 +18,8 @@ class manage extends template_type{
 			'admin.php'=>'default',
 			'sec_search.php'=>'default',
 			'sec_search-results.php'=>'default',
-			'sec_manage_item.php'=>'manage/sec_manage_item'
+			'sec_manage_item.php'=>'default',
+			'sec_manage_item-edit.php'=>'default'
 		];
 	}
 }

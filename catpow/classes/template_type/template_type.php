@@ -20,29 +20,17 @@ abstract class template_type{
 		
 		if(isset($template_files[$file_name.'.php'])){
 			$class_name=\cp::get_class_name('template_item','php');
-			$code_data=$template_files[$file_name.'.php'];
-			if(is_array($code_data)){
-				ob_start();
-				$class_name::render($path_data,$conf_data,$code_data);
-				$tmp=tempnam(sys_get_temp_dir(),'preview');
-				$fh=fopen($tmp,'w');
-				fwrite($fh,ob_get_clean());
-				if($vars){extract($vars);}
-				include $tmp;
-				unlink($tmp);
-				return true;
-			}
-			else{
-				if($code_data==='default'){
-					if($f=\cp::get_file_path(
-						'[data_type]/[data_name]/'.$path_data['tmp_name'].'/'.$file_name.'.php',4
-					)){
-						if($vars){extract($vars);}
-						include $f;
-						return true;
-					}
-				}
-			}
+			ob_start();
+			\Catpow\template_creator::render_code_data($template_files[$file_name.'.php'],$path_data,$conf_data);
+			$contents=ob_get_clean();
+			if(empty($contents)){return false;}
+			$tmp=tempnam(sys_get_temp_dir(),'preview');
+			$fh=fopen($tmp,'w');
+			fwrite($fh,$contents);
+			if($vars){extract($vars);}
+			include $tmp;
+			unlink($tmp);
+			return true;
 		}
 		return false;
 	}

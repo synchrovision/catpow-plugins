@@ -7,7 +7,7 @@ namespace Catpow\template_type;
 
 class mailconf extends template_type{
 	public static function get_template_files($conf_data){
-		return array_merge([
+		return [
 			'admin.php'=>[
 				'',[
 					'php',
@@ -27,7 +27,8 @@ class mailconf extends template_type{
 				]
 				
 			],
-		],manage::get_manage_table_template_files($conf_data));
+			'sec_manage_item.php'=>'manage/sec_manage_item',
+		];
 	}
 }
 

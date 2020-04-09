@@ -5,13 +5,17 @@
 		
 		if(props.value){date=new Date(props.value);}
 		else if(props.default){date=new Date(props.default);}
-		else{date=new Date();}
+		else{date=false;}
 		if(props.min){min=new Date(props.min);}
 		else{min=new Date(Date.now()-1000*3600*24*100);}
 		if(props.max){max=new Date(props.max);}
 		else{max=new Date(Date.now()+1000*3600*24*100);}
 		
-		selections={year:[],month:[],date:[]}
+		selections={
+			year:[<option value={-1}>----</option>],
+			month:[<option value={-1}>--</option>],
+			date:[<option value={-1}>--</option>]
+		}
 		for(i=min.getFullYear();i<=max.getFullYear();i++){
 			selections.year.push(<option value={i+""}>{i+""}</option>);
 		}
@@ -25,29 +29,51 @@
 	}
 	render(){
 		var {date,min,max}=this.state;
-		if(min>date){date=new Date(min);}
-		else if(max<date){date=new Date(max);}
-		else{date=new Date(date);}
+		if(date!==false){
+			if(min>date){date=new Date(min);}
+			else if(max<date){date=new Date(max);}
+			else{date=new Date(date);}
+		}
+		
+		const nameInFunction={
+			Y:'FullYear',
+			m:'Month',
+			d:'Date'
+		};
+		const setDate=(key,val)=>{
+			if(val==-1){
+				date=false;
+			}
+			else{
+				if(date===false){date=new Date();}
+				date['set'+nameInFunction[key]](val);
+			}
+			this.setState({date});
+		};
+		const getDate=(key)=>{
+			if(date===false){return -1;}
+			return date['get'+nameInFunction[key]]();
+		};
 		
 		return (
 			<div className={'DateSelect'}>
-				<select onChange={(e)=>{date.setFullYear(e.target.value);this.setState({date});}} value={date.getFullYear()}>
+				<select onChange={(e)=>{setDate('Y',e.target.value);}} value={getDate('Y')}>
 					{this.state.selections.year}
 				</select>
 				<span class="unit">年</span>
-				<select onChange={(e)=>{date.setMonth(e.target.value);this.setState({date});}} value={date.getMonth()}>
+				<select onChange={(e)=>{setDate('m',e.target.value);}} value={getDate('m')}>
 					{this.state.selections.month}
 				</select>
 				<span class="unit">月</span>
-				<select onChange={(e)=>{date.setDate(e.target.value);this.setState({date});}} value={date.getDate()}>
+				<select onChange={(e)=>{setDate('d',e.target.value);}} value={getDate('d')}>
 					{this.state.selections.date}
 				</select>
 				<span class="unit">日</span>
 
-				<Catpow.HiddenValues
+				{date!==false && <Catpow.HiddenValues
 					name={this.props.name}
 					value={date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()}
-				/>
+				/>}
 			</div>
 		);
 	}

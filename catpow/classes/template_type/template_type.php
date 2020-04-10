@@ -38,7 +38,17 @@ abstract class template_type{
 	public static function get_embeddables($conf_data){return [];}
 	public static function get_rest_routes($conf_data){return [];}
 	public static function get_menus($conf_data){return [];}
-	public static function get_template_files($conf_data){return [];}
+	public static function get_template_files($conf_data){
+		static $files;
+		if(isset($files)){return $files;}
+		$files=[];
+		$tempate_dir=\cp::get_file_path('config/template/'.static::get_template_name());
+		foreach(scandir($tempate_dir) as $fname){
+			if(in_array($fname[0],['.','_'],1)){continue;}
+			$files[$fname]='default';
+		}
+		return $files;
+	}
 	public static function before_create_template_files($conf_data){}
 	public static function fill_conf_data(&$conf_data){}
 	public static function get_default_post_datas($conf_data){return [];}

@@ -82,6 +82,7 @@ class template_creator{
 		return true;
 	}
 	public static function do_template_code($contents,$path_data,$conf_data){
+		if(strpos($contents,'<!--')===false){return $contents;}
 		$class_name=CP::get_class_name('template_item',$path_data['file_type']);
 		$contents=preg_replace_callback(self::get_template_code_regex('meta'),function($matches)use($conf_data){
 			$rtn='';

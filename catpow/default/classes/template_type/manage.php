@@ -13,15 +13,6 @@ class manage extends template_type{
 			]
 		];
 	}
-	public static function get_template_files($conf_data){
-		return [
-			'admin.php'=>'default',
-			'sec_search.php'=>'default',
-			'sec_search-results.php'=>'default',
-			'sec_manage_item.php'=>'default',
-			'sec_manage_item-edit.php'=>'default'
-		];
-	}
 }
 
 ?>

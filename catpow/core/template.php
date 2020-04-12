@@ -209,7 +209,10 @@ function image($name,$alt=false,$class='',$x2=true){
 	$attr='';
 	if($alt){$attr.=sprintf(' alt="%s"',$alt);}else{$attr.=sprintf(' alt="%s"',$name);}
 	if($class)$attr.=sprintf(' class="%s"',$class);
-	if($f=CP::get_file_path('images/'.$name,15)){$url=CP::get_file_url('images/'.$name,15);}
+	if($path_url=CP::get_file_path_url('images/'.$name,\cp::FROM_CONTENT_DIR|\cp::FROM_THEME|\cp::FROM_DEFAULT)){
+		$f=key($path_url);
+		$url=reset($path_url);
+	}
 	else{return false;}
 	$sz=getimagesize($f);
 	if($x2){$attr.=sprintf(' width="%spx" height="%spx"',floor($sz[0]/2),floor($sz[1]/2));}

@@ -9,8 +9,9 @@ namespace Catpow;
 class CP{
 	const
 		INPUT_ID_DELIMITER='--',
-		FROM_PLUGIN=001,FROM_FUNCTIONS=002,FROM_DEFAULT=004,
-		FROM_STYLESHEET_DIR=010,FROM_TEMPLATE_DIR=020,FROM_THEME=030,FROM_CONTENT_DIR=040;
+		FROM_PLUGIN=0001,FROM_FUNCTIONS=0002,FROM_CONTENT_DIR=0004,
+		FROM_STYLESHEET_DIR=0010,FROM_TEMPLATE_DIR=0020,FROM_THEME=0030,FROM_DEFAULT=0040,
+		FROM_STYLESHEET_CONFIG=0100,FROM_TEMPLATE_CONFIG=0200,FROM_THEME_CONFIG=0300,FROM_DEFAULT_CONFIG=0400,FROM_CONFIG=0700;
 	
 	public static
 		$cp,$id,$extensions,$data_types,$content,$content_path,$inputs,$forms,$form,$data,
@@ -84,7 +85,7 @@ class CP{
 	
 	
 	/*ファイル取得・読み込み*/
-	public static function get_file_path($name,$flag=037){
+	public static function get_file_path($name,$flag=073){
 		if($flag&self::FROM_PLUGIN){
 			foreach(self::$extensions as $catpow_extension){
 				if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/'.$name)){return $f;}
@@ -107,15 +108,18 @@ class CP{
 			}
 		}
 		if($flag&self::FROM_DEFAULT){
-			$name=self::get_file_path_in_default_dir($name);
 			foreach(self::$extensions as $catpow_extension){
 				if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/default/'.$name)){return $f;}
 			}
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/default/'.$name)){return $f;}
 		}
+		if($flag&self::FROM_CONFIG){
+			echo decoct((self::FROM_CONFIG&$flag)>>3);
+			return self::get_file_path(self::get_config_file_path($name),(self::FROM_CONFIG&$flag)>>3);
+		}
 		return null;
 	}
-	public static function get_file_paths($name,$flag=037){
+	public static function get_file_paths($name,$flag=073){
 		$rtn=[];
 		if($flag&self::FROM_PLUGIN){
 			foreach(self::$extensions as $catpow_extension){
@@ -139,15 +143,17 @@ class CP{
 			}
 		}
 		if($flag&self::FROM_DEFAULT){
-			$name=self::get_file_path_in_default_dir($name);
 			foreach(self::$extensions as $catpow_extension){
 				if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/default/'.$name)){$rtn[]=$f;}
 			}
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/default/'.$name)){$rtn[]=$f;}
 		}
+		if($flag&self::FROM_CONFIG){
+			$rtn=array_merge($rtn,self::get_file_paths(self::get_config_file_path($name),(self::FROM_CONFIG&$flag)>>3));
+		}
 		return $rtn;
 	}
-	public static function get_file_url($name,$flag=037){
+	public static function get_file_url($name,$flag=073){
 		if($flag&self::FROM_PLUGIN){
 			foreach(self::$extensions as $catpow_extension){
 				if(file_exists(WP_PLUGIN_DIR.'/'.$catpow_extension.'/'.$name)){return plugins_url().'/'.$catpow_extension.'/'.$name;}
@@ -174,15 +180,17 @@ class CP{
 			}
 		}
 		if($flag&self::FROM_DEFAULT){
-			$name=self::get_file_path_in_default_dir($name);
 			foreach(self::$extensions as $catpow_extension){
 				if(file_exists(WP_PLUGIN_DIR.'/'.$catpow_extension.'/default/'.$name)){return plugins_url().'/'.$catpow_extension.'/default/'.$name;}
 			}
 			if(file_exists(WP_PLUGIN_DIR.'/catpow/default/'.$name)){return plugins_url().'/catpow/default/'.$name;;}
 		}
+		if($flag&self::FROM_CONFIG){
+			return self::get_file_url(self::get_config_file_path($name),(self::FROM_CONFIG&$flag)>>3);
+		}
 		return null;
 	}
-	public static function get_file_urls($name,$flag=037){
+	public static function get_file_urls($name,$flag=073){
 		$rtn=[];
 		if($flag&self::FROM_PLUGIN){
 			foreach(self::$extensions as $catpow_extension){
@@ -210,15 +218,17 @@ class CP{
 			}
 		}
 		if($flag&self::FROM_DEFAULT){
-			$name=self::get_file_path_in_default_dir($name);
 			foreach(self::$extensions as $catpow_extension){
 				if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/default/'.$name)){$rtn[$f]=plugins_url().'/'.$catpow_extension.'/default/'.$name;}
 			}
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/default/'.$name)){$rtn[$f]=plugins_url().'/catpow/default/'.$name;;}
 		}
+		if($flag&self::FROM_CONFIG){
+			$rtn=array_merge($rtn,self::get_file_urls(self::get_config_file_path($name),(self::FROM_CONFIG&$flag)>>3));
+		}
 		return $rtn;
 	}
-	public static function get_file_path_url($name,$flag=037){
+	public static function get_file_path_url($name,$flag=073){
 		if($flag&self::FROM_PLUGIN){
 			foreach(self::$extensions as $catpow_extension){
 				if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/'.$name)){
@@ -253,7 +263,7 @@ class CP{
 			}
 		}
 		if($flag&self::FROM_DEFAULT){
-			$name=self::get_file_path_in_default_dir($name);
+			$name=self::get_config_file_path($name);
 			foreach(self::$extensions as $catpow_extension){
 				if(file_exists($f=WP_PLUGIN_DIR.'/'.$catpow_extension.'/default/'.$name)){
 					return [$f=>plugins_url().'/'.$catpow_extension.'/default/'.$name];
@@ -262,6 +272,9 @@ class CP{
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/default/'.$name)){
 				return [$f=>plugins_url().'/catpow/default/'.$name];
 			}
+		}
+		if($flag&self::FROM_CONFIG){
+			return self::get_file_path_url(self::get_config_file_path($name),(self::FROM_CONFIG&$flag)>>3);
 		}
 		return [];
 	}
@@ -287,7 +300,7 @@ class CP{
 		if(substr($name,-4)!=='.php'){$name.='.php';}
 		if(file_exists($f=get_stylesheet_directory().'/'.$name)){include($f);return true;}
 		if(file_exists($f=get_template_directory().'/'.$name)){include($f);return true;}
-		$name=self::get_file_path_in_default_dir($name);
+		$name=self::get_config_file_path($name);
 		foreach(self::$extensions as $extension){
 			if(file_exists($f=WP_PLUGIN_DIR.'/'.$extension.'/default/'.$name)){include($f);return true;}
 		}
@@ -299,7 +312,7 @@ class CP{
 		if(substr($name,-4)!=='.php'){$name.='.php';}
 		if(file_exists($f=get_stylesheet_directory().'/'.$name)){include($f);}
 		if(file_exists($f=get_template_directory().'/'.$name)){include($f);}
-		$name=self::get_file_path_in_default_dir($name);
+		$name=self::get_config_file_path($name);
 		foreach(self::$extensions as $extension){
 			if(file_exists($f=WP_PLUGIN_DIR.'/'.$extension.'/default/'.$name)){include($f);}
 		}
@@ -372,25 +385,25 @@ class CP{
 		return ob_get_clean();
 	}
 	
-	public static function get_file_path_in_default_dir($path){
+	public static function get_config_file_path($path){
 		$path_data=self::parse_content_file_path($path);
 		if(isset($path_data['data_type']) && in_array($path_data['data_type'],self::$data_types)){
-			$path_data['data_type']='[data_type]';
-			$path_data['data_name']='[data_name]';
+			$path_data['data_type']='config';
+			$path_data['data_name']='template';
 			unset($path_data['tmp_slug']);
 			return self::create_content_file_path($path_data);
 		}
 		return $path;
 	}
 
-	public static function enqueue_script($src=false,$deps=array(),$flag=037,$ver=false,$in_footer=true){
+	public static function enqueue_script($src=false,$deps=array(),$flag=0773,$ver=false,$in_footer=true){
 		static $missed=[];
 		if(wp_script_is($src) || isset($missed[$src])){return false;}
 		if(empty($file=self::get_file_path_url($src,$flag))){$missed[$src]=1;return false;}
 		if(empty($ver)){$ver=filemtime(key($file));}
 		wp_enqueue_script($src,reset($file),$deps,$ver,$in_footer);
 	}
-	public static function enqueue_style($src=false,$deps=array(),$flag=037,$ver=false,$media=false){
+	public static function enqueue_style($src=false,$deps=array(),$flag=0773,$ver=false,$media=false){
 		static $missed=[];
 		if(wp_script_is($src) || isset($missed[$src])){return false;}
 		if(empty($file=self::get_file_path_url($src,$flag))){$missed[$src]=1;return false;}
@@ -441,7 +454,7 @@ class CP{
 		else{
 			$real_path=$path;
 		}
-		if($f=self::get_file_path('post_data/'.preg_replace('/\-[^\-\/]+/','',rtrim($real_path,'/')).'.php',6)){
+		if($f=self::get_file_path('post_data/'.preg_replace('/\-[^\-\/]+/','',rtrim($real_path,'/')).'.php',self::FROM_DEFAULT|self::FROM_THEME)){
 			include $f;
 		}
 		return $cache[$path]=$post_data;
@@ -591,7 +604,7 @@ class CP{
 		$data_name=array_shift($path_arr);
 		$conf_data_name=self::get_conf_data_name($data_type);
 		if($data_type==='catpow' && !isset($GLOBALS[$conf_data_name][$data_name])){
-			if($f=self::get_file_path('functions/'.$data_name.'/conf.php',1)){
+			if($f=self::get_file_path('functions/'.$data_name.'/conf.php',self::FROM_THEME)){
 				include $f;
 				$GLOBALS[$conf_data_name][$data_name]=$conf;
 				if(isset($conf['meta'])){

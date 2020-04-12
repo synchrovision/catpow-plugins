@@ -71,10 +71,10 @@ class template_creator{
 			if($code_data==='default'){
 				$file_name=$path_data['file_name'];
 				if(isset($path_data['file_slug'])){$file_name.='-'.$path_data['file_slug'];}
-				$f=\cp::get_file_path('config/template/'.$path_data['tmp_name'].'/'.$file_name.'.php',034);
+				$f=\cp::get_file_path('config/template/'.$path_data['tmp_name'].'/'.$file_name.'.php',\cp::FROM_THEME|\cp::FROM_DEFAULT);
 			}
 			else{
-				$f=\cp::get_file_path('config/template/'.$code_data.'.php',034);
+				$f=\cp::get_file_path('config/template/'.$code_data.'.php',\cp::FROM_THEME|\cp::FROM_DEFAULT);
 			}
 			if(empty($f)){return false;}
 			echo \Catpow\template_creator::do_template_code(file_get_contents($f),$path_data,$conf_data);
@@ -147,20 +147,33 @@ class template_creator{
 			}
 			return $rtn;
 		},$contents);
+		$cond_datas=self::get_cond_datas($contents);
+		if(!empty($cond_datas)){
+			foreach($cond_datas['items'] as $cond_index=>$cond_data){
+				foreach($cond_data['filters'] as $key=>$flag){
+					if(empty($conf_data['meta'][$key])===$flag){
+						$contents=str_replace('<<'.$cond_index.'>>',$cond_data['else'],$cond_datas['body']);
+						continue 2;
+					}
+				}
+				$contents=str_replace('<<'.$cond_index.'>>',$cond_data['body'],$cond_datas['body']);
+			}
+		}
 		$contents=str_replace('<!--data_type-->',$path_data['data_type'],$contents);
 		$contents=str_replace('<!--data_name-->',$path_data['data_name'],$contents);
 		$contents=str_replace('<!--label-->',$conf_data['label'],$contents);
+		$contents=str_replace('<!--path-->',$conf_data['path'],$contents);
 		$contents=preg_replace_callback('|(\t*)<\!\-\-@(\w+)( .+?)\-\->|',function($matches)use($path_data,$conf_data){
 			$class_name=\cp::get_class_name('template_item',$path_data['file_type'],$matches[2]);
 			$code_data=$class_name::get_code_data($path_data,$conf_data,explode(' ',substr($matches[3],1)));
-			if(is_array($val)){
+			if(empty($code_data)){return '';}
+			if(is_array($code_data)){
 				$class_name=\cp::get_class_name('template_item',$path_data['file_type']);
 				ob_start();
 				$class_name::render($path_data,$conf_data,$code_data,strlen($matches[1]));
 				return ob_get_clean();
-			}else{
-				return $matches[1].$val;
 			}
+			return $matches[1].$code_data;
 		},$contents);
 		return $contents;
 	}

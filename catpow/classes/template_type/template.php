@@ -1,7 +1,7 @@
 <?php
 namespace Catpow\template_type;
 /**
-* 柔軟なWP APIとwp_componentの連携テンプレート
+* 管理画面で編集できるテンプレート
 */
 
 class template extends template_type{
@@ -10,12 +10,12 @@ class template extends template_type{
 	public static function get_menus($conf_data){
 		return [
 			'sub'=>[
-				'テンプレート'=>$conf_data['data_name'].'_template'
+				'テンプレート'=>$conf_data['data_name'].'_tmpl'
 			]
 		];
 	}
 	public static function fill_conf_data(&$conf_data){
-		$template_post_type=$conf_data['data_name'].'_template';
+		$template_post_type=$conf_data['data_name'].'_tmpl';
 		if(!isset($GLOBALS['post_types'][$template_post_type])){
 			$GLOBALS['post_types'][$template_post_type]=[
 				'label'=>'テンプレート',

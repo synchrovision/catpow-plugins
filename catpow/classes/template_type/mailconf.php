@@ -5,14 +5,12 @@ namespace Catpow\template_type;
 * テンプレート生成・パーマリンク生成時に使用される
 */
 
-class editor extends template_type{
+class mailconf extends template_type{
 	public static function get_template_files($conf_data){
 		return [
-			'loop.php'=>['','@catpow'],
-			'loop_item.php'=>['','@catpow'],
-			'form_step1.php'=>['','@catpow'],
-			'form_step2.php'=>['','@catpow'],
-			'form_step3.php'=>['','@catpow'],
+			'admin.php'=>'default',
+			'sec_manage_item.php'=>'manage/sec_manage_item',
+			'sec_manage_item-edit.php'=>'manage/sec_manage_item-edit',
 		];
 	}
 }

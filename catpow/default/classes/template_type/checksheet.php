@@ -46,26 +46,6 @@ class checksheet extends template_type{
 			'push'=>['type'=>'radio','label'=>'登録処理','value'=>['しない'=>-1,'する'=>1]]
 		],$conf_data['meta']);
 	}
-	public static function get_template_files($conf_data){
-		$form_post_type=$conf_data['data_name'];
-		return[
-			'form.php'=>['',
-				['php',
-					'namespace Catpow;',
-				 	'$path=$post_data_path;',
-				 	"if(!empty(\$action)){\$path.='/'.\$action;}",
-				 	'$post_data=cp::get_post_data($path);',
-					"if(\$post_data['meta']['receive'][0]==1){receive();}",
-					"if(\$post_data['meta']['push'][0]==1){push();}",
-					"if(isset(\$post_data['meta']['clear'])){clear(array_sum(\$post_data['meta']['clear']));}",
-				 	'content($path);'
-				],
-				['ul.buttons',
-					['li.primary.next',"<?php button('送信','step2'); ?>"]
-				]
-			]
-		];
-	}
 	public static function get_default_post_datas($conf_data){
 		return [
 			$conf_data['data_name'].'/form'=>['post_title'=>$conf_data['label']],

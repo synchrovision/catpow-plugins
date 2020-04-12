@@ -14,23 +14,6 @@ class listed extends template_type{
 			]
 		];
 	}
-	public static function get_template_files($conf_data){
-		return [
-			'loop.php'=>['',
-				['php',
-				 	'namespace Catpow;',
-				 	"cp::enqueue_style('blocks/listed/front_style.css');"
-				],
-				static::get_listed_block_code_data([
-					'image'=>'@image vga',
-					'title'=>'@title',
-					'text'=>'@desc',
-					'link'=>'@link'
-				])
-			]
-		];
-	}
-	
 	public static function get_listed_block_code_data($prm){
 		$rtn=[
 			'tag'=>'ul.wp-block-catpow-listed',

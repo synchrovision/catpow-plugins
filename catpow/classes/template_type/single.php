@@ -17,15 +17,6 @@ class single extends template_type{
 		}
 		return [];
 	}
-	public static function get_template_files($conf_data){
-		return [
-			'index.php'=>['','@catpow','@page_content'],
-			'header.php'=>['','@catpow','@page_header'],
-			'footer.php'=>['','@catpow','@page_footer'],
-			'style.scss'=>['@config'],
-			'script.js'=>[],
-		];
-	}
 }
 
 ?>

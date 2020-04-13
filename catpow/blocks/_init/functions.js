@@ -47,7 +47,7 @@ var CP = {
 
 	switchNumberClass: function switchNumberClass(_ref, label, value) {
 		var set = _ref.set,
-			attr = _ref.attr;
+		    attr = _ref.attr;
 
 		var classArray = attr.classes.split(' ');
 		var i = classArray.findIndex(function (cls) {
@@ -94,7 +94,7 @@ var CP = {
 
 	switchSelectiveClass: function switchSelectiveClass(_ref3, values, value, key) {
 		var set = _ref3.set,
-			attr = _ref3.attr;
+		    attr = _ref3.attr;
 
 		if (key === undefined) {
 			key = 'classes';
@@ -192,7 +192,7 @@ var CP = {
 
 	toggleClass: function toggleClass(_ref5, value, key) {
 		var attr = _ref5.attr,
-			set = _ref5.set;
+		    set = _ref5.set;
 
 		if (key === undefined) {
 			key = 'classes';
@@ -231,22 +231,22 @@ var CP = {
 	},
 	saveItem: function saveItem(_ref7) {
 		var items = _ref7.items,
-			itemsKey = _ref7.itemsKey,
-			set = _ref7.set;
+		    itemsKey = _ref7.itemsKey,
+		    set = _ref7.set;
 
 		set(babelHelpers.defineProperty({}, itemsKey || 'items', JSON.parse(JSON.stringify(items))));
 	},
 	deleteItem: function deleteItem(props) {
 		var items = props.items,
-			index = props.index;
+		    index = props.index;
 
 		items.splice(index, 1);
 		CP.saveItem(props);
 	},
 	cloneItem: function cloneItem(props) {
 		var tag = props.tag,
-			items = props.items,
-			index = props.index;
+		    items = props.items,
+		    index = props.index;
 
 		items.splice(index, 0, JSON.parse(JSON.stringify(items[index])));
 		CP.saveItem(props);
@@ -254,8 +254,8 @@ var CP = {
 	},
 	upItem: function upItem(props) {
 		var tag = props.tag,
-			items = props.items,
-			index = props.index;
+		    items = props.items,
+		    index = props.index;
 
 		if (!items[index - 1]) return false;
 		items.splice(index - 1, 2, items[index], items[index - 1]);
@@ -264,8 +264,8 @@ var CP = {
 	},
 	downItem: function downItem(props) {
 		var tag = props.tag,
-			items = props.items,
-			index = props.index;
+		    items = props.items,
+		    index = props.index;
 
 		if (!items[index + 1]) return false;
 		items.splice(index, 2, items[index + 1], items[index]);
@@ -275,8 +275,8 @@ var CP = {
 
 	switchItemColor: function switchItemColor(_ref8, color, itemsKey) {
 		var items = _ref8.items,
-			index = _ref8.index,
-			set = _ref8.set;
+		    index = _ref8.index,
+		    set = _ref8.set;
 
 		if (itemsKey === undefined) {
 			itemsKey = 'items';
@@ -301,7 +301,7 @@ var CP = {
 	},
 	getItemColor: function getItemColor(_ref9) {
 		var items = _ref9.items,
-			index = _ref9.index;
+		    index = _ref9.index;
 
 		var c = items[index].classes.split(' ').find(function (cls) {
 			return cls.substr(0, 5) === 'color';
@@ -314,8 +314,8 @@ var CP = {
 
 	switchItemPattern: function switchItemPattern(_ref10, pattern, itemsKey) {
 		var items = _ref10.items,
-			index = _ref10.index,
-			set = _ref10.set;
+		    index = _ref10.index,
+		    set = _ref10.set;
 
 		if (itemsKey === undefined) {
 			itemsKey = 'items';
@@ -340,7 +340,7 @@ var CP = {
 	},
 	getItemPattern: function getItemPattern(_ref11) {
 		var items = _ref11.items,
-			index = _ref11.index;
+		    index = _ref11.index;
 
 		var p = items[index].classes.split(' ').find(function (cls) {
 			return cls.substr(0, 7) === 'pattern';
@@ -353,8 +353,8 @@ var CP = {
 
 	switchItemSelectiveClass: function switchItemSelectiveClass(_ref12, values, value, itemsKey) {
 		var items = _ref12.items,
-			index = _ref12.index,
-			set = _ref12.set;
+		    index = _ref12.index,
+		    set = _ref12.set;
 
 		if (itemsKey === undefined) {
 			itemsKey = 'items';
@@ -374,7 +374,7 @@ var CP = {
 	},
 	getItemSelectiveClass: function getItemSelectiveClass(_ref13, values) {
 		var items = _ref13.items,
-			index = _ref13.index;
+		    index = _ref13.index;
 
 		if (!items[index].classes) {
 			return false;
@@ -388,8 +388,8 @@ var CP = {
 
 	toggleItemClass: function toggleItemClass(_ref14, value, itemsKey) {
 		var items = _ref14.items,
-			index = _ref14.index,
-			set = _ref14.set;
+		    index = _ref14.index,
+		    set = _ref14.set;
 
 		if (itemsKey === undefined) {
 			itemsKey = 'items';
@@ -406,7 +406,7 @@ var CP = {
 	},
 	hasItemClass: function hasItemClass(_ref15, value) {
 		var items = _ref15.items,
-			index = _ref15.index;
+		    index = _ref15.index;
 
 		var classArray = items[index].classes.split(' ');
 		return classArray.indexOf(value) !== -1;
@@ -429,7 +429,7 @@ var CP = {
 	},
 	setJsonValue: function setJsonValue(_ref17, json, key, value) {
 		var attr = _ref17.attr,
-			set = _ref17.set;
+		    set = _ref17.set;
 
 		var data = {};
 		var jsonData = JSON.parse(attr[json]);
@@ -486,17 +486,17 @@ var CP = {
 };
 var SelectResponsiveImage = function SelectResponsiveImage(_ref18) {
 	var className = _ref18.className,
-		attr = _ref18.attr,
-		set = _ref18.set,
-		keys = _ref18.keys,
-		index = _ref18.index,
-		sizes = _ref18.sizes,
-		size = _ref18.size,
-		ofSP = _ref18.ofSP;
+	    attr = _ref18.attr,
+	    set = _ref18.set,
+	    keys = _ref18.keys,
+	    index = _ref18.index,
+	    sizes = _ref18.sizes,
+	    size = _ref18.size,
+	    ofSP = _ref18.ofSP;
 
 	var type = void 0,
-		onClick = void 0,
-		item = void 0;
+	    onClick = void 0,
+	    item = void 0;
 	keys = keys || {};
 	if (ofSP) {
 		if (keys.items) {
@@ -580,13 +580,13 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref18) {
 };
 var ResponsiveImage = function ResponsiveImage(_ref21) {
 	var className = _ref21.className,
-		attr = _ref21.attr,
-		keys = _ref21.keys,
-		index = _ref21.index,
-		sizes = _ref21.sizes;
+	    attr = _ref21.attr,
+	    keys = _ref21.keys,
+	    index = _ref21.index,
+	    sizes = _ref21.sizes;
 
 	var type = void 0,
-		item = void 0;
+	    item = void 0;
 	if (keys.items) {
 		item = attr[keys.items][index];
 	} else {
@@ -631,14 +631,14 @@ var ResponsiveImage = function ResponsiveImage(_ref21) {
 
 var Item = function Item(props) {
 	var tag = props.tag,
-		items = props.items,
-		itemsKey = props.itemsKey,
-		index = props.index,
-		set = props.set,
-		attr = props.attr,
-		triggerClasses = props.triggerClasses,
-		children = props.children,
-		isSelected = props.isSelected;
+	    items = props.items,
+	    itemsKey = props.itemsKey,
+	    index = props.index,
+	    set = props.set,
+	    attr = props.attr,
+	    triggerClasses = props.triggerClasses,
+	    children = props.children,
+	    isSelected = props.isSelected;
 	var itemClasses = props.itemClasses;
 
 	if (!items[index].classes) {
@@ -786,7 +786,7 @@ var ItemControlInfoPanel = function ItemControlInfoPanel() {
 
 var EditItems = function EditItems(props) {
 	var atts = props.atts,
-		set = props.set;
+	    set = props.set;
 
 	var key = props.key || 'item';
 	var items = atts[key];
@@ -838,7 +838,7 @@ var SelectClassPanel = function SelectClassPanel(props) {
 				}
 			} else if (_.isObject(prm.values)) {
 				var options = void 0,
-					values = void 0;
+				    values = void 0;
 				if (Array.isArray(prm.values)) {
 					values = prm.values;
 					options = prm.values.map(function (cls) {
@@ -918,6 +918,13 @@ var SelectClassPanel = function SelectClassPanel(props) {
 						}));
 						break;
 					case 'image':
+						if (prm.label) {
+							rtn.push(wp.element.createElement(
+								'h5',
+								null,
+								prm.label
+							));
+						}
 						rtn.push(wp.element.createElement(SelectResponsiveImage, {
 							set: props.set,
 							attr: props.attr,
@@ -942,7 +949,7 @@ var SelectClassPanel = function SelectClassPanel(props) {
 				var bindClasses = CP.getBindClasses(prm);
 
 				var _options = void 0,
-					_values = void 0;
+				    _values = void 0;
 				if (Array.isArray(prm.values)) {
 					_values = prm.values;
 					_options = prm.values.map(function (cls) {
@@ -1037,12 +1044,12 @@ var SelectClassPanel = function SelectClassPanel(props) {
 };
 var SelectItemClassPanel = function SelectItemClassPanel(props) {
 	var items = props.items,
-		index = props.index,
-		set = props.set,
-		attr = props.attr,
-		triggerClasses = props.triggerClasses;
+	    index = props.index,
+	    set = props.set,
+	    attr = props.attr,
+	    triggerClasses = props.triggerClasses;
 	var itemsKey = props.itemsKey,
-		itemClasses = props.itemClasses;
+	    itemClasses = props.itemClasses;
 
 
 	if (!items[index]) {
@@ -1107,8 +1114,8 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 		} else if (prm === 'event') {
 			if (cp.use_functions.indexOf('ga') > -1) {
 				var _window$Catpow$ga = window.Catpow.ga,
-					parseEventString = _window$Catpow$ga.parseEventString,
-					createEventString = _window$Catpow$ga.createEventString;
+				    parseEventString = _window$Catpow$ga.parseEventString,
+				    createEventString = _window$Catpow$ga.createEventString;
 
 				var eventData = parseEventString(items[index]['event']);
 				var params = { event: 'イベント', action: 'アクション', category: 'カテゴリ', label_name: 'ラベル名', label: 'ラベル', value: '値' };
@@ -1274,7 +1281,7 @@ var AlignClassToolbar = function AlignClassToolbar(props) {
 };
 var SelectColorClass = function SelectColorClass(props) {
 	var label = props.label,
-		help = props.help;
+	    help = props.help;
 
 
 	var color = CP.getColor(props);
@@ -1304,8 +1311,8 @@ var SelectColorClass = function SelectColorClass(props) {
 };
 var SelectItemColorClass = function SelectItemColorClass(props) {
 	var label = props.label,
-		help = props.help,
-		itemsKey = props.itemsKey;
+	    help = props.help,
+	    itemsKey = props.itemsKey;
 
 
 	var color = CP.getItemColor(props);
@@ -1340,8 +1347,8 @@ var SelectPositionClass = function SelectPositionClass(props) {
 	var value = CP.getSelectiveClass(props, values);
 
 	var label = props.label,
-		help = props.help,
-		disable = props.disable;
+	    help = props.help,
+	    disable = props.disable;
 
 
 	return wp.element.createElement(

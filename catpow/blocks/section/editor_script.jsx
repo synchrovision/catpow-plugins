@@ -67,7 +67,8 @@
 							{input:'image',keys:imageKeys.headerImage,size:imageSizes.headerImage}
 						]},
 						{label:'ヘッダ背景画像',values:'hasHeaderBackgroundImage',sub:[
-							{input:'image',keys:imageKeys.headerBackgroundImage},
+							{input:'image',label:'PC版背景画像',keys:imageKeys.headerBackgroundImage},
+							{input:'image',label:'SP版背景画像',keys:imageKeys.headerBackgroundImage,ofSP:true,sizes:'480px'},
 							{label:'薄く',values:'paleHeaderBG'}
 						]},
 						{label:'抜き色文字',values:'inverseText',sub:[
@@ -75,7 +76,8 @@
 						]},
 						{label:'リード',values:'hasRead'},
 						{label:'背景画像',values:'hasBackgroundImage',sub:[
-							{input:'image',keys:imageKeys.backgroundImage},
+							{input:'image',label:'PC版背景画像',keys:imageKeys.backgroundImage},
+							{input:'image',label:'SP版背景画像',keys:imageKeys.backgroundImage,ofSP:true,sizes:'480px'},
 							{label:'薄く',values:'paleBG'}
 						]},
 						{label:'背景色',values:'hasBackgroundColor'},
@@ -86,13 +88,14 @@
 					article:[
 						'color',
 						{label:'レベル',values:{level2:'2',level3:'3',level4:'4'}},
-						{label:'見出しタイプ',values:{header:'ヘッダ',headline:'ヘッドライン',catch:'キャッチ'}},
+						{label:'見出しタイプ',filter:'heading_type',values:{header:'ヘッダ',headline:'ヘッドライン',catch:'キャッチ'}},
 						{label:'ヘッダ画像',values:'hasHeaderImage',sub:[
 							{input:'image',keys:imageKeys.headerImage,size:imageSizes.headerImage}
 						]},
 						{label:'リード',values:'hasRead'},
 						{label:'背景画像',values:'hasBackgroundImage',sub:[
-							{input:'image',keys:imageKeys.backgroundImage},
+							{input:'image',label:'PC版背景画像',keys:imageKeys.backgroundImage},
+							{input:'image',label:'SP版背景画像',keys:imageKeys.backgroundImage,ofSP:true,sizes:'480px'},
 							{label:'薄く',values:'paleBG'}
 						]},
 						{label:'背景色',values:'hasBackgroundColor'},
@@ -110,7 +113,8 @@
 							{input:'image',keys:imageKeys.image}
 						]},
 						{label:'背景画像',values:'hasBackgroundImage',sub:[
-							{input:'image',keys:imageKeys.backgroundImage},
+							{input:'image',label:'PC版背景画像',keys:imageKeys.backgroundImage},
+							{input:'image',label:'SP版背景画像',keys:imageKeys.backgroundImage,ofSP:true,sizes:'480px'},
 							{label:'薄く',values:'paleBG'}
 						]},
 						{label:'線',values:{no_border:'なし',thin_border:'細',bold_border:'太'}},

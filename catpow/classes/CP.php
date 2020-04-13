@@ -114,7 +114,6 @@ class CP{
 			if(file_exists($f=WP_PLUGIN_DIR.'/catpow/default/'.$name)){return $f;}
 		}
 		if($flag&self::FROM_CONFIG){
-			echo decoct((self::FROM_CONFIG&$flag)>>3);
 			return self::get_file_path(self::get_config_file_path($name),(self::FROM_CONFIG&$flag)>>3);
 		}
 		return null;
@@ -396,14 +395,14 @@ class CP{
 		return $path;
 	}
 
-	public static function enqueue_script($src=false,$deps=array(),$flag=0773,$ver=false,$in_footer=true){
+	public static function enqueue_script($src=false,$deps=array(),$flag=0733,$ver=false,$in_footer=true){
 		static $missed=[];
 		if(wp_script_is($src) || isset($missed[$src])){return false;}
 		if(empty($file=self::get_file_path_url($src,$flag))){$missed[$src]=1;return false;}
 		if(empty($ver)){$ver=filemtime(key($file));}
 		wp_enqueue_script($src,reset($file),$deps,$ver,$in_footer);
 	}
-	public static function enqueue_style($src=false,$deps=array(),$flag=0773,$ver=false,$media=false){
+	public static function enqueue_style($src=false,$deps=array(),$flag=0733,$ver=false,$media=false){
 		static $missed=[];
 		if(wp_script_is($src) || isset($missed[$src])){return false;}
 		if(empty($file=self::get_file_path_url($src,$flag))){$missed[$src]=1;return false;}

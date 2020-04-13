@@ -1804,7 +1804,7 @@ class CP{
 			else{$admin_config_filemtime=filemtime($admin_config_file);}
 		}
 		foreach($scss_names as $scss_base_name){
-			if($f=self::get_file_path($scss_base_name.'.scss')){$scss_name=substr($f,0,-5);}
+			if($f=self::get_file_path($scss_base_name.'.scss',0733)){$scss_name=substr($f,0,-5);}
 			else{continue;}
 			$css_files[]=$scss_name.'.css';
 			$is_theme_file=strpos($scss_name,'/wp-content/themes/')!==false;

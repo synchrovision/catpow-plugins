@@ -163,7 +163,7 @@ class template_creator{
 		$contents=str_replace('<!--data_name-->',$path_data['data_name'],$contents);
 		$contents=str_replace('<!--label-->',$conf_data['label'],$contents);
 		$contents=str_replace('<!--path-->',$conf_data['path'],$contents);
-		$contents=preg_replace_callback('|(\t*)<\!\-\-@(\w+)( .+?)\-\->|',function($matches)use($path_data,$conf_data){
+		$contents=preg_replace_callback('|(\t*)<\!\-\-@(\w+)( .+?)?\-\->|',function($matches)use($path_data,$conf_data){
 			$class_name=\cp::get_class_name('template_item',$path_data['file_type'],$matches[2]);
 			$code_data=$class_name::get_code_data($path_data,$conf_data,explode(' ',substr($matches[3],1)));
 			if(empty($code_data)){return '';}

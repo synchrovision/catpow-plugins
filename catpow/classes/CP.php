@@ -905,6 +905,7 @@ class CP{
 		return $path_data;
 	}
 	public static function create_data_path($path_data){
+		if(empty($path_data['data_type']) || empty($path_data['data_name'])){return false;}
 		$rtn=$path_data['data_type'].'/'.$path_data['data_name'];
 		if(isset($path_data['data_id'])){$rtn.='/'.$path_data['data_id'];}
 		if(!empty($path_data['meta_path'])){

@@ -133,14 +133,21 @@ window.Catpow=window.Catpow || {};
 					$(this).children().each(function(){
 						var chlh=this.getBoundingClientRect().height;
 						if(tgth > chlh ^ chlh > winh){
-							$(this).css({transform:'translate3d(0,'+(tgth-(tgth+chlh)*p2)+'px,0)'})
+							$(this).css({transform:this.orgTransform+'translate3d(0,'+(tgth-(tgth+chlh)*p2)+'px,0)'})
 						}
 						else{
-							$(this).css({transform:'translate3d(0,'+((tgth-chlh)*p1)+'px,0)'})
+							$(this).css({transform:this.orgTransform+'translate3d(0,'+((tgth-chlh)*p1)+'px,0)'})
 						}
 					});
 				});
 			};
+			$tgt.each(function(){
+				$(this).children().each(function(){
+					this.orgTransform=$(this).css('transform');
+					if(this.orgTransform=='none'){this.orgTransform='';}
+					else{this.orgTransform+=' ';}
+				});
+			});
 			$(window).scroll(function(){$tgt.update();});
 			$tgt.update();
 			return $tgt;

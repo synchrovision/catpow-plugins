@@ -252,6 +252,7 @@ registerFormatType('catpow/span',{
 	}
 });
 
+
 const currentBlockCanInsertBlockFormat=()=>{
 	var atts=wp.data.select('core/block-editor').getSelectedBlock().attributes;
 	return atts.blockState && atts.blockState.enableBlockFormat;
@@ -398,3 +399,22 @@ registerFormatType('catpow/dd',{
 	tagName:'dd',
 	className:null
 });
+
+
+registerFormatType('catpow/clear',{
+	title:'clear',
+	tagName:'div',
+	className:null,
+	edit({isActive,value,onChange}){
+		const {create}=wp.richText;
+		return [
+			<RichTextToolbarButton
+				icon={'dismiss'}
+				title={'🧹全てのスタイルをクリア'}
+				onClick={()=>onChange(create({html:value.text}))}
+				isActive={false}
+			/>
+		];
+	}
+});
+

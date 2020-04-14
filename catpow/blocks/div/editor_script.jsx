@@ -56,7 +56,8 @@
 				}
 			},
 			{label:'背景画像',values:'hasBackgroundImage',sub:[
-				{input:'image',keys:imageKeys.backgroundImage}
+				{input:'image',label:'PC版背景画像',keys:imageKeys.backgroundImage},
+				{input:'image',label:'SP版背景画像',keys:imageKeys.backgroundImage,ofSP:true,sizes:'480px'}
 			]},
 			{label:'余白','values':{noPad:'なし',thinPad:'極細',lightPad:'細',mediumPad:'中',boldPad:'太',heavyPad:'極太'}}
 		];

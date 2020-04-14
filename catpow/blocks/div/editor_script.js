@@ -21,8 +21,8 @@ registerBlockType('catpow/div', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes;
 		var classes = attributes.classes;
 
 		var primaryClass = 'wp-block-catpow-div';
@@ -39,14 +39,14 @@ registerBlockType('catpow/div', {
 		};
 
 		var selectiveClasses = [{
-			label: 'タイ�?',
+			label: 'タイプ',
 			filter: 'type',
 			values: ['block', 'frame', 'columns'],
 			sub: {
-				frame: [{ label: '色', values: 'hasColor', sub: ['color'] }, { label: 'パターン', values: 'hasPattern', sub: ['pattern'] }, { label: 'アイコン', values: 'hasIcon' }, { label: '�?', values: { noBorder: 'な�?', thinBorder: '細', boldBorder: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '�??', values: 'inset' }] }],
-				columns: [{ label: '�?', values: { narrow: '狭�?', regular: '普�?', wide: '�?��' } }]
+				frame: [{ label: '色', values: 'hasColor', sub: ['color'] }, { label: 'パターン', values: 'hasPattern', sub: ['pattern'] }, { label: 'アイコン', values: 'hasIcon' }, { label: '線', values: { noBorder: 'なし', thinBorder: '細', boldBorder: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '内側', values: 'inset' }] }],
+				columns: [{ label: '幅', values: { narrow: '狭い', regular: '普通', wide: '広い' } }]
 			}
-		}, { label: '背景画�?', values: 'hasBackgroundImage', sub: [{ input: 'image', keys: imageKeys.backgroundImage }] }, { label: '余白', 'values': { noPad: 'な�?', thinPad: '極細', lightPad: '細', mediumPad: '中', boldPad: '太', heavyPad: '極太' } }];
+		}, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', label: 'PC版背景画像', keys: imageKeys.backgroundImage }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.backgroundImage, ofSP: true, sizes: '480px' }] }, { label: '余白', 'values': { noPad: 'なし', thinPad: '極細', lightPad: '細', mediumPad: '中', boldPad: '太', heavyPad: '極太' } }];
 
 		var hasClass = function hasClass(cls) {
 			return classArray.indexOf(cls) !== -1;
@@ -104,8 +104,8 @@ registerBlockType('catpow/div', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className,
-			setAttributes = _ref2.setAttributes;
+		    className = _ref2.className,
+		    setAttributes = _ref2.setAttributes;
 		var classes = attributes.classes;
 
 

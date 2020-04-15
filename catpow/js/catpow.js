@@ -33,7 +33,7 @@ window.Catpow=window.Catpow || {};
 			if(window.Catpow.scriptFiles[js]){return cb();}
 			window.Catpow.scriptFiles[js]=true;
 			$.getScript(js,cb).fail(function(xhr,setting,error){
-				window.console.error({js,xhr,setting,error});
+				window.console.error({js:js,xhr:xhr,setting:setting,error:error});
 			});
 		}
 		cb();
@@ -568,8 +568,9 @@ window.Catpow=window.Catpow || {};
 		//.prev .nextはそれぞれ最初と最後のクラスで.disableが付加される
 		//最初のクラス付与までは$tgtに.initが付加される
 		//prmにはautoplay,flickable,scrollableのフラグとinterval,waitを指定
-		cp_class_control:function($tgt,prm={}){
+		cp_class_control:function($tgt,prm){
 			var conf,$thumb,$control,$images,$dots,crr;
+			if(prm===undefined){prm={};}
 			if(!$tgt){
 				if($(this).length>1){
 					$(this).each(function(){
@@ -763,7 +764,8 @@ window.Catpow=window.Catpow || {};
 		},
 
 		//ライトボックス
-		cp_lightbox:function(prm={}){
+		cp_lightbox:function(prm){
+			if(undefined===prm){prm={};}
 			var $lightbox=$(this);
 			
 			var prm_default={

@@ -17,12 +17,18 @@ class meta extends content{
 			if(isset($format)){$tmp=printf($format,$tmp);}
 		   	else{echo $tmp;}
 		}
+		elseif(isset($this->loop_id)){
+			$tmp=$class_name::output($this,$prm);
+			if(isset($format)){$tmp=printf($format,$tmp);}
+			else{echo $tmp;}
+		}
 		else{
 			foreach($class_name::loop($this) as $this->loop_id=>$meta_value){
 				$tmp=$class_name::output($this,$prm);
 				if(isset($format)){$tmp=printf($format,$tmp);}
 				else{echo $tmp;}
 			}
+			unset($this->loop_id);
 		}
 		return $this;
 	}
@@ -42,15 +48,22 @@ class meta extends content{
 		$class_name=\cp::get_class_name('meta',$this->conf['input-type']??$this->conf['type']??'text');
 		$format=$this->conf['input-format']??$this->conf['format']??null;
 		
-		echo '<div '.\cp::get_item_attr($this->data_path,$this->conf).'>';
+		echo '<div '.$this->get_item_attr().'>';
 		if($class_name::$is_bulk_input){
 			$tmp=$class_name::input($this,$prm);
 			if(isset($format)){$tmp=printf($format,$tmp);}
 		   	else{echo $tmp;}
 		}
+		elseif(isset($this->loop_id)){
+			echo '<div '.$this->get_unit_attr().'>';
+			$tmp=$class_name::input($this,$prm);
+			if(isset($format)){$tmp=printf($format,$tmp);}
+			else{echo $tmp;}
+			echo '</div>';
+		}
 		else{
 			foreach($class_name::loop($this) as $this->loop_id=>$meta_value){
-				echo '<div '.\cp::get_unit_attr($this->the_data_path,$this->conf).'>';
+				echo '<div '.$this->get_unit_attr().'>';
 				$tmp=$class_name::input($this,$prm);
 				if(isset($format)){$tmp=printf($format,$tmp);}
 				else{echo $tmp;}
@@ -78,6 +91,8 @@ class meta extends content{
 	}
 	public function compare($compare){
 		printf('<input type="hidden" name="%s" value="%s"/>',\cp::get_input_name($this->data_path,'compare'),$compare);
+		if(is_null($this->form??null)){return false;}
+		$this->form->allow_input($this->data_path,$this,'compare');
 	}
 	public function get_compare($compare){
 		ob_start();$this->compare($compare);

@@ -8,6 +8,7 @@ abstract class meta{
 		$validation=[],
 		$has_children=false,
 		$can_search=true,
+		$can_search_with_range=false,
 		$is_database=false,
 		$has_parent=true,
 		$is_bulk_input=false,
@@ -118,7 +119,7 @@ abstract class meta{
 				$query['meta_query'][$meta_name.$i]=['key'=>$meta_name,'value'=>$val,'compare'=>'=','type'=>$input['type']];
 			}
 		}else{
-			switch($input['compare']){
+			switch(strtoupper($input['compare'])){
 				case 'BETWEEN':
 					if(empty($input['value'][0])){$input['compare']='<=';$input['value']=implode('',$input['value']);}
 					if(empty($input['value'][1])){$input['compare']='>=';$input['value']=implode('',$input['value']);}

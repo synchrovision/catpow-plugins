@@ -3,7 +3,8 @@ namespace Catpow\meta;
 
 class date extends meta{
 	public static
-		$validation=['text','date'];
+		$validation=['text','date'],
+		$can_search_with_range=true;
 	
 	public static function output($meta,$prm){
 		$val=$meta->value;

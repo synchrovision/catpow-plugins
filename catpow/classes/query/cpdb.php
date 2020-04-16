@@ -10,7 +10,7 @@ class cpdb extends query{
 		$united=true,
 		$is_meta=true,
 		$search_keys=['join'=>1,'orderby'=>1,'limit'=>0,'paged'=>0],
-		$q_default=['table'=>false,'where'=>false,'orderby'=>false,'join'=>false,'limit'=>false,'offset'=>false];
+		$q_default=['table'=>false,'where'=>false,'orderby'=>false,'join'=>false,'limit'=>false,'offset'=>false,'paged'=>false];
 	public $table,$path,$columns,$rows,$where,$orderby,$join,$limit;
 	
 	public function __construct($q){
@@ -129,7 +129,9 @@ class cpdb extends query{
 			case 'max_num_pages':
 				return $this->max_num_pages=$this->limit?ceil($this->total/$this->limit):1;
 		}
-		
+		if(isset($this->q[$name])){
+			return $this->q[$name];
+		}
 	}
 	public function __set($name,$val){
 		if(isset(static::$key_translation[$name])){$name=static::$key_translation[$name];}

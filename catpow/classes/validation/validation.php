@@ -19,9 +19,11 @@ abstract class validation{
 			}
 		}
 		else{
-			foreach($vals as $id=>&$val){
-				if(!static::is_valid($val,$conf,$input_id.\cp::INPUT_ID_DELIMITER.$id)){
-					$errors[$input_id.\cp::INPUT_ID_DELIMITER.$id]=static::get_message($conf);
+			if(is_array($vals)){
+				foreach($vals as $id=>&$val){
+					if(!static::is_valid($val,$conf,$input_id.\cp::INPUT_ID_DELIMITER.$id)){
+						$errors[$input_id.\cp::INPUT_ID_DELIMITER.$id]=static::get_message($conf);
+					}
 				}
 			}
 		}

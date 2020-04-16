@@ -32,5 +32,22 @@
 				@include txt((c:#888));
 			}
 		}
+		.amazonPayPopupClose{
+			@include bnd((p:a,t:-2rem,r:-2rem,w:3rem,h:3rem,z:20));
+			@include bg((c:t 1 .8));
+			@include bdr((r:2rem));
+			@include shd((b:1));
+			&::before,&::after{
+				content:'';
+				@include bnd((d:b,p:a,w:2rem,h:.2rem,t:1.4rem,l:.5rem));
+				@include bg((c:b);
+			}
+			&::before{
+				@include trn((r:45deg));
+			}
+			&::after{
+				@include trn((r:-45deg));
+			}
+		}
 	}
 }

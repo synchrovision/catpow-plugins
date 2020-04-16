@@ -51,6 +51,7 @@
 							});
 						}}
 					>{this.props.checkoutText || '購入する'}</div>
+					<div class="zeusPopupClose" onClick={(e)=>{this.setState({popupOpen:false});}}></div>
 					<div id="zeusError"></div>
 				</div>
 			</div>

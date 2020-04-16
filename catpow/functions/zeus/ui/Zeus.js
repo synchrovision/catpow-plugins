@@ -14,6 +14,8 @@ Catpow.Zeus = function (_wp$element$Component) {
 	babelHelpers.createClass(_class, [{
 		key: "render",
 		value: function render() {
+			var _this2 = this;
+
 			var _props = this.props,
 			    cart = _props.cart,
 			    payment = _props.payment;
@@ -84,6 +86,9 @@ Catpow.Zeus = function (_wp$element$Component) {
 						},
 						this.props.checkoutText || '購入する'
 					),
+					wp.element.createElement("div", { "class": "zeusPopupClose", onClick: function onClick(e) {
+							_this2.setState({ popupOpen: false });
+						} }),
 					wp.element.createElement("div", { id: "zeusError" })
 				)
 			)];

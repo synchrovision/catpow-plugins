@@ -65,6 +65,9 @@ abstract class content{
 			$conf_data=&\cp::get_conf_data($this->conf_data_path.'/'.$name);
 			if(!isset($conf_data)){$conf_data=$conf;}
 		}
+		if(strpos($name,'/')){
+			list($name,$loop_id)=explode('/',$name);
+		}
 		$prm=[
 			'parent'=>$this,
 			'data'=>$this->get_the_data($name),
@@ -72,6 +75,9 @@ abstract class content{
 			'data_path'=>$this->get_the_data_path($name),
 			'param'=>$param
 		];
+		if(isset($loop_id)){
+			$prm+=['loop_id'=>$loop_id];
+		}
 		if(isset($conf)){
 			$prm+=[
 				'inherit'=>['conf'=>true],

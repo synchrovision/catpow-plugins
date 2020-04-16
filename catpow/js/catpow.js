@@ -30,6 +30,7 @@ window.Catpow=window.Catpow || {};
 		var cb=function(){
 			if(scripts.length===0){dfr.resolve();return dfr;}
 			js=scripts.shift();
+			if(/jquery(\.min)?\.js$/.test(js)){return cb();}
 			if(window.Catpow.scriptFiles[js]){return cb();}
 			window.Catpow.scriptFiles[js]=true;
 			$.getScript(js,cb).fail(function(xhr,setting,error){
@@ -785,9 +786,9 @@ window.Catpow=window.Catpow || {};
 			var $content=$('.cp_lightbox_content',$container);
 			var group=$content.children().length;
 			var $group=$lightbox.group=$(
-				'<div class="group" data-group="'+group+'">'+
+				'<div class="cp_lightbox_group" data-group="'+group+'">'+
 				'<ul class="items"></ul>'+
-				'<div class="control"></div>'+
+				'<div class="cp_lightbox_control"></div>'+
 				'</div>'
 			).appendTo($content);
 			var $items=$lightbox.items=$('ul.items',$group);

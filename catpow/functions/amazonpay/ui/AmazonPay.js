@@ -15,6 +15,8 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 	babelHelpers.createClass(_class, [{
 		key: 'render',
 		value: function render() {
+			var _this2 = this;
+
 			var _props = this.props,
 			    cart = _props.cart,
 			    payment = _props.payment;
@@ -57,6 +59,9 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 						},
 						this.checkoutText
 					),
+					wp.element.createElement('div', { 'class': 'amazonPayPopupClose', onClick: function onClick(e) {
+							_this2.setState({ popupOpen: false });
+						} }),
 					wp.element.createElement('div', { id: 'amazonPayError' })
 				)
 			)];
@@ -64,7 +69,7 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 	}, {
 		key: 'renderButton',
 		value: function renderButton() {
-			var _this2 = this;
+			var _this3 = this;
 
 			OffAmazonPayments.Button("AmazonPayButton", amazonpay_config.merchant_id, {
 				type: amazonpay_config.type || 'PwA',
@@ -73,13 +78,13 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 				language: amazonpay_config.language,
 				authorization: function authorization() {
 					amazon.Login.authorize({ scope: "profile postal_code payments:widget payments:shipping_address", popup: true }, function (token) {
-						_this2.token = token;
-						if (_this2.props.addressbook) {
-							_this2.showAddressBookWidget();
+						_this3.token = token;
+						if (_this3.props.addressbook) {
+							_this3.showAddressBookWidget();
 						} else {
-							_this2.showWalletWidget();
+							_this3.showWalletWidget();
 						}
-						_this2.setState({ popupOpen: true });
+						_this3.setState({ popupOpen: true });
 					});
 				},
 				onError: function onError(error) {

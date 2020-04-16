@@ -31,6 +31,7 @@
 							},{task:'checkout',orderReferenceId:component.orderReferenceId});
 						}}
 					>{this.checkoutText}</div>
+					<div class="amazonPayPopupClose" onClick={(e)=>{this.setState({popupOpen:false});}}></div>
 					<div id="amazonPayError"></div>
 				</div>
 			</div>

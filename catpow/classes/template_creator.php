@@ -84,7 +84,7 @@ class template_creator{
 	public static function do_template_code($contents,$path_data,$conf_data){
 		if(strpos($contents,'<!--')===false){return $contents;}
 		$class_name=CP::get_class_name('template_item',$path_data['file_type']);
-		$contents=preg_replace_callback(self::get_template_code_regex('meta'),function($matches)use($conf_data){
+		$contents=preg_replace_callback(self::get_template_code_regex('meta'),function($matches)use($path_data,$conf_data){
 			$rtn='';
 			$filters=self::parse_filter_str($matches['filter']);
 			$cond_datas=self::get_cond_datas($matches['body']);
@@ -142,7 +142,10 @@ class template_creator{
 					},$str);
 				}
 				$str=str_replace('<!--name-->',$name,$str);
+				$str=str_replace('{$name}',$name,$str);
 				$str=str_replace('<!--label-->',$conf['label'],$str);
+				$str=str_replace('{$label}',$conf['label'],$str);
+				$path_data['meta_path']=[['meta_name'=>$name]];
 				$rtn.=$str;
 			}
 			return $rtn;
@@ -163,17 +166,8 @@ class template_creator{
 		$contents=str_replace('<!--data_name-->',$path_data['data_name'],$contents);
 		$contents=str_replace('<!--label-->',$conf_data['label'],$contents);
 		$contents=str_replace('<!--path-->',$conf_data['path'],$contents);
-		$contents=preg_replace_callback('|(\t*)<\!\-\-@(\w+)( .+?)?\-\->|',function($matches)use($path_data,$conf_data){
-			$class_name=\cp::get_class_name('template_item',$path_data['file_type'],$matches[2]);
-			$code_data=$class_name::get_code_data($path_data,$conf_data,explode(' ',substr($matches[3],1)));
-			if(empty($code_data)){return '';}
-			if(is_array($code_data)){
-				$class_name=\cp::get_class_name('template_item',$path_data['file_type']);
-				ob_start();
-				$class_name::render($path_data,$conf_data,$code_data,strlen($matches[1]));
-				return ob_get_clean();
-			}
-			return $matches[1].$code_data;
+		$contents=preg_replace_callback(self::get_template_item_code_regex(),function($matches)use($path_data,$conf_data){
+			return self::template_item_code_replace_callback($matches,$path_data,$conf_data);
 		},$contents);
 		return $contents;
 	}
@@ -182,6 +176,21 @@ class template_creator{
 		if(isset($sep)){$rtn.='(\1<\!\-\-'.$sep.'\-\->\n(?P<'.$sep.'>.+?\n))?';}
 		$rtn.='\1<\!\-\-/'.$name.'\-\->\n|s';
 		return $rtn;
+	}
+	public static function get_template_item_code_regex(){
+		return '|(?P<indent>\t*)<\!\-\-@(?P<name>\w+)(?: (?P<param>.+?))?\-\->|';
+	}
+	public static function template_item_code_replace_callback($matches,$path_data,$conf_data){
+		$class_name=\cp::get_class_name('template_item',$path_data['file_type'],$matches['name']);
+		$code_data=$class_name::get_code_data($path_data,$conf_data,explode(' ',$matches['param']));
+		if(empty($code_data)){return '';}
+		if(is_array($code_data)){
+			$class_name=\cp::get_class_name('template_item',$path_data['file_type']);
+			ob_start();
+			$class_name::render($path_data,$conf_data,$code_data,strlen($matches['indent']));
+			return ob_get_clean();
+		}
+		return $matches['indent'].$code_data;
 	}
 	public static function parse_filter_str($filter_str){
 		if(empty($filter_str)){return [];}

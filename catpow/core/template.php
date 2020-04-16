@@ -152,7 +152,7 @@ function pagenate($prm=false){
 	if(\cp::$content->form){
 		$q=\cp::$content->form->get_query();
 		$prm=array_merge([
-			'current'=>max(1,get_query_var('paged')),
+			'current'=>$q->paged,
 			'prev_text'=>'＜',
 			'next_text'=>'＞',
 			'total'=>$q->max_num_pages
@@ -160,7 +160,7 @@ function pagenate($prm=false){
 		?>
 		<ul class="pagenate" <?=_buttons('results')?>>
 			<?php for($i=1;$i<=$prm['total'];$i++): ?>
-			<li class="item" <?=_buttons_item($i);?>><?=$i?></li>
+			<li class="item<?=$prm['current']===$i?' active':''?>" <?=_buttons_item($i);?>><?=$i?></li>
 			<?php endfor; ?>
 		</ul>
 		<?php

@@ -336,16 +336,29 @@ function cp_form_submit($item,action,callback,param){
                 var $cnt=$item.find('.cp_lightbox_container');
                 var dfr=new $.Deferred();
                 if($cnt.length===0){$cnt=$('<div class="cp_lightbox_container"><div class="cp_lightbox_content"></div></div>').appendTo($item);}
-                $cnt.find('.cp_lightbox_content').html(data.html).trigger('replace');
-                setTimeout(function(){$cnt.cp_activate();},1);
-                setTimeout(function(){dfr.resolve();},1000);
+				var $body=$('.cp_lightbox_content',$cnt);
+				
+				if(data.deps){
+					$.cp_require_styles(data.deps.styles);
+					$.cp_require_scripts(data.deps.scripts).done(function(){
+						$body.html(data.html).trigger('replace');
+						setTimeout(function(){$cnt.cp_activate();},1);
+						setTimeout(function(){dfr.resolve();},1000);
+					});
+				}
+				else{
+					$body.html(data.html).trigger('replace');
+					setTimeout(function(){$cnt.cp_activate();},1);
+					setTimeout(function(){dfr.resolve();},1000);
+				}
                 return dfr.promise();
             },
             lightbox_close:function($item){
                 var $cnt=$item.find('.cp_lightbox_container');
                 var dfr=new $.Deferred();
+				var $body=$('.cp_lightbox_content',$cnt);
                 $cnt.cp_inactivate();
-                setTimeout(function(){$cnt.find('.cp_lightbox_content').html('');dfr.resolve();},1000);
+                setTimeout(function(){$body.html('');dfr.resolve();},1000);
                 return dfr.promise();
             },
             exlightbox:function($item,data){

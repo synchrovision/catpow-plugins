@@ -12,7 +12,7 @@ def('limit',[10]);
 				<!--meta:can_search-->
 				<tr>
 					<th><!--label--></th>
-					<td><?php input('<!--name-->'); ?></td>
+					<td><!--@input_search {$name}--></td>
 				</tr>
 				<!--/meta-->
 				<tr>
@@ -20,8 +20,8 @@ def('limit',[10]);
 					<td><?php input(['name'=>'limit','type'=>'limit','size'=>2]); ?></td>
 				</tr>
 			</table>
-			<ul class="buttons">
-				<li class="primary">
+			<ul class="buttons center">
+				<li class="item search primary">
 					<?php button(_('検索'),'results','replace'); ?>
 				</li>
 			</ul>

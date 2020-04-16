@@ -172,8 +172,8 @@ trait formTrait{
 	public function allow_action($action){
 		$this->allowed_actions[]=$action;
 	}
-	public function allow_input($name,$meta){
-		$this->allowed_inputs[\cp::get_input_id($name)]=$meta;
+	public function allow_input($name,$meta,$key='value'){
+		$this->allowed_inputs[\cp::get_input_id($name,$key)]=$meta;
 	}
 	public function receive($req=false){
 		if($req===false){$req=$_REQUEST;}
@@ -185,7 +185,9 @@ trait formTrait{
 		ksort($this->allowed_inputs);
 		foreach($this->allowed_inputs as $input_id=>$meta){
 			$path_data=\cp::parse_input_id($input_id);
-			if(!empty($vals=$req->get_by_id($input_id)) and !empty($vals=array_filter($vals))){
+			$vals=$req->get_by_id($input_id);
+			if(is_array($vals)){$vals=array_filter($vals);}
+			if(!empty($vals)){
 				$validations=self::get_validations($meta->conf);
 				foreach($validations as $validation){
 					$validation::validate($input_id,$vals,$meta->conf,$errors);

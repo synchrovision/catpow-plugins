@@ -13,7 +13,7 @@ if(isset($action)){
 	<table class="manage">
 		<thead>
 			<tr>
-				<th class="control"><?=__('操作','catpow')?></th>
+				<th class="control"><?=_('操作')?></th>
 				<!--meta-->
 				<th><!--label--></th>
 				<!--/meta-->

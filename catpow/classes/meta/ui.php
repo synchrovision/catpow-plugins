@@ -45,6 +45,7 @@ class UI extends meta{
 		$ui=$conf['ui']??static::$ui??static::get_type();
 		if(!wp_script_is('ui/'.$ui.'/output.js')){
 			\cp::enqueue_style('ui/'.$ui.'/output.css');
+			$deps=['wp-element','babelHelpers'];
 			foreach(static::$outputDeps as $dep){
 				\cp::enqueue_style('ui/'.$dep.'/output.css');
 				\cp::enqueue_script('ui/'.$dep.'/output.js',$deps);
@@ -57,7 +58,7 @@ class UI extends meta{
 		if(isset($conf['outputDeps'])){
 			foreach($conf['outputDeps'] as $dep){
 				\cp::enqueue_style('ui/'.$dep.'/output.css');
-				\cp::enqueue_script('ui/'.$dep.'/output.js',['ui/HiddenValues/input.js']);
+				\cp::enqueue_script('ui/'.$dep.'/output.js');
 				$GLOBALS['wp_scripts']->registered['ui/'.$ui.'/output.js']->deps[]='ui/'.$dep.'/output.js';
 				if($f=\cp::get_file_path('ui/'.$dep.'/outputInit.php')){include $f;}
 			}
@@ -71,6 +72,7 @@ class UI extends meta{
 		<div id="<?=$id?>" data-ui="<?=$ui?>">
 			<script type="text/javascript">
 				jQuery(function($){
+					if(wp.element===undefined){console.error('wp.element not defined');return;}
 					var el=document.getElementById("<?=$id?>");
 					el.props=<?=json_encode($prm)?>;
 					wp.element.render(wp.element.createElement(Catpow.<?=$ui?>,el.props),el);

@@ -106,6 +106,14 @@ class cpdb{
 								$phs[]='('.implode(['ALL'=>' AND ','ANY'=>' OR '][$k],$ph_tmp).')';
 								continue;
 							}
+							if($k==='BETWEEN'){
+								$v=(array)$v;
+								$ph_tmp=[];
+								$vals[]=min($v);
+								$vals[]=max($v);
+								$phs[]="`{$key}` ".$k.' ? AND ?';
+								continue;
+							}
 						}
 						if(is_array($v)){
 							if(is_string($k)){$compare=' '.$k.' ';}
@@ -191,6 +199,7 @@ class cpdb{
 	}
 	
 	public function prepare($q){
+		error_log(var_export($q,1));
 		return $this->pdo->prepare($q);
 	}
 	public function query($qs){
@@ -385,11 +394,10 @@ class cpdb{
 	}
 	public function count($table,$where=[]){
 		$table_name=self::get_table_name($table);
-		if(empty($this->structure[$table_name])){return [];}
+		if(empty($this->structure[$table_name])){return 0;}
 		$table_conf=$this->structure[$table_name];
 		$path=$table_conf['path'];
 		$cols=$table_conf['columns'];
-		$rtn=[];
 		$q=['SELECT COUNT(*) ',self::get_sql_data_from(is_array($table)?$table:$table_name)];
 		if(is_numeric($where)){$where=['meta_id'=>$where];}
 		elseif(is_array($where)){

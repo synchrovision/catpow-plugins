@@ -113,7 +113,7 @@ abstract class meta{
 	public static function reflect_to_query(&$query,$data_type,$data_name,$meta_name,$id,$input,$conf){
 		if(empty(array_filter($input['value']))){return false;}
 		
-		$input=array_merge(['compare'=>$conf['compare']?:'IN','type'=>static::$value_type],$input);
+		$input=array_merge(['compare'=>$conf['compare']??'IN','type'=>static::$value_type],$input);
 		if($input['compare']==='AND'){
 			foreach($input['value'] as $i=>$val){
 				$query['meta_query'][$meta_name.$i]=['key'=>$meta_name,'value'=>$val,'compare'=>'=','type'=>$input['type']];
@@ -142,7 +142,6 @@ abstract class meta{
 			}
 			$query['meta_query'][$meta_name]=array('key'=>$meta_name,'value'=>$input['value'],'compare'=>$input['compare'],'type'=>$input['type']);
 		}
-			
 	}
 	public static function reflect_to_order(&$order_data,$data_type,$data_name,$meta_name,$conf){
 		global $wp_query;

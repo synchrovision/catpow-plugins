@@ -51,17 +51,34 @@
       line-height: 1em;
       font-family: 'Helvetica Neue', "游ゴシック Medium", YuGothic, YuGothicM, "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, sans-serif;
       font-weight: 700;
-      color: #000;
-      background-image: -webkit-linear-gradient(bottom, #efd18a, #e9c263 49%, #e4b33c 50%, #e9c263);
-      background-image: -moz-linear-gradient(bottom, #efd18a, #e9c263 49%, #e4b33c 50%, #e9c263);
-      background-image: -ms-linear-gradient(bottom, #efd18a, #e9c263 49%, #e4b33c 50%, #e9c263);
-      background-image: -o-linear-gradient(bottom, #efd18a, #e9c263 49%, #e4b33c 50%, #e9c263);
-      background-image: linear-gradient(180deg, #efd18a, #e9c263 49%, #e4b33c 50%, #e9c263);
+      color: #fff;
+      background-color: #007cba;
       border-radius: 0.5rem; }
       .zeusPopup .zeusPopupContent .zeusCheckoutButton:not(.active) {
-        background-image: -webkit-linear-gradient(bottom, #e0e0e0, #d6d6d6 49%, #ccc 50%, #d6d6d6);
-        background-image: -moz-linear-gradient(bottom, #e0e0e0, #d6d6d6 49%, #ccc 50%, #d6d6d6);
-        background-image: -ms-linear-gradient(bottom, #e0e0e0, #d6d6d6 49%, #ccc 50%, #d6d6d6);
-        background-image: -o-linear-gradient(bottom, #e0e0e0, #d6d6d6 49%, #ccc 50%, #d6d6d6);
-        background-image: linear-gradient(180deg, #e0e0e0, #d6d6d6 49%, #ccc 50%, #d6d6d6);
+        background-color: #c7c7c7;
         color: #888; }
+    .zeusPopup .zeusPopupContent .zeusPopupClose {
+      position: absolute;
+      top: -2rem;
+      right: -2rem;
+      width: 3rem;
+      height: 3rem;
+      z-index: 20;
+      background-color: rgba(68, 68, 68, 0.8);
+      border-radius: 2rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+      .zeusPopup .zeusPopupContent .zeusPopupClose::before, .zeusPopup .zeusPopupContent .zeusPopupClose::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 2rem;
+        height: 0.2rem;
+        top: 1.4rem;
+        left: 0.5rem;
+        background-color: #fefefe; }
+      .zeusPopup .zeusPopupContent .zeusPopupClose::before {
+        transform: -webkit- rotateZ(45deg);
+        transform: rotateZ(45deg); }
+      .zeusPopup .zeusPopupContent .zeusPopupClose::after {
+        transform: -webkit- rotateZ(-45deg);
+        transform: rotateZ(-45deg); }

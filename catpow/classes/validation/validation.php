@@ -29,16 +29,16 @@ abstract class validation{
 		}
 	}
 	
-	public static function get_message_format($meta){
+	public static function get_message_format($conf){
 		return __('%sの入力が正しくありません','catpow');
 	}
-	public static function get_message($meta){
+	public static function get_message($conf){
 		$class_name=get_called_class();
 		$base_class_name=substr($class_name,strrpos($class_name,'\\')+1);
-		$message=$meta->conf['validation_message'][$base_class_name]??static::get_message_format($meta);
+		$message=$conf['validation_message'][$base_class_name]??static::get_message_format($conf);
 		$message_vals=[];
 		foreach(static::$message_keys as $message_key){
-			$message_vals[]=$meta->conf[$message_key]??'';
+			$message_vals[]=$conf[$message_key]??'';
 		}
 		return vsprintf($message,$message_vals);
 	}

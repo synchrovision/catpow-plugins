@@ -12,7 +12,7 @@ class unique extends validation{
 		$meta_name=reset($path_data['meta_path'])['meta_name'];
 		return empty($wpdb->get_results("SELECT * FROM {$wpdb->$dbname} WHERE meta_key = '{$meta_name}' AND meta_value = '{$val}' AND {$idname} != '{$data_id}'"));
 	}
-	public static function get_message_format($meta){
+	public static function get_message_format($conf){
 		return __('この値はすでに使われています','catpow');
 	}
 }

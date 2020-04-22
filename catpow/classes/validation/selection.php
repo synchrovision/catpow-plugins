@@ -15,7 +15,7 @@ class selection extends validation{
 		}
 		return false;
 	}
-	public static function get_message_format($meta){
+	public static function get_message_format($conf){
 		return __('選択項目にない値です','catpow');
 	}
 }

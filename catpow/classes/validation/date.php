@@ -9,7 +9,7 @@ class date extends validation{
 		$val=date('Y-m-d',$time);
 		return true;
 	}
-	public static function get_message_format($meta){
+	public static function get_message_format($conf){
 		return __('日付として読み取れませんでした','catpow');
 	}
 }

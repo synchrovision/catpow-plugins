@@ -8,7 +8,7 @@ class number_length extends validation{
 		return (float)$val>=(float)$conf['min'] and (float)$val<=(float)$conf['max'];
 	}
 	
-	public static function get_message_format($meta){
+	public static function get_message_format($conf){
 		return __('%d〜%dの数値で入力してください','catpow');
 	}
 }

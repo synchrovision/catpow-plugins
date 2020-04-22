@@ -11,7 +11,7 @@ class html extends validation{
 		return ($ret===false)?false:true;
 	}
 	
-	public static function get_message_format($meta){
+	public static function get_message_format($conf){
 		return __('HTML構文にエラーがあります','catpow');
 	}
 }

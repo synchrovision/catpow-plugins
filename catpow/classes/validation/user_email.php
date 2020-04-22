@@ -12,7 +12,7 @@ class user_email extends validation{
 		if($user_data && $user_data->user_email==$val){return true;}
 		return false;
 	}
-	public static function get_message_format($meta){
+	public static function get_message_format($conf){
 		return __('このメールアドレスはすでに使われています','catpow');
 	}
 }

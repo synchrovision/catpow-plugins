@@ -6,7 +6,7 @@ class text extends validation{
 		$val=mb_convert_kana(_h($val),'aKV');
 		return true;
 	}
-	public static function get_message_format($meta){
+	public static function get_message_format($conf){
 		return __('不正な値です','catpow');
 	}
 }

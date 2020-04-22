@@ -6,7 +6,7 @@ class pattern extends validation{
 		$pattern=static::$pattern??$conf['pattern'];
 		return preg_match($pattern,$val);
 	}
-	public static function get_message_format($meta){
+	public static function get_message_format($conf){
 		return __('入力形式が正しくありません','catpow');
 	}
 }

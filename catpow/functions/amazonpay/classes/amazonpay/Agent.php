@@ -185,7 +185,7 @@ class Agent{
 	}
 	
 	function __sleep(){
-		return ['config','accessToken','orderReferenceId'];
+		return ['config','access_token','orderReferenceId'];
 	}
 	function __wakeup(){
 		$this->client=new \AmazonPay\Client(array_intersect_key($this->config,array_flip([

@@ -40,7 +40,7 @@
 			&::before,&::after{
 				content:'';
 				@include bnd((d:b,p:a,w:2rem,h:.2rem,t:1.4rem,l:.5rem));
-				@include bg((c:b);
+				@include bg((c:b));
 			}
 			&::before{
 				@include trn((r:45deg));

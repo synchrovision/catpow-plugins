@@ -85,6 +85,7 @@ class template_creator{
 		if(strpos($contents,'<!--')===false){return $contents;}
 		$class_name=CP::get_class_name('template_item',$path_data['file_type']);
 		$contents=preg_replace_callback(self::get_template_code_regex('meta'),function($matches)use($path_data,$conf_data){
+			if(empty($conf_data['meta'])){return '';}
 			$rtn='';
 			$filters=self::parse_filter_str($matches['filter']);
 			$cond_datas=self::get_cond_datas($matches['body']);

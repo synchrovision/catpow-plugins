@@ -21,19 +21,19 @@ class UI extends meta{
 		return $class_name::input($meta,$prm);
 	}
 	
-	public static function fill_param($prm,$conf){
+	public static function fill_param($prm,$meta){
 		$prm=(array)$prm;
 		if(empty(static::$defaultParam)){return $prm;}
 		
 		return array_map(
-			function($item){
-				if(is_callable($item)){return $item($prm,$conf);}
+			function($item)use($meta){
+				if(is_callable($item)){return $item($prm,$meta);}
 				return $item;
 			},
 			array_filter(
 				array_merge(
 					static::$defaultParam,
-					array_intersect_key($conf,static::$defaultParam),
+					array_intersect_key($meta->conf,static::$defaultParam),
 					$prm
 				),
 				function($v){return isset($v);}

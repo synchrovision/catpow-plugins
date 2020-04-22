@@ -197,7 +197,7 @@ trait formTrait{
 			else{
 				if(isset($meta->conf['required']) and $this->form_type & $meta->conf['required']){
 					$class_name=\cp::get_class_name('validation','required');
-					$errors[$input_id]=$class_name::get_message($meta);
+					$errors[$input_id]=$class_name::get_message($meta->conf);
 				}
 				if(isset($meta->conf['required_if']) and $this->form_type & 1){
 					$required=true;
@@ -211,7 +211,7 @@ trait formTrait{
 					}
 					if($required){
 						$class_name=\cp::get_class_name('validation','required');
-						$errors[$input_id]=$class_name::get_message($meta);
+						$errors[$input_id]=$class_name::get_message($meta->conf);
 					}
 				}
 				$inputs[$input_id]=null;

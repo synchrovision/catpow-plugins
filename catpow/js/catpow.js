@@ -792,7 +792,7 @@ window.Catpow=window.Catpow || {};
 				'</div>'
 			).appendTo($content);
 			var $items=$lightbox.items=$('ul.items',$group);
-			var $control=$lightbox.control=$('div.control',$group);
+			var $control=$lightbox.control=$('div.cp_lightbox_control',$group);
 			if(prm.arrow){$control.append('<div class="prev"></div>');}
 			if(prm.dots){$control.append('<ul class="dots"></ul>');}
 			if(prm.arrow){$control.append('<div class="next"></div>');}
@@ -843,9 +843,9 @@ window.Catpow=window.Catpow || {};
 			$lightbox.prev=function(){$lightbox.goto($lightbox.current-1);};
 			$lightbox.next=function(){$lightbox.goto($lightbox.current+1);};
 			$lightbox.on('click',function(){$lightbox.goto($(this));});
-			$content.on('click','.control .prev',function(){$lightbox.prev();});
-			$content.on('click','.control .next',function(){$lightbox.next();});
-			$content.on('click','.control .close',function(){$lightbox.close();});
+			$content.on('click','.cp_lightbox_control .prev',function(){$lightbox.prev();});
+			$content.on('click','.cp_lightbox_control .next',function(){$lightbox.next();});
+			$content.on('click','.cp_lightbox_control .close',function(){$lightbox.close();});
 			$content.on('click','[data-index]',function(){$lightbox.goto(this.dataset.index);});
 			return $lightbox;
 		},

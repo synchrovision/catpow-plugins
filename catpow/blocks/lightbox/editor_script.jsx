@@ -219,7 +219,7 @@
 										);
 									})}
 									</ul>
-									<div class="control">
+									<div class="cp_lightbox_control">
 										<div className="prev active"></div>
 										<ul className="dots active">
 											{items.map((item,index)=>{

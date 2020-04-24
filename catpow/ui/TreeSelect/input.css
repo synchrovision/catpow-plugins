@@ -1,79 +1,105 @@
 @charset "utf-8";
-div.treeSelect div.currentLabel h3 {
-  text-align: left;
-  font-size: 12px;
-  line-height: 12px;
-  font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', メイリオ, sans-serif;
-  font-weight: 400;
-  color: #444; }
-  div.treeSelect div.selectBoxes {
-    display: block;
-    position: relative;
-    margin: 1rem auto;
-    width: 30rem;
-    overflow: hidden;
+div.treeSelect {
+  display: inline-block;
+  position: relative; }
+  div.treeSelect div.currentLabel h3 {
+    padding: 1rem;
+    height: 1em;
+    width: 10rem;
     border-style: solid;
     border-width: 1px;
-    border-color: #444; }
+    border-color: #c7c7c7;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-size: 1.5rem;
+    line-height: 1em;
+    font-family: 'Helvetica Neue', "游ゴシック Medium", YuGothic, YuGothicM, "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, sans-serif;
+    font-weight: 400;
+    color: #444;
+    cursor: pointer; }
+  div.treeSelect:not(.selecting) div.selectBoxes {
+    display: none; }
+  div.treeSelect div.selectBoxes {
+    display: block;
+    position: absolute;
+    width: 30rem;
+    left: 50%;
+    z-index: 100;
+    border-radius: 1rem;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    background-color: #fefefe;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-lines: single;
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    transform: -webkit- translateX(-50%);
+    transform: translateX(-50%); }
     div.treeSelect div.selectBoxes div.selectBox {
-      position: absolute;
-      width: 50%;
       top: 0px;
       left: 0px;
+      overflow: hidden;
       background-color: #fefefe;
       -webkit-transition: 0.5s;
-      transition: 0.5s;
-      transform: -webkit- translateX(-100%);
-      transform: translateX(-100%); }
+      transition: 0.5s; }
       div.treeSelect div.selectBoxes div.selectBox.prev {
         transform: -webkit- translateX(0px);
         transform: translateX(0px); }
       div.treeSelect div.selectBoxes div.selectBox.active {
-        position: relative;
-        transform: -webkit- translateX(100%);
-        transform: translateX(100%); }
-      div.treeSelect div.selectBoxes div.selectBox.next {
-        transform: -webkit- translateX(200%);
-        transform: translateX(200%); }
-      div.treeSelect div.selectBoxes div.selectBox .backToPrev {
-        display: block;
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        left: 0px;
-        margin: auto;
-        width: 3rem;
-        height: 3rem;
-        z-index: 1;
-        background-color: #007cba; }
+        position: relative; }
       div.treeSelect div.selectBoxes div.selectBox ul.selectBoxItems {
+        position: relative;
         margin: 0px;
         padding: 0px;
-        border-left-style: solid;
-        border-left-width: 1px;
-        border-left-color: #444;
         list-style: none; }
         div.treeSelect div.selectBoxes div.selectBox ul.selectBoxItems li.selectBoxItem {
-          position: relative;
-          margin: 0px;
           cursor: pointer;
           -webkit-transition: 0.5s;
           transition: 0.5s;
           transform: -webkit- translateX(0px);
           transform: translateX(0px); }
-          div.treeSelect div.selectBoxes div.selectBox ul.selectBoxItems li.selectBoxItem:not(:first-child) {
-            border-top-style: solid;
-            border-top-width: 1px;
-            border-top-color: #444; }
           div.treeSelect div.selectBoxes div.selectBox ul.selectBoxItems li.selectBoxItem h3 {
             display: block;
             position: relative;
             padding: 1rem;
             margin: 0px;
             text-align: center;
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             line-height: 1em;
-            font-family: 'Helvetica Neue', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', メイリオ, sans-serif;
+            font-family: 'Helvetica Neue', "游ゴシック Medium", YuGothic, YuGothicM, "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, sans-serif;
             font-weight: 400; }
-          div.treeSelect div.selectBoxes div.selectBox ul.selectBoxItems li.selectBoxItem.selected {
-            background-color: rgba(51, 102, 204, 0.2); }
+      div.treeSelect div.selectBoxes div.selectBox:first-child {
+        -webkit-box-flex: 0;
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: auto;
+        overflow: hidden;
+        border-radius: 1rem 0px 0px 1rem;
+        background-color: #ececec;
+        box-shadow: -5px 0px 5px -5px rgba(0, 0, 0, 0.3) inset; }
+        div.treeSelect div.selectBoxes div.selectBox:first-child ul.selectBoxItems li.selectBoxItem {
+          margin: 0px; }
+          div.treeSelect div.selectBoxes div.selectBox:first-child ul.selectBoxItems li.selectBoxItem.selected {
+            background-color: #fefefe;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+      div.treeSelect div.selectBoxes div.selectBox:not(:first-child) {
+        -webkit-box-flex: 1;
+        flex-grow: 1;
+        flex-shrink: 1;
+        flex-basis: auto;
+        padding: 1rem; }
+        div.treeSelect div.selectBoxes div.selectBox:not(:first-child) ul.selectBoxItems {
+          -webkit-box-flex: 1;
+          flex-grow: 1;
+          flex-shrink: 1;
+          flex-basis: auto;
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-box-lines: multiple;
+          -webkit-flex-wrap: wrap;
+          flex-wrap: wrap; }
+          div.treeSelect div.selectBoxes div.selectBox:not(:first-child) ul.selectBoxItems li.selectBoxItem.selected h3 {
+            background-color: #007cba;
+            color: #fefefe; }

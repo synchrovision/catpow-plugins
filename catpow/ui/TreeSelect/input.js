@@ -9,8 +9,8 @@ Catpow.TreeSelect = function (_wp$element$Component) {
 
 		var _this = babelHelpers.possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
 
-		var label,
-		    states = [],
+		var currentLabel,
+		    openPath = [],
 		    depth,
 		    focus;
 		var param = Object.assign({
@@ -18,11 +18,11 @@ Catpow.TreeSelect = function (_wp$element$Component) {
 			itemPerStep: 5
 		}, props.param);
 		if (props.value) {
-			var setStates = function setStates(sels, val) {
+			var buildOpenPath = function buildOpenPath(sels, val) {
 				return Object.keys(sels).some(function (key) {
 					if (sels[key] instanceof Object) {
 						if (buildOpenPath(sels[key], val)) {
-							states.unshift({
+							openPath.unshift({
 								selected: key,
 								paged: 0
 							});
@@ -31,28 +31,26 @@ Catpow.TreeSelect = function (_wp$element$Component) {
 						return false;
 					}
 					if (val == sels[key]) {
-						states.unshift({
+						openPath.unshift({
 							selected: key,
 							paged: 0
 						});
-						label = sels instanceof Array ? sels[key] : key;
+						currentLabel = sels instanceof Array ? sels[key] : key;
 						return true;
 					}
 					return false;
 				});
 			};
 			buildOpenPath(props.selections, props.value);
-			focus = states.length - 1;
 		} else {
-			focus = 0;
+			openPath = [''];
 		}
 
 		_this.state = {
 			value: props.value,
-			label: label,
-			states: states,
+			currentLabel: currentLabel,
+			openPath: openPath,
 			depth: depth,
-			focus: focus,
 			param: param
 		};
 		return _this;
@@ -65,12 +63,12 @@ Catpow.TreeSelect = function (_wp$element$Component) {
 
 			var sels = this.props.selections;
 
-			var currentLabel,
+			var currentLabel = this.state.currentLabel,
 			    currentLevel = this.state.openPath.length - 1;
 
 			var items = this.state.openPath.map(function (key, i) {
 				var crr = sels;
-				sels = sels[key];
+				sels = sels[key] || [];
 				var classes = 'selectBox level' + i;
 				if (i == currentLevel) {
 					classes += ' active';
@@ -117,17 +115,26 @@ Catpow.TreeSelect = function (_wp$element$Component) {
 					)
 				);
 			});
-			items.push(wp.element.createElement('div', { className: 'selectBox level' + (currentLevel + 1) + ' next' }));
+
+			var classes = 'treeSelect depth' + currentLevel;
+			if (this.state.selecting) {
+				classes += ' selecting';
+			}
 			return wp.element.createElement(
 				'div',
-				{ className: 'treeSelect depth' + currentLevel },
+				{ className: classes },
 				wp.element.createElement(
 					'div',
-					{ className: 'currentLabel' },
+					{
+						className: 'currentLabel',
+						onClick: function onClick(e) {
+							_this2.setState({ selecting: !_this2.state.selecting });
+						}
+					},
 					wp.element.createElement(
 						'h3',
 						null,
-						this.state.currentLabel
+						currentLabel || this.props.defaultLabel
 					)
 				),
 				wp.element.createElement(

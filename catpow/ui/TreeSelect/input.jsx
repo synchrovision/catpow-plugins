@@ -5,17 +5,17 @@
 Catpow.TreeSelect=class extends wp.element.Component{
 	constructor(props) {
 		super(props);
-		var label,states=[],depth,focus;
+		var currentLabel,openPath=[],depth,focus;
 		var param=Object.assign({
 			itemPerPage:7,
 			itemPerStep:5
 		},props.param);
 		if(props.value){
-			const setStates=(sels,val)=>{
+			const buildOpenPath=(sels,val)=>{
 				return Object.keys(sels).some(key=>{
 					if(sels[key] instanceof Object){
 						if(buildOpenPath(sels[key],val)){
-							states.unshift({
+							openPath.unshift({
 								selected:key,
 								paged:0
 							});
@@ -24,40 +24,38 @@ Catpow.TreeSelect=class extends wp.element.Component{
 						return false;
 					}
 					if(val==sels[key]){
-						states.unshift({
+						openPath.unshift({
 							selected:key,
 							paged:0
 						});
-						label=(sels instanceof Array)?sels[key]:key;
+						currentLabel=(sels instanceof Array)?sels[key]:key;
 						return true;
 					}
 					return false;
 				});
 			};
 			buildOpenPath(props.selections,props.value);
-			focus=states.length-1;
 		}
 		else{
-			focus=0;
+			openPath=[''];
 		}
 		
 		this.state={
 			value:props.value,
-			label,
-			states,
+			currentLabel,
+			openPath,
 			depth,
-			focus,
 			param
 		};
 	}
 	render(){
 		var sels=this.props.selections;
 		
-		var currentLabel,currentLevel=this.state.openPath.length-1;
+		var currentLabel=this.state.currentLabel,currentLevel=this.state.openPath.length-1;
 		
 		var items=this.state.openPath.map((key,i)=>{
 			var crr=sels;
-			sels=sels[key];
+			sels=sels[key] || [];
 			var classes='selectBox level'+i;
 			if(i==currentLevel){classes+=' active';}
 			else if(i==currentLevel-1){classes+=' prev';}
@@ -94,10 +92,17 @@ Catpow.TreeSelect=class extends wp.element.Component{
 				</div>
 			);
 		});
-		items.push(<div className={'selectBox level'+(currentLevel+1)+' next'}></div>);
+		
+		var classes='treeSelect depth'+currentLevel;
+		if(this.state.selecting){classes+=' selecting'}
 		return (
-			<div className={'treeSelect depth'+currentLevel}>
-				<div className="currentLabel"><h3>{this.state.currentLabel}</h3></div>
+			<div className={classes}>
+				<div
+					className="currentLabel"
+					onClick={(e)=>{
+						this.setState({selecting:!this.state.selecting});
+					}}
+				><h3>{currentLabel || this.props.defaultLabel}</h3></div>
 				<div className="selectBoxes">{items}</div>
 				<Catpow.HiddenValues name={this.props.name} value={this.state.value}/>
 			</div>

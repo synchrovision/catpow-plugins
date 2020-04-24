@@ -1,5 +1,5 @@
 /**
-* @todo BlockVerticalAlignmentToolbarが実�?��れたら対�?
+* @todo BlockVerticalAlignmentToolbarが実装されたら対応
 */
 registerBlockType('catpow/layouttable', {
 	title: '🐾 LayoutTable',
@@ -59,11 +59,11 @@ registerBlockType('catpow/layouttable', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes,
-			isSelected = _ref.isSelected;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var classes = attributes.classes,
-			rows = attributes.rows;
+		    rows = attributes.rows;
 
 		var primaryClass = 'wp-block-catpow-layouttable';
 
@@ -86,7 +86,7 @@ registerBlockType('catpow/layouttable', {
 			reader.readAsText(attributes.file);
 		}
 
-		var selectiveClasses = [{ label: 'タイ�?', filter: 'type', values: ['spec', 'sheet', 'plan'] }, 'color'];
+		var selectiveClasses = [{ label: 'タイプ', filter: 'type', values: ['spec', 'sheet', 'plan'] }, 'color'];
 
 		var rtn = [];
 
@@ -220,7 +220,7 @@ registerBlockType('catpow/layouttable', {
 				rowsCopy[r].cells[c].isSelected = !rowsCopy[r].cells[c].isSelected;
 			} else if (e.shiftKey) {
 				var org = void 0,
-					l = false;
+				    l = false;
 				rowsCopy.map(function (row, tr) {
 					row.cells.map(function (cell, tc) {
 						if (cell.isSelected) {
@@ -401,11 +401,11 @@ registerBlockType('catpow/layouttable', {
 
 		var selectCellClasses = function selectCellClasses(prm) {
 			var label = prm.label,
-				values = prm.values;
+			    values = prm.values;
 
 			var options, value;
 
-			if (prm.filter && CP.filters.layouttable[prm.filter]) {
+			if (prm.filter && CP.filters.layouttable && CP.filters.layouttable[prm.filter]) {
 				CP.filters.layouttable[prm.filter](prm);
 			}
 			if (Array.isArray(values)) {
@@ -535,14 +535,14 @@ registerBlockType('catpow/layouttable', {
 			wp.element.createElement(
 				PanelBody,
 				{ title: '\u30BB\u30EB' },
-				selectCellClasses({ label: 'タイ�?', filter: 'role', values: {
-						'default': '通常', 'th': "見�?�?", 'spacer': "空白"
+				selectCellClasses({ label: 'タイプ', filter: 'role', values: {
+						'default': '通常', 'th': "見出し", 'spacer': "空白"
 					} }),
 				selectCellClasses({ label: 'カラー', filter: 'color', values: {
-						'default': 'な�?', 'pale': '�?��', 'primary': "推奨", 'deprecated': "非推奨"
+						'default': 'なし', 'pale': '薄色', 'primary': "推奨", 'deprecated': "非推奨"
 					} }),
-				selectCellClasses({ label: '�?�?', filter: 'size', values: {
-						'default': 'な�?', 'large': "大", 'medium': "中", 'small': "�?"
+				selectCellClasses({ label: '文字', filter: 'size', values: {
+						'default': 'なし', 'large': "大", 'medium': "中", 'small': "小"
 					} }),
 				wp.element.createElement(TextControl, {
 					label: '\u5E45',
@@ -576,9 +576,9 @@ registerBlockType('catpow/layouttable', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className;
+		    className = _ref2.className;
 		var classes = attributes.classes,
-			rows = attributes.rows;
+		    rows = attributes.rows;
 
 
 		return wp.element.createElement(

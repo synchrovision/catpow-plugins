@@ -368,7 +368,7 @@ registerBlockType('catpow/layouttable',{
 			var {label,values}=prm;
 			var options,value;
 			
-			if(prm.filter && CP.filters.layouttable[prm.filter]){
+			if(prm.filter && CP.filters.layouttable && CP.filters.layouttable[prm.filter]){
 				CP.filters.layouttable[prm.filter](prm);
 			}
 			if(Array.isArray(values)){

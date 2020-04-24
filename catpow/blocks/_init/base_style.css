@@ -126,7 +126,8 @@ div.components-panel div.sub {
 div.embedded_content {
   position: relative;
   min-height: 5rem;
-  height: auto; }
+  height: auto;
+  padding-top: 2rem; }
   div.embedded_content div.label {
     position: absolute;
     right: 0px;

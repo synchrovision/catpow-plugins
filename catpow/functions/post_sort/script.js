@@ -1,6 +1,6 @@
 jQuery(function($){
-	var $tgt=$('.wp-list-table.posts tbody');
-    var $header=$('.wp-list-table.posts thead tr');
+	var $tgt=$('.wp-list-table tbody');
+    var $header=$('.wp-list-table thead tr');
 	var $form=$tgt.closest('form');
 	$tgt.sortable({
         helper:function(e,ui){

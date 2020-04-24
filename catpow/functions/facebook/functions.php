@@ -6,6 +6,7 @@ if(!file_exists(__DIR__.'/vendor')){
 	WP_Filesystem();
 	unzip_file( __DIR__.'/vendor.zip', __DIR__);
 }
+include __DIR__.'/vendor/Facebook/autoload.php';
 
 add_action('body_start',function(){
 	?>

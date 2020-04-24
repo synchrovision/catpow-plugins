@@ -805,7 +805,7 @@ var EditItems = function EditItems(props) {
 var SelectClassPanel = function SelectClassPanel(props) {
 	var SelectClass = function SelectClass(prm) {
 		var rtn = [];
-		if (prm.filter && props.filters[prm.filter]) {
+		if (prm.filter && props.filters && props.filters[prm.filter]) {
 			props.filters[prm.filter](prm);
 		}
 		if (prm.json) {
@@ -1076,7 +1076,7 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 
 	var selectItemClass = function selectItemClass(prm) {
 		var rtn = [];
-		if (prm.filter && props.filters[prm.filter]) {
+		if (prm.filter && props.filters && props.filters[prm.filter]) {
 			props.filters[prm.filter](prm);
 		}
 		if (prm === 'color') {

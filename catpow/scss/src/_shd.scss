@@ -1,21 +1,45 @@
 @mixin shd($shd){
 	$btvals:(n:none);
 	@each $key,$val in $shd{
+		@if type-of($val) == 'list' and length($val) == 2{
+			$clr:nth($val,2);
+			$val:nth($val,1);
+		}
+		@else{
+			$clr:shd;
+		}
 		@if type-of($val) == 'number'{
 			$inset:($val < 0);
-			@if $key == 'b'{
+			@if $key == 'b' or $key == 'bt' or $key == 'bb' or $key == 'bl' or $key == 'br'{
 				$blur:abs($val) * 2 + 1;
 			}
 			@else{$blur:abs($val);}
 			@if $inset{
-				$val:0 #{abs($val)}px #{$blur}px #{clr(shd)} inset;
+				@if $key == 'bt' or $key == 'bb' or $key == 'bl' or $key == 'br'{
+					$spr:$blur * -1;
+					@if $key == 'bt'{$tx:0;$ty:$blur;}
+					@if $key == 'bb'{$tx:0;$ty:$blur * -1;}
+					@if $key == 'bl'{$tx:$blur;$ty:0;}
+					@if $key == 'br'{$tx:$blur * -1;$ty:0;}
+					$val:#{$tx}px #{$ty}px #{$blur}px #{$spr}px #{clr($clr)} inset;
+				}
+				@else{$val:0 #{abs($val)}px #{$blur}px #{clr($clr)} inset;}
 			}
 			@else{
-				$val:0 #{abs($val)}px #{$blur}px #{clr(shd)};
+				@if $key == 'bt' or $key == 'bb' or $key == 'bl' or $key == 'br'{
+					$spr:$blur * -1;
+					@if $key == 'bt'{$tx:0;$ty:$blur * -1;}
+					@if $key == 'bb'{$tx:0;$ty:$blur;}
+					@if $key == 'bl'{$tx:$blur * -1;$ty:0;}
+					@if $key == 'br'{$tx:$blur;$ty:0;}
+					$val:#{$tx}px #{$ty}px #{$blur}px #{$spr}px #{clr($clr)};
+				}
+				@else{$val:0 #{abs($val)}px #{$blur}px #{clr($clr)};}
 			}
 		}
 		@if map-has-key($btvals,$val){$val:map-get($btvals,$val);}
-		@if $key == 'b'{box-shadow:$val;}
+		@if $key == 'b' or $key == 'bt' or $key == 'bb' or $key == 'bl' or $key == 'br'
+		{box-shadow:$val;}
 		@if $key == 't'{text-shadow:$val;}
 	}
 }

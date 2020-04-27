@@ -412,11 +412,62 @@ class CP{
 		wp_enqueue_style($src,reset($file),$deps,$ver,$media);
 		return true;
 	}
-	public static function use_ui($name){
+	public static function use_ui_input($name){
 		static $done=[];
 		if(isset($done[$name])){return false;}
-		self::enqueue_script('ui/'.$name.'/component.js',23);
-		self::enqueue_style('ui/'.$name.'/style.css',23);
+		self::enqueue_script('ui/HiddenValues/input.js',['wp-element','babelHelpers']);
+		self::enqueue_style('ui/'.$name.'/input.css');
+		$deps=['ui/HiddenValues/input.js'];
+		if($f=self::get_file_path('ui/'.$name.'/deps.php')){
+			include $f;
+			if(!empty($inputDeps)){
+				foreach($inputDeps as $inputDep){
+					self::use_ui_output($inputDep);
+					$deps[]='ui/'.$inputDep.'/input.js';
+				}
+			}
+			if(!empty($useComponets)){
+				foreach($useComponets as $useComponet){
+					self::use_component($useComponet);
+					$deps[]='components/'.$useComponet.'/component.js';
+				}
+			}
+		}
+		self::enqueue_script('ui/'.$name.'/input.js',$deps);
+		if($f=self::get_file_path('ui/'.$name.'/inputInit.php')){include $f;}
+		$done[$name]=1;
+		return true;
+	}
+	public static function use_ui_output($name){
+		static $done=[];
+		if(isset($done[$name])){return false;}
+		self::enqueue_style('ui/'.$name.'/output.css');
+		$deps=['wp-element','babelHelpers'];
+		if($f=self::get_file_path('ui/'.$name.'/deps.php')){
+			include $f;
+			if(!empty($outputDeps)){
+				foreach($outputDeps as $outputDep){
+					self::use_ui_output($outputDep);
+					$deps[]='ui/'.$outputDep.'/output.js';
+				}
+			}
+			if(!empty($useComponets)){
+				foreach($useComponets as $useComponet){
+					self::use_component($useComponet);
+					$deps[]='components/'.$useComponet.'/component.js';
+				}
+			}
+		}
+		self::enqueue_script('ui/'.$name.'/output.js',$deps);
+		if($f=self::get_file_path('ui/'.$name.'/outputInit.php')){include $f;}
+		$done[$name]=1;
+		return true;
+	}
+	public static function use_component($name){
+		static $done=[];
+		if(isset($done[$name])){return false;}
+		self::enqueue_script('component/'.$name.'/component.js');
+		self::enqueue_style('component/'.$name.'/style.css');
 		$done[$name]=1;
 	}
 	

@@ -426,10 +426,10 @@ class CP{
 					$deps[]='ui/'.$inputDep.'/input.js';
 				}
 			}
-			if(!empty($useComponets)){
-				foreach($useComponets as $useComponet){
-					self::use_component($useComponet);
-					$deps[]='components/'.$useComponet.'/component.js';
+			if(!empty($useComponents)){
+				foreach($useComponents as $useComponent){
+					self::use_component($useComponent);
+					$deps[]='components/'.$useComponent.'/component.js';
 				}
 			}
 		}
@@ -451,10 +451,10 @@ class CP{
 					$deps[]='ui/'.$outputDep.'/output.js';
 				}
 			}
-			if(!empty($useComponets)){
-				foreach($useComponets as $useComponet){
-					self::use_component($useComponet);
-					$deps[]='components/'.$useComponet.'/component.js';
+			if(!empty($useComponents)){
+				foreach($useComponents as $useComponent){
+					self::use_component($useComponent);
+					$deps[]='components/'.$useComponent.'/component.js';
 				}
 			}
 		}
@@ -466,7 +466,17 @@ class CP{
 	public static function use_component($name){
 		static $done=[];
 		if(isset($done[$name])){return false;}
-		self::enqueue_script('component/'.$name.'/component.js');
+		$deps=['wp-element','babelHelpers'];
+		if($f=self::get_file_path('component/'.$name.'/deps.php')){
+			include $f;
+			if(!empty($useComponents)){
+				foreach($useComponents as $useComponent){
+					self::use_component($useComponent);
+					$deps[]='components/'.$useComponent.'/component.js';
+				}
+			}
+		}
+		self::enqueue_script('component/'.$name.'/component.js',$deps);
 		self::enqueue_style('component/'.$name.'/style.css');
 		$done[$name]=1;
 	}

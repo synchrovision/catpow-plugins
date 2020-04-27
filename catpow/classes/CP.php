@@ -401,6 +401,7 @@ class CP{
 		if(empty($file=self::get_file_path_url($src,$flag))){$missed[$src]=1;return false;}
 		if(empty($ver)){$ver=filemtime(key($file));}
 		wp_enqueue_script($src,reset($file),$deps,$ver,$in_footer);
+		return true;
 	}
 	public static function enqueue_style($src=false,$deps=array(),$flag=0733,$ver=false,$media=false){
 		static $missed=[];
@@ -409,6 +410,7 @@ class CP{
 		self::scss_compile([substr($src,0,-4)]);
 		if(empty($ver)){$ver=filemtime(key($file));}
 		wp_enqueue_style($src,reset($file),$deps,$ver,$media);
+		return true;
 	}
 	public static function use_ui($name){
 		static $done=[];

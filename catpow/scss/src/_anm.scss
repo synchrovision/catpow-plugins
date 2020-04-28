@@ -10,12 +10,14 @@
 		p:animation-play-state
 	);
 	$avals:(i:infinite,r:reverse,a:alternate,e:ease,l:linear,f:forwards,b:backwards);
+	$fvals:(f:forwards,b:backwards);
 	$ivals:(i:infinite);
 	
 	@each $key,$val in $trn{
-		@if $key == 'a'{$val:replace_values($val,avals);}
+		@if $key == 'a'{$val:replace_values($val,$avals);}
 		@if $key == 'e'{$val:ease($val);}
-		@if $key == 'i'{$val:replace_values($val,ivals);}
+		@if $key == 'i'{$val:replace_values($val,$ivals);}
+		@if $key == 'f'{$val:replace_values($val,$fvals);}
 		@if map-has-key($keys,$key){#{map-get($keys,$key)}:$val;}
 	}
 }

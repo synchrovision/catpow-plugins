@@ -1,2 +1,2 @@
 <?php
-$outputDeps=['ChartText'];
+$useComponents=['ChartText'];

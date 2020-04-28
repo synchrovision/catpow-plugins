@@ -467,7 +467,7 @@ class CP{
 		static $done=[];
 		if(isset($done[$name])){return false;}
 		$deps=['wp-element','babelHelpers'];
-		if($f=self::get_file_path('component/'.$name.'/deps.php')){
+		if($f=self::get_file_path('components/'.$name.'/deps.php')){
 			include $f;
 			if(!empty($useComponents)){
 				foreach($useComponents as $useComponent){
@@ -476,8 +476,8 @@ class CP{
 				}
 			}
 		}
-		self::enqueue_script('component/'.$name.'/component.js',$deps);
-		self::enqueue_style('component/'.$name.'/style.css');
+		self::enqueue_script('components/'.$name.'/component.js',$deps);
+		self::enqueue_style('components/'.$name.'/style.css');
 		$done[$name]=1;
 	}
 	

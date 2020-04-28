@@ -54,7 +54,7 @@ class UI extends meta{
 					window.Catpow.uiProps['<?=$id?>']=<?=json_encode($prm)?>;
 					wp.element.render(
 						wp.element.createElement(
-							Catpow.<?=$ui?>,
+							Catpow.<?=$ui?>Output,
 							window.Catpow.uiProps['<?=$id?>']
 						),
 						document.getElementById("<?=$id?>")

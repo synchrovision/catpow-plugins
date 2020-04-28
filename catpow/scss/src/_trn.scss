@@ -19,7 +19,7 @@
 		@if $key == 'd'{transition-delay:$val;}
 		@if $key == 'e'{transition-timing-function:ease($val);}
 		@if $key == 'a'{animation:replace_values($val,$avals);}
-		@if $key == 'o'{@include opacity($val);}
+		@if $key == 'o'{opacity:$val;}
 		@if $key == 't'{@include transition($val);}
 		@if $key == 'tb'{@include transition_by($val);}
 		@if $key == 'bf'{@include backface-visibility(map-get(bfvals,$val));}

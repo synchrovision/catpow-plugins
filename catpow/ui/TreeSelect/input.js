@@ -41,7 +41,10 @@ Catpow.TreeSelect = function (_wp$element$Component) {
 					return false;
 				});
 			};
-			buildOpenPath(props.selections, props.value);
+			if (buildOpenPath(props.selections, props.value) === false) {
+				delete props.value;
+				openPath = [''];
+			}
 		} else {
 			openPath = [''];
 		}

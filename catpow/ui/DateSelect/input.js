@@ -9,7 +9,9 @@ Catpow.DateSelect = function (_wp$element$Component) {
 		var date, min, max, selections, i;
 
 		if (props.value) {
-			date = new Date(props.value);
+			var dateArr = props.value.split('-');
+			dateArr[1]--;
+			date = new Date(dateArr[0], dateArr[1], dateArr[2]);
 		} else if (props.default) {
 			date = new Date(props.default);
 		} else {
@@ -27,49 +29,25 @@ Catpow.DateSelect = function (_wp$element$Component) {
 		}
 
 		selections = {
-			year: [wp.element.createElement(
-				"option",
-				{ value: -1 },
-				"----"
-			)],
-			month: [wp.element.createElement(
-				"option",
-				{ value: -1 },
-				"--"
-			)],
-			date: [wp.element.createElement(
-				"option",
-				{ value: -1 },
-				"--"
-			)]
+			year: [],
+			month: [],
+			date: []
 		};
 		for (i = min.getFullYear(); i <= max.getFullYear(); i++) {
-			selections.year.push(wp.element.createElement(
-				"option",
-				{ value: i + "" },
-				i + ""
-			));
+			selections.year.push(i);
 		}
-		for (i = 0; i < 12; i++) {
-			selections.month.push(wp.element.createElement(
-				"option",
-				{ value: i + "" },
-				i + 1 + ""
-			));
+		for (i = 1; i <= 12; i++) {
+			selections.month.push(i);
 		}
 		for (i = 1; i <= 31; i++) {
-			selections.date.push(wp.element.createElement(
-				"option",
-				{ value: i + "" },
-				i + ""
-			));
+			selections.date.push(i);
 		}
 		_this.state = { date: date, selections: selections, min: min, max: max };
 		return _this;
 	}
 
 	babelHelpers.createClass(_class, [{
-		key: "render",
+		key: 'render',
 		value: function render() {
 			var _this2 = this;
 
@@ -91,7 +69,8 @@ Catpow.DateSelect = function (_wp$element$Component) {
 			var nameInFunction = {
 				Y: 'FullYear',
 				m: 'Month',
-				d: 'Date'
+				d: 'Date',
+				w: 'Day'
 			};
 			var setDate = function setDate(key, val) {
 				if (val == -1) {
@@ -100,55 +79,110 @@ Catpow.DateSelect = function (_wp$element$Component) {
 					if (date === false) {
 						date = new Date();
 					}
+					val = parseInt(val);
+					if (key === 'm') {
+						val--;
+					}
 					date['set' + nameInFunction[key]](val);
 				}
 				_this2.setState({ date: date });
 			};
 			var getDate = function getDate(key) {
 				if (date === false) {
-					return -1;
+					return '−';
 				}
-				return date['get' + nameInFunction[key]]();
+				var val = date['get' + nameInFunction[key]]();
+				if (key === 'm') {
+					val++;
+				}
+				return val;
 			};
 
 			return wp.element.createElement(
-				"div",
+				'div',
 				{ className: 'DateSelect' },
 				wp.element.createElement(
-					"select",
-					{ onChange: function onChange(e) {
-							setDate('Y', e.target.value);
-						}, value: getDate('Y') },
-					this.state.selections.year
+					'div',
+					{ 'class': 'value year', onClick: function onClick() {
+							_this2.setState({ yearSelecting: true });
+						} },
+					getDate('Y')
 				),
 				wp.element.createElement(
-					"span",
-					{ "class": "unit" },
-					"\u5E74"
+					Catpow.Popup,
+					{ open: this.state.yearSelecting, onClose: function onClose() {
+							return _this2.setState({ yearSelecting: false });
+						} },
+					wp.element.createElement(Catpow.SelectTable, {
+						selections: this.state.selections.year,
+						value: getDate('Y'),
+						col: 10,
+						spacer: this.state.selections.year[0] % 10,
+						onChange: function onChange(label) {
+							setDate('Y', label);
+							_this2.setState({ yearSelecting: false });
+						}
+					})
 				),
 				wp.element.createElement(
-					"select",
-					{ onChange: function onChange(e) {
-							setDate('m', e.target.value);
-						}, value: getDate('m') },
-					this.state.selections.month
+					'span',
+					{ 'class': 'unit' },
+					'\u5E74'
 				),
 				wp.element.createElement(
-					"span",
-					{ "class": "unit" },
-					"\u6708"
+					'div',
+					{ 'class': 'value month', onClick: function onClick() {
+							_this2.setState({ monthSelecting: true });
+						} },
+					getDate('m')
 				),
 				wp.element.createElement(
-					"select",
-					{ onChange: function onChange(e) {
-							setDate('d', e.target.value);
-						}, value: getDate('d') },
-					this.state.selections.date
+					Catpow.Popup,
+					{ open: this.state.monthSelecting, onClose: function onClose() {
+							return _this2.setState({ monthSelecting: false });
+						} },
+					wp.element.createElement(Catpow.SelectTable, {
+						selections: this.state.selections.month,
+						value: getDate('m'),
+						col: 6,
+						onChange: function onChange(label) {
+							setDate('m', label);
+							_this2.setState({ monthSelecting: false });
+						}
+					})
 				),
 				wp.element.createElement(
-					"span",
-					{ "class": "unit" },
-					"\u65E5"
+					'span',
+					{ 'class': 'unit' },
+					'\u6708'
+				),
+				wp.element.createElement(
+					'div',
+					{ 'class': 'value date', onClick: function onClick() {
+							_this2.setState({ dateSelecting: true });
+						} },
+					getDate('d')
+				),
+				wp.element.createElement(
+					Catpow.Popup,
+					{ open: this.state.dateSelecting, onClose: function onClose() {
+							return _this2.setState({ dateSelecting: false });
+						} },
+					wp.element.createElement(Catpow.SelectTable, {
+						selections: this.state.selections.date,
+						value: getDate('d'),
+						col: 7,
+						spacer: (getDate('w') - getDate('d') + 35) % 7,
+						onChange: function onChange(label) {
+							setDate('d', label);
+							_this2.setState({ dateSelecting: false });
+						}
+					})
+				),
+				wp.element.createElement(
+					'span',
+					{ 'class': 'unit' },
+					'\u65E5'
 				),
 				date !== false && wp.element.createElement(Catpow.HiddenValues, {
 					name: this.props.name,

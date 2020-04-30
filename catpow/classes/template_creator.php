@@ -183,7 +183,7 @@ class template_creator{
 	}
 	public static function template_item_code_replace_callback($matches,$path_data,$conf_data){
 		$class_name=\cp::get_class_name('template_item',$path_data['file_type'],$matches['name']);
-		$code_data=$class_name::get_code_data($path_data,$conf_data,explode(' ',$matches['param']));
+		$code_data=$class_name::get_code_data($path_data,$conf_data,explode(' ',$matches['param']??''));
 		if(empty($code_data)){return '';}
 		if(is_array($code_data)){
 			$class_name=\cp::get_class_name('template_item',$path_data['file_type']);

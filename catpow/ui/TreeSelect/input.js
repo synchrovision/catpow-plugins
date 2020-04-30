@@ -106,6 +106,7 @@ Catpow.TreeSelect = function (_wp$element$Component) {
 											} else {
 												_this2.setState({
 													value: crr[k],
+													selecting: false,
 													currentLabel: crr instanceof Array ? crr[k] : k,
 													openPath: openPath
 												});
@@ -141,9 +142,15 @@ Catpow.TreeSelect = function (_wp$element$Component) {
 					)
 				),
 				wp.element.createElement(
-					'div',
-					{ className: 'selectBoxes' },
-					items
+					Catpow.Popup,
+					{ open: this.state.selecting, onClose: function onClose() {
+							return _this2.setState({ selecting: false });
+						} },
+					wp.element.createElement(
+						'div',
+						{ className: 'selectBoxes' },
+						items
+					)
 				),
 				wp.element.createElement(Catpow.HiddenValues, { name: this.props.name, value: this.state.value })
 			);

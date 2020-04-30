@@ -17,14 +17,10 @@ div.treeSelect{
 		}
 	}
 	div.selectBoxes{
-		@include bnd((d:b,p:a,w:30rem,l:50%,z:100));
-		@include bdr((r:1rem));
-		@include shd((b:3));
-		@include bg((c:b));
+		@include bnd((d:b,h:a 90vh));
 		@include flx((w:n));
-		@include trn((x:-50%));
 		div.selectBox{
-			@include bnd((t:0,l:0,o:h));
+			@include bnd((t:0,l:0,oy:a));
 			@include bg((c:b));
 			@include trn((t:.5s));
 			&.prev{
@@ -38,7 +34,7 @@ div.treeSelect{
 			.backToPrev{
 			}
 			ul.selectBoxItems{
-				@include bnd((p:r,mg:0,pd:0));
+				@include bnd((p:r,mg:0));
 				@include txt((l:n));
 				li.selectBoxItem{
 					@include usr((c:p));

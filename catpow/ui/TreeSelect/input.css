@@ -21,25 +21,18 @@ div.treeSelect {
     display: none; }
   div.treeSelect div.selectBoxes {
     display: block;
-    position: absolute;
-    width: 30rem;
-    left: 50%;
-    z-index: 100;
-    border-radius: 1rem;
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    background-color: #fefefe;
+    max-height: 90vh;
+    height: auto;
     display: -webkit-box;
     display: -webkit-flex;
     display: flex;
     -webkit-box-lines: single;
     -webkit-flex-wrap: nowrap;
-    flex-wrap: nowrap;
-    transform: -webkit- translateX(-50%);
-    transform: translateX(-50%); }
+    flex-wrap: nowrap; }
     div.treeSelect div.selectBoxes div.selectBox {
       top: 0px;
       left: 0px;
-      overflow: hidden;
+      overflow-y: auto;
       background-color: #fefefe;
       -webkit-transition: 0.5s;
       transition: 0.5s; }
@@ -51,7 +44,6 @@ div.treeSelect {
       div.treeSelect div.selectBoxes div.selectBox ul.selectBoxItems {
         position: relative;
         margin: 0px;
-        padding: 0px;
         list-style: none; }
         div.treeSelect div.selectBoxes div.selectBox ul.selectBoxItems li.selectBoxItem {
           cursor: pointer;

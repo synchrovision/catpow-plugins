@@ -83,6 +83,7 @@ Catpow.TreeSelect=class extends wp.element.Component{
 										else{
 											this.setState({
 												value:crr[k],
+												selecting:false,
 												currentLabel:(crr instanceof Array)?crr[k]:k,
 												openPath
 											});
@@ -106,7 +107,9 @@ Catpow.TreeSelect=class extends wp.element.Component{
 						this.setState({selecting:!this.state.selecting});
 					}}
 				><h3>{currentLabel || this.props.defaultLabel}</h3></div>
-				<div className="selectBoxes">{items}</div>
+				<Catpow.Popup open={this.state.selecting} onClose={()=>this.setState({selecting:false})}>
+					<div className="selectBoxes">{items}</div>
+				</Catpow.Popup>
 				<Catpow.HiddenValues name={this.props.name} value={this.state.value}/>
 			</div>
 		);

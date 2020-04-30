@@ -1,0 +1,21 @@
+@import 'admin_style_config.scss';
+
+
+table.SelectTable{
+	@include bnd((w:f));
+	@include tbl((l:f));
+	tbody{
+		tr{
+			td{
+				@include bnd((pd:1rem));
+				@include bdr((s:s,w:1,c:t 50));
+				@include txt((a:c,p:1.2rem));
+				@include usr((c:p));
+				&.active{
+					@include bg((c:m));
+					@include txt((c:b));
+				}
+			}
+		}
+	}
+}

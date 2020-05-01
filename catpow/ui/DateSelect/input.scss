@@ -8,10 +8,10 @@ div.DateSelect{
 		@include usr((c:p));
 		@include txt((a:c,p:1.5rem));
 		&.year{
-			@include bnd((w:2.5em));
+			@include bnd((w:4ch));
 		}
 		&.month,&.date{
-			@include bnd((w:1.5em));
+			@include bnd((w:2ch));
 		}
 	}
 }

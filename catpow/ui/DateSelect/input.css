@@ -11,6 +11,6 @@ div.DateSelect .value {
   text-align: center;
   font-size: 1.5rem; }
   div.DateSelect .value.year {
-    width: 2.5em; }
+    width: 4ch; }
   div.DateSelect .value.month, div.DateSelect .value.date {
-    width: 1.5em; }
+    width: 2ch; }

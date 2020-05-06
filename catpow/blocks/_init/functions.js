@@ -466,14 +466,55 @@ var CP = {
 		return obj;
 	},
 	createStyleString: function createStyleString(data) {
+		if (!data) {
+			return '';
+		}
 		return Object.keys(data).map(function (key) {
 			return key + ':' + data[key] + ';';
 		}).join('');
 	},
 	createStyleCode: function createStyleCode(data) {
+		if (!data) {
+			return '';
+		}
 		return Object.keys(data).map(function (sel) {
 			return sel + '{' + CP.createStyleString(data[sel]) + '}';
 		}).join('');
+	},
+
+	createGridStyleCode: function createGridStyleCode(sel, bnd) {
+		return sel + '{' + CP.createStyleString(CP.createGridStyleCodeData(bnd)) + '}';
+	},
+	createGridStyleCodeData: function createGridStyleCodeData(bnd) {
+		var rtn = {
+			"display": "grid",
+			" display": "-ms-grid",
+			"-ms-grid-columns": "1fr ".repeat(bnd[0]),
+			"grid-template-columns": "repeat(" + bnd[0] + ",1fr)",
+			"-ms-grid-rows": "1fr ".repeat(bnd[1]),
+			"grid-template-rows": "repeat(" + bnd[1] + ",1fr)"
+		};
+		return rtn;
+	},
+	createGridItemStyleCode: function createGridItemStyleCode(sel, bnd) {
+		return sel + '{' + CP.createStyleString(CP.createGridItemStyleCodeData(bnd)) + '}';
+	},
+	createGridItemStyleCodeData: function createGridItemStyleCodeData(bnd) {
+		var rtn = {
+			"-ms-grid-column": bnd[0],
+			"-ms-grid-row": bnd[1],
+			"grid-column": bnd[0],
+			"grid-row": bnd[1]
+		};
+		if (bnd[2] && bnd[2] > 1) {
+			rtn["grid-column"] += " / span " + bnd[2];
+			rtn["-ms-grid-column-span"] = bnd[2];
+		}
+		if (bnd[3] && bnd[3] > 1) {
+			rtn["grid-row"] += " / span " + bnd[3];
+			rtn["-ms-grid-row-span"] = bnd[3];
+		}
+		return rtn;
 	},
 
 	wordsToFlags: function wordsToFlags(words) {
@@ -657,6 +698,7 @@ var Item = function Item(props) {
 
 	return wp.element.createElement(tag, {
 		className: classes,
+		"data-index": index,
 		"data-refine-cond": items[index]['cond'],
 		onKeyDown: function onKeyDown(e) {
 			if (e.ctrlKey || e.metaKey) {
@@ -1407,4 +1449,27 @@ var ImporterCSVPanel = function ImporterCSVPanel(props) {
 			}
 		})
 	);
+};
+
+var SelectBreakPointToolbar = function SelectBreakPointToolbar(props) {
+	return wp.element.createElement(Toolbar, {
+		controls: props.breakpoints.map(function (bp) {
+			var title = bp == "0" ? 'ー' : bp;
+			return {
+				icon: wp.element.createElement(
+					'svg',
+					{ viewBox: '0 0 100 100' },
+					wp.element.createElement(
+						'text',
+						{ style: { "font-size": "50px" }, x: 50, y: 50, textAnchor: 'middle', dominantBaseline: 'middle' },
+						title
+					)
+				),
+				isActive: props.value == bp,
+				onClick: function onClick() {
+					return props.onChange(bp);
+				}
+			};
+		})
+	});
 };

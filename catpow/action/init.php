@@ -190,6 +190,7 @@ if(function_exists('register_block_type')){
 
 /*shortcode*/
 add_shortcode('home_url',function(){return home_url();});
+add_shortcode('home_path',function(){static $cache;return $cache??($cache=ltrim(parse_url(home_url('/'),PHP_URL_PATH),'/'));});
 add_shortcode('theme_url',function(){return get_stylesheet_directory_uri();});
 foreach(cp::get_file_paths('shortcode') as $sc_dir){
 	foreach(glob($sc_dir.'/*/output.php') as $sc_file){
@@ -267,6 +268,26 @@ add_filter('get_avatar_url',function($url,$id_or_email,$args){
 	if(is_numeric($id_or_email) && $avatar_url=get_user_meta($id_or_email,'avatar_url')){return $avatar_url;}
 	return $url;
 },10,3);
+
+/*meta_query*/
+add_filter('get_meta_sql',function($sql,$queries,$type,$primary_table,$primary_id_column,$context){
+	$meta_table=_get_meta_table($type);
+	foreach($queries as $key=>$query){
+		if(!is_array($query) || empty($query['compute'])){continue;}
+		if(empty($query['alias'])){error_log('compute meta_query must have alias');continue;}
+		if(empty($query['keys'])){error_log('compute meta_query must have keys');continue;}
+		$sql['join'].=
+			" LEFT JOIN (".
+			Catpow\util\sql\meta::select_computed_value($type,$meta_table,$query['keys'],$query['compute'],$query['where']??null).
+			") AS {$query['alias']} ".
+			"ON ({$primary_table}.{$primary_id_column} = {$query['alias']}.{$type}_id) ";
+	}
+	return $sql;
+},10,6);
+add_filter('meta_query_find_compatible_table_alias',function($alias,$clause){
+	if(isset($clause['alias'])){return $clause['alias'];}
+	return $alias;
+},10,2);
 
 /*rewrite rules*/
 add_filter('query_vars', function($vars){

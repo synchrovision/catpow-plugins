@@ -19,8 +19,11 @@ class template extends template_type{
 		if(!isset($GLOBALS['post_types'][$template_post_type])){
 			$GLOBALS['post_types'][$template_post_type]=[
 				'label'=>'テンプレート',
+				'article_type'=>'template',
 				'public'=>false,
 				'show_in_menu'=>false,
+				'meta'=>$conf_data['template_meta']??['image'=>['type'=>'media']],
+				'template'=>['admin']
 			];
 			\cp::fill_conf_data('post',$template_post_type,$GLOBALS['post_types'][$template_post_type]);
 		}

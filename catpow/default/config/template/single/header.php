@@ -1,2 +1,2 @@
 <?php namespace Catpow; ?>
-<!--@page_header-->
+<!--@page_header single-->

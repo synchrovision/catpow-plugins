@@ -21,16 +21,42 @@ Catpow.DrawArea=function(props){
 			event.item.style.transform="translate("+event.tx+"px,"+event.ty+"px)";
 		}
 	}
-	const resizeItem=()=>{
-		if(grid){
-			event.item.style.width=Math.floor((event.x-event.base.l)/grid[0])*grid[0]+"px";
+	const resizeItem=(p)=>{
+		p=p || 'r';
+		var v,l,t,g;
+		switch(p){
+			case 'l':
+				v=false;
+				l=event.base.r-event.x;
+				t=event.x-event.base.l;
+				break;
+			case 'r':
+				v=false;
+				l=event.x-event.base.r;
+				break;
+			case 't':
+				v=true;
+				l=event.base.b-event.y;
+				t=event.y-event.base.t;
+				break;
+			case 'b':
+				v=true;
+				l=event.y-event.base.t;
+				break;
 		}
-		else{
-			event.item.style.width=(event.x-event.base.l)+"px";
+		if(grid){
+			g=grid[v?1:0];
+			l=Math.floor(l/g)*g;
+			if(t){t=Math.floor(l/g)*g;}
+		}
+		event.item.style[v?'height':'width']=l+"px";
+		if(t){
+			event.item.style.transform="translate"+(v?"Y":"X")+"("+t+"px)";
 		}
 	}
 	const resetItem=()=>{
 		event.item.style.width=null;
+		event.item.style.height=null;
 		event.item.style.transform=null;
 	}
 	
@@ -58,7 +84,7 @@ Catpow.DrawArea=function(props){
 						r:baseRect.right-areaRect.left,
 						t:baseRect.top-areaRect.top,
 						m:baseRect.top+baseRect.height/2-areaRect.top,
-						b:baseRect.bottom-areaRect.bottom,
+						b:baseRect.bottom-areaRect.top,
 					},
 					path:[],
 					moveItem,

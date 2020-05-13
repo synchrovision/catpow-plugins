@@ -83,7 +83,22 @@
 						{label:'背景色',values:'hasBackgroundColor'},
 						{label:'メニューアイコン',values:'hasNavIcon',sub:[
 							{input:'image',label:'アイコン',keys:imageKeys.icon,size:'thumbnail'}
-						]}
+						]},
+						{
+							label:'テンプレート',
+							values:'isTemplate',
+							sub:[
+								{label:'ヘッダ画像',values:'hasHeaderImage',sub:[
+									{input:'text',key:'headerImageSrc'}
+								]},
+								{label:'ヘッダ背景画像',values:'hasHeaderBackgroundImage',sub:[
+									{input:'text',key:'headerBackgroundImageSrc'},
+								]},
+								{label:'背景画像',values:'hasBackgroundImage',sub:[
+									{input:'text',key:'backgroundImageSrc'},
+								]},
+							]
+						}
 					],
 					article:[
 						'color',
@@ -101,7 +116,19 @@
 						{label:'背景色',values:'hasBackgroundColor'},
 						{label:'メニューアイコン',values:'hasNavIcon',sub:[
 							{input:'image',label:'アイコン',keys:imageKeys.icon,size:'thumbnail'}
-						]}
+						]},
+						{
+							label:'テンプレート',
+							values:'isTemplate',
+							sub:[
+								{label:'ヘッダ画像',values:'hasHeaderImage',sub:[
+									{input:'text',key:'headerImageSrc'}
+								]},
+								{label:'背景画像',values:'hasBackgroundImage',sub:[
+									{input:'text',key:'backgroundImageSrc'},
+								]},
+							]
+						}
 					],
 					column:[
 						'color',
@@ -122,7 +149,19 @@
 						{label:'影',values:'shadow',sub:[{label:'内側',values:'inset'}]},
 						{label:'メニューアイコン',values:'hasNavIcon',sub:[
 							{input:'image',label:'アイコン',keys:imageKeys.icon,size:'thumbnail'}
-						]}
+						]},
+						{
+							label:'テンプレート',
+							values:'isTemplate',
+							sub:[
+								{label:'画像',values:'hasImage',sub:[
+									{input:'text',key:'imageSrc'}
+								]},
+								{label:'背景画像',values:'hasBackgroundImage',sub:[
+									{input:'text',key:'backgroundImageSrc'},
+								]},
+							]
+						}
 					]
 				},
 				bind:{

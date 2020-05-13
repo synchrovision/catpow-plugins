@@ -11,18 +11,42 @@ class page_header extends \Catpow\template_item\php{
 			return false;
 		}
 		else{
+			$type=$param[0]??'archive';
+			$has_template=in_array('template',$conf_data['template']);
 			if($conf_data['path']==='post/page'){
 				$rtn['cond_start']='<?php if(!is_front_page()): ?>';
 			}
-			$rtn['title']=['div.title',['div.text',['h1','@page_title',['small','@page_slug']]]];
-			if(isset($conf_data['meta']['title_image'])){
-				$rtn['title'][]=['div.image',"<?php output('title_image'); ?>"];
-			}
-			elseif(isset($conf_data['meta']['image'])){
-				$rtn['title'][]=['div.image',"<?php output('image'); ?>"];
+			if($has_template){
+				$template_conf_data=\cp::get_conf_data("post/{$path_data['data_name']}_tmpl");
+				$rtn['template_start']="<?php foreach(loop('post/{$path_data['data_name']}_tmpl',['name'=>'{$type}']) as \$post): ?>";
+				$rtn['title']=['div.title',['div.text',['h1','@page_title',['small','@page_slug']]]];
+				if(isset($template_conf_data['meta']['title_image'])){
+					$rtn['title'][]=['div.image',"<?php output('title_image'); ?>"];
+				}
+				elseif(isset($template_conf_data['meta']['image'])){
+					$rtn['title'][]=['div.image',"<?php output('image'); ?>"];
+				}
+				else{
+					$rtn['title'][]=['div.image',['img[src="<?=header_image();?>"]']];
+				}
+				$rtn['template_end']="<?php endforeach; ?>";
 			}
 			else{
-				$rtn['title'][]=['div.image',['img[src="<?=header_image();?>"]']];
+				$rtn['title']=['div.title',['div.text',['h1','@page_title',['small','@page_slug']]]];
+				if($type==='single'){
+					if(isset($conf_data['meta']['title_image'])){
+						$rtn['title'][]=['div.image',"<?php output('title_image'); ?>"];
+					}
+					elseif(isset($conf_data['meta']['image'])){
+						$rtn['title'][]=['div.image',"<?php output('image'); ?>"];
+					}
+					else{
+						$rtn['title'][]=['div.image',['img[src="<?=header_image();?>"]']];
+					}
+				}
+				else{
+					$rtn['title'][]=['div.image',['img[src="<?=header_image();?>"]']];
+				}
 			}
 			$rtn[]='@menu page_header';
 			$rtn[]='@breadcrumb';

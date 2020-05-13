@@ -46,13 +46,13 @@ registerBlockType('catpow/faq', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes,
-			isSelected = _ref.isSelected;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var items = attributes.items,
-			classes = attributes.classes,
-			countPrefix = attributes.countPrefix,
-			countSuffix = attributes.countSuffix;
+		    classes = attributes.classes,
+		    countPrefix = attributes.countPrefix,
+		    countSuffix = attributes.countSuffix;
 
 		var primaryClass = 'wp-block-catpow-faq';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -66,7 +66,7 @@ registerBlockType('catpow/faq', {
 			hasLink: false
 		};
 
-		var selectiveClasses = [{ label: 'Qにキャプション', values: 'hasTitleCaption' }, { label: 'Aに見�?�?', values: 'hasSubTitle' }, { label: 'アコー�?��オン', values: 'accordion' }, { label: 'リンク', values: 'hasLink' }];
+		var selectiveClasses = [{ label: 'Qにキャプション', values: 'hasTitleCaption' }, { label: 'Aに見出し', values: 'hasSubTitle' }, { label: 'アコーディオン', values: 'accordion' }, { label: 'リンク', values: 'hasLink' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -240,11 +240,11 @@ registerBlockType('catpow/faq', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className;
+		    className = _ref2.className;
 		var items = attributes.items,
-			classes = attributes.classes,
-			countPrefix = attributes.countPrefix,
-			countSuffix = attributes.countSuffix;
+		    classes = attributes.classes,
+		    countPrefix = attributes.countPrefix,
+		    countSuffix = attributes.countSuffix;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 

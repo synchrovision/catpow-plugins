@@ -33,6 +33,7 @@ var CP = {
 			set(data);
 		}).open();
 	},
+
 	parseCSV: function parseCSV(csv) {
 		var tmp = [];
 		csv = csv.replace(/("[^"]*")+/g, function (match) {
@@ -609,9 +610,13 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref18) {
 			muted: 1
 		});
 	}
+	var src = item[keys.src];
+	if (!src || src[0] == '[') {
+		src = cp.theme_url + '/images/dummy.jpg';
+	}
 	return wp.element.createElement('img', {
 		className: 'selectImage ' + className,
-		src: item[keys.src] || cp.theme_url + '/images/dummy.jpg',
+		src: src,
 		alt: item[keys.alt],
 		srcset: item[keys.srcset],
 		sizes: sizes,

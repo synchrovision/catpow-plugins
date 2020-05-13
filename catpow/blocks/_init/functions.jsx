@@ -26,6 +26,7 @@
 			set(data);
 		}).open();
 	},
+	
 	parseCSV:(csv)=>{
 		let tmp=[];
 		csv=csv.replace(/("[^"]*")+/g,(match)=>{
@@ -405,10 +406,12 @@ const SelectResponsiveImage=({className,attr,set,keys,index,sizes,size,ofSP})=>{
 				></video>
 		);
 	}
+	var src=item[keys.src] ;
+	if(!src || src[0]=='['){src=cp.theme_url+'/images/dummy.jpg';}
 	return (
 		<img
 			className={'selectImage '+className}
-			src={item[keys.src] || cp.theme_url+'/images/dummy.jpg'}
+			src={src}
 			alt={item[keys.alt]}
 			srcset={item[keys.srcset]}
 			sizes={sizes}

@@ -155,9 +155,18 @@ class template_creator{
 		if(!empty($cond_datas)){
 			foreach($cond_datas['items'] as $cond_index=>$cond_data){
 				foreach($cond_data['filters'] as $key=>$flag){
-					if(empty($conf_data['meta'][$key])===$flag){
-						$contents=str_replace('<<'.$cond_index.'>>',$cond_data['else'],$cond_datas['body']);
-						continue 2;
+					if(strpos($key,'/')===false){
+						if(empty($conf_data['meta'][$key])===$flag){
+							$contents=str_replace('<<'.$cond_index.'>>',$cond_data['else'],$cond_datas['body']);
+							continue 2;
+						}
+					}
+					else{
+						list($key,$val)=explode('/',$key);
+						if(!is_array($conf_data[$key]) || empty($conf_data[$key][$val])===$flag && !in_array($conf_data[$key],$val)===$flag){
+							$contents=str_replace('<<'.$cond_index.'>>',$cond_data['else'],$cond_datas['body']);
+							continue 2;
+						}
 					}
 				}
 				$contents=str_replace('<<'.$cond_index.'>>',$cond_data['body'],$cond_datas['body']);
@@ -173,7 +182,7 @@ class template_creator{
 		return $contents;
 	}
 	public static function get_template_code_regex($name,$sep=null){
-		$rtn='|(?P<indent>\t*)<\!\-\-'.$name.'(?P<filter>:[\!:\w]+)?\-\->\n(?P<body>.+?\n)';
+		$rtn='|(?P<indent>\t*)<\!\-\-'.$name.'(?P<filter>:[\!:\w\/]+)?\-\->\n(?P<body>.+?\n)';
 		if(isset($sep)){$rtn.='(\1<\!\-\-'.$sep.'\-\->\n(?P<'.$sep.'>.+?\n))?';}
 		$rtn.='\1<\!\-\-/'.$name.'\-\->\n|s';
 		return $rtn;
@@ -211,7 +220,7 @@ class template_creator{
 		$cond_datas=['items'=>[]];
 		$cond_datas['body']=preg_replace_callback(self::get_template_code_regex('if','else'),function($matches)use(&$cond_datas){
 			$conds=self::parse_filter_str($matches['filter']);
-			$cond_index='cond:'.count($cond_datas);
+			$cond_index='cond:'.count($cond_datas['items']);
 			$cond_datas['items'][$cond_index]=[
 				'index'=>$cond_index,
 				'filters'=>self::parse_filter_str($matches['filter']),

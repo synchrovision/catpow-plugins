@@ -63,20 +63,7 @@
 		var classArray=_.uniq((className+' '+classes).split(' '));
 		var classNameArray=className.split(' ');
 		
-		var states={
-			hasHeader:false,
-			hasHeaderImage:false,
-			hasCounter:false,
-			hasTitle:false,
-			hasTitleCaption:false,
-			hasSubImage:false,
-			hasSubTitle:false,
-			hasSubCounter:false,
-			hasText:false,
-			hasImage:false,
-			hasLink:false,
-			hasBackgroundImage:false
-		}
+		var states=CP.wordsToFlags(classes);
 		
         
 		var selectiveClasses=[
@@ -127,13 +114,31 @@
 					menu:['color'],
 					sphere:['color']
 				}
+			},
+			{
+				label:'テンプレート',
+				values:'isTemplate',
+				sub:[
+					{label:'ループ',values:'doLoop'}
+				]
 			}
+		];
+		const itemTemplateSelectiveClasses=[
+			{label:'画像',values:'loopImage',sub:[
+				{label:'src',input:'text',key:'src'},
+				{label:'alt',input:'text',key:'alt'},
+			]},
+			{label:'ヘッダ画像',values:'loopHeaderImage',sub:[
+				{label:'headerImageSrc',input:'text',key:'headerImageSrc'},
+				{label:'headerImageAlt',input:'text',key:'headerImageAlt'},
+			]},
+			{label:'サブ画像',values:'loopSubImage',sub:[
+				{label:'subImageSrc',input:'text',key:'subImageSrc'},
+				{label:'subImageAlt',input:'text',key:'subImageAlt'},
+			]}
 		];
 		
 		let itemsCopy=items.map((obj)=>jQuery.extend(true,{},obj));
-		
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
 		
 		let rtn=[];
 		const imageKeys={
@@ -307,6 +312,18 @@
 					triggerClasses={selectiveClasses[0]}
 					filters={CP.filters.listed || {}}
 				/>
+				{states.isTemplate &&
+					<SelectItemClassPanel
+						title='テンプレート'
+						icon='edit'
+						set={setAttributes}
+						attr={attributes}
+						items={itemsCopy}
+						index={attributes.currentItemIndex}
+						itemClasses={itemTemplateSelectiveClasses}
+						filters={CP.filters.listed || {}}
+					/>
+				}
 				<ItemControlInfoPanel/>
 			</InspectorControls>,
 			<ul className={attributes.EditMode?(primaryClass+' edit'):classes}>{rtn}</ul>
@@ -316,22 +333,7 @@
 		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix,linkUrl,linkText}=attributes;
 		var classArray=_.uniq(attributes.classes.split(' '));
 		
-		var states={
-			hasHeader:false,
-			hasHeaderImage:false,
-			hasCounter:false,
-			hasTitle:false,
-			hasTitleCaption:false,
-			hasSubImage:false,
-			hasSubTitle:false,
-			hasSubCounter:false,
-			hasText:false,
-			hasImage:false,
-			hasLink:false,
-			hasBackgroundImage:false
-		}
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
+		var states=CP.wordsToFlags(classes);
 		
 		let rtn=[];
 		items.map((item,index)=>{
@@ -377,6 +379,12 @@
 				</li>
 			);
 		});
-		return <ul className={classes}>{rtn}</ul>;
+		return (
+			<ul className={classes}>
+				{states.doLoop && '[loop]'}
+				{rtn}
+				{states.doLoop && '[/loop]'}
+			</ul>
+		);
 	},
 });

@@ -57,49 +57,36 @@ registerBlockType('catpow/listed', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes,
-			isSelected = _ref.isSelected;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var items = attributes.items,
-			classes = attributes.classes,
-			countPrefix = attributes.countPrefix,
-			countSuffix = attributes.countSuffix,
-			subCountPrefix = attributes.subCountPrefix,
-			subCountSuffix = attributes.subCountSuffix;
+		    classes = attributes.classes,
+		    countPrefix = attributes.countPrefix,
+		    countSuffix = attributes.countSuffix,
+		    subCountPrefix = attributes.subCountPrefix,
+		    subCountSuffix = attributes.subCountSuffix;
 
 		var primaryClass = 'wp-block-catpow-listed';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 		var classNameArray = className.split(' ');
 
-		var states = {
-			hasHeader: false,
-			hasHeaderImage: false,
-			hasCounter: false,
-			hasTitle: false,
-			hasTitleCaption: false,
-			hasSubImage: false,
-			hasSubTitle: false,
-			hasSubCounter: false,
-			hasText: false,
-			hasImage: false,
-			hasLink: false,
-			hasBackgroundImage: false
-		};
+		var states = CP.wordsToFlags(classes);
 
 		var selectiveClasses = [{
-			label: 'タイ�?',
+			label: 'タイプ',
 			filter: 'type',
 			values: {
-				orderd: '連番リス�?',
+				orderd: '連番リスト',
 				news: 'お知らせ',
 				index: '目次',
 				menu: 'メニュー'
 			},
 			sub: {
-				orderd: [{ label: '画�?', values: 'hasImage' }, { input: 'text', label: '番号前置�?��ス�?', key: 'countPrefix' }, { input: 'text', label: '番号後置�?��ス�?', key: 'countSuffix' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'リンク', values: 'hasLink' }],
+				orderd: [{ label: '画像', values: 'hasImage' }, { input: 'text', label: '番号前置テキスト', key: 'countPrefix' }, { input: 'text', label: '番号後置テキスト', key: 'countSuffix' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'リンク', values: 'hasLink' }],
 				news: [],
 				index: [{ label: 'レベル', 'values': ['level0', 'level1', 'level2', 'level3'] }],
-				menu: [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: '画�?', values: { noImage: 'な�?', hasImage: '大', hasHeaderImage: '�?' } }, { label: '背景画�?', values: 'hasBackgroundImage', sub: [{ label: '�?��', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: '抜き色�?�?', values: 'inverseText' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: '�?��ス�?', values: 'hasText' }, { label: 'リンク', values: 'hasLink' }]
+				menu: [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: '画像', values: { noImage: 'なし', hasImage: '大', hasHeaderImage: '小' } }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: '抜き色文字', values: 'inverseText' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'テキスト', values: 'hasText' }, { label: 'リンク', values: 'hasLink' }]
 			},
 			bind: {
 				orderd: ['hasHeader', 'hasCounter', 'hasTitle', 'hasText'],
@@ -113,18 +100,16 @@ registerBlockType('catpow/listed', {
 				menu: ['color'],
 				sphere: ['color']
 			}
+		}, {
+			label: 'テンプレート',
+			values: 'isTemplate',
+			sub: [{ label: 'ループ', values: 'doLoop' }]
 		}];
+		var itemTemplateSelectiveClasses = [{ label: '画像', values: 'loopImage', sub: [{ label: 'src', input: 'text', key: 'src' }, { label: 'alt', input: 'text', key: 'alt' }] }, { label: 'ヘッダ画像', values: 'loopHeaderImage', sub: [{ label: 'headerImageSrc', input: 'text', key: 'headerImageSrc' }, { label: 'headerImageAlt', input: 'text', key: 'headerImageAlt' }] }, { label: 'サブ画像', values: 'loopSubImage', sub: [{ label: 'subImageSrc', input: 'text', key: 'subImageSrc' }, { label: 'subImageAlt', input: 'text', key: 'subImageAlt' }] }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
 		});
-
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
 
 		var rtn = [];
 		var imageKeys = {
@@ -342,6 +327,16 @@ registerBlockType('catpow/listed', {
 				triggerClasses: selectiveClasses[0],
 				filters: CP.filters.listed || {}
 			}),
+			states.isTemplate && wp.element.createElement(SelectItemClassPanel, {
+				title: '\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8',
+				icon: 'edit',
+				set: setAttributes,
+				attr: attributes,
+				items: itemsCopy,
+				index: attributes.currentItemIndex,
+				itemClasses: itemTemplateSelectiveClasses,
+				filters: CP.filters.listed || {}
+			}),
 			wp.element.createElement(ItemControlInfoPanel, null)
 		), wp.element.createElement(
 			'ul',
@@ -351,38 +346,19 @@ registerBlockType('catpow/listed', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className;
+		    className = _ref2.className;
 		var items = attributes.items,
-			classes = attributes.classes,
-			countPrefix = attributes.countPrefix,
-			countSuffix = attributes.countSuffix,
-			subCountPrefix = attributes.subCountPrefix,
-			subCountSuffix = attributes.subCountSuffix,
-			linkUrl = attributes.linkUrl,
-			linkText = attributes.linkText;
+		    classes = attributes.classes,
+		    countPrefix = attributes.countPrefix,
+		    countSuffix = attributes.countSuffix,
+		    subCountPrefix = attributes.subCountPrefix,
+		    subCountSuffix = attributes.subCountSuffix,
+		    linkUrl = attributes.linkUrl,
+		    linkText = attributes.linkText;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 
-		var states = {
-			hasHeader: false,
-			hasHeaderImage: false,
-			hasCounter: false,
-			hasTitle: false,
-			hasTitleCaption: false,
-			hasSubImage: false,
-			hasSubTitle: false,
-			hasSubCounter: false,
-			hasText: false,
-			hasImage: false,
-			hasLink: false,
-			hasBackgroundImage: false
-		};
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
+		var states = CP.wordsToFlags(classes);
 
 		var rtn = [];
 		items.map(function (item, index) {
@@ -493,7 +469,9 @@ registerBlockType('catpow/listed', {
 		return wp.element.createElement(
 			'ul',
 			{ className: classes },
-			rtn
+			states.doLoop && '[loop]',
+			rtn,
+			states.doLoop && '[/loop]'
 		);
 	}
 });

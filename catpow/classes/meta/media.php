@@ -12,6 +12,7 @@ class media extends meta{
 		if($prm=='url'){return wp_get_attachment_url($val);}
 		if(empty($post=get_post($val))){return '';}
 		if($prm=='type'){return $post->post_mime_type;}
+		if($prm==='alt'){return $post->_wp_attachment_image_alt;}
 		$prm=(array)$prm;
 		switch(substr($post->post_mime_type,0,5)){
 			case 'image':

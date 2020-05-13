@@ -44,9 +44,11 @@ abstract class template_type{
 		if(isset($cache[$template])){return $cache[$template];}
 		$files=[];
 		$tempate_dir=\cp::get_file_path('config/template/'.$template);
-		foreach(scandir($tempate_dir) as $fname){
-			if(in_array($fname[0],['.','_'],1)){continue;}
-			$files[$fname]='default';
+		if(!empty($tempate_dir)){
+			foreach(scandir($tempate_dir) as $fname){
+				if(in_array($fname[0],['.','_'],1)){continue;}
+				$files[$fname]='default';
+			}
 		}
 		return $cache[$template]=$files;
 	}

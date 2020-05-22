@@ -35,24 +35,32 @@ registerBlockType('catpow/dialog', {
 					text: ['Text']
 				};
 			})
-		}
+		},
+		loopParam: { type: 'text' },
+		loopCount: { type: 'number', default: 1 }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes,
-			isSelected = _ref.isSelected;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var items = attributes.items,
-			classes = attributes.classes,
-			countPrefix = attributes.countPrefix,
-			countSuffix = attributes.countSuffix,
-			subCountPrefix = attributes.subCountPrefix,
-			subCountSuffix = attributes.subCountSuffix;
+		    classes = attributes.classes,
+		    countPrefix = attributes.countPrefix,
+		    countSuffix = attributes.countSuffix,
+		    subCountPrefix = attributes.subCountPrefix,
+		    subCountSuffix = attributes.subCountSuffix,
+		    loopCount = attributes.loopCount;
 
 		var primaryClass = 'wp-block-catpow-dialog';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 		var classNameArray = className.split(' ');
 
+		var selectiveClasses = [{
+			label: 'テンプレート',
+			values: 'isTemplate',
+			sub: [{ label: 'ループ', values: 'doLoop', sub: [{ label: 'パラメータ', input: 'text', key: 'loopParam' }, { label: 'ループ数', input: 'range', key: 'loopCount', min: 1, max: 16 }] }]
+		}];
 		var itemClasses = ['color', { label: 'position', values: ['left', 'right'] }, { label: 'type', filter: 'type', values: ['say', 'shout', 'think', 'whisper'] }];
 
 		var itemsCopy = items.map(function (obj) {
@@ -127,6 +135,12 @@ registerBlockType('catpow/dialog', {
 		if (attributes.EditMode === undefined) {
 			attributes.EditMode = false;
 		}
+		if (rtn.length < loopCount) {
+			var len = rtn.length;
+			while (rtn.length < loopCount) {
+				rtn.push(rtn[rtn.length % len]);
+			}
+		}
 
 		return [wp.element.createElement(
 			BlockControls,
@@ -155,6 +169,14 @@ registerBlockType('catpow/dialog', {
 					value: classArray.join(' ')
 				})
 			),
+			wp.element.createElement(SelectClassPanel, {
+				title: '\u30AF\u30E9\u30B9',
+				icon: 'art',
+				set: setAttributes,
+				attr: attributes,
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.banners || {}
+			}),
 			wp.element.createElement(SelectItemClassPanel, {
 				title: '\u30EA\u30B9\u30C8\u30A2\u30A4\u30C6\u30E0',
 				icon: 'edit',
@@ -174,17 +196,19 @@ registerBlockType('catpow/dialog', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className;
+		    className = _ref2.className;
 		var items = attributes.items,
-			classes = attributes.classes,
-			countPrefix = attributes.countPrefix,
-			countSuffix = attributes.countSuffix,
-			subCountPrefix = attributes.subCountPrefix,
-			subCountSuffix = attributes.subCountSuffix,
-			linkUrl = attributes.linkUrl,
-			linkText = attributes.linkText;
+		    classes = attributes.classes,
+		    countPrefix = attributes.countPrefix,
+		    countSuffix = attributes.countSuffix,
+		    subCountPrefix = attributes.subCountPrefix,
+		    subCountSuffix = attributes.subCountSuffix,
+		    linkUrl = attributes.linkUrl,
+		    linkText = attributes.linkText;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
+
+		var states = CP.wordsToFlags(classes);
 
 		var rtn = [];
 		items.map(function (item, index) {
@@ -223,7 +247,9 @@ registerBlockType('catpow/dialog', {
 		return wp.element.createElement(
 			'ul',
 			{ className: classes },
-			rtn
+			states.doLoop && '[/loop]',
+			rtn,
+			states.doLoop && '[/loop]'
 		);
 	}
 });

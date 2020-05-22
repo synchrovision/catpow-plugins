@@ -24,7 +24,8 @@ registerBlockType('catpow/banners', {
 				srcset: { source: 'attribute', selector: '[src]', attribute: 'srcset' },
 				alt: { source: 'attribute', selector: '[src]', attribute: 'alt' },
 				linkUrl: { source: 'attribute', selector: 'a', attribute: 'href' },
-				target: { source: 'attribute', selector: 'a', attribute: 'target' }
+				target: { source: 'attribute', selector: 'a', attribute: 'target' },
+				loopImage: { source: 'text', selector: 'a' }
 			},
 			default: [].concat(babelHelpers.toConsumableArray(Array(3))).map(function () {
 				return {
@@ -32,18 +33,23 @@ registerBlockType('catpow/banners', {
 					title: ['Title'],
 					src: cp.theme_url + '/images/dummy.jpg',
 					alt: 'dummy',
-					linkUrl: cp.home_url
+					linkUrl: cp.home_url,
+					loopImage: '[output image]'
 				};
 			})
-		}
+		},
+		loopParam: { type: 'text', default: '' },
+		loopCount: { type: 'number', default: 1 }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes,
-			isSelected = _ref.isSelected;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var items = attributes.items,
-			classes = attributes.classes;
+		    classes = attributes.classes,
+		    loopCount = attributes.loopCount,
+		    loopImage = attributes.loopImage;
 
 		var primaryClass = 'wp-block-catpow-banners';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -54,8 +60,13 @@ registerBlockType('catpow/banners', {
 			image: { src: "src", srcset: "srcset", alt: "alt", items: "items" }
 		};
 
-		var selectiveClasses = [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: 'タイトル', values: 'hasTitle' }];
-		var selectiveItemClasses = [{ input: 'image', label: 'PC版画�?', keys: imageKeys.image }, { input: 'image', label: 'SP版画�?', keys: imageKeys.image, ofSP: true, sizes: '480px' }, { input: 'text', label: 'alt', key: 'alt' }, { input: 'text', label: 'target', key: 'target' }];
+		var selectiveClasses = [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: 'タイトル', values: 'hasTitle' }, {
+			label: 'テンプレート',
+			values: 'isTemplate',
+			sub: [{ label: 'ループ', values: 'doLoop', sub: [{ label: 'パラメータ', input: 'text', key: 'loopParam' }, { label: 'ループ数', input: 'range', key: 'loopCount', min: 1, max: 16 }] }]
+		}];
+		var selectiveItemClasses = [{ input: 'image', label: 'PC版画像', keys: imageKeys.image }, { input: 'image', label: 'SP版画像', keys: imageKeys.image, ofSP: true, sizes: '480px' }, { input: 'text', label: 'alt', key: 'alt' }, { input: 'text', label: 'target', key: 'target' }];
+		var itemTemplateSelectiveClasses = [{ input: 'text', label: '画像', key: 'loopImage' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -87,26 +98,43 @@ registerBlockType('catpow/banners', {
 						value: item.title
 					})
 				),
-				wp.element.createElement(SelectResponsiveImage, {
-					attr: attributes,
-					set: setAttributes,
-					keys: imageKeys.image,
-					index: index,
-					size: 'vga'
-				}),
 				wp.element.createElement(
+					'a',
+					null,
+					states.isTemplate ? wp.element.createElement('img', { src: cp.plugins_url + '/catpow/callee/dummy_image.php?text=' + item.loopImage }) : wp.element.createElement(SelectResponsiveImage, {
+						attr: attributes,
+						set: setAttributes,
+						keys: imageKeys.image,
+						index: index,
+						size: 'vga'
+					})
+				),
+				isSelected && wp.element.createElement(
 					'div',
 					{ className: 'link' },
-					wp.element.createElement(TextControl, { onChange: function onChange(linkUrl) {
-							itemsCopy[index].linkUrl = linkUrl;
-							setAttributes({ items: itemsCopy });
-						}, value: item.linkUrl, placeholder: 'URL\u3092\u5165\u529B' })
+					wp.element.createElement(
+						'p',
+						{
+							contentEditable: true,
+							onBlur: function onBlur(e) {
+								itemsCopy[index].linkUrl = e.currentTarget.innerHTML;
+								setAttributes({ items: itemsCopy });
+							}
+						},
+						item.linkUrl
+					)
 				)
 			));
 		});
 
 		if (attributes.EditMode === undefined) {
 			attributes.EditMode = false;
+		}
+		if (rtn.length < loopCount) {
+			var len = rtn.length;
+			while (rtn.length < loopCount) {
+				rtn.push(rtn[rtn.length % len]);
+			}
 		}
 
 		return [wp.element.createElement(
@@ -131,7 +159,16 @@ registerBlockType('catpow/banners', {
 					value: classArray.join(' ')
 				})
 			),
-			wp.element.createElement(SelectItemClassPanel, {
+			states.isTemplate ? wp.element.createElement(SelectItemClassPanel, {
+				title: '\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8',
+				icon: 'edit',
+				set: setAttributes,
+				attr: attributes,
+				items: itemsCopy,
+				index: attributes.currentItemIndex,
+				itemClasses: itemTemplateSelectiveClasses,
+				filters: CP.filters.banners || {}
+			}) : wp.element.createElement(SelectItemClassPanel, {
 				title: '\u30D0\u30CA\u30FC',
 				icon: 'edit',
 				set: setAttributes,
@@ -150,11 +187,11 @@ registerBlockType('catpow/banners', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className;
+		    className = _ref2.className;
 		var items = attributes.items,
-			classes = attributes.classes;
+		    classes = attributes.classes,
+		    loopParam = attributes.loopParam;
 
-		var classArray = _.uniq(attributes.classes.split(' '));
 
 		var states = CP.wordsToFlags(classes);
 		var imageKeys = {
@@ -164,6 +201,7 @@ registerBlockType('catpow/banners', {
 		return wp.element.createElement(
 			'ul',
 			{ className: classes },
+			states.doLoop && '[loop ' + loopParam + ']',
 			items.map(function (item, index) {
 				return wp.element.createElement(
 					'li',
@@ -175,15 +213,16 @@ registerBlockType('catpow/banners', {
 					),
 					wp.element.createElement(
 						'a',
-						{ href: item.linkUrl, target: item.target },
-						wp.element.createElement(ResponsiveImage, {
+						{ href: item.linkUrl, target: item.target, rel: item.target ? 'noopener noreferrer' : '' },
+						states.isTemplate ? item.loopImage : wp.element.createElement(ResponsiveImage, {
 							attr: attributes,
 							keys: imageKeys.image,
 							index: index
 						})
 					)
 				);
-			})
+			}),
+			states.doLoop && '[/loop]'
 		);
 	}
 });

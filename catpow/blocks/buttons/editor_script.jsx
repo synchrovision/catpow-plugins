@@ -20,12 +20,14 @@
 				url:{source:'attribute',selector:'.button',attribute:'href'},
 			},
 			default:[
-				{classes:'item mail primary',event:'',text:'お問合せ',url:'[home_url]/contact'}
+				{classes:'item mail primary',event:'',text:'お問合せ',url:'/[home_path]contact'}
 			]
-		}
+		},
+		loopParam:{type:'text'},
+		loopCount:{type:'number',default:1}
 	},
 	edit({attributes,className,setAttributes,isSelected}){
-		const {items,classes}=attributes;
+		const {items,classes,loopCount}=attributes;
 		const primaryClass='wp-block-catpow-buttons';
 		var classArray=_.uniq((className+' '+classes).split(' '));
 		var classNameArray=className.split(' ');
@@ -33,19 +35,32 @@
         
 		var selectiveClasses=[
 			{label:'サイズ',filter:'size',values:{l:'大',m:'中',s:'小',ss:'極小'}},
-			{label:'インライン',values:'i'}
+			{label:'インライン',values:'i'},
+			{
+				label:'テンプレート',
+				values:'isTemplate',
+				sub:[
+					{label:'ループ',values:'doLoop',sub:[
+						{label:'パラメータ',input:'text',key:'loopParam'},
+						{label:'ループ数',input:'range',key:'loopCount',min:1,max:16}
+					]}
+				]
+			}
 		];
 		const itemClasses=[
 			'color',
 			{label:'属性',filter:'rank',values:['default','primary','negative','danger','secure']},
-			{label:'アイコン',filter:'icon','values':[
-				'play','next','back',
-				'file','home','trash',
-				'cart','mail','search',
-				'caution','help',
-				'open','close',
-				'plus','minus',
-				'refresh','edit','check'
+			{label:'アイコン',values:'hasIcon',sub:[
+				{label:'種類',filter:'icon','values':[
+					'noIcon',
+					'play','next','back',
+					'file','home','trash',
+					'cart','mail','search',
+					'caution','help',
+					'open','close',
+					'plus','minus',
+					'refresh','edit','check'
+				]},
 			]},
 			'event'
 		];
@@ -87,6 +102,12 @@
 		});
 		
 		if(attributes.EditMode===undefined){attributes.EditMode=false;}
+		if(rtn.length<loopCount){
+			let len=rtn.length;
+			while(rtn.length<loopCount){
+				rtn.push(rtn[rtn.length%len]);
+			}
+		}
 		
         return [
 			<ul className={classes}>{rtn}</ul>,
@@ -124,9 +145,9 @@
         ];
     },
 	save({attributes,className}){
-		const {items,classes}=attributes;
-		var classArray=_.uniq(attributes.classes.split(' '));
+		const {items,classes,loopParam}=attributes;
 		
+		var states=CP.wordsToFlags(classes);
 		
 		let rtn=[];
 		items.map((item,index)=>{
@@ -136,6 +157,12 @@
 				</li>
 			);
 		});
-		return <ul className={classes}>{rtn}</ul>;
+		return (
+			<ul className={classes}>
+				{states.doLoop && '[loop '+loopParam+']'}
+				{rtn}
+				{states.doLoop && '[/loop]'}
+			</ul>
+		);
 	},
 });

@@ -18,8 +18,10 @@ registerBlockType('catpow/buttons', {
 				text: { source: 'text', selector: '.button' },
 				url: { source: 'attribute', selector: '.button', attribute: 'href' }
 			},
-			default: [{ classes: 'item mail primary', event: '', text: 'お問合せ', url: '[home_url]/contact' }]
-		}
+			default: [{ classes: 'item mail primary', event: '', text: 'お問合せ', url: '/[home_path]contact' }]
+		},
+		loopParam: { type: 'text' },
+		loopCount: { type: 'number', default: 1 }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
@@ -27,14 +29,19 @@ registerBlockType('catpow/buttons', {
 		    setAttributes = _ref.setAttributes,
 		    isSelected = _ref.isSelected;
 		var items = attributes.items,
-		    classes = attributes.classes;
+		    classes = attributes.classes,
+		    loopCount = attributes.loopCount;
 
 		var primaryClass = 'wp-block-catpow-buttons';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 		var classNameArray = className.split(' ');
 
-		var selectiveClasses = [{ label: 'サイズ', filter: 'size', values: { l: '大', m: '中', s: '小', ss: '極小' } }, { label: 'インライン', values: 'i' }];
-		var itemClasses = ['color', { label: '属性', filter: 'rank', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', filter: 'icon', 'values': ['play', 'next', 'back', 'file', 'home', 'trash', 'cart', 'mail', 'search', 'caution', 'help', 'open', 'close', 'plus', 'minus', 'refresh', 'edit', 'check'] }, 'event'];
+		var selectiveClasses = [{ label: 'サイズ', filter: 'size', values: { l: '大', m: '中', s: '小', ss: '極小' } }, { label: 'インライン', values: 'i' }, {
+			label: 'テンプレート',
+			values: 'isTemplate',
+			sub: [{ label: 'ループ', values: 'doLoop', sub: [{ label: 'パラメータ', input: 'text', key: 'loopParam' }, { label: 'ループ数', input: 'range', key: 'loopCount', min: 1, max: 16 }] }]
+		}];
+		var itemClasses = ['color', { label: '属性', filter: 'rank', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', values: 'hasIcon', sub: [{ label: '種類', filter: 'icon', 'values': ['noIcon', 'play', 'next', 'back', 'file', 'home', 'trash', 'cart', 'mail', 'search', 'caution', 'help', 'open', 'close', 'plus', 'minus', 'refresh', 'edit', 'check'] }] }, 'event'];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -89,6 +96,12 @@ registerBlockType('catpow/buttons', {
 		if (attributes.EditMode === undefined) {
 			attributes.EditMode = false;
 		}
+		if (rtn.length < loopCount) {
+			var len = rtn.length;
+			while (rtn.length < loopCount) {
+				rtn.push(rtn[rtn.length % len]);
+			}
+		}
 
 		return [wp.element.createElement(
 			'ul',
@@ -137,9 +150,11 @@ registerBlockType('catpow/buttons', {
 		var attributes = _ref2.attributes,
 		    className = _ref2.className;
 		var items = attributes.items,
-		    classes = attributes.classes;
+		    classes = attributes.classes,
+		    loopParam = attributes.loopParam;
 
-		var classArray = _.uniq(attributes.classes.split(' '));
+
+		var states = CP.wordsToFlags(classes);
 
 		var rtn = [];
 		items.map(function (item, index) {
@@ -156,7 +171,9 @@ registerBlockType('catpow/buttons', {
 		return wp.element.createElement(
 			'ul',
 			{ className: classes },
-			rtn
+			states.doLoop && '[loop ' + loopParam + ']',
+			rtn,
+			states.doLoop && '[/loop]'
 		);
 	}
 });

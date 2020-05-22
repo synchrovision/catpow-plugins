@@ -1,4 +1,7 @@
-﻿registerBlockType('catpow/embed',{
+﻿/*
+* 有効化されている機能が提供する埋め込み用コード
+*/
+registerBlockType('catpow/embed',{
 	title: '🐾 Embed',
 	icon: 'editor-code',
 	category: 'catpow',

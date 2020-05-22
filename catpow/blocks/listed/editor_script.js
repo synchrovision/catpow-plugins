@@ -53,7 +53,9 @@ registerBlockType('catpow/listed', {
 		countPrefix: { source: 'text', selector: '.counter .prefix', default: '' },
 		countSuffix: { source: 'text', selector: '.counter .suffix', default: '' },
 		subCountPrefix: { source: 'text', selector: '.subcounter .prefix', default: '' },
-		subCountSuffix: { source: 'text', selector: '.subcounter .suffix', default: '' }
+		subCountSuffix: { source: 'text', selector: '.subcounter .suffix', default: '' },
+		loopParam: { type: 'text', default: '' },
+		loopCount: { type: 'number', default: 1 }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
@@ -65,7 +67,8 @@ registerBlockType('catpow/listed', {
 		    countPrefix = attributes.countPrefix,
 		    countSuffix = attributes.countSuffix,
 		    subCountPrefix = attributes.subCountPrefix,
-		    subCountSuffix = attributes.subCountSuffix;
+		    subCountSuffix = attributes.subCountSuffix,
+		    loopCount = attributes.loopCount;
 
 		var primaryClass = 'wp-block-catpow-listed';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -103,7 +106,7 @@ registerBlockType('catpow/listed', {
 		}, {
 			label: 'テンプレート',
 			values: 'isTemplate',
-			sub: [{ label: 'ループ', values: 'doLoop' }]
+			sub: [{ label: 'ループ', values: 'doLoop', sub: [{ label: 'パラメータ', input: 'text', key: 'loopParam' }, { label: 'ループ数', input: 'range', key: 'loopCount', min: 1, max: 16 }] }]
 		}];
 		var itemTemplateSelectiveClasses = [{ label: '画像', values: 'loopImage', sub: [{ label: 'src', input: 'text', key: 'src' }, { label: 'alt', input: 'text', key: 'alt' }] }, { label: 'ヘッダ画像', values: 'loopHeaderImage', sub: [{ label: 'headerImageSrc', input: 'text', key: 'headerImageSrc' }, { label: 'headerImageAlt', input: 'text', key: 'headerImageAlt' }] }, { label: 'サブ画像', values: 'loopSubImage', sub: [{ label: 'subImageSrc', input: 'text', key: 'subImageSrc' }, { label: 'subImageAlt', input: 'text', key: 'subImageAlt' }] }];
 
@@ -281,6 +284,12 @@ registerBlockType('catpow/listed', {
 		if (attributes.EditMode === undefined) {
 			attributes.EditMode = false;
 		}
+		if (rtn.length < loopCount) {
+			var len = rtn.length;
+			while (rtn.length < loopCount) {
+				rtn.push(rtn[rtn.length % len]);
+			}
+		}
 
 		return [wp.element.createElement(
 			BlockControls,
@@ -354,7 +363,8 @@ registerBlockType('catpow/listed', {
 		    subCountPrefix = attributes.subCountPrefix,
 		    subCountSuffix = attributes.subCountSuffix,
 		    linkUrl = attributes.linkUrl,
-		    linkText = attributes.linkText;
+		    linkText = attributes.linkText,
+		    loopParam = attributes.loopParam;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 
@@ -469,7 +479,7 @@ registerBlockType('catpow/listed', {
 		return wp.element.createElement(
 			'ul',
 			{ className: classes },
-			states.doLoop && '[loop]',
+			states.doLoop && '[loop ' + (loopParam || '') + ']',
 			rtn,
 			states.doLoop && '[/loop]'
 		);

@@ -37,14 +37,28 @@
 					text:['Text']
 				}
 			})
-		}
+		},
+		loopParam:{type:'text'},
+		loopCount:{type:'number',default:1}
 	},
 	edit({attributes,className,setAttributes,isSelected}){
-		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix}=attributes;
+		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix,loopCount}=attributes;
 		const primaryClass='wp-block-catpow-dialog';
 		var classArray=_.uniq((className+' '+classes).split(' '));
 		var classNameArray=className.split(' ');
 		
+		var selectiveClasses=[
+			{
+				label:'テンプレート',
+				values:'isTemplate',
+				sub:[
+					{label:'ループ',values:'doLoop',sub:[
+						{label:'パラメータ',input:'text',key:'loopParam'},
+						{label:'ループ数',input:'range',key:'loopCount',min:1,max:16}
+					]}
+				]
+			}
+		];
 		const itemClasses=[
 			'color',
 			{label:'position',values:['left','right']},
@@ -102,6 +116,12 @@
 		});
 		
 		if(attributes.EditMode===undefined){attributes.EditMode=false;}
+		if(rtn.length<loopCount){
+			let len=rtn.length;
+			while(rtn.length<loopCount){
+				rtn.push(rtn[rtn.length%len]);
+			}
+		}
 		
         return [
 			<BlockControls>
@@ -124,6 +144,14 @@
 						value={classArray.join(' ')}
 					/>
 				</PanelBody>
+				<SelectClassPanel
+					title='クラス'
+					icon='art'
+					set={setAttributes}
+					attr={attributes}
+					selectiveClasses={selectiveClasses}
+					filters={CP.filters.banners || {}}
+				/>
 				<SelectItemClassPanel
 					title='リストアイテム'
 					icon='edit'
@@ -143,6 +171,8 @@
 		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix,linkUrl,linkText}=attributes;
 		var classArray=_.uniq(attributes.classes.split(' '));
 		
+		var states=CP.wordsToFlags(classes);
+		
 		let rtn=[];
 		items.map((item,index)=>{
 			rtn.push(
@@ -159,6 +189,12 @@
 				</li>
 			);
 		});
-		return <ul className={classes}>{rtn}</ul>;
+		return (
+			<ul className={classes}>
+				{states.doLoop && '[/loop]'}
+				{rtn}
+				{states.doLoop && '[/loop]'}
+			</ul>
+		);
 	}
 });

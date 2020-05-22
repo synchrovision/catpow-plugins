@@ -29,8 +29,8 @@ class responsive_image extends media{
 		$val=$meta->value;
 		$rtn='<ul class="inputs">';
 		foreach($meta->conf['meta'] as $bp=>$child_meta){
-			$rtn.=sprintf('<li><h3>%s</h3>',$child_meta['label']??($bp==0)?'default':$bp.'px');
-			$rtn.=media::get_input($path.'/'.$bp.'/0',$child_meta,$val[$bp][0]?:null);
+			$rtn.=sprintf('<li><h3>%s</h3>',$child_meta['label']??($bp.'px'));
+			$rtn.=media::get_input($path.'/'.$bp.'/0',$child_meta,$val[$bp][0]??null);
 			$rtn.='</li>';
 		}
 		$rtn.='</ul>';
@@ -40,7 +40,7 @@ class responsive_image extends media{
 		if(empty($conf['meta'])){
 			$conf['meta']=[
 				0=>[],
-				640=>['size'=>'medium_large']
+				-640=>['size'=>'medium_large']
 			];
 		}
 		foreach($conf['meta'] as $bp=>$child_meta){

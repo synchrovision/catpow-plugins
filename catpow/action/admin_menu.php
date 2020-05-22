@@ -9,34 +9,32 @@ add_submenu_page('catpow-main','リファレンス','リファレンス','edit_t
 
 
 
-function add_menus($data_type,$data_name,$menus){
+function add_menus($path_data,$menus){
 	foreach($menus as $slug=>$menu){
-		switch($slug){
-			case 'top':
-				foreach($menu as $label=>$link){
-					$link=get_menu_link($link);
-					if(is_array($link)){
-						add_menu_page($label,$label,'publish_posts',key($link),reset($link));
-					}
-					else{
-						add_menu_page($label,$label,'publish_posts',$link);
-					}
+		if($slug=='top'){
+			foreach($menu as $label=>$link){
+				$link=get_menu_link($link,$path_data);
+				if(is_array($link)){
+					add_menu_page($label,$label,'publish_posts',key($link),reset($link));
 				}
-				break;
-			case 'sub':$slug=$data_type.'/'.$data_name;
-			default;
-				$parent=get_menu_link($slug);
-				if(is_array($parent)){$parent=key($parent);}
-				foreach($menu as $label=>$link){
-					$link=get_menu_link($link);
-					if(is_array($link)){
-						add_submenu_page($parent,$label,$label,'publish_posts',key($link),reset($link));
-					}
-					else{
-						add_submenu_page($parent,$label,$label,'publish_posts',$link);
-					}
+				else{
+					add_menu_page($label,$label,'publish_posts',$link);
 				}
-				break;
+			}
+		}
+		else{
+			$parent=get_menu_link($slug,$path_data);
+			if(is_array($parent)){$parent=key($parent);}
+			error_log(var_export($parent,1));
+			foreach($menu as $label=>$link){
+				$link=get_menu_link($link,$path_data);
+				if(is_array($link)){
+					add_submenu_page($parent,$label,$label,'publish_posts',key($link),reset($link));
+				}
+				else{
+					add_submenu_page($parent,$label,$label,'publish_posts',$link);
+				}
+			}
 		}
 	}
 }
@@ -47,42 +45,51 @@ function add_menus($data_type,$data_name,$menus){
 * @param string $slug 規定値またはcontent_path
 * @return string|array リンクの識別子、または[識別子=>コールバック]のペアの配列
 */
-function get_menu_link($slug){
+function get_menu_link($slug,$path_data){
 	static $hooks;
 	global $post_types;
+	if($slug==='sub'){$slug=$path_data['data_type'].'/'.$path_data['data_name'];}
 	if($slug==='post' || $slug==='post/post'){return 'edit.php';}
 	if($slug==='attachment' || $slug==='post/attachment'){return 'upload.php';}
 	if($slug==='user' || substr($slug,0,5)==='user/'){return 'users.php';}
 	if(isset($post_types[$slug])){return 'edit.php?post_type='.$slug;}
-	if($path_data=cp::parse_content_path($slug)){
-		switch($path_data['data_type']){
-			case 'post':return 'edit.php?post_type='.$path_data['data_name'];
-			case 'user':return 'users.php';
-			case 'cpdb':
-				$key=str_replace('/','-',$slug);
-				if(!isset($hooks[$key])){
-					$hooks[$key]=function()use($slug){
-						echo('<div id="cpcf_custom_box"><div class="inside">');
-						§form($slug.'/manage/admin.php');
-						echo('</div></div>');
-						cp::enqueue_style('content.css');
-						cp::enqueue_script($slug.'/manage/script.js');
-						cp::enqueue_style($slug.'/manage/style.css');
-					};
-				}
-				return [$key=>$hooks[$key]];
-		}
+	
+	if(substr($slug,-4)==='.php'){
+		$slug_path_data=\cp::parse_content_file_path($slug);
+		$path_data=array_merge($path_data,$slug_path_data);
 	}
+	else{
+		$slug_path_data=\cp::parse_content_path($slug);
+		if($slug_path_data['data_type']==='post' && isset($post_types[$slug_path_data['data_name']]) && empty($slug_path_data['tmp_name'])){
+			return 'edit.php?post_type='.$slug_path_data['data_name'];
+		}
+		$path_data=array_merge($path_data,['file_name'=>'admin','file_type'=>'php'],$slug_path_data);
+	}
+	$file_path=\cp::create_content_file_path($path_data);
+	$key=str_replace('/','-',substr($file_path,0,-4));
+	if(!isset($hooks[$key])){
+		$hooks[$key]=function()use($file_path){
+			echo('<div id="cpcf_custom_box"><div class="inside">');
+			§form($file_path);
+			echo('</div></div>');
+			cp::enqueue_style('content.css');
+			cp::enqueue_script(dirname($file_path).'/script.js');
+			cp::enqueue_style(dirname($file_path).'/style.css');
+		};
+	}
+	return [$key=>$hooks[$key]];
 }
 cp::conf_data_walk(function($data_type,$data_name,&$conf_data){
 	if(isset($conf_data['article_type'])){
 		$class_name=cp::get_class_name('article_type',$conf_data['article_type']);
-		add_menus($data_type,$data_name,$class_name::get_menus($conf_data));
+		add_menus(compact('data_type','data_name'),$class_name::get_menus($conf_data));
 	}
 	if($templates=$conf_data[($data_type=='cpdb'?'alias_':'').'template']??null){
 		foreach($templates as $template){
-			$class_name=cp::get_class_name('template_type',explode('-',$template)[0]);
-			add_menus($data_type,$data_name,$class_name::get_menus($conf_data));
+			$tmp_name=explode('-',$template)[0];
+			$tmp_slug=explode('-',$template)[1]??null;
+			$class_name=cp::get_class_name('template_type',$tmp_name);
+			add_menus(compact('data_type','data_name','tmp_name','tmp_slug'),$class_name::get_menus($conf_data));
 		}
 	}
 });

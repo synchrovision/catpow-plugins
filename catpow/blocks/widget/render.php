@@ -1,2 +1,2 @@
 <?php
-cp::get_template_part($attr['content_path'],['content'=>$content]);
+cp::$content->render_content($attr['content_path'],['content'=>$content]);

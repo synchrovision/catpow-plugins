@@ -9,7 +9,7 @@ namespace Catpow\content;
 * path_dataを保持することを保証しなくてはならない
 * 
 */
-abstract class content{
+class content{
 	public $parent,$inherit;
 	
 	public function __construct($param){
@@ -36,6 +36,9 @@ abstract class content{
 	}
 	
 	/*create child instance*/
+	public function content($path){
+		return new self(['path'=>$path,'parent'=>$this]);
+	}
 	public function user($user_id,$tmp_name){
 		$query_class=\cp::get_class_name('query','user');
 		return new loop([
@@ -236,6 +239,18 @@ abstract class content{
 		\cp::get_template_part($this->path.'/'.$file,$vars);
 		if(isset($org_content)){\cp::$content=$org_content;}
 	}
+	public function render_content($file,$vars=false){
+		$path=dirname($file);
+		\cp::enqueue_script($path.'/script.js');
+		\cp::enqueue_style($path.'/style.css');
+		$this->content($path)->render(basename($file),$vars);
+	}
+	public function render_loop($file,$q=null,$vars=false){
+		$path=dirname($file);
+		\cp::enqueue_script($path.'/script.js');
+		\cp::enqueue_style($path.'/style.css');
+		$this->query($path,$q)->render(basename($file),$vars);
+	}
 	
 	/*helper*/
 	public function get_closest($q){
@@ -325,6 +340,7 @@ abstract class content{
 			case 'input_name':return \cp::get_input_name($this->data_path);
 			case 'input_id':return \cp::get_input_id($this->data_path);
 			case 'path':return $this->path=\cp::create_content_path($this->path_data);
+			case 'url':return $this->url=get_theme_file_uri($this->path);
 			case 'file_path':return $this->file_path=\cp::create_content_file_path($this->path_data);
 			case 'data_path':return $this->data_path=\cp::create_data_path($this->path_data);
 			case 'real_data_path':return $this->data_real_path=\cp::create_data_path(\cp::realize_path_data($this->path_data));

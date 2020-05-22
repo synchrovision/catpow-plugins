@@ -74,14 +74,14 @@ foreach($post_types as $type=>&$type_vals){
 			break;
 		default:
 			$prm=array(
-					'labels' => array('name' =>$type_vals['label'],'singular_name' => $type),
-					'public' => isset($type_vals['public'])?$type_vals['public']:(in_array('mail',(array)$type_vals['template'])?false:true),
-					'has_archive'=>in_array('archive',(array)$type_vals['template']),
-					'menu_icon'=>isset($type_vals['menu_icon'])?$type_vals['menu_icon']:'dashicons-admin-page',
-					'show_ui'=>current_user_can(isset($type_vals['capability'])?$type_vals['capability']:'edit_others_posts'),
-					'show_in_rest'=>isset($type_vals['richedit'])?$type_vals['richedit']:true,
-					'show_in_menu'=>isset($type_vals['show_in_menu'])?$type_vals['show_in_menu']:true,
-					'hierarchical'=>isset($type_vals['hierarchical'])?$type_vals['hierarchical']:false,
+					'labels'=>array('name' =>$type_vals['label'],'singular_name'=>$type),
+					'public'=>$type_vals['public']??(in_array('mail',(array)$type_vals['template'])?false:true),
+					'has_archive'=>$type_vals['has_archive']??in_array('archive',(array)$type_vals['template']),
+					'menu_icon'=>$type_vals['menu_icon']??'dashicons-admin-page',
+					'show_ui'=>current_user_can($type_vals['capability']??'edit_others_posts'),
+					'show_in_rest'=>$type_vals['richedit']??true,
+					'show_in_menu'=>$type_vals['show_in_menu']??true,
+					'hierarchical'=>$type_vals['hierarchical']??false,
 					'supports'=>$supports
 				);
 			$ico=get_stylesheet_directory().'/config/menu_icon/'.$type.'.png';

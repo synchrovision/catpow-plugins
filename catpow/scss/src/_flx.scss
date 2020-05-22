@@ -23,6 +23,10 @@
 			-webkit-align-content:map-get($jvals,$val);
 			align-content:map-get($jvals,$val);
 		}
+		@if $key == ji{
+			-webkit-justify-items:map-get($jvals,$val);
+			justify-items:map-get($jvals,$val);
+		}
 		@if $key == a or $key == ai{
 			-webkit-align-items:map-get($avals,$val);
 			align-items:map-get($avals,$val);

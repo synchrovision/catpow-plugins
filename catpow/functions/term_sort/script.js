@@ -1,12 +1,12 @@
 jQuery(function($){
-	var $tgt=$('.wp-list-table.terms tbody');
+	var $tgt=$('.wp-list-table.tags tbody');
 	var $form=$tgt.closest('form');
 	$tgt.sortable({
 		start:function(e,ui){
 		},
 		update:function(e,ui){
 			var sort_data=[];
-			$('input[name="term[]"]',$tgt).each(function(i,e){
+			$('input[name="delete_tags[]"]',$tgt).each(function(i,e){
 				sort_data.push($(this).val());
 			});
 			var fd=new FormData();
@@ -30,7 +30,7 @@ jQuery(function($){
 				if(e.status=='200'){
 					console.log('data:');
 					$.ajax({
-						url:wp_ajax_url,
+						url:cp.ajax_url,
 						type:'post',
 						dataType:'html',
 						data:fd,

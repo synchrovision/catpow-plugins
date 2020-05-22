@@ -1,37 +1,30 @@
 <?php
-/*
 add_filter('get_terms_orderby',function($orderby){
+	if(empty($orderby)){return 'tm.meta_value';}
+	return " tm.meta_value ASC,".$orderby;
+});
+add_filter('terms_clauses',function($clauses){
 	global $wpdb;
-	return "{$wpdb->term_relationships}.term_order ASC,{$orderby}";
+	$clauses['join'].=" LEFT JOIN {$wpdb->termmeta} AS tm ON tm.term_id = tt.term_taxonomy_id AND tm.meta_key = 'term_order'";
+	return $clauses;
 });
 
 
 add_action('admin_init',function(){
-	global $pagenow;
-	if($pagenow=='edit-tags.php' and is_user_logged_in()){
+	global $pagenow,$taxonomies;
+	$tax=$_GET['taxonomy']??'category';
+	if($pagenow=='edit-tags.php' and is_user_logged_in() and !empty($taxonomies[$tax]['sortable'])){
 		wp_enqueue_script('jquery-ui');
 		wp_enqueue_script('jquery-ui-sortable');
-		wp_enqueue_script('cp_term_sort_script');	
+		wp_enqueue_script('cp_term_sort_script',plugins_url('script.js',__FILE__));	
 	}
 });
 
 add_action('wp_ajax_cp_term_sort',function(){
-	check_admin_referer('bulk-terms');
-	global $wpdb;
+	check_admin_referer('bulk-tags');
 	$ids=explode(',',$_REQUEST['sort_data']);
-	$orders=[];
-	$tgt_orders=[];
-	$taxonomy=get_post_type(reset($ids));
-	$all_ids=$wpdb->get_col("SELECT term_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = '{$taxonomy}' ORDER BY term_order ASC");
-	foreach($all_ids as $i => $id){$orders[$id]=$i+1;}
-	foreach($ids as $id){$tgt_orders[]=$orders[$id];}
-	sort($tgt_orders);
-	foreach($ids as $i=>$id){$orders[$id]=$tgt_orders[$i];}
-	$sql="UPDATE {$wpdb->posts} SET menu_order = CASE ID";
-	foreach($orders as $id=>$order){$sql.=" WHEN {$id} THEN {$order}";}
-	$sql.=" END WHERE post_type = '{$post_type}'";
-	$wpdb->get_results($sql);
-	printf('%s(%s);',$_REQUEST['callback'],json_encode($orders));
+	foreach($ids as $i=>$id){update_term_meta($id,'term_order',$i+1);}
+	printf('%s(%s);',$_REQUEST['callback'],json_encode($ids));
+	
 	die();
 });
-*/

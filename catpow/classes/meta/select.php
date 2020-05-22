@@ -4,7 +4,7 @@ namespace Catpow\meta;
 class select extends meta{
 	
 	public static function output($meta,$prm){
-		$sels=self::get_selections($meta);
+		$sels=static::get_selections($meta);
 		$v=$meta->value;
 		foreach($sels as $key=>$val){
 			if(is_array($val)){
@@ -16,8 +16,8 @@ class select extends meta{
 		}
 	}
 	public static function input($meta,$prm){
-		$sels=self::get_selections($meta);
-		return self::get_input($meta->the_data_path,$meta->conf,$sels,$meta->value);
+		$sels=static::get_selections($meta);
+		return static::get_input($meta->the_data_path,$meta->conf,$sels,$meta->value);
 	}
 	
 	public static function get_selections($meta){

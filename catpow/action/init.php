@@ -65,7 +65,8 @@ if(function_exists('register_block_type')){
 		'front_script'=>['catpow','cp_init'],
 		'front_style'=>[],
 		'component'=>['wp-element','wp-api-fetch','catpow'],
-		'script'=>['catpow']
+		'script'=>['catpow'],
+		'style'=>[]
 	];
 	foreach(cp::get_file_urls('blocks') as $block_dir=>$block_url){
 		foreach(glob($block_dir.'/_init/*.js') as $format_script){
@@ -209,6 +210,25 @@ function shortcode_callback($atts,$content='',$tag=''){
 	}
 	return false;
 }
+$GLOBALS['wp_filter']['the_content']->callbacks[11]['do_shortcode']['function']=function($content){
+	global $shortcode_tags;
+	
+	if(false===strpos($content,'[')){return $content;}
+	if(empty($shortcode_tags) || !is_array($shortcode_tags)){return $content;}
+
+	preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $content, $matches );
+	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
+
+	if(empty($tagnames)){return $content;}
+
+	$pattern=get_shortcode_regex($tagnames);
+	$content=preg_replace_callback("/$pattern/",'do_shortcode_tag',$content);
+
+	$content=unescape_invalid_shortcodes( $content );
+
+	return $content;
+};
+
 
 /*alt image*/
 add_filter('image_downsize',function($out,$id,$size){

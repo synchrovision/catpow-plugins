@@ -38,7 +38,7 @@ function breadcrumb($home_name=null){
 	タグアーカイブの場合はタグ一つ毎のアーカイブリンクがひとつの枠に入れられる
 	固定ページはその階層構造にしたがって生成される
 	*/
-	global $post,$wp_query,$post_types;
+	global $post,$wp_query,$post_types,$wp_post_types;
 	$links=array();
 	if(empty($home_name)){
 		if(get_option('show_on_front')==='page'){
@@ -53,14 +53,15 @@ function breadcrumb($home_name=null){
 	else if(is_archive()){
 		if(is_post_type_archive()){
 			$links[$post_types[$wp_query->query_vars['post_type']]['label']]=get_post_type_archive_link($wp_query->query_vars['post_type']);
-		}else{
+		}
+		else{
 			$post_type=$wp_query->posts[0]->post_type;
 			if(isset($post_types[$post_type]['archive_page'])){
 				$archive_page_name=basename($post_types[$post_type]['archive_page']);
 				$archive_page_conf=$GLOBALS['static_pages'][$archive_page_name];
 				$links[$archive_page_conf['label']]=get_permalink(get_page_by_path($post_types[$post_type]['archive_page']));
 			}
-			else{
+			elseif($wp_post_types[$post_type]->has_archive){
 				$links[$post_types[$post_type]['label']]=get_post_type_archive_link( $post_type );
 			}
 		}
@@ -92,7 +93,7 @@ function breadcrumb($home_name=null){
 			$archive_page_conf=$GLOBALS['static_pages'][$archive_page_name];
 			$links[$archive_page_conf['label']]=get_permalink(get_page_by_path($post_types[$post_type]['archive_page']));
 		}
-		elseif(in_array('archive',$templates)){
+		elseif($wp_post_types[$post_type]->has_archive){
 			$links[$post_types[$post_type]['label']]=get_post_type_archive_link($post_type);
 		}
 		if(in_array('archive',$templates)){
@@ -398,7 +399,7 @@ function init($data){
 
 /*loop*/
 function loop($name=null,$prm=null,$vars=null){
-	if(isset($name)){
+	if(!empty($name)){
 		if(strpos($name,'/')===false){
 			return \cp::$content->meta($name,$prm)->loop();
 		}

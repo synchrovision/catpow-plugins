@@ -12,7 +12,7 @@ class page_header extends \Catpow\template_item\php{
 		}
 		else{
 			$type=$param[0]??'archive';
-			$has_template=in_array('template',$conf_data['template']);
+			$has_template=in_array('template',$conf_data['template']??[]);
 			if($conf_data['path']==='post/page'){
 				$rtn['cond_start']='<?php if(!is_front_page()): ?>';
 			}

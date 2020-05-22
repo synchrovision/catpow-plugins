@@ -71,10 +71,16 @@ class template_creator{
 			if($code_data==='default'){
 				$file_name=$path_data['file_name'];
 				if(isset($path_data['file_slug'])){$file_name.='-'.$path_data['file_slug'];}
-				$f=\cp::get_file_path('config/template/'.$path_data['tmp_name'].'/'.$file_name.'.php',\cp::FROM_THEME|\cp::FROM_DEFAULT);
+				$f=\cp::get_file_path(
+					'config/template/'.$path_data['tmp_name'].'/'.$file_name.'.'.$path_data['file_type'],
+					\cp::FROM_THEME|\cp::FROM_DEFAULT
+				);
 			}
 			else{
-				$f=\cp::get_file_path('config/template/'.$code_data.'.php',\cp::FROM_THEME|\cp::FROM_DEFAULT);
+				$f=\cp::get_file_path(
+					'config/template/'.$code_data.'.'.$path_data['file_type'],
+					\cp::FROM_THEME|\cp::FROM_DEFAULT
+				);
 			}
 			if(empty($f)){return false;}
 			echo \Catpow\template_creator::do_template_code(file_get_contents($f),$path_data,$conf_data);

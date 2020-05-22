@@ -33,6 +33,15 @@ var CP = {
 			set(data);
 		}).open();
 	},
+	imageSrcOrDummy: function imageSrcOrDummy(src) {
+		if (!src) {
+			return cp.theme_url + '/images/dummy.jpg';
+		}
+		if (src[0] == '[') {
+			return cp.plugins_url + '/catpow/callee/dummy_image.php?text=' + src;
+		}
+		return src;
+	},
 
 	parseCSV: function parseCSV(csv) {
 		var tmp = [];
@@ -610,10 +619,7 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref18) {
 			muted: 1
 		});
 	}
-	var src = item[keys.src];
-	if (!src || src[0] == '[') {
-		src = cp.theme_url + '/images/dummy.jpg';
-	}
+	var src = CP.imageSrcOrDummy(item[keys.src]);
 	return wp.element.createElement('img', {
 		className: 'selectImage ' + className,
 		src: src,

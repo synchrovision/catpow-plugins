@@ -9,16 +9,18 @@ add_submenu_page('catpow-main','リファレンス','リファレンス','edit_t
 
 
 
-function add_menus($path_data,$menus){
+function add_menus($path_data,$conf_data,$menus){
 	foreach($menus as $slug=>$menu){
 		if($slug=='top'){
 			foreach($menu as $label=>$link){
 				$link=get_menu_link($link,$path_data);
+				$icon=$conf_data['menu_icons'][$path_data['tmp_name']]??$conf_data['menu_icon']??null;
+				$pos=$conf_data['menu_positions'][$path_data['tmp_name']]??$conf_data['menu_position']??null;
 				if(is_array($link)){
-					add_menu_page($label,$label,'publish_posts',key($link),reset($link));
+					add_menu_page($label,$label,'publish_posts',key($link),reset($link),$icon,$pos);
 				}
 				else{
-					add_menu_page($label,$label,'publish_posts',$link);
+					add_menu_page($label,$label,'publish_posts',$link,null,$icon,$pos);
 				}
 			}
 		}
@@ -82,14 +84,14 @@ function get_menu_link($slug,$path_data){
 cp::conf_data_walk(function($data_type,$data_name,&$conf_data){
 	if(isset($conf_data['article_type'])){
 		$class_name=cp::get_class_name('article_type',$conf_data['article_type']);
-		add_menus(compact('data_type','data_name'),$class_name::get_menus($conf_data));
+		add_menus(compact('data_type','data_name'),$conf_data,$class_name::get_menus($conf_data));
 	}
 	if($templates=$conf_data[($data_type=='cpdb'?'alias_':'').'template']??null){
 		foreach($templates as $template){
 			$tmp_name=explode('-',$template)[0];
 			$tmp_slug=explode('-',$template)[1]??null;
 			$class_name=cp::get_class_name('template_type',$tmp_name);
-			add_menus(compact('data_type','data_name','tmp_name','tmp_slug'),$class_name::get_menus($conf_data));
+			add_menus(compact('data_type','data_name','tmp_name','tmp_slug'),$conf_data,$class_name::get_menus($conf_data));
 		}
 	}
 });

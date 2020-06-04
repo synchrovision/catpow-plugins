@@ -78,6 +78,7 @@ foreach($post_types as $type=>&$type_vals){
 					'public'=>$type_vals['public']??(in_array('mail',(array)$type_vals['template'])?false:true),
 					'has_archive'=>$type_vals['has_archive']??in_array('archive',(array)$type_vals['template']),
 					'menu_icon'=>$type_vals['menu_icon']??'dashicons-admin-page',
+					'menu_position'=>$type_vals['menu_position']??null,
 					'show_ui'=>current_user_can($type_vals['capability']??'edit_others_posts'),
 					'show_in_rest'=>$type_vals['richedit']??true,
 					'show_in_menu'=>$type_vals['show_in_menu']??true,

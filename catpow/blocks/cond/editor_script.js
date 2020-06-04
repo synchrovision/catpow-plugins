@@ -13,8 +13,8 @@ registerBlockType('catpow/cond', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes;
 
 		return [wp.element.createElement(
 			'div',
@@ -44,7 +44,7 @@ registerBlockType('catpow/cond', {
 						setAttributes({ is_user_logged_in: is_user_logged_in });
 					},
 					value: attributes.is_user_logged_in,
-					options: [{ label: 'して�?���?', value: '-1' }, { label: 'どちらで�?', value: '0' }, { label: 'して�?��', value: '1' }]
+					options: [{ label: 'していない', value: '-1' }, { label: 'どちらでも', value: '0' }, { label: 'している', value: '1' }]
 				}),
 				attributes.is_user_logged_in !== '-1' && wp.element.createElement(TextareaControl, {
 					label: '\u6A29\u9650',
@@ -52,14 +52,21 @@ registerBlockType('catpow/cond', {
 						return setAttributes({ current_user_can: current_user_can });
 					},
 					value: attributes.current_user_can
+				}),
+				wp.element.createElement(TextareaControl, {
+					label: '\u30D5\u30A9\u30FC\u30E0\u5165\u529B\u5024',
+					onChange: function onChange(input_value) {
+						return setAttributes({ input_value: input_value });
+					},
+					value: attributes.input_value
 				})
 			)
 		)];
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className,
-			setAttributes = _ref2.setAttributes;
+		    className = _ref2.className,
+		    setAttributes = _ref2.setAttributes;
 
 		return wp.element.createElement(InnerBlocks.Content, null);
 	}

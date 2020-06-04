@@ -43,6 +43,11 @@
 							value={attributes.current_user_can}
 						/>
 					}
+					<TextareaControl
+						label='フォーム入力値'
+						onChange={(input_value)=>setAttributes({input_value})}
+						value={attributes.input_value}
+					/>
 				</PanelBody>
 			</InspectorControls>
         ];

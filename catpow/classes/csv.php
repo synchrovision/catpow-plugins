@@ -7,7 +7,9 @@ class CSV{
 	private $hash,$tree,$depth;
 	public function __construct($csv,$fill_column=false){
 		if(is_array($csv)){
-			$this->data=$csv;
+			$this->data=array_map(function($row){
+				return array_values($row);
+			},$csv);
 		}
 		else{
 			$this->file=$csv;
@@ -79,20 +81,26 @@ class CSV{
 		if($orderby){
 			if(is_a($orderby,'Closure')){usort($rtn,$orderby);}
 			elseif(is_array($orderby)){
-				foreach($orderby as &$key){
-					if(!is_numeric($key)){$key=array_search($key,$this->data[0]);}
+				$_orderby;
+				foreach($orderby as $key=>$order){
+					if(is_numeric($key)){
+						$_orderby[$order]=1;
+					}
+					else{
+						$_orderby[$key]=($order=='ASC')?1:-1;
+					}
 				}
-				usort($rtn,function($a,$b)use($orderby){
-					foreach($orderby as $i){
-						if($a[$i] > $b[$i]){return 1;}
-						if($a[$i] < $b[$i]){return -1;}
+				usort($rtn,function($a,$b)use($_orderby){
+					foreach($_orderby as $key=>$order){
+						if($a[$key] > $b[$key]){return $order;}
+						if($a[$key] < $b[$key]){return $order*-1;}
 					}
 					return 0;
 				});
 			}
 			else{
-				if(!is_numeric($orderby)){
-					$orderby=array_search($orderby,$this->data[0]);
+				if(is_numeric($orderby)){
+					$orderby=$keys[$orderby];
 				}
 				usort($rtn,function($a,$b)use($orderby){
 					if($a[$orderby] > $b[$orderby]){return 1;}

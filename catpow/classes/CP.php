@@ -128,13 +128,13 @@ class CP{
 		}
 		if($flag&self::FROM_CONTENT_DIR && isset(self::$content_path)){
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){$rtn[]=$f;}
-			if(@is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){$rtn[]=$f;}
+			if(self::is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){$rtn[]=$f;}
 		}
 		if($flag&self::FROM_STYLESHEET_DIR){
 			if(file_exists($f=get_stylesheet_directory().'/'.$name)){$rtn[]=$f;}
 		}
 		if($flag&self::FROM_TEMPLATE_DIR){
-			if(@is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){$rtn[]=$f;}
+			if(self::is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){$rtn[]=$f;}
 		}
 		if($flag&self::FROM_FUNCTIONS){
 			foreach(self::get_use_functions_dir() as $dir){
@@ -163,7 +163,7 @@ class CP{
 			if(file_exists(get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				return get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
-			if(@is_child_theme() && file_exists(get_template_directory().'/'.self::$content_path.'/'.$name)){
+			if(self::is_child_theme() && file_exists(get_template_directory().'/'.self::$content_path.'/'.$name)){
 				return get_template_directory_uri().'/'.self::$content_path.'/'.$name;
 			}
 		}
@@ -171,7 +171,7 @@ class CP{
 			if(file_exists(get_stylesheet_directory().'/'.$name)){return get_stylesheet_directory_uri().'/'.$name;}
 		}
 		if($flag&self::FROM_TEMPLATE_DIR){
-			if(@is_child_theme() && file_exists(get_template_directory().'/'.$name)){return get_template_directory_uri().'/'.$name;}
+			if(self::is_child_theme() && file_exists(get_template_directory().'/'.$name)){return get_template_directory_uri().'/'.$name;}
 		}
 		if($flag&self::FROM_FUNCTIONS){
 			foreach(self::get_use_functions_dir_url() as $dir=>$url){
@@ -242,7 +242,7 @@ class CP{
 			if(file_exists($f=get_stylesheet_directory().'/'.self::$content_path.'/'.$name)){
 				return [$f=>get_stylesheet_directory_uri().'/'.self::$content_path.'/'.$name];
 			}
-			if(@is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){
+			if(self::is_child_theme() && file_exists($f=get_template_directory().'/'.self::$content_path.'/'.$name)){
 				return [$f=>get_template_directory_uri().'/'.self::$content_path.'/'.$name];
 			}
 		}
@@ -252,7 +252,7 @@ class CP{
 			}
 		}
 		if($flag&self::FROM_TEMPLATE_DIR){
-			if(@is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){
+			if(self::is_child_theme() && file_exists($f=get_template_directory().'/'.$name)){
 				return [$f=>get_template_directory_uri().'/'.$name];
 			}
 		}
@@ -1973,6 +1973,13 @@ class CP{
 			)
 		);
 		return $supported_blocks;
+	}
+	
+	/*theme*/
+	public static function is_child_theme(){
+		static $is_child_theme;
+		if(isset($is_child_theme)){return $is_child_theme;}
+		return $is_child_theme=get_template_directory()!==get_stylesheet_directory();
 	}
 	
 	/*接続情報*/

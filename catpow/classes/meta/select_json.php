@@ -21,7 +21,7 @@ class select_json extends meta{
 	}
 	
 	public static function get_selections($meta){
-		$f=\cp::get_file_path('json/'.$meta->conf['value'].'.json');
+		$f=\cp::get_file_path('json/'.($meta->conf['value']??$meta->conf['name']).'.json');
 		if(empty($f)){return [];}
 		$rtn=json_decode(file_get_contents($f),true);
 		if(isset($meta->conf['addition'])){

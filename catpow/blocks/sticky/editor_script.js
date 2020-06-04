@@ -12,10 +12,10 @@ registerBlockType('catpow/sticky', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes;
 		var classes = attributes.classes,
-			labelText = attributes.labelText;
+		    labelText = attributes.labelText;
 
 		var primaryClass = 'wp-block-catpow-sticky';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -33,15 +33,15 @@ registerBlockType('catpow/sticky', {
 			closeButtonImage: { src: "closeButtonImageSrc" }
 		};
 
-		var selectiveClasses = [{ label: '位置', input: 'position', disable: ['left', 'center', 'right'] }, { label: 'サイズ', filter: 'size', values: { full: '全面', large: '大', medium: '中', small: '�?' } }, {
-			label: 'タイ�?',
+		var selectiveClasses = [{ label: '位置', input: 'position', disable: ['left', 'center', 'right'] }, { label: 'サイズ', filter: 'size', values: { full: '全面', large: '大', medium: '中', small: '小' } }, {
+			label: 'タイプ',
 			filter: 'type',
-			values: { label: 'ラベル', container: 'コン�?��', collapsible: '折り畳み' },
+			values: { label: 'ラベル', container: 'コンテナ', collapsible: '折り畳み' },
 			sub: {
 				label: ['color'],
 				collapsible: ['color', {
 					label: 'ボタン',
-					values: { pullButton: '引き出�?', menuButton: 'メニュー', labelButton: 'ラベル', imageButton: '画�?' },
+					values: { pullButton: '引き出し', menuButton: 'メニュー', labelButton: 'ラベル', imageButton: '画像' },
 					sub: {
 						imageButton: [{ label: 'open', input: 'image', keys: imageKeys.openButtonImage, size: 'thumbnail' }, { label: 'close', input: 'image', keys: imageKeys.closeButtonImage, size: 'thumbnail' }]
 					}
@@ -103,7 +103,8 @@ registerBlockType('catpow/sticky', {
 				icon: 'art',
 				set: setAttributes,
 				attr: attributes,
-				selectiveClasses: selectiveClasses
+				selectiveClasses: selectiveClasses,
+				filters: CP.filters.listed || {}
 			}),
 			wp.element.createElement(
 				PanelBody,
@@ -120,10 +121,10 @@ registerBlockType('catpow/sticky', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className,
-			setAttributes = _ref2.setAttributes;
+		    className = _ref2.className,
+		    setAttributes = _ref2.setAttributes;
 		var classes = attributes.classes,
-			labelText = attributes.labelText;
+		    labelText = attributes.labelText;
 
 
 		var classArray = classes.split(' ');
@@ -192,8 +193,8 @@ registerBlockType('catpow/stickycontent', {
 	parent: ['catpow/sticky'],
 	edit: function edit(_ref3) {
 		var attributes = _ref3.attributes,
-			className = _ref3.className,
-			setAttributes = _ref3.setAttributes;
+		    className = _ref3.className,
+		    setAttributes = _ref3.setAttributes;
 
 		return [wp.element.createElement(
 			'div',
@@ -203,8 +204,8 @@ registerBlockType('catpow/stickycontent', {
 	},
 	save: function save(_ref4) {
 		var attributes = _ref4.attributes,
-			className = _ref4.className,
-			setAttributes = _ref4.setAttributes;
+		    className = _ref4.className,
+		    setAttributes = _ref4.setAttributes;
 
 		return wp.element.createElement(
 			'div',

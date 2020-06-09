@@ -1880,7 +1880,7 @@ class CP{
 				)
 			){
 				if(empty($scssc)){
-					$scssc = new \Leafo\ScssPhp\Compiler();
+					$scssc = new \ScssPhp\ScssPhp\Compiler();
 					$scssc->addImportPath(ABSPATH.'/wp-admin/css/colors/');
 					foreach(self::$extensions as $extension){
 						$scssc->addImportPath(WP_PLUGIN_DIR.'/'.$extension.'/scss/');

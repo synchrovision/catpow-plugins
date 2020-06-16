@@ -28,6 +28,20 @@
 					attributes.classes="wp-block-catpow-datatable spec";
 					return createBlock('catpow/datatable',attributes);
 				}
+			},
+			{
+				type:'block',
+				blocks:['core/table'],
+				transform:(attributes)=>{
+					return createBlock('catpow/datatable',{
+						classes:"wp-block-catpow-datatable spec",
+						rows:attributes.body.map((row)=>({
+							cells:row.cells.map((cell)=>({
+								text:wp.blocks.parseWithAttributeSchema(cell.content,{source:'children'})
+							}))
+						}))
+					});
+				}
 			}
 		]
 	},
@@ -75,6 +89,8 @@
 		const primaryClass='wp-block-catpow-datatable';
 		var classArray=_.uniq((className+' '+classes).split(' '));
 		var classNameArray=className.split(' ');
+		
+		console.log(wp.data.select('core/blocks').getBlockTypes());
 		
 		if(attributes.file){
 			var reader=new FileReader();

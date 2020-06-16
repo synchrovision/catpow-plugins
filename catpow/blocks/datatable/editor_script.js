@@ -28,6 +28,23 @@ registerBlockType('catpow/datatable', {
 				attributes.classes = "wp-block-catpow-datatable spec";
 				return createBlock('catpow/datatable', attributes);
 			}
+		}, {
+			type: 'block',
+			blocks: ['core/table'],
+			transform: function transform(attributes) {
+				return createBlock('catpow/datatable', {
+					classes: "wp-block-catpow-datatable spec",
+					rows: attributes.body.map(function (row) {
+						return {
+							cells: row.cells.map(function (cell) {
+								return {
+									text: wp.blocks.parseWithAttributeSchema(cell.content, { source: 'children' })
+								};
+							})
+						};
+					})
+				});
+			}
 		}]
 	},
 	attributes: {
@@ -55,15 +72,17 @@ registerBlockType('catpow/datatable', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes,
-			isSelected = _ref.isSelected;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var classes = attributes.classes,
-			rows = attributes.rows;
+		    rows = attributes.rows;
 
 		var primaryClass = 'wp-block-catpow-datatable';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 		var classNameArray = className.split(' ');
+
+		console.log(wp.data.select('core/blocks').getBlockTypes());
 
 		if (attributes.file) {
 			var reader = new FileReader();
@@ -89,8 +108,8 @@ registerBlockType('catpow/datatable', {
 			hasHeaderColumn: false
 		};
 
-		var statesClasses = [{ label: 'ヘッ�?�?', values: 'hasHeaderRow' }, { label: 'ヘッ�?�?', values: 'hasHeaderColumn' }];
-		var selectiveClasses = [{ label: 'タイ�?', filter: 'type', values: ['spec', 'sheet', 'plan'] }, 'color'];
+		var statesClasses = [{ label: 'ヘッダ行', values: 'hasHeaderRow' }, { label: 'ヘッダ列', values: 'hasHeaderColumn' }];
+		var selectiveClasses = [{ label: 'タイプ', filter: 'type', values: ['spec', 'sheet', 'plan'] }, 'color'];
 
 		var hasClass = function hasClass(cls) {
 			return classArray.indexOf(cls) !== -1;
@@ -261,9 +280,9 @@ registerBlockType('catpow/datatable', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className;
+		    className = _ref2.className;
 		var classes = attributes.classes,
-			rows = attributes.rows;
+		    rows = attributes.rows;
 
 		var classArray = classes.split(' ');
 

@@ -1,5 +1,6 @@
 @mixin clr(){
 	@for $i from 1 through 12{
+		$i:$i !global;
 		.color#{$i} &,&.color#{$i}{
 			@content;
 		}

@@ -17,7 +17,7 @@
 }
 
 @function tint($color,$tint){
-	$tint:$tint/100%;$ff:255;
+	$tint:$tint/100;$ff:255;
 	$r:$ff+$tint*(red($color)-$ff);
 	$g:$ff+$tint*(green($color)-$ff);
 	$b:$ff+$tint*(blue($color)-$ff);

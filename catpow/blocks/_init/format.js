@@ -169,6 +169,13 @@ registerFormatType('catpow/mark', {
 			return onChange(toggleFormat(value, { type: 'catpow/mark' }));
 		};
 
+		var icon = wp.element.createElement(
+			'svg',
+			{ role: 'img', focusable: 'false', xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 20 20', 'aria-hidden': 'true' },
+			wp.element.createElement('polygon', { points: '7.9,10.8 12.1,10.8 10,5.3 \t' }),
+			wp.element.createElement('path', { d: 'M0,2v16h20V2H0z M13.7,15.3L12.5,12h-5l-1.2,3.4H4.7L9,4h1.9l4.3,11.3H13.7z' })
+		);
+
 		return [wp.element.createElement(
 			Fragment,
 			null,
@@ -178,7 +185,7 @@ registerFormatType('catpow/mark', {
 				onUse: onToggle
 			}),
 			wp.element.createElement(RichTextToolbarButton, {
-				icon: 'tag',
+				icon: icon,
 				title: 'Mark',
 				onClick: onToggle,
 				isActive: isActive,
@@ -201,11 +208,17 @@ registerFormatType('catpow/q', {
 			return onChange(toggleFormat(value, { type: 'catpow/q' }));
 		};
 
+		var icon = wp.element.createElement(
+			'svg',
+			{ role: 'img', focusable: 'false', xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 20 20', 'aria-hidden': 'true' },
+			wp.element.createElement('path', { d: 'M0.8,17V9.6c0-5.7,4.6-6.1,7.5-6.2v3.1c-3.6,0.1-3.6,1.6-3.6,3h3.6V17H0.8z M11.4,17V9.6c0-5.8,4.6-6.1,7.4-6.2v3.1 c-3.6,0.1-3.6,1.6-3.6,3h3.6V17H11.4z' })
+		);
+
 		return [wp.element.createElement(
 			Fragment,
 			null,
 			wp.element.createElement(RichTextToolbarButton, {
-				icon: 'tag',
+				icon: icon,
 				title: 'Quote',
 				onClick: onToggle,
 				isActive: isActive
@@ -225,12 +238,17 @@ registerFormatType('catpow/dfn', {
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/dfn' }));
 		};
+		var icon = wp.element.createElement(
+			'svg',
+			{ role: 'img', focusable: 'false', xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 20 20', 'aria-hidden': 'true' },
+			wp.element.createElement('path', { d: 'M11.6,1.6v3.7H8V1.6H11.6z M11.6,14.7v3.7H8v-3.7H11.6z' })
+		);
 
 		return [wp.element.createElement(
 			Fragment,
 			null,
 			wp.element.createElement(RichTextToolbarButton, {
-				icon: 'tag',
+				icon: icon,
 				title: 'Define',
 				onClick: onToggle,
 				isActive: isActive

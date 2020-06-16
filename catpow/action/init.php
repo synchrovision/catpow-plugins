@@ -60,7 +60,7 @@ if(function_exists('register_block_type')){
 	},10,2);
 	$block_style_names=[];
 	$deps=[
-		'editor_script'=>['wp-blocks','wp-i18n','wp-element','wp-editor','babelHelpers','catpow'],
+		'editor_script'=>['wp-blocks','wp-i18n','wp-element','wp-editor','wp-plugins','wp-edit-post','babelHelpers','catpow'],
 		'editor_style'=>['wp-edit-blocks'],
 		'front_script'=>['catpow','cp_init'],
 		'front_style'=>[],

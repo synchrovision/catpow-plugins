@@ -9,12 +9,16 @@ div.wp-block-catpow-tabs{
 			}
 		}
 	}
-	ul.tab{
+	&>ul.tab{
+		@include bnd((pd:0,mg:0));
 		li.item{
 			@include bnd((p:r));
 			.itemControl{
 				@include bnd((w:7rem,p:a,t:-2rem,l:0,r:0,mg:a));
 			}
 		}
+	}
+	&>.contents{
+		@include bnd((o:h));
 	}
 }

@@ -7,7 +7,7 @@ table.SelectTable{
 	tbody{
 		tr{
 			td{
-				@include bnd((pd:1rem));
+				@include bnd((pd:1rem 0));
 				@include bdr((s:s,w:1,c:t 50));
 				@include txt((a:c,p:1.2rem));
 				@include usr((c:p));

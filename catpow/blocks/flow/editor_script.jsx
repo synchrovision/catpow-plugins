@@ -28,7 +28,7 @@
 				src:{source:'attribute',selector:'li>.image [src]',attribute:'src'},
 				alt:{source:'attribute',selector:'li>.image [src]',attribute:'alt'},
 				subTitle:{source:'children',selector:'.contents h4'},
-				text:{source:'children',selector:'.contents p'},
+				text:{source:'children',selector:'.contents p,.contents .text'},
 				linkUrl:{source:'attribute',selector:'.link a',attribute:'href'}
 			},
 			default:[...Array(3)].map(()=>{
@@ -45,7 +45,8 @@
 			})
 		},
 		countPrefix:{source:'text',selector:'.counter .prefix',default:''},
-		countSuffix:{source:'text',selector:'.counter .suffix',default:''}
+		countSuffix:{source:'text',selector:'.counter .suffix',default:''},
+		blockState:{type:'object',default:{enableBlockFormat:true}}
 	},
 	edit({attributes,className,setAttributes,isSelected}){
 		const {items,classes,countPrefix,countSuffix}=attributes;
@@ -106,7 +107,7 @@
 							/>
 						</div>
 					}
-					<header>
+					<header onFocus={()=>{attributes.blockState.enableBlockFormat=false;}}>
 						{states.hasCounter &&
 							<div className='counter'>
 								{countPrefix && <span class="prefix">{countPrefix}</span>}
@@ -133,20 +134,21 @@
 					</header>
 					<div class="contents">
 						{states.hasSubTitle &&
-							<h4>
+							<h4 onFocus={()=>{attributes.blockState.enableBlockFormat=false;}}>
 								<RichText
 									onChange={(subTitle)=>{itemsCopy[index].subTitle=subTitle;setAttributes({items:itemsCopy});}}
 									value={item.subTitle}
 									placeholder='SubTitle'
+									onFocus={()=>{attributes.blockState.enableBlockFormat=false;}}
 								/>
 							</h4>
 						}
-						<p>
+						<div className="text" onFocus={()=>{attributes.blockState.enableBlockFormat=true;}}>
 							<RichText
 								onChange={(text)=>{itemsCopy[index].text=text;setAttributes({items:itemsCopy});}}
 								value={item.text}
 							/>
-						</p>
+						</div>
 					</div>
 					{states.hasLink &&
 						<div className='link'>
@@ -230,12 +232,90 @@
 					</header>
 					<div class="contents">
 						{states.hasSubTitle && <h4>{item.subTitle}</h4>}
-						<p>{item.text}</p>
+						<div className="text">{item.text}</div>
 					</div>
 					{states.hasLink && item.linkUrl && <div className='link'><a href={item.linkUrl}> </a></div>}
 				</li>
 			);
 		});
 		return <ul className={classes}>{rtn}</ul>;
-	}
+	},
+	deprecated:[
+		{
+			attributes:{
+				version:{type:'number',default:0},
+				classes:{source:'attribute',selector:'ul',attribute:'class',default:'wp-block-catpow-flow medium hasCounter'},
+				items:{
+					source:'query',
+					selector:'li.item',
+					query:{
+						classes:{source:'attribute',attribute:'class'},
+						title:{source:'children',selector:'header .text h3'},
+						titleCaption:{source:'children',selector:'header .text p'},
+						src:{source:'attribute',selector:'li>.image [src]',attribute:'src'},
+						alt:{source:'attribute',selector:'li>.image [src]',attribute:'alt'},
+						subTitle:{source:'children',selector:'.contents h4'},
+						text:{source:'children',selector:'.contents p'},
+						linkUrl:{source:'attribute',selector:'.link a',attribute:'href'}
+					},
+					default:[...Array(3)].map(()=>{
+						return {
+							classes:'item',
+							title:['Title'],
+							titleCaption:['Caption'],
+							subTitle:['SubTitle'],
+							src:cp.theme_url+'/images/dummy.jpg',
+							alt:'dummy',
+							text:['Text'],
+							linkUrl:cp.home_url
+						}
+					})
+				},
+				countPrefix:{source:'text',selector:'.counter .prefix',default:''},
+				countSuffix:{source:'text',selector:'.counter .suffix',default:''}
+			},
+			save({attributes,className}){
+				const {items,classes,countPrefix,countSuffix}=attributes;
+				var classArray=_.uniq(attributes.classes.split(' '));
+
+				var states={
+					hasImage:false,
+					hasCounter:false,
+					hasTitleCaption:false,
+					hasSubTitle:false,
+					hasLink:false,
+				}
+				const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
+				Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
+
+				let rtn=[];
+				items.map((item,index)=>{
+					rtn.push(
+						<li className={item.classes}>
+							{states.hasImage && <div className='image'><img src={item.src} alt={item.alt}/></div>}
+							<header>
+								{states.hasCounter &&
+									<div className='counter'>
+										{countPrefix && <span class="prefix">{countPrefix}</span>}
+										<span className="number">{index+1}</span>
+										{countSuffix && <span class="suffix">{countSuffix}</span>}
+									</div>
+								}
+								<div className='text'>
+									<h3>{item.title}</h3>
+									{states.hasTitle && states.hasTitleCaption && <p>{item.titleCaption}</p>}
+								</div>
+							</header>
+							<div class="contents">
+								{states.hasSubTitle && <h4>{item.subTitle}</h4>}
+								<p>{item.text}</p>
+							</div>
+							{states.hasLink && item.linkUrl && <div className='link'><a href={item.linkUrl}> </a></div>}
+						</li>
+					);
+				});
+				return <ul className={classes}>{rtn}</ul>;
+			}
+		}
+	]
 });

@@ -14,7 +14,7 @@ Catpow.ZipCode = function (_wp$element$Component) {
 
 		_this.secs0 = React.createRef();
 		_this.secs1 = React.createRef();
-		_this.state = { value: props.value || '-' };
+		_this.state = { value: props.value || '-', isComposing: false };
 		return _this;
 	}
 
@@ -23,9 +23,30 @@ Catpow.ZipCode = function (_wp$element$Component) {
 		value: function render() {
 			var _this2 = this;
 
-			var value = this.state.value;
+			var _state = this.state,
+			    value = _state.value,
+			    isComposing = _state.isComposing;
 
 			var secs = value.split('-').slice(0, 2);
+
+			var setValue = function setValue(i, val) {
+				if (!val.match(/^\d+$/)) {
+					val = '';
+				}
+				if (val.length == 7) {
+					secs[0] = val.substring(0, 3);
+					secs[1] = val.substring(3);
+				} else {
+					secs[i] = val;
+					if (i == 0 && val.length > 2) {
+						if (!isComposing) {
+							_this2.secs1.current.focus();
+						}
+					}
+				}
+				AjaxZip3.zip2addr(_this2.secs0.current, _this2.secs1.current, _this2.props.pref, _this2.props.addr);
+				_this2.setState({ value: secs.join('-') });
+			};
 
 			var input = function input(i) {
 				return wp.element.createElement("input", {
@@ -34,20 +55,15 @@ Catpow.ZipCode = function (_wp$element$Component) {
 					className: "sec" + i,
 					onChange: function onChange(e) {
 						var val = e.target.value;
-						if (!val.match(/^\d+$/)) {
-							val = '';
-						}
-						if (val.length == 7) {
-							secs[0] = val.substring(0, 3);
-							secs[2] = val.substring(3);
-						} else {
-							secs[i] = val;
-							if (i == 0 && val.length > 2) {
-								_this2.secs1.current.focus();
-							}
-						}
-						AjaxZip3.zip2addr(_this2.secs0.current, _this2.secs1.current, _this2.props.pref, _this2.props.addr);
-						_this2.setState({ value: secs.join('-') });
+						setValue(i, e.target.value);
+					},
+					onCompositionStart: function onCompositionStart(e) {
+						_this2.setState({ isComposing: true });
+					},
+					onCompositionEnd: function onCompositionEnd(e) {
+						isComposing = false;
+						setValue(i, e.target.value);
+						_this2.setState({ isComposing: isComposing });
 					},
 					ref: _this2['secs' + i],
 					value: secs[i]

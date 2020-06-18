@@ -29,7 +29,7 @@ elseif($_REQUEST['csv_action']==='download'){
 	$data=$q->export();
 	array_walk($data,function(&$row){
 		foreach($row as &$val){
-			if(is_array($val)){$val=json_encode($val);}
+			if(is_array($val)){$val=json_encode($val,0500);}
 		}
 	});
 	array_unshift($data,array_keys($data[0]));

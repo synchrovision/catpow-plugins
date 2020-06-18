@@ -14,6 +14,10 @@
 		ai:align-items,
 		g:grid-gap
 	);
+	$iekeys:(
+		tc:-ms-grid-columns,
+		tr:-ms-grid-rows,
+	);
 	$fvals:(c:column,r:row,d:dense);
 	$jvals:(s:start,e:end,c:center,b:space-between,a:space-around,v:space-evenly);
 	display:-webkit-grid;
@@ -40,6 +44,7 @@
 			$key == ji or $key == ai
 			{$val:map-get($jvals,$val);}
 		@if $key == f{$val:map-get($fvals,$val);}
-		@if map-has-key($keys,$key){#{map-get($keys,$key)}:$val;}
+		@if map-has-key($iekeys,$key){#{map-get($iekeys,$key)}:$val;}
+		@if map-has-key($keys,$key){#{map-get($keys,$key)}:$val;});}
 	}
 }

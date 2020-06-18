@@ -4,7 +4,7 @@ namespace Catpow\meta;
 class post_title extends meta{
 	public static function get($data_type,$data_name,$id,$meta_name,$conf){
 		$type=static::get_type();
-		if($post=get_post($id)){return [$post->$type];}
+		if(!empty($id) && $post=get_post($id)){return [$post->$type];}
 		return false;
 	}
 	public static function set($data_type,$data_name,$id,$meta_name,$vals,$conf){

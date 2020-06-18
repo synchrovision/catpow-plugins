@@ -5,3 +5,6 @@ const {PanelBody,BaseControl,TreeSelect,TextareaControl,TextControl,ServerSideRe
 const {registerFormatType,toggleFormat}=wp.richText;
 const {__}=wp.i18n;
 const el=wp.element.createElement;
+
+const {registerPlugin}=wp.plugins;
+const {PluginSidebarMoreMenuItem,PluginSidebar}=wp.editPost;

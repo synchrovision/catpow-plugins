@@ -35,3 +35,8 @@ var _wp$richText = wp.richText,
 var __ = wp.i18n.__;
 
 var el = wp.element.createElement;
+
+var registerPlugin = wp.plugins.registerPlugin;
+var _wp$editPost = wp.editPost,
+    PluginSidebarMoreMenuItem = _wp$editPost.PluginSidebarMoreMenuItem,
+    PluginSidebar = _wp$editPost.PluginSidebar;

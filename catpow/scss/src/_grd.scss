@@ -45,6 +45,6 @@
 			{$val:map-get($jvals,$val);}
 		@if $key == f{$val:map-get($fvals,$val);}
 		@if map-has-key($iekeys,$key){#{map-get($iekeys,$key)}:$val;}
-		@if map-has-key($keys,$key){#{map-get($keys,$key)}:$val;});}
+		@if map-has-key($keys,$key){#{map-get($keys,$key)}:$val;}
 	}
 }

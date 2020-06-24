@@ -14,7 +14,7 @@ class CSV{
 		else{
 			$this->file=$csv;
 			$csv=fopen($csv,'r');
-			if(empty($fill_coumn)){
+			if(empty($fill_column)){
 				while($row=fgetcsv($csv)){
 					array_push($this->data,$row);
 				}

@@ -1,8 +1,0 @@
-@mixin bp($bp){
-	@if type-of($breakpoints) == 'map' {
-		@if map-has-key($breakpoints,$bp){$bp:map-get($breakpoints,$bp);}
-	}
-	@media(#{$bp}){
-		@content;
-	}
-}

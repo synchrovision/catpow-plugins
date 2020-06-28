@@ -606,7 +606,7 @@ class CP{
 	}
 	
 	public static function get_class_name(){
-		$name=implode('\\',func_get_args());
+		$name=implode('\\',array_filter(func_get_args()));
 		return '\\Catpow\\'.$name;
 	}
 	

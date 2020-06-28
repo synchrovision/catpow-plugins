@@ -6,7 +6,7 @@ trait SessionSingleton{
 	
 	protected function __construct(){}
 	static function getInstance(){
-		static::$instance=&\cp::$data[static::INSTANCE_NAME];
+		static::$instance=&\cp::$data[static::INSTANCE_NAME??static::class];
 		if(isset(static::$instance) && is_a(static::$instance,static::class)){
 			return static::$instance;
 		}

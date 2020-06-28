@@ -22,9 +22,5 @@ body table.wp-block-catpow-layouttable {
       top: 0px;
       left: 0px;
       background-color: #0ff;
-      -webkit-opacity: 0.2;
-      -moz-opacity: 0.2;
-      -ms-opacity: 0.2;
-      -o-opacity: 0.2;
       opacity: 0.2;
       pointer-events: none; }

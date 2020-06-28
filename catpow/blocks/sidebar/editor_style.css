@@ -16,16 +16,16 @@ div.wp-block-catpow-sidebar > .editor-inner-blocks {
       flex-grow: 10;
       flex-shrink: 10;
       flex-basis: 30rem; }
-      div.wp-block-catpow-sidebar > .editor-inner-blocks > .editor-block-list__layout > .editor-block-list__block[data-type="catpow/sidecolumn"] {
-        -webkit-box-flex: 0;
-        flex-grow: 0;
-        flex-shrink: 0;
-        flex-basis: 24rem; }
-  div.wp-block-catpow-sidebar.left > .editor-inner-blocks > .editor-block-list__layout {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-direction: reverse;
-    -webkit-box-orient: horizontal;
-    -webkit-flex-direction: row-reverse;
-    flex-direction: row-reverse; }
+    div.wp-block-catpow-sidebar > .editor-inner-blocks > .editor-block-list__layout > .editor-block-list__block[data-type="catpow/sidecolumn"] {
+      -webkit-box-flex: 0;
+      flex-grow: 0;
+      flex-shrink: 0;
+      flex-basis: 24rem; }
+div.wp-block-catpow-sidebar.left > .editor-inner-blocks > .editor-block-list__layout {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-direction: reverse;
+  -webkit-box-orient: horizontal;
+  -webkit-flex-direction: row-reverse;
+  flex-direction: row-reverse; }

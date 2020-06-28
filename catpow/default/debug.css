@@ -15,10 +15,6 @@ html body #cp_log {
   overflow-y: auto;
   text-align: left;
   background-color: #fff;
-  -webkit-opacity: 0.9;
-  -moz-opacity: 0.9;
-  -ms-opacity: 0.9;
-  -o-opacity: 0.9;
   opacity: 0.9; }
   html body #cp_log small {
     color: #666; }
@@ -33,22 +29,22 @@ html body #cp_log {
       text-align: left;
       line-height: 100%;
       color: rgba(102, 102, 102, 0.8); }
-      html body #cp_log table tr th {
-        font-size: 10px;
-        font-weight: bold;
-        vertical-align: top;
-        background-color: rgba(34, 34, 34, 0.1);
-        cursor: pointer; }
-        html body #cp_log table tr th .type {
-          display: block;
-          font-size: 8px;
-          font-weight: normal; }
-      html body #cp_log table tr td {
+    html body #cp_log table tr th {
+      font-size: 10px;
+      font-weight: bold;
+      vertical-align: top;
+      background-color: rgba(34, 34, 34, 0.1);
+      cursor: pointer; }
+      html body #cp_log table tr th .type {
+        display: block;
         font-size: 8px;
-        vertical-align: middle;
-        -webkit-transition: 0.5s;
-        transition: 0.5s; }
+        font-weight: normal; }
+    html body #cp_log table tr td {
+      font-size: 8px;
+      vertical-align: middle;
+      -webkit-transition: 0.5s;
+      transition: 0.5s; }
       html body #cp_log table tr.close td::before {
         content: '…'; }
-        html body #cp_log table tr.close td table {
-          display: none; }
+      html body #cp_log table tr.close td table {
+        display: none; }

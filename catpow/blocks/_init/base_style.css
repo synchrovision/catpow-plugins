@@ -27,10 +27,6 @@ div.itemControl {
     cursor: pointer;
     -webkit-transition: 0.5s;
     transition: 0.5s;
-    -webkit-opacity: 0.7;
-    -moz-opacity: 0.7;
-    -ms-opacity: 0.7;
-    -o-opacity: 0.7;
     opacity: 0.7; }
     div.itemControl div.btn.delete::before {
       content: "\f068";
@@ -61,10 +57,6 @@ div.itemControl {
       font-family: 'Font Awesome 5 Free';
       font-weight: 900; }
     div.itemControl div.btn:hover {
-      -webkit-opacity: 1;
-      -moz-opacity: 1;
-      -ms-opacity: 1;
-      -o-opacity: 1;
       opacity: 1; }
   div.itemControl div.inputs {
     display: block;
@@ -80,10 +72,6 @@ div.itemControl {
     text-align: left;
     -webkit-transition: 0.5s;
     transition: 0.5s;
-    -webkit-opacity: 0;
-    -moz-opacity: 0;
-    -ms-opacity: 0;
-    -o-opacity: 0;
     opacity: 0;
     transform: -webkit- translateY(-10px);
     transform: translateY(-10px);
@@ -97,17 +85,9 @@ div.itemControl {
   div.itemControl.open {
     z-index: 1001; }
     div.itemControl.open div.btn.edit {
-      -webkit-opacity: 1;
-      -moz-opacity: 1;
-      -ms-opacity: 1;
-      -o-opacity: 1;
       opacity: 1; }
     div.itemControl.open div.inputs {
       display: block;
-      -webkit-opacity: 0.8;
-      -moz-opacity: 0.8;
-      -ms-opacity: 0.8;
-      -o-opacity: 0.8;
       opacity: 0.8;
       transform: -webkit- translateY(0px);
       transform: translateY(0px);
@@ -119,9 +99,9 @@ div.components-panel div.sub {
   border-left-style: solid;
   border-left-width: 5px;
   border-left-color: #eee; }
-  div.components-panel img.selectImage {
-    width: 100px;
-    height: auto; }
+div.components-panel img.selectImage {
+  width: 100px;
+  height: auto; }
 
 div.embedded_content {
   position: relative;

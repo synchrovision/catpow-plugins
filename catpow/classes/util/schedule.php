@@ -73,12 +73,12 @@ class schedule{
 		if(preg_match('/[月火水木金土日]/',$line)){return 'weekly';}
 		if(preg_match('/(sun|mon|tue|wed|thu|fri|sat)/',$line)){return 'weekly';}
 		if(preg_match('/\d[:：]\d{2}/',$line)){return 'daily';}
+		if(preg_match('/\d+/',$line)){return 'monthly';}
 	}
 	
 	public static function parse_periods_line($line){
 		$periods=[];
 		$line=self::normalize_line_text($line);
-		$line=mb_convert_kana($line,'rn');
 		$line=str_replace('/','-',$line);
 		foreach(explode(',',$line) as $item){
 			if(strpos($item,'~')!==false){
@@ -176,7 +176,7 @@ class schedule{
 	
 	public static function normalize_line_text($line){
 		$line=mb_convert_kana($line,'rn');
-		$line=preg_replace('/[、・]+/',',',$line);
+		$line=str_replace(['、','・'],',',$line);
 		$line=str_replace('〜','~',$line);
 		return $line;
 	}
@@ -244,6 +244,9 @@ class schedule{
 	}
 	public static function normalize_monthly_date_value($value){
 		$value=mb_convert_kana($value,'rn');
+		if(preg_match('/^第(\d)([月火水木金土日].+)/',$value,$matches)){
+			return $matches[1].'-'.self::normalize_day_value($matches[2]);
+		}
 		if($d=(int)$value){return $d;}
 	}
 	public static function normalize_day_value($value){

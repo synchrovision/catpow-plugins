@@ -6,6 +6,8 @@ namespace Catpow\query;
 class catpow extends query{
 	public static
 		$data_type='catpow',
+		$data_type_name='catpow_type',
+		$data_id_name='catpow_id',
 		$query_class=false,
 		$search_keys=[];
 	public $results;

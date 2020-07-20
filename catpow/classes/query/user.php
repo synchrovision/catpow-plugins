@@ -4,6 +4,7 @@ namespace Catpow\query;
 class user extends query{
 	public static
 		$data_type='user',
+		$data_type_name='role',
 		$query_class='WP_User_Query',
 		$search_keys=[
 			'number'=>0,'offset'=>0,'paged'=>0,
@@ -40,9 +41,10 @@ class user extends query{
 			if(is_array($val)){return reset($val);}
 			return $val;
 		},$object_data);
-		$object_data=array_merge([
-			'user_login'=>'user'.\cp::date(),
-		],$object_data);
+		if(empty($object_data['user_login'])){
+			do{$object_data['user_login']=sprintf('user%d%04d',date('ym'),$n++);}
+			while((username_exists($object_data['user_login'])));
+		}
 		if(empty($object_data['user_pass'])){
 			$object_data['user_pass']=wp_generate_password();
 		}

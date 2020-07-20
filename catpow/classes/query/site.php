@@ -6,6 +6,8 @@ namespace Catpow\query;
 class site extends query{
 	public static
 		$data_type='site',
+		$data_type_name='site_type',
+		$data_id_name='site_id',
 		$query_class=false,
 		$search_keys=[];
 	

@@ -4,6 +4,7 @@ namespace Catpow\query;
 class post extends query{
 	public static
 		$data_type='post',
+		$data_type_name='post_type',
 		$query_class='WP_Query',
 		$search_keys=[
 			's'=>0,'p'=>0,

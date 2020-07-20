@@ -5,7 +5,15 @@ namespace Catpow\query;
 */
 
 abstract class query{
-	public static $data_type,$query_class,$united=false,$is_meta=false,$search_keys=[],$key_translation=[];
+	public static
+		$data_type,
+		$data_type_name,
+		$data_id_name='ID',
+		$query_class,
+		$united=false,
+		$is_meta=false,
+		$search_keys=[],
+		$key_translation=[];
 	public $q,$query,$objects,$base_path;
 	
 	public function __construct($q){
@@ -49,6 +57,16 @@ abstract class query{
 	public static function delete($data_name,$data_id){}
 	
 	public static function fill_query_vars($q){return $q;}
+	public static function fill_object_data($object_data,$path_data){
+		if(empty($path_data)){return $object_data;}
+		if(empty($object_data[static::$data_type_name])){
+			$object_data[static::$data_type_name]=$path_data['data_name'];
+		}
+		if(static::is_available_id($path_data['data_id'])){
+			$object_data[static::$data_id_name]=$path_data['data_id'];
+		}
+		return $object_data;
+	}
 	public static function realize_path_data($path_data){return $path_data;}
 	public static function get_the_url($object){return false;}
 	

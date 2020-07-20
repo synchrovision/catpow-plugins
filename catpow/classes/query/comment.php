@@ -4,6 +4,8 @@ namespace Catpow\query;
 class comment extends query{
 	public static
 		$data_type='comment',
+		$data_type_name='type',
+		$data_id_name='comment_ID',
 		$query_class='WP_Comment_Query',
 		$search_keys=[];
 	

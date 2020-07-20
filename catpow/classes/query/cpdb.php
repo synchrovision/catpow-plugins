@@ -6,6 +6,8 @@ namespace Catpow\query;
 class cpdb extends query{
 	public static
 		$data_type='cpdb',
+		$data_type_name='table',
+		$data_id_name='meta_id',
 		$query_class=false,
 		$united=true,
 		$is_meta=true,
@@ -58,6 +60,7 @@ class cpdb extends query{
 		$this->q=$q;
 		extract($q);
 		$this->table=\cpdb::get_table_name($table);
+		if(empty($cpdb->structure[$this->table])){return false;}
 		$this->path=$cpdb->structure[$this->table]['path'];
 		$this->columns=$cpdb->structure[$this->table]['columns'];
 		$this->where=$where;

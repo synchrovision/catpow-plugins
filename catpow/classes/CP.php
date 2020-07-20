@@ -563,7 +563,6 @@ class CP{
 		}
 	}
 	public static function get_data_type_name($data_type){
-		//static $extra_data_type_names;
 		switch($data_type){
 			case 'post':
 			case 'page':
@@ -953,6 +952,8 @@ class CP{
 	}
 	
 	public static function parse_data_path($path){
+		static $cache;
+		if(isset($cache[$path])){return $cache[$path];}
 		self::sanitize_path($path);
 		$arr=explode('/',$path);
 		$path_data=[];
@@ -965,7 +966,7 @@ class CP{
 				$path_data['meta_path'][]=compact('meta_name','meta_id');
 			}
 		}
-		return $path_data;
+		return $cache[$path]=$path_data;
 	}
 	public static function create_data_path($path_data){
 		if(empty($path_data['data_type']) || empty($path_data['data_name'])){return false;}
@@ -1534,13 +1535,12 @@ class CP{
 				if(!empty($meta_data)){ksort($meta_data,SORT_NUMERIC);}
 			}
 		}
-		$data_type_name=self::get_data_type_name($data_type);
 		if($query_class_name::$united){
 			$rtn['object_data']=$rtn['meta_data'];
 			unset($rtn['meta_data']);
 		}
-		if(isset($rtn['object_data']) && empty($rtn['object_data'][$data_type_name])){
-			$rtn['object_data'][$data_type_name]=$data_name;
+		if(isset($rtn['object_data'])){
+			$rtn['object_data']=$query_class_name::fill_object_data($rtn['object_data'],$path_data);
 		}
 		return $rtn;
 	}
@@ -1549,7 +1549,6 @@ class CP{
 		$data_type=$data['data_type'];
 		$data_name=$data['data_name'];
 		$query_class_name=self::get_class_name('query',$data_type);
-		$data['object_data'][self::get_data_type_name($data_type)]=$data_name;
 		$data_id=$query_class_name::insert($data['object_data']);
 		$conf_data_path=$data_type.'/'.$data_name.'/';
 		foreach($data['meta_data'] as $meta_name=>$vals){
@@ -1569,7 +1568,6 @@ class CP{
 		
 		if($query_class_name::is_available_id($data_id)){
 			if(!empty($data['object_data'])){
-				$data['object_data'][self::get_data_type_name($data_type)]=$data_name;
 				$data['object_data'][self::get_data_id_name($data_type)]=$data_id;
 				$query_class_name::update($data['object_data']);
 			}

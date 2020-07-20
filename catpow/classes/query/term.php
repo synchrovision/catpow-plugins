@@ -4,6 +4,8 @@ namespace Catpow\query;
 class term extends query{
 	public static
 		$data_type='term',
+		$data_type_name='taxonomy',
+		$data_id_name='term_id',
 		$query_class='WP_Term_Query',
 		$search_keys=[],
 		$key_translation=[

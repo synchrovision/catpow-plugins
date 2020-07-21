@@ -215,9 +215,10 @@ function image($name,$alt=false,$class='',$x2=true){
 		$url=reset($path_url);
 	}
 	else{return false;}
-	$sz=getimagesize($f);
-	if($x2){$attr.=sprintf(' width="%spx" height="%spx"',floor($sz[0]/2),floor($sz[1]/2));}
-	else{$attr.=sprintf(' width="%spx" height="%spx"',$sz[0],$sz[1]);}
+	if(!empty($sz=getimagesize($f))){
+		if($x2){$attr.=sprintf(' width="%spx" height="%spx"',floor($sz[0]/2),floor($sz[1]/2));}
+		else{$attr.=sprintf(' width="%spx" height="%spx"',$sz[0],$sz[1]);}
+	}
 	printf('<img src="%s" %s/>',$url,$attr);
 }
 

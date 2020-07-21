@@ -12,7 +12,11 @@ register_rest_route(
 					if(
 						isset($conf) && 
 						(in_array($req['tmp'],$conf['template']??[]) || in_array($req['tmp'],$conf['alias_template']??[])) &&
-						cp::get_template_part($req['content_path'].'/api.php',['req'=>$req,'res'=>$res,'conf'=>$conf])
+						cp::get_template_part(
+							$req['content_path'].'/api'.
+							(empty($req['action'])?'':'-'.$req['action']).'.php',
+							['req'=>$req,'res'=>$res,'conf'=>$conf]
+						)
 					){return $res;}
 				}
 				$api_class=cp::get_class_name('api',$req['data_type'],$req['data_name']);

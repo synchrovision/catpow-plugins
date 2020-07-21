@@ -22,7 +22,16 @@
 			</div>,
 			<BlockControls>
 				<AlignClassToolbar set={setAttributes} attr={attributes}/>
-			</BlockControls>
+			</BlockControls>,
+			<InspectorControls>
+				<PanelBody title="CLASS" icon="admin-generic" initialOpen={false}>
+					<TextareaControl
+						label='クラス'
+						onChange={(classes)=>setAttributes({classes})}
+						value={classArray.join(' ')}
+					/>
+				</PanelBody>
+			</InspectorControls>
         ];
     },
 

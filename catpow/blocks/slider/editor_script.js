@@ -63,12 +63,12 @@ registerBlockType('catpow/slider', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes;
 		var classes = attributes.classes,
-			controlClasses = attributes.controlClasses,
-			config = attributes.config,
-			items = attributes.items;
+		    controlClasses = attributes.controlClasses,
+		    config = attributes.config,
+		    items = attributes.items;
 
 		var primaryClass = 'wp-block-catpow-slider';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -85,25 +85,25 @@ registerBlockType('catpow/slider', {
 		};
 
 		var states = CP.wordsToFlags(classes);
-		var statesClasses = [{ label: 'アロー', values: 'hasArrows' }, { label: 'ドッ�?', values: 'hasDots' }, { input: 'range', label: '表示スライ�?', json: 'config', key: 'initialSlide', min: 0, max: items.length - 1 }];
-		var animateClasses = [{ label: 'ルー�?', values: 'loop', key: 'controlClasses', sub: [{ label: 'アイ�?��を反復', key: 'controlClasses', values: 'loopItems' }] }, { label: '自動�?�?', values: 'autoplay', key: 'controlClasses', sub: [{ input: 'range', label: '自動�?生間隔（単�?:0.1秒�?', json: 'config', key: 'interval', coef: 100, min: 0, max: 100 }, { input: 'range', label: '操作停止時間?�単�?:0.1秒�?', json: 'config', key: 'wait', coef: 100, min: 0, max: 100 }, { label: 'ホバーで停止', values: 'stopbyhover', key: 'controlClasses' }] }];
-		var controllerClasses = [{ label: 'フリ�?��操�?', values: 'flickable', key: 'controlClasses' }, { label: 'スクロール操�?', values: 'scrollable', key: 'controlClasses' }, { label: '閉じる操�?', values: 'closable', key: 'controlClasses' }];
+		var statesClasses = [{ label: 'アロー', values: 'hasArrows' }, { label: 'ドット', values: 'hasDots' }, { input: 'range', label: '表示スライド', json: 'config', key: 'initialSlide', min: 0, max: items.length - 1 }];
+		var animateClasses = [{ label: 'ループ', values: 'loop', key: 'controlClasses', sub: [{ label: 'アイテムを反復', key: 'controlClasses', values: 'loopItems' }] }, { label: '自動再生', values: 'autoplay', key: 'controlClasses', sub: [{ input: 'range', label: '自動再生間隔（単位:0.1秒）', json: 'config', key: 'interval', coef: 100, min: 0, max: 100 }, { input: 'range', label: '操作停止時間（単位:0.1秒）', json: 'config', key: 'wait', coef: 100, min: 0, max: 100 }, { label: 'ホバーで停止', values: 'stopbyhover', key: 'controlClasses' }] }];
+		var controllerClasses = [{ label: 'フリック操作', values: 'flickable', key: 'controlClasses' }, { label: 'スクロール操作', values: 'scrollable', key: 'controlClasses' }, { label: '閉じる操作', values: 'closable', key: 'controlClasses' }];
 		var selectiveClasses = [{
-			label: 'タイ�?', values: ['visual', 'story', 'articles', 'index'],
+			label: 'タイプ', values: ['visual', 'story', 'articles', 'index'],
 			filter: 'type',
 			sub: {
-				visual: [{ label: '見�?�?', values: 'hasTitle', sub: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: '�?��ス�?', values: 'hasText' }, { label: '白�?�?', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }] }, { label: 'スライド画�?', values: 'hasSlide' }, { label: 'イメージ画�?', values: 'hasImage', sub: [{ label: 'サムネ�?ル', values: 'hasThumbnail' }] }, { label: '背景画�?', values: 'hasBackgroundImage', sub: [{ label: '背景画像を�?��', values: 'paleBG' }] }, { label: 'リンク', values: 'hasLink' }],
-				story: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: '白�?�?', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: '画�?', values: 'hasImage', sub: [{ label: 'サムネ�?ル', values: 'hasThumbnail' }] }, { label: '背景画�?', values: 'hasBackgroundImage', sub: [{ label: '背景画像を�?��', values: 'paleBG' }] }, { label: 'リンク', values: 'hasLink' }],
-				articles: [{ label: 'タイトル', values: 'hasTitle' }, { label: '�?��ス�?', values: 'hasText' }, { label: '画�?', values: 'hasImage' }, { label: 'リンク', values: 'hasLink' }],
-				index: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: '画�?', values: 'hasImage' }, { label: 'リンク', values: 'hasLink' }]
+				visual: [{ label: '見出し', values: 'hasTitle', sub: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'テキスト', values: 'hasText' }, { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }] }, { label: 'スライド画像', values: 'hasSlide' }, { label: 'イメージ画像', values: 'hasImage', sub: [{ label: 'サムネール', values: 'hasThumbnail' }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '背景画像を薄く', values: 'paleBG' }] }, { label: 'リンク', values: 'hasLink' }],
+				story: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: '画像', values: 'hasImage', sub: [{ label: 'サムネール', values: 'hasThumbnail' }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '背景画像を薄く', values: 'paleBG' }] }, { label: 'リンク', values: 'hasLink' }],
+				articles: [{ label: 'タイトル', values: 'hasTitle' }, { label: 'テキスト', values: 'hasText' }, { label: '画像', values: 'hasImage' }, { label: 'リンク', values: 'hasLink' }],
+				index: [{ label: 'サブタイトル', values: 'hasSubTitle' }, { label: '画像', values: 'hasImage' }, { label: 'リンク', values: 'hasLink' }]
 			},
 			bind: {
 				story: ['hasTitle', 'hasText'],
 				index: ['hasTitle', 'hasText']
 			},
 			item: {
-				visual: ['color', 'pattern', { input: 'image', label: 'PC版背景画�?', keys: imageKeys.backgroundImage }, { input: 'image', label: 'SP版背景画�?', keys: imageKeys.backgroundImage, ofSP: true, sizes: '480px' }],
-				story: ['color', 'pattern', { input: 'image', label: 'PC版背景画�?', keys: imageKeys.backgroundImage }, { input: 'image', label: 'SP版背景画�?', keys: imageKeys.backgroundImage, ofSP: true, sizes: '480px' }]
+				visual: ['color', 'pattern', { input: 'image', label: 'PC版背景画像', keys: imageKeys.backgroundImage }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.backgroundImage, ofSP: true, sizes: '480px' }],
+				story: ['color', 'pattern', { input: 'image', label: 'PC版背景画像', keys: imageKeys.backgroundImage }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.backgroundImage, ofSP: true, sizes: '480px' }]
 			}
 		}];
 
@@ -356,11 +356,11 @@ registerBlockType('catpow/slider', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className;
+		    className = _ref2.className;
 		var classes = attributes.classes,
-			controlClasses = attributes.controlClasses,
-			config = attributes.config,
-			items = attributes.items;
+		    controlClasses = attributes.controlClasses,
+		    config = attributes.config,
+		    items = attributes.items;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 		var controlClassArray = _.uniq(attributes.controlClasses.split(' '));
@@ -515,11 +515,11 @@ registerBlockType('catpow/slider', {
 
 		save: function save(_ref3) {
 			var attributes = _ref3.attributes,
-				className = _ref3.className;
+			    className = _ref3.className;
 			var classes = attributes.classes,
-				controlClasses = attributes.controlClasses,
-				config = attributes.config,
-				items = attributes.items;
+			    controlClasses = attributes.controlClasses,
+			    config = attributes.config,
+			    items = attributes.items;
 
 			var classArray = _.uniq(attributes.classes.split(' '));
 			var controlClassArray = _.uniq(attributes.controlClasses.split(' '));

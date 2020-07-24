@@ -7,10 +7,14 @@ Catpow.SelectTable = function (_ref) {
 
 	var i,
 	    items,
+	    values,
+	    fontSize,
+	    className = "SelectTable",
 	    rows = [];
 	spacer = spacer || 0;
 	col = col || 5;
 	if (Array.isArray(selections)) {
+		values = selections;
 		items = selections.map(function (val) {
 			return wp.element.createElement(
 				'td',
@@ -21,6 +25,7 @@ Catpow.SelectTable = function (_ref) {
 			);
 		});
 	} else {
+		values = Object.values(selections);
 		items = Object.keys(selections).map(function (key) {
 			return wp.element.createElement(
 				'td',
@@ -31,6 +36,17 @@ Catpow.SelectTable = function (_ref) {
 			);
 		});
 	}
+	fontSize = (360 / col - 10) / Math.max.apply(Math, babelHelpers.toConsumableArray(values.map(function (val) {
+		return val.toString().length;
+	})));
+	if (fontSize > 20) {
+		className += ' hasLargeFontSize';
+	} else if (fontSize > 10) {
+		className += ' hasRegularFontSize';
+	} else {
+		className += ' hasSmallFontSize';
+	}
+
 	for (i = 0; i < spacer; i++) {
 		items.unshift(wp.element.createElement('td', { className: 'spacer' }));
 	}
@@ -42,7 +58,7 @@ Catpow.SelectTable = function (_ref) {
 	}
 	return wp.element.createElement(
 		'table',
-		{ className: "SelectTable" },
+		{ className: className },
 		wp.element.createElement(
 			'tbody',
 			null,

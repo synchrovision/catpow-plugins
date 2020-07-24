@@ -13,16 +13,8 @@
   background-color: rgba(0, 0, 0, 0.8);
   -webkit-transition: 1s;
   transition: 1s;
-  -webkit-opacity: 1;
-  -moz-opacity: 1;
-  -ms-opacity: 1;
-  -o-opacity: 1;
   opacity: 1; }
   .amazonPayPopup:not(.open) {
-    -webkit-opacity: 0;
-    -moz-opacity: 0;
-    -ms-opacity: 0;
-    -o-opacity: 0;
     opacity: 0;
     pointer-events: none; }
   .amazonPayPopup .amazonPayPopupContent {
@@ -36,9 +28,9 @@
       width: 300px;
       height: 228px;
       margin: 1rem; }
-      @media (min-width:640px) {
-  .amazonPayPopup .amazonPayPopupContent .amazonPayWidget {
-    width: 400px; } }
+    @media (min-width:640px) {
+      .amazonPayPopup .amazonPayPopupContent .amazonPayWidget {
+        width: 400px; } }
     .amazonPayPopup .amazonPayPopupContent .amazonPayCheckoutButton {
       display: block;
       width: 20rem;

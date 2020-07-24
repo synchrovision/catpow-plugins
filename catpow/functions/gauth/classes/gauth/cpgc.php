@@ -52,7 +52,7 @@ class cpgc{
 		try{
 			$gc=self::get_gc();
 			if(empty($gc)){return false;}
-			session_start();
+			if(empty(session_id())){session_start();}
 			$url=$gc->createAuthUrl();
 			return $url;
 		}

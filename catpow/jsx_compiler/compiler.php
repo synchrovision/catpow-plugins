@@ -1,6 +1,8 @@
 <?php
 
 putenv('PATH='.getenv('PATH').':'.__DIR__.':'.__DIR__.'/node_modules/.bin');
+putenv('NODE_PATH='.getenv('NODE_PATH').':'.__DIR__.'/node_modules');
+passthru('cd '.__DIR__);
 
 while(true){
 	$jsx_files=get_jsx_files();
@@ -22,7 +24,7 @@ function cp_jsx_compile($jsx_files){
 		$js_file=substr($jsx_file,0,-1);
 		if(!file_exists($jsx_file)){continue;}
 		if(!file_exists($js_file) or filemtime($js_file) < filemtime($jsx_file)){
-			passthru('babel '.$jsx_file.' -o '.$js_file);
+			passthru('babel '.$jsx_file.' -o '.$js_file.' > '.__DIR__.'/logs/result.txt');
 			echo "build {$js_file}\n";
 			touch($js_file);
 		}

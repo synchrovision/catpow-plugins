@@ -689,8 +689,7 @@ var Item = function Item(props) {
 	    set = props.set,
 	    attr = props.attr,
 	    triggerClasses = props.triggerClasses,
-	    children = props.children,
-	    isSelected = props.isSelected;
+	    children = props.children;
 	var itemClasses = props.itemClasses;
 
 	if (!items[index].classes) {
@@ -706,6 +705,8 @@ var Item = function Item(props) {
 	if (attr.currentItemIndex === undefined) {
 		attr.currentItemIndex = -1;
 	}
+
+	var isSelected = props.isSelected === undefined ? index == attr.currentItemIndex : props.isSelected;
 
 	return wp.element.createElement(tag, {
 		className: classes,
@@ -1223,6 +1224,7 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 					}));
 					break;
 				case 'image':
+					prm.keys.items = prm.keys.items || itemsKey;
 					if (prm.label) {
 						rtn.push(wp.element.createElement(
 							'h5',

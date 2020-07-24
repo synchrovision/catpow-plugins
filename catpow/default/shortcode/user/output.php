@@ -17,6 +17,13 @@ switch($prm[0]){
 		}
 		echo network_site_url("wp-login.php?action=rp&key=$key&login=".rawurlencode($user->user_login));
 		break;
+	case 'loop':
+		if(cp::$content && !empty($content)){
+			foreach(cp::$content->user($user->ID)->loop() as $obj){
+				echo do_shortcode($content);
+			}
+		}
+		break;
 	default:
 		echo get_user_meta($user->ID,$prm[0],true);
 }

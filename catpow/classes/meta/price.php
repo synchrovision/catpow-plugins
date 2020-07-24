@@ -9,7 +9,7 @@ class price extends meta{
 		$can_search_with_range=true;
 	
 	public static function output($meta,$prm){
-		return number_format($meta->value);
+		return number_format((int)$meta->value);
 	}
 }
 ?>

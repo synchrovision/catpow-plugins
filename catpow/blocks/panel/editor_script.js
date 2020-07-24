@@ -34,10 +34,11 @@ registerBlockType('catpow/panel', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var classes = attributes.classes,
-			items = attributes.items;
+		    items = attributes.items;
 
 		var primaryClass = 'wp-block-catpow-panel';
 		var classArray = _.uniq(classes.split(' '));
@@ -48,12 +49,12 @@ registerBlockType('catpow/panel', {
 		};
 
 		var selectiveClasses = [{
-			label: 'タイ�?',
+			label: 'タイプ',
 			filter: 'type',
 			values: { tile: 'タイル', menu: 'メニュー' },
 			item: {
-				tile: ['color', { label: '白�?�?', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '�?��', values: 'hasText' }, { label: '画�?', values: 'hasImage', sub: [{ label: '画像を�?��', values: 'paleImage' }, { label: '画�?', input: 'image', keys: imageKeys.image, size: 'vga' }] }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }],
-				menu: ['color', { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '�?��', values: 'hasText' }, { label: '画�?', values: 'hasImage', sub: [{ label: '画�?', input: 'image', keys: imageKeys.image, size: 'vga' }] }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }]
+				tile: ['color', { label: '白文字', values: 'brightText', sub: [{ label: '色付き背景', values: 'colorBG' }] }, { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage', sub: [{ label: '画像を薄く', values: 'paleImage' }, { label: '画像', input: 'image', keys: imageKeys.image, size: 'vga' }] }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }],
+				menu: ['color', { label: 'アイコン', values: 'hasIcon' }, { label: 'タイトル', values: 'hasTitle' }, { label: '文章', values: 'hasText' }, { label: '画像', values: 'hasImage', sub: [{ label: '画像', input: 'image', keys: imageKeys.image, size: 'vga' }] }, { label: 'リンク', values: 'hasLink', sub: [{ label: '外部リンク', values: 'linkExternal' }] }, { label: '縦サイズ', values: { rspan1: '1', rspan2: '2', rspan3: '3' } }, { label: '横サイズ', values: { cspan1: '1', cspan2: '2', cspan3: '3' } }]
 			},
 			bind: {
 				tile: ['panel'],
@@ -237,9 +238,9 @@ registerBlockType('catpow/panel', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className;
+		    className = _ref2.className;
 		var classes = attributes.classes,
-			items = attributes.items;
+		    items = attributes.items;
 
 		var rtn = [];
 		items.map(function (item, index) {

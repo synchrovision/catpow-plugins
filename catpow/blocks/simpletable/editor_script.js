@@ -40,28 +40,28 @@ registerBlockType('catpow/simpletable', {
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes,
-			isSelected = _ref.isSelected;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var classes = attributes.classes,
-			rows = attributes.rows;
+		    rows = attributes.rows;
 
 
 		var selectiveClasses = [{
-			label: 'タイ�?',
+			label: 'タイプ',
 			filter: 'type',
 			values: ['spec', 'info', 'history', 'inputs'],
 			item: {
 				spec: [{ label: '種別', values: {
-						normal: 'な�?',
-						important: '重�?',
-						caution: '注�?'
+						normal: 'なし',
+						important: '重要',
+						caution: '注意'
 					} }],
 				inputs: [{ label: '種別', values: {
-						normal: 'な�?',
-						required: '�?�?',
-						optional: '任�?',
-						readonly: '固�?'
+						normal: 'なし',
+						required: '必須',
+						optional: '任意',
+						readonly: '固定'
 					} }, 'cond']
 			}
 		}];
@@ -136,9 +136,9 @@ registerBlockType('catpow/simpletable', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className;
+		    className = _ref2.className;
 		var classes = attributes.classes,
-			rows = attributes.rows;
+		    rows = attributes.rows;
 
 		return wp.element.createElement(
 			'table',

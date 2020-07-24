@@ -39,7 +39,7 @@ class content{
 	public function content($path){
 		return new self(['path'=>$path,'parent'=>$this]);
 	}
-	public function user($user_id,$tmp_name){
+	public function user($user_id,$tmp_name='default'){
 		$query_class=\cp::get_class_name('query','user');
 		return new loop([
 			'path'=>'user/'.\cp::get_data_name('user',$user_id).'/'.$tmp_name,

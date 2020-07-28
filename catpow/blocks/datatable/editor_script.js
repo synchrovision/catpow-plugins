@@ -68,7 +68,8 @@ registerBlockType('catpow/datatable', {
 			default: [{ classes: '', cells: [{ text: [''], classes: 'spacer' }, { text: ['Title'], classes: '' }, { text: ['Title'], classes: '' }] }, { classes: '', cells: [{ text: ['Title'], classes: '' }, { text: ['Content'], classes: '' }, { text: ['Content'], classes: '' }] }, { classes: '', cells: [{ text: ['Title'], classes: '' }, { text: ['Content'], classes: '' }, { text: ['Content'], classes: '' }] }]
 		},
 		file: { type: 'object' },
-		blockState: { type: 'object', default: { enableBlockFormat: true } }
+		blockState: { type: 'object', default: { enableBlockFormat: true } },
+		loopParam: { type: 'text', default: '' }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
@@ -82,7 +83,7 @@ registerBlockType('catpow/datatable', {
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
 		var classNameArray = className.split(' ');
 
-		console.log(wp.data.select('core/blocks').getBlockTypes());
+		var states = CP.wordsToFlags(classes);
 
 		if (attributes.file) {
 			var reader = new FileReader();
@@ -103,20 +104,8 @@ registerBlockType('catpow/datatable', {
 			reader.readAsText(attributes.file);
 		}
 
-		var states = {
-			hasHeaderRow: false,
-			hasHeaderColumn: false
-		};
-
 		var statesClasses = [{ label: 'ヘッダ行', values: 'hasHeaderRow' }, { label: 'ヘッダ列', values: 'hasHeaderColumn' }];
-		var selectiveClasses = [{ label: 'タイプ', filter: 'type', values: ['spec', 'sheet', 'plan'] }, 'color'];
-
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
+		var selectiveClasses = [{ label: 'タイプ', filter: 'type', values: ['spec', 'sheet', 'plan'] }, 'color', { label: 'ループ', values: 'doLoop', sub: [{ label: 'パラメータ', input: 'text', key: 'loopParam' }] }];
 
 		var saveItems = function saveItems() {
 			setAttributes({ rows: JSON.parse(JSON.stringify(rows)) });
@@ -282,21 +271,12 @@ registerBlockType('catpow/datatable', {
 		var attributes = _ref2.attributes,
 		    className = _ref2.className;
 		var classes = attributes.classes,
-		    rows = attributes.rows;
+		    rows = attributes.rows,
+		    loopParam = attributes.loopParam;
 
 		var classArray = classes.split(' ');
 
-		var states = {
-			hasHeaderRow: false,
-			hasHeaderColumn: false
-		};
-
-		var hasClass = function hasClass(cls) {
-			return classArray.indexOf(cls) !== -1;
-		};
-		Object.keys(states).forEach(function (key) {
-			this[key] = hasClass(key);
-		}, states);
+		var states = CP.wordsToFlags(classes);
 
 		return wp.element.createElement(
 			'table',
@@ -319,6 +299,7 @@ registerBlockType('catpow/datatable', {
 			wp.element.createElement(
 				'tbody',
 				null,
+				states.doLoop && '[loop ' + (loopParam || '') + ']',
 				rows.map(function (row, index) {
 					if (states.hasHeaderRow && index == 0) {
 						return false;
@@ -330,7 +311,8 @@ registerBlockType('catpow/datatable', {
 							return wp.element.createElement(states.hasHeaderColumn && columnIndex == 0 ? 'th' : 'td', { className: cell.classes }, cell.text);
 						})
 					);
-				})
+				}),
+				states.doLoop && '[/loop]'
 			)
 		);
 	}

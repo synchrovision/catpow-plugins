@@ -82,7 +82,8 @@
 			]
 		},
 		file:{type:'object'},
-		blockState:{type:'object',default:{enableBlockFormat:true}}
+		blockState:{type:'object',default:{enableBlockFormat:true}},
+		loopParam:{type:'text',default:''}
 	},
 	edit({attributes,className,setAttributes,isSelected}){
 		const {classes,rows}=attributes;
@@ -90,7 +91,7 @@
 		var classArray=_.uniq((className+' '+classes).split(' '));
 		var classNameArray=className.split(' ');
 		
-		console.log(wp.data.select('core/blocks').getBlockTypes());
+		var states=CP.wordsToFlags(classes);
 		
 		if(attributes.file){
 			var reader=new FileReader();
@@ -109,23 +110,17 @@
 			reader.readAsText(attributes.file);
 		}
 		
-		var states={
-			hasHeaderRow:false,
-			hasHeaderColumn:false,
-		}
-		
 		var statesClasses=[
 			{label:'ヘッダ行',values:'hasHeaderRow'},
 			{label:'ヘッダ列',values:'hasHeaderColumn'},
 		];
 		var selectiveClasses=[
 			{label:'タイプ',filter:'type',values:['spec','sheet','plan']},
-			'color'
+			'color',
+			{label:'ループ',values:'doLoop',sub:[
+				{label:'パラメータ',input:'text',key:'loopParam'}
+			]}
 		];
-		
-		
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
 		
 		
 		const saveItems=()=>{
@@ -252,17 +247,10 @@
     },
 
 	save({attributes,className}){
-		const {classes,rows}=attributes;
+		const {classes,rows,loopParam}=attributes;
 		var classArray=classes.split(' ');
 		
-		
-		var states={
-			hasHeaderRow:false,
-			hasHeaderColumn:false,
-		}
-		
-		const hasClass=(cls)=>(classArray.indexOf(cls)!==-1);
-		Object.keys(states).forEach(function(key){this[key]=hasClass(key);},states);
+		var states=CP.wordsToFlags(classes);
 		
 		return (
 			<table className={classes}>
@@ -278,6 +266,7 @@
 					</thead>
 				}
 				<tbody>
+					{states.doLoop && '[loop '+(loopParam || '')+']'}
                     {rows.map((row,index)=>{
 						if(states.hasHeaderRow && index==0){return false;}
                         return <tr>
@@ -290,6 +279,7 @@
                             })}
                         </tr>
                     })}
+					{states.doLoop && '[/loop]'}
                 </tbody>
 			</table>
 		);

@@ -67,8 +67,10 @@ class CP{
 			self::include_template_files('functions/'.$n.'/functions');
 		}
 		session_start();
-		if($mo_file=self::get_file_path('languages/catpow-'.get_locale().'.mo')){load_textdomain('catpow',$mo_file);}
-		if($mo_file=self::get_file_path('languages/'.get_locale().'.mo',2)){load_textdomain('theme',$mo_file);}
+		foreach(self::get_file_paths('languages/'.determine_locale().'.mo',1) as $mo_file){
+			load_textdomain('catpow',$mo_file);
+		}
+		if($mo_file=self::get_file_path('languages/'.determine_locale().'.mo',030)){load_textdomain('catpow',$mo_file);}
 		
 		if(!isset($_SESSION['catpow'])){
 			$_SESSION['catpow']=new self();

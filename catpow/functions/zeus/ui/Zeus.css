@@ -32,6 +32,18 @@
       width: 40rem;
       padding: 2rem;
       font-size: 1.3rem; }
+    .zeusPopup .zeusPopupContent .zeusError {
+      display: block;
+      position: relative;
+      margin: 1rem;
+      padding: 0.5rem;
+      border-radius: 0.3rem;
+      background-color: #007cba;
+      text-align: center;
+      font-size: 1.4rem;
+      line-height: 1em;
+      font-family: 'Helvetica Neue', "游ゴシック Medium", YuGothic, YuGothicM, "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, sans-serif;
+      color: #fefefe; }
     .zeusPopup .zeusPopupContent .zeusCheckoutButton {
       display: block;
       width: 20rem;

@@ -7,7 +7,7 @@ Catpow.Zeus = function (_wp$element$Component) {
 		var _this = babelHelpers.possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, props));
 
 		_this.$ref = jQuery('#ZeusButtonContainer');
-		_this.state = { popupOpen: false, canCheckout: false };
+		_this.state = { popupOpen: false, canCheckout: false, errorMessage: false };
 		return _this;
 	}
 
@@ -21,7 +21,8 @@ Catpow.Zeus = function (_wp$element$Component) {
 			    payment = _props.payment;
 			var _state = this.state,
 			    popupOpen = _state.popupOpen,
-			    canCheckout = _state.canCheckout;
+			    canCheckout = _state.canCheckout,
+			    errorMessage = _state.errorMessage;
 
 
 			var component = this;
@@ -63,6 +64,11 @@ Catpow.Zeus = function (_wp$element$Component) {
 							component.setState({ canCheckout: zeusToken.validateCardForm() });
 						}
 					}),
+					errorMessage && wp.element.createElement(
+						"div",
+						{ id: "zeusError", className: "zeusError" },
+						errorMessage
+					),
 					wp.element.createElement(
 						"div",
 						{
@@ -73,7 +79,9 @@ Catpow.Zeus = function (_wp$element$Component) {
 								}
 								zeusToken.getToken(function (zeus_token_response_data) {
 									if (!zeus_token_response_data['result']) {
-										alert(zeusToken.getErrorMessage(zeus_token_response_data['error_code']));
+										component.setState({
+											errorMessage: zeusToken.getErrorMessage(zeus_token_response_data['error_code'])
+										});
 									} else {
 										component.token_key = zeus_token_response_data.token_key;
 										cp_form_submit(component.$ref, component.props.action, function ($item, res) {
@@ -88,8 +96,7 @@ Catpow.Zeus = function (_wp$element$Component) {
 					),
 					wp.element.createElement("div", { "class": "zeusPopupClose", onClick: function onClick(e) {
 							_this2.setState({ popupOpen: false });
-						} }),
-					wp.element.createElement("div", { id: "zeusError" })
+						} })
 				)
 			)];
 		}

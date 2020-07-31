@@ -2,11 +2,11 @@
 	constructor(props) {
 		super(props);
 		this.$ref=jQuery('#ZeusButtonContainer');
-		this.state={popupOpen:false,canCheckout:false};
+		this.state={popupOpen:false,canCheckout:false,errorMessage:false};
 	}
 	render(){
 		var {cart,payment}=this.props;
-		var {popupOpen,canCheckout}=this.state;
+		var {popupOpen,canCheckout,errorMessage}=this.state;
 		
 		var component=this;
 		var popup_classes="zeusPopup";
@@ -33,13 +33,16 @@
 							component.setState({canCheckout:zeusToken.validateCardForm()});
 						}}
 					></div>
+					{errorMessage && <div id="zeusError" className="zeusError">{errorMessage}</div>}
 					<div
 						className={checkoutbutton_classes}
 						onClick={(e)=>{
 							if(!canCheckout){return false;}
 							zeusToken.getToken(function(zeus_token_response_data){
 								if(!zeus_token_response_data['result']){
-									alert(zeusToken.getErrorMessage(zeus_token_response_data['error_code']));
+									component.setState({
+										errorMessage:zeusToken.getErrorMessage(zeus_token_response_data['error_code'])
+									});
 								}
 								else{
 									component.token_key=zeus_token_response_data.token_key;
@@ -52,7 +55,6 @@
 						}}
 					>{this.props.checkoutText || '購入する'}</div>
 					<div class="zeusPopupClose" onClick={(e)=>{this.setState({popupOpen:false});}}></div>
-					<div id="zeusError"></div>
 				</div>
 			</div>
 		];

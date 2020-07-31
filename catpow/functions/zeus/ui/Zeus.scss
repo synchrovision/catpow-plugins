@@ -22,6 +22,12 @@
 			@include bnd((w:40rem,pd:2rem));
 			@include txt((p:1.3rem));
 		}
+		.zeusError{
+			@include bnd((d:b,p:r,mg:1rem,pd:.5rem));
+			@include bdr((r:.3rem));
+			@include bg((c:m));
+			@include txt((a:c,p:1.4rem,h:1em,f:g,c:b));
+		}
 		.zeusCheckoutButton{
 			@include bnd((d:b,w:20rem,h:a,mg:2rem a,pd:1rem));
 			@include txt((a:c,p:2rem,h:1em,f:g,w:b,c:#fff));

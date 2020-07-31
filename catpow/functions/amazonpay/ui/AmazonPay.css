@@ -31,6 +31,18 @@
     @media (min-width:640px) {
       .amazonPayPopup .amazonPayPopupContent .amazonPayWidget {
         width: 400px; } }
+    .amazonPayPopup .amazonPayPopupContent .amazonPayError {
+      display: block;
+      position: relative;
+      margin: 1rem;
+      padding: 0.5rem;
+      border-radius: 0.3rem;
+      background-color: #e4b33c;
+      text-align: center;
+      font-size: 1.4rem;
+      line-height: 1em;
+      font-family: 'Helvetica Neue', "游ゴシック Medium", YuGothic, YuGothicM, "Hiragino Kaku Gothic ProN", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, sans-serif;
+      color: #fefefe; }
     .amazonPayPopup .amazonPayPopupContent .amazonPayCheckoutButton {
       display: block;
       width: 20rem;

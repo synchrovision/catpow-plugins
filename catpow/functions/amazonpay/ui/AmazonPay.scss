@@ -22,6 +22,12 @@
 				@include bnd((w:400));
 			}
 		}
+		.amazonPayError{
+			@include bnd((d:b,p:r,mg:1rem,pd:.5rem));
+			@include bdr((r:.3rem));
+			@include bg((c:#e4b33c));
+			@include txt((a:c,p:1.4rem,h:1em,f:g,c:b));
+		}
 		.amazonPayCheckoutButton{
 			@include bnd((d:b,w:20rem,h:a,mg:1rem a,pd:1rem));
 			@include txt((a:c,p:2rem,h:1em,f:g,w:b,c:#000));

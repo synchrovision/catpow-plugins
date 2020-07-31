@@ -4,7 +4,7 @@ namespace Catpow\amazonpay;
 class Agent{
 	use \Catpow\traits\SessionSingleton;
 	
-	public $client,$config,$access_token,$orderReferenceId;
+	public $client,$config,$access_token,$orderReferenceId,$authorizationId;
 	const INSTANCE_NAME='CatpowAmazonPayAgent';
 	
 	public function __construct(){
@@ -76,9 +76,18 @@ class Agent{
 		$this->accessToken=$accessToken;
 	}
 	public function setOrderReferenceId($orderReferenceId){
+		unset($this->authorizationId);
 		$this->orderReferenceId=$orderReferenceId;
 	}
 	
+	public function checkConstraint(){
+		if($constraint=$this->details['Constraints']['Constraint']){
+			$this->error($constraint['ConstraintID']);
+		}
+	}
+	public function error($id,$message=false){
+		throw new PaymentException($id,$message);
+	}
 	public function confirm($value=[]){
 		/*
 		'merchant_id'               => 'SellerId',
@@ -89,11 +98,19 @@ class Agent{
 		'currency_code'             => 'AuthorizationAmount.CurrencyCode',
 		'mws_auth_token'            => 'MWSAuthToken'
 		*/
+		$this->checkConstraint();
+		
+		
+		
+		if($this->details['OrderReferenceStatus']['State']==='Open'){
+			return false;
+		}
+		
 		return $this->client->confirmOrderReference(array_merge([
 			'amazon_order_reference_id'=>$this->orderReferenceId
-		],$value));
+		],$value))->toArray();
 	}
-	public function authorize($value){
+	public function authorize($value=[]){
 		/*
 		'merchant_id'                => 'SellerId',
 		'amazon_order_reference_id'  => 'AmazonOrderReferenceId',
@@ -109,11 +126,58 @@ class Agent{
 		*/
 		$details=$this->details;
 		
-		return $this->client->authorize(array_merge([
+		if(empty($this->orderReferenceId)){
+			$this->error('OrderReferenceIdNotSet');
+		}
+		
+		$result=$this->client->authorize(array_merge([
 			'amazon_order_reference_id'=>$this->orderReferenceId,
 			'authorization_amount'=>$details['OrderTotal']['Amount'],
-			'currency_code'=>$details['OrderTotal']['CurrencyCode']
-		],$value));
+			'currency_code'=>$details['OrderTotal']['CurrencyCode'],
+			'authorization_reference_id'=>'Authorization'.time(),
+			'transaction_timeout'=>0
+		],$value))->toArray();
+		
+		if(!empty($result['Error'])){
+			$this->error($result['Error']['Code']);
+		}
+		$status=$result['AuthorizeResult']['AuthorizationDetails']['AuthorizationStatus'];
+		if($status['State']==='Declined'){
+			$this->error($status['ReasonCode']);
+		}
+		$this->authorizationId=$result['AuthorizeResult']['AuthorizationDetails']['AmazonAuthorizationId'];
+		
+		return $result;
+	}
+	public function capture($value=[]){
+		/*
+		'merchant_id'             => 'SellerId',
+		'amazon_authorization_id' => 'AmazonAuthorizationId',
+		'capture_amount'          => 'CaptureAmount.Amount',
+		'currency_code'           => 'CaptureAmount.CurrencyCode',
+		'capture_reference_id'    => 'CaptureReferenceId',
+		'provider_credit_details' => array(),
+		'seller_capture_note'     => 'SellerCaptureNote',
+		'soft_descriptor'         => 'SoftDescriptor',
+		'mws_auth_token'          => 'MWSAuthToken'
+		*/
+		$details=$this->details;
+		
+		if(empty($this->authorizationId)){
+			$this->error('AuthorizationIdNotSet');
+		}
+		
+		$result=$this->client->capture(array_merge([
+			'amazon_authorization_id'=>$this->authorizationId,
+			'capture_amount'=>$details['OrderTotal']['Amount'],
+			'capture_reference_id'=>'Capture'.time()
+		],$value))->toArray();
+		
+		if(!empty($result['Error'])){
+			$this->error($result['Error']['Code']);
+		}
+		
+		return $result;
 	}
 	public function close($closure_reason){
 		$this->client->closeOrderReference([
@@ -156,6 +220,18 @@ class Agent{
 					'amazon_order_reference_id'=>$this->orderReferenceId,
 					'access_token'=>$this->access_token
 				])->toArray()['GetOrderReferenceDetailsResult']['OrderReferenceDetails'];
+			case 'authorizationDetails':
+				/*
+				'merchant_id'             => 'SellerId',
+				'amazon_authorization_id' => 'AmazonAuthorizationId',
+				'mws_auth_token'          => 'MWSAuthToken'
+				*/
+				if(empty($this->authorizationId)){return null;}
+				return $this->client->getAuthorizationDetails([
+					'amazon_authorization_id'=>$this->authorizationId,
+					'access_token'=>$this->access_token
+				])->toArray()['GetAuthorizationDetailsResult']['AuthorizationDetails'];
+				
 		}
 	}
 	function __set($name,$value){
@@ -176,7 +252,7 @@ class Agent{
 				'mws_auth_token'                => 'MWSAuthToken'
 				*/
 				if(empty($this->orderReferenceId)){return false;}
-				return $this->client->setOrderReferenceDetails(array_merge([
+				$this->client->setOrderReferenceDetails(array_merge([
 					'amazon_order_reference_id'=>$this->orderReferenceId,
 					'currency_code'=>'JPY'
 				],$value));
@@ -185,7 +261,7 @@ class Agent{
 	}
 	
 	function __sleep(){
-		return ['config','access_token','orderReferenceId'];
+		return ['config','access_token','orderReferenceId','authorizationId'];
 	}
 	function __wakeup(){
 		$this->client=new \AmazonPay\Client(array_intersect_key($this->config,array_flip([

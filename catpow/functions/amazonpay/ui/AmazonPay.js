@@ -8,7 +8,7 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 
 		_this.checkoutText = props.checkoutText || '購入する';
 		_this.$ref = jQuery('#AmazonPayButtonContainer');
-		_this.state = { popupOpen: false, canCheckout: false };
+		_this.state = { popupOpen: false, canCheckout: false, errorMessage: false };
 		return _this;
 	}
 
@@ -22,7 +22,8 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 			    payment = _props.payment;
 			var _state = this.state,
 			    popupOpen = _state.popupOpen,
-			    canCheckout = _state.canCheckout;
+			    canCheckout = _state.canCheckout,
+			    errorMessage = _state.errorMessage;
 
 
 			var component = this;
@@ -43,6 +44,11 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 					{ 'class': 'amazonPayPopupContent' },
 					wp.element.createElement('div', { id: 'addressBookWidgetDiv', className: 'amazonPayWidget' }),
 					wp.element.createElement('div', { id: 'walletWidgetDiv', className: 'amazonPayWidget' }),
+					errorMessage && wp.element.createElement(
+						'div',
+						{ id: 'amazonPayError', className: 'amazonPayError' },
+						errorMessage
+					),
 					wp.element.createElement(
 						'div',
 						{
@@ -51,9 +57,14 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 								if (!canCheckout) {
 									return false;
 								}
+								console.log('onClickCheckoutButton');
 								cp_form_submit(component.$ref, component.props.action, function ($item, res) {
-									console.log(res);
-									this.setState({ popupOpen: false });
+									console.log('onCheckout');
+									if (res.error) {
+										component.setState({ canCheckout: false, errorMessage: res.message });
+										return false;
+									}
+									component.setState({ popupOpen: false });
 								}, { task: 'checkout', orderReferenceId: component.orderReferenceId });
 							}
 						},
@@ -61,8 +72,7 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 					),
 					wp.element.createElement('div', { 'class': 'amazonPayPopupClose', onClick: function onClick(e) {
 							_this2.setState({ popupOpen: false });
-						} }),
-					wp.element.createElement('div', { id: 'amazonPayError' })
+						} })
 				)
 			)];
 		}
@@ -184,8 +194,11 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 						component.orderReferenceId = orderReference.getAmazonOrderReferenceId();
 					}
 					cp_form_submit(component.$ref, component.props.action, function ($item, res) {
-						component.setState({ canCheckout: true });
-						document.getElementById('amazonPayError').innerHTML = res.html;
+						if (res.error) {
+							component.setState({ canCheckout: false, errorMessage: res.message });
+							return false;
+						}
+						component.setState({ canCheckout: true, errorMessage: false });
 					}, {
 						task: 'onReady',
 						access_token: component.token.access_token,
@@ -194,10 +207,13 @@ Catpow.AmazonPay = function (_wp$element$Component) {
 				},
 				onPaymentSelect: function onPaymentSelect() {
 					console.log('onPaymentSelect');
+					console.log(arguments);
 					cp_form_submit(component.$ref, component.props.action, function ($item, res) {
-						console.log(res);
-						component.setState({ canCheckout: true });
-						//document.getElementById('amazonPayError').innerHTML=res.html;
+						if (res.error) {
+							component.setState({ canCheckout: false, errorMessage: res.message });
+							return false;
+						}
+						component.setState({ canCheckout: true, errorMessage: false });
 					}, { task: 'onPaymentSelect', orderReferenceId: component.orderReferenceId });
 				},
 				design: {

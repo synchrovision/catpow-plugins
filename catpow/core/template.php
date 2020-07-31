@@ -3,10 +3,10 @@ namespace Catpow;
 
 /*l10n*/
 function _($str){
-	return __($str,'theme');
+	return __($str,'catpow');
 }
 function _e($str){
-	_e($str,'theme');
+	_e($str,'catpow');
 }
 
 /*snippet*/
@@ -487,13 +487,13 @@ function _buttons_item($value){
 
 function message($msg,$sel=null,$cls=null){
 	$msg=['message'=>$msg];
-	if(isset($sel)){$m['selector']=$sel;}
-	if(isset($cls)){$m['class']=$cls;}
+	if(isset($sel)){$msg['selector']=$sel;}
+	if(isset($cls)){$msg['class']=$cls;}
 	$GLOBALS['res']['message'][]=$msg;
 }
 function res($data){
 	global $res;
-	$res=array_merge($res,$data);
+	$res=array_merge($res??[],$data);
 }
 function deps(){
 	$scripts=wp_scripts();

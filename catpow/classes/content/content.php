@@ -88,7 +88,7 @@ class content{
 				'conf'=>$conf
 			];
 		}
-		elseif(!is_null($this->conf['meta'][$name])){$prm['meta']=$this->conf['meta'][$name];}
+		elseif(!is_null($this->conf) && !empty($this->conf['meta'][$name])){$prm['meta']=$this->conf['meta'][$name];}
 		return new meta($prm);
 	}
 	public function rel_meta($name,$param=null){

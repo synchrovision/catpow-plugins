@@ -88,6 +88,33 @@ class Agent{
 	public function error($id,$message=false){
 		throw new PaymentException($id,$message);
 	}
+	public function order($value=[]){
+		/*
+		'merchant_id'                   => 'SellerId',
+		'amazon_order_reference_id'     => 'AmazonOrderReferenceId',
+		'amount'                        => 'OrderReferenceAttributes.OrderTotal.Amount',
+		'currency_code'                 => 'OrderReferenceAttributes.OrderTotal.CurrencyCode',
+		'platform_id'                   => 'OrderReferenceAttributes.PlatformId',
+		'seller_note'                   => 'OrderReferenceAttributes.SellerNote',
+		'seller_order_id'               => 'OrderReferenceAttributes.SellerOrderAttributes.SellerOrderId',
+		'store_name'                    => 'OrderReferenceAttributes.SellerOrderAttributes.StoreName',
+		'custom_information'            => 'OrderReferenceAttributes.SellerOrderAttributes.CustomInformation',
+		'supplementary_data'            => 'OrderReferenceAttributes.SellerOrderAttributes.SupplementaryData',
+		'request_payment_authorization' => 'OrderReferenceAttributes.RequestPaymentAuthorization',
+		'mws_auth_token'                => 'MWSAuthToken'
+		*/
+		if(empty($this->orderReferenceId)){return false;}
+		$result=$this->client->setOrderReferenceDetails(array_merge([
+			'amazon_order_reference_id'=>$this->orderReferenceId,
+			'currency_code'=>'JPY'
+		],$value))->toArray();
+		
+		if($constraint=$result['SetOrderReferenceDetailsResult']['OrderReferenceDetails']['Constraints']['Constraint']){
+			$this->error($constraint['ConstraintID']);
+		}
+		
+		return $result;
+	}
 	public function confirm($value=[]){
 		/*
 		'merchant_id'               => 'SellerId',
@@ -99,8 +126,6 @@ class Agent{
 		'mws_auth_token'            => 'MWSAuthToken'
 		*/
 		$this->checkConstraint();
-		
-		
 		
 		if($this->details['OrderReferenceStatus']['State']==='Open'){
 			return false;

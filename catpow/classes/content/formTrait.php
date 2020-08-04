@@ -264,13 +264,14 @@ trait formTrait{
 		$headers['message']=ob_get_clean();
 		return \cp::send_mail($headers);
 	}
-	public function error($message){
+	public function error($message,$detail=null){
 		if(is_array($message)){
 			throw new form_exception([
 				'message'=>array_map(
 					function($val){return __($val,'catpow');},
 					$message
-				)
+				),
+				'detail'=>$detail
 			]);
 		}
 		throw new form_exception(['message'=>[str_replace('/','--',$this->form_id)=>__($message,'catpow')]]);
@@ -333,7 +334,7 @@ trait formTrait{
 				else{
 					if(!in_array($_REQUEST['cp_form_action'],$form->allowed_actions)){
 						error_log('not allowed form action : '.$_REQUEST['cp_form_action']);
-						$form->error('不正なリクエストです');
+						$form->error('不正なリクエストです','not allowed form action : '.$_REQUEST['cp_form_action']);
 					}
 					if(
 						\cp::get_template_part(
@@ -368,6 +369,9 @@ trait formTrait{
 						'message'=>$message
 					];
 				}
+			}
+			if(isset($e->data['detail'])){
+				$res['error_detail']=$e->data['detail'];
 			}
 			$res['action']=$e->action;
 		}

@@ -12,10 +12,10 @@ div.PointChart{
 				@include svg((s:t,w:1));
 			}
 			text.label{
-				&.left{@include svg((a:r,v:m));}
-				&.right{@include svg((a:l,v:m));}
-				&.top{@include svg((a:c,v:t));}
-				&.bottom{@include svg((a:c,v:b));}
+				&.left{@include svg((ta:r,db:m));}
+				&.right{@include svg((ta:l,db:m));}
+				&.top{@include svg((ta:c,db:t));}
+				&.bottom{@include svg((ta:c,db:b));}
 			}
 		}
 	}

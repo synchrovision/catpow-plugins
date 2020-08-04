@@ -11,9 +11,7 @@ Catpow.WeeklySchedule=class extends wp.element.Component{
 		this.dayClasses=['sun','mon','tue','wed','thu','fri','sat'];
 		value=value || [];
 		value=value.map((item)=>{
-			item.start=parseInt(item.start);
-			item.end=parseInt(item.end);
-			return item;
+			return {start:parseInt(item.start),end:parseInt(item.end)};
 		});
 		step=step || 15;
 		this.state={value,step,range};

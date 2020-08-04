@@ -20,9 +20,7 @@ Catpow.WeeklySchedule = function (_wp$element$Component) {
 		_this.dayClasses = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
 		value = value || [];
 		value = value.map(function (item) {
-			item.start = parseInt(item.start);
-			item.end = parseInt(item.end);
-			return item;
+			return { start: parseInt(item.start), end: parseInt(item.end) };
 		});
 		step = step || 15;
 		_this.state = { value: value, step: step, range: range };

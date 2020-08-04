@@ -87,7 +87,7 @@ class Agent{
 			'money'=>0,
 			'send'=>'mall',
 			'email'=>$user->user_email,
-			'telno'=>$user->tel
+			'telno'=>str_replace('-','',$user->tel)
 		],$data));
 	}
 	

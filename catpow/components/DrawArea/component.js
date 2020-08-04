@@ -7,11 +7,40 @@ Catpow.DrawArea = function (props) {
 	var onCatch = props.onCatch,
 	    onDraw = props.onDraw,
 	    onRelease = props.onRelease,
+	    onDelete = props.onDelete,
 	    grid = props.grid,
 	    children = props.children,
-	    otherProps = babelHelpers.objectWithoutProperties(props, ["onCatch", "onDraw", "onRelease", "grid", "children"]);
+	    otherProps = babelHelpers.objectWithoutProperties(props, ["onCatch", "onDraw", "onRelease", "onDelete", "grid", "children"]);
 
+	var _wp$element$useState = wp.element.useState(-1),
+	    _wp$element$useState2 = babelHelpers.slicedToArray(_wp$element$useState, 2),
+	    index = _wp$element$useState2[0],
+	    setIndex = _wp$element$useState2[1];
 
+	var initEventData = function initEventData(area, item) {
+		var areaRect = area.getBoundingClientRect();
+		var baseRect = item.getBoundingClientRect();
+		event = {
+			item: item,
+			areaRect: areaRect,
+			baseRect: baseRect,
+			index: item.dataset.index,
+			w: areaRect.width,
+			h: areaRect.height,
+			base: {
+				l: baseRect.left - areaRect.left,
+				c: baseRect.left + baseRect.width / 2 - areaRect.left,
+				r: baseRect.right - areaRect.left,
+				t: baseRect.top - areaRect.top,
+				m: baseRect.top + baseRect.height / 2 - areaRect.top,
+				b: baseRect.bottom - areaRect.top
+			},
+			path: [],
+			moveItem: moveItem,
+			resizeItem: resizeItem,
+			resetItem: resetItem
+		};
+	};
 	var setEventData = function setEventData(e) {
 		event.x = e.clientX - event.areaRect.left;
 		event.y = e.clientY - event.areaRect.top;
@@ -75,31 +104,9 @@ Catpow.DrawArea = function (props) {
 				if (!handler) {
 					event = false;return;
 				}
-				var item = e.target.closest('.item');
-				var areaRect = e.currentTarget.getBoundingClientRect();
-				var baseRect = item.getBoundingClientRect();
-				event = {
-					item: item,
-					handler: handler,
-					areaRect: areaRect,
-					baseRect: baseRect,
-					index: item.dataset.index,
-					action: handler.dataset.drawaction,
-					w: areaRect.width,
-					h: areaRect.height,
-					base: {
-						l: baseRect.left - areaRect.left,
-						c: baseRect.left + baseRect.width / 2 - areaRect.left,
-						r: baseRect.right - areaRect.left,
-						t: baseRect.top - areaRect.top,
-						m: baseRect.top + baseRect.height / 2 - areaRect.top,
-						b: baseRect.bottom - areaRect.top
-					},
-					path: [],
-					moveItem: moveItem,
-					resizeItem: resizeItem,
-					resetItem: resetItem
-				};
+				initEventData(e.currentTarget, e.target.closest('.item'));
+				event.handler = handler;
+				event.action = handler.dataset.drawaction;
 				setEventData(e);
 				onCatch(event);
 			},
@@ -116,8 +123,22 @@ Catpow.DrawArea = function (props) {
 				}
 				setEventData(e);
 				onRelease(event);
+				setIndex(event.index);
 				event = false;
-			}
+			},
+			onKeyDown: function onKeyDown(e) {
+				if (index < 0) {
+					return;
+				}
+				initEventData(e.currentTarget, e.currentTarget.querySelector(".item[data-index='" + index + "']"));
+				switch (e.key) {
+					case 'Backspace':
+						event.action = 'delete';
+						onDelete(event);
+						break;
+				}
+			},
+			tabIndex: 0
 		}, otherProps),
 		children
 	);

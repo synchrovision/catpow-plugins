@@ -4,8 +4,33 @@
 */
 Catpow.DrawArea=function(props){
 	var event;
-	const {onCatch,onDraw,onRelease,grid,children,...otherProps}=props;
+	const {onCatch,onDraw,onRelease,onDelete,grid,children,...otherProps}=props;
+	const [index,setIndex]=wp.element.useState(-1);
 	
+	const initEventData=(area,item)=>{
+		const areaRect=area.getBoundingClientRect();
+		const baseRect=item.getBoundingClientRect();
+		event={
+			item,
+			areaRect,
+			baseRect,
+			index:item.dataset.index,
+			w:areaRect.width,
+			h:areaRect.height,
+			base:{
+				l:baseRect.left-areaRect.left,
+				c:baseRect.left+baseRect.width/2-areaRect.left,
+				r:baseRect.right-areaRect.left,
+				t:baseRect.top-areaRect.top,
+				m:baseRect.top+baseRect.height/2-areaRect.top,
+				b:baseRect.bottom-areaRect.top,
+			},
+			path:[],
+			moveItem,
+			resizeItem,
+			resetItem
+		};
+	};
 	const setEventData=(e)=>{
 		event.x=e.clientX-event.areaRect.left;
 		event.y=e.clientY-event.areaRect.top;
@@ -66,31 +91,9 @@ Catpow.DrawArea=function(props){
 			onMouseDown={(e)=>{
 				const handler=e.target.closest('[data-drawaction]')
 				if(!handler){event=false;return;}
-				const item=e.target.closest('.item');
-				const areaRect=e.currentTarget.getBoundingClientRect();
-				const baseRect=item.getBoundingClientRect();
-				event={
-					item,
-					handler,
-					areaRect,
-					baseRect,
-					index:item.dataset.index,
-					action:handler.dataset.drawaction,
-					w:areaRect.width,
-					h:areaRect.height,
-					base:{
-						l:baseRect.left-areaRect.left,
-						c:baseRect.left+baseRect.width/2-areaRect.left,
-						r:baseRect.right-areaRect.left,
-						t:baseRect.top-areaRect.top,
-						m:baseRect.top+baseRect.height/2-areaRect.top,
-						b:baseRect.bottom-areaRect.top,
-					},
-					path:[],
-					moveItem,
-					resizeItem,
-					resetItem
-				};
+				initEventData(e.currentTarget,e.target.closest('.item'));
+				event.handler=handler;
+				event.action=handler.dataset.drawaction;
 				setEventData(e);
 				onCatch(event);
 			}}
@@ -103,8 +106,20 @@ Catpow.DrawArea=function(props){
 				if(!event){return;}
 				setEventData(e);
 				onRelease(event);
+				setIndex(event.index);
 				event=false;
 			}}
+			onKeyDown={(e)=>{
+				if(index<0){return;}
+				initEventData(e.currentTarget,e.currentTarget.querySelector(`.item[data-index='${index}']`));
+				switch(e.key){
+					case 'Backspace':
+						event.action='delete';
+						onDelete(event);
+						break;
+				}
+			}}
+			tabIndex={0}
 			{...otherProps}
 		>{children}</div>
 	);

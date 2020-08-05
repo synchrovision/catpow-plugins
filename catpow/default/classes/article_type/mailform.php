@@ -32,7 +32,7 @@ class mailform extends article_type{
 			'push'=>['type'=>'radio','label'=>'登録処理','value'=>['しない'=>-1,'する'=>1]],
 			'send_mail'=>['type'=>'checkbox_post_datas','label'=>'メール送信','value'=>$mailconf_post_type],
 			'check_task'=>['type'=>'radio','label'=>'タスク完了確認','value'=>['しない'=>-1,'する'=>1]],
-			'mail'=>['type'=>'share','show_in_menu'=>false,'meta'=>[]]
+			'mail'=>['type'=>'share','show_in_menu'=>false,'show_in_loop'=>false,'meta'=>[]]
 		];
 		if(empty($conf_data['meta'])){$conf_data['meta']=$default_meta_conf;}
 		else{$conf_data['meta']=array_merge($default_meta_conf,(array)$conf_data['meta']);}

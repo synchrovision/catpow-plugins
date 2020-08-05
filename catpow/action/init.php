@@ -187,6 +187,23 @@ if(function_exists('register_block_type')){
 		}
 	});
 	if(current_user_can('edit_themes')){\cp::gzip_compress(glob(WP_PLUGIN_DIR.'/catpow/blocks/*/*.{js,css}',GLOB_BRACE));}
+	add_filter('allowed_block_types',function($allowed_block_types,$post){
+		if($post->post_type==='page'){
+			$conf_data=$GLOBALS['static_pages'][$post->post_name]??null;
+		}
+		else{
+			$conf_data=$GLOBALS['post_types'][$post->post_type]??null;
+		}
+		if(empty($conf_data)){return $allowed_block_types;}
+		if(isset($conf_data['allowed_block_types'])){
+			return $conf_data['allowed_block_types'];
+		}
+		if(isset($conf_data['article_type'])){
+			$class_name=\cp::get_class_name('article_type',$conf_data['article_type']);
+			return $class_name::get_allowed_block_types();
+		}
+		return $allowed_block_types;
+	},10,2);
 }
 
 /*shortcode*/

@@ -96,6 +96,7 @@ class template_creator{
 			$filters=self::parse_filter_str($matches['filter']);
 			$cond_datas=self::get_cond_datas($matches['body']);
 			foreach($conf_data['meta'] as $name=>$conf){
+				if(empty($conf['show_in_loop']??true)){continue;}
 				$class_name=\cp::get_class_name('meta',$conf['type']);
 				if(!class_exists($class_name)){continue;}
 				foreach($filters as $key=>$flag){

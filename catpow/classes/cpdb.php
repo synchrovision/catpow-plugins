@@ -199,7 +199,6 @@ class cpdb{
 	}
 	
 	public function prepare($q){
-		error_log(var_export($q,1));
 		return $this->pdo->prepare($q);
 	}
 	public function query($qs){

@@ -54,7 +54,11 @@ if(function_exists('register_block_type')){
 	add_filter('block_categories',function($cats,$post){
 		$cats[]=[
 			'slug'=>'catpow',
-			'title'=>'🐾 Catpow'
+			'title'=>"\u{1F43E} Catpow"
+		];
+		$cats[]=[
+			'slug'=>'catpow-mail',
+			'title'=>"\u{1F4E8} CatpowMail"
 		];
 		return $cats;
 	},10,2);

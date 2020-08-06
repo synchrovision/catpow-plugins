@@ -1642,6 +1642,34 @@ class CP{
 			else{
 				return false;
 			}
+			$front_styles=[];
+			$GLOBALS['wp_filter']['render_block_data']->callbacks[10]['collect_front_styles']=[
+				'function'=>function($block,$source_block)use(&$front_styles){
+					$block_name=explode('/',$block['blockName'])[1]??null;
+					if(empty($block_name)){return $block;}
+					if($f=self::get_file_path('blocks/'.$block_name.'/front_style.css',0733)){
+						$front_styles[]=$f;
+					}
+					return $block;
+				},
+				'accepted_args'=>2
+			];
+			$body=apply_filters('the_content',$conf['message']);
+			$css='';
+			foreach($front_styles as $front_style){
+				$css.=file_get_contents($front_style);
+			}
+			$conf['message']=
+				'<!DOCTYPE html><html lang="ja">'.
+				'<head>'.
+				'<meta name="viewport" content="width=device-width" />'.
+				'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'.
+				'<title>'.do_shortcode($conf['subject']).'</title>'.
+				'<style>'.$css.'</style>'.
+				'</head>'.
+				'<body class="mail">'.$body.'</body>'.
+				'</html>';
+			$conf['type']='html';
 		}
 		$conf=array_merge([
 			'subject'=>get_option('blogname'),
@@ -1695,7 +1723,6 @@ class CP{
 		}
 		
 		$h['Content-type'].='charset='.$h['text_charset'];
-		//if($conf['type']=='plain'){$message=implode("\r\n",explode("\n",$message));}//<-maybe this is no longer needed
 		
 		foreach($h as $k=>&$v){$v=$k.':'.$v;}
 		wp_mail($to,$subject,$message,$h);

@@ -1,11 +1,12 @@
-registerBlockType('catpow/t-cover', {
-	title: '🐾 T-Cover',
+registerBlockType('catpow/t-image', {
+	title: '🐾 T-Image',
 	icon: 'editor-code',
 	category: 'catpow-mail',
 	attributes: {
-		classes: { source: 'attribute', selector: 'table', attribute: 'class', default: 'wp-block-catpow-t-cover' },
+		classes: { source: 'attribute', selector: 'table', attribute: 'class', default: 'wp-block-catpow-t-image' },
 		src: { source: 'attribute', selector: '[src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
-		alt: { source: 'attribute', selector: '[src]', attribute: 'alt' }
+		alt: { source: 'attribute', selector: '[src]', attribute: 'alt' },
+		loopImage: { source: 'text', selector: 'td', default: cp.theme_url + '/images/dummy.jpg' }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
@@ -13,12 +14,17 @@ registerBlockType('catpow/t-cover', {
 		    setAttributes = _ref.setAttributes;
 		var classes = attributes.classes,
 		    src = attributes.src,
-		    alt = attributes.alt;
+		    alt = attributes.alt,
+		    loopImage = attributes.loopImage;
 
-		var primaryClass = 'wp-block-catpow-t-cover';
+		var primaryClass = 'wp-block-catpow-t-image';
 		var states = CP.wordsToFlags(classes);
 
-		var selectiveClasses = [];
+		var selectiveClasses = [{
+			label: 'テンプレート',
+			values: 'isTemplate',
+			sub: [{ label: '画像出力コード', input: 'text', key: 'loopImage' }]
+		}];
 
 		return [wp.element.createElement(
 			'table',
@@ -32,7 +38,11 @@ registerBlockType('catpow/t-cover', {
 					wp.element.createElement(
 						'td',
 						null,
-						wp.element.createElement(SelectResponsiveImage, {
+						states.isTemplate ? wp.element.createElement('img', {
+							src: cp.plugins_url + '/catpow/callee/dummy_image.php?text=' + loopImage,
+							width: '100%',
+							height: 'auto'
+						}) : wp.element.createElement(SelectResponsiveImage, {
 							set: setAttributes,
 							attr: attributes,
 							keys: { src: 'src', alt: 'alt' },
@@ -52,7 +62,7 @@ registerBlockType('catpow/t-cover', {
 				set: setAttributes,
 				attr: attributes,
 				selectiveClasses: selectiveClasses,
-				filters: CP.filters['t-cover'] || {}
+				filters: CP.filters['t-image'] || {}
 			}),
 			wp.element.createElement(
 				PanelBody,
@@ -73,9 +83,11 @@ registerBlockType('catpow/t-cover', {
 		    setAttributes = _ref2.setAttributes;
 		var classes = attributes.classes,
 		    src = attributes.src,
-		    alt = attributes.alt;
+		    alt = attributes.alt,
+		    loopImage = attributes.loopImage;
 
-		var primaryClass = 'wp-block-catpow-t-cover';
+		var primaryClass = 'wp-block-catpow-t-image';
+		var states = CP.wordsToFlags(classes);
 		return wp.element.createElement(
 			'table',
 			{ width: '100%', className: classes },
@@ -88,7 +100,7 @@ registerBlockType('catpow/t-cover', {
 					wp.element.createElement(
 						'td',
 						null,
-						wp.element.createElement('img', { width: '100%', height: 'auto', src: src, alt: alt })
+						states.isTemplate ? loopImage : wp.element.createElement('img', { width: '100%', height: 'auto', src: src, alt: alt })
 					)
 				)
 			)

@@ -350,7 +350,7 @@
 		return rtn;
 	}
 };
-const SelectResponsiveImage=({className,attr,set,keys,index,sizes,size,ofSP})=>{
+const SelectResponsiveImage=({className,attr,set,keys,index,sizes,size,ofSP,...otherProps})=>{
 	let type,onClick,item;
 	keys=keys || {};
 	if(ofSP){
@@ -393,6 +393,7 @@ const SelectResponsiveImage=({className,attr,set,keys,index,sizes,size,ofSP})=>{
 				src={item[keys.src]}
 				data-mime={item[keys.mime]}
 				onClick={onClick}
+				{...otherProps}
 				></audio>
 		);
 	}
@@ -408,6 +409,7 @@ const SelectResponsiveImage=({className,attr,set,keys,index,sizes,size,ofSP})=>{
 				loop={1}
 				playsinline={1}
 				muted={1}
+				{...otherProps}
 				></video>
 		);
 	}
@@ -421,6 +423,7 @@ const SelectResponsiveImage=({className,attr,set,keys,index,sizes,size,ofSP})=>{
 			sizes={sizes}
 			data-mime={item[keys.mime]}
 			onClick={onClick}
+			{...otherProps}
 		/>
 	);
 };
@@ -590,6 +593,7 @@ const SelectClassPanel=(props)=>{
                                 onChange={(val)=>{CP.setJsonValue(props,prm.json,prm.key,val*prm.coef);}}
                                 min={prm.min}
                                 max={prm.max}
+								step={prm.step}
                             />
                         );
                         break;
@@ -675,6 +679,7 @@ const SelectClassPanel=(props)=>{
                                 onChange={(val)=>{let data={};data[prm.key]=val*prm.coef;props.set(data);}}
                                 min={prm.min}
                                 max={prm.max}
+                                step={prm.step}
                             />
                         );
                         break;

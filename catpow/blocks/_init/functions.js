@@ -543,7 +543,8 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref18) {
 	    index = _ref18.index,
 	    sizes = _ref18.sizes,
 	    size = _ref18.size,
-	    ofSP = _ref18.ofSP;
+	    ofSP = _ref18.ofSP,
+	    otherProps = babelHelpers.objectWithoutProperties(_ref18, ['className', 'attr', 'set', 'keys', 'index', 'sizes', 'size', 'ofSP']);
 
 	var type = void 0,
 	    onClick = void 0,
@@ -597,18 +598,18 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref18) {
 		type = 'image';
 	}
 	if (type == 'audio') {
-		return wp.element.createElement('audio', {
+		return wp.element.createElement('audio', babelHelpers.extends({
 			className: 'selectImage ' + className,
 			src: item[keys.src],
 			'data-mime': item[keys.mime],
 			onClick: onClick
-		});
+		}, otherProps));
 	}
 	if (item[keys.srcset] && !sizes) {
 		sizes = '(max-width:640px) 480px,100vw';
 	}
 	if (type == 'video') {
-		return wp.element.createElement('video', {
+		return wp.element.createElement('video', babelHelpers.extends({
 			className: 'selectImage ' + className,
 			src: item[keys.src],
 			'data-mime': item[keys.mime],
@@ -617,10 +618,10 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref18) {
 			loop: 1,
 			playsinline: 1,
 			muted: 1
-		});
+		}, otherProps));
 	}
 	var src = CP.imageSrcOrDummy(item[keys.src]);
-	return wp.element.createElement('img', {
+	return wp.element.createElement('img', babelHelpers.extends({
 		className: 'selectImage ' + className,
 		src: src,
 		alt: item[keys.alt],
@@ -628,7 +629,7 @@ var SelectResponsiveImage = function SelectResponsiveImage(_ref18) {
 		sizes: sizes,
 		'data-mime': item[keys.mime],
 		onClick: onClick
-	});
+	}, otherProps));
 };
 var ResponsiveImage = function ResponsiveImage(_ref21) {
 	var className = _ref21.className,
@@ -885,7 +886,8 @@ var SelectClassPanel = function SelectClassPanel(props) {
 								CP.setJsonValue(props, prm.json, prm.key, val * prm.coef);
 							},
 							min: prm.min,
-							max: prm.max
+							max: prm.max,
+							step: prm.step
 						}));
 						break;
 
@@ -968,7 +970,8 @@ var SelectClassPanel = function SelectClassPanel(props) {
 								var data = {};data[prm.key] = val * prm.coef;props.set(data);
 							},
 							min: prm.min,
-							max: prm.max
+							max: prm.max,
+							step: prm.step
 						}));
 						break;
 					case 'image':

@@ -3,27 +3,61 @@
 	icon:'editor-code',
 	category:'catpow-mail',
 	attributes:{
-		classes:{source:'attribute',selector:'table',attribute:'class',default:'wp-block-catpow-t-body'}
+		classes:{source:'attribute',selector:'table',attribute:'class',default:'wp-block-catpow-t-body hasHeader hasFooter'},
+		headerText:{source:'children',selector:'thead th',default:['Title']},
+		footerText:{source:'children',selector:'tfoot td',default:['caption']},
+		body_class:{type:'string',default:'white'}
 	},
 	edit({attributes,className,setAttributes}){
-        const {classes,title}=attributes;
+        const {classes,headerText,footerText,body_class}=attributes;
 		const primaryClass='wp-block-catpow-t-body';
 		var states=CP.wordsToFlags(classes);
 		
 		var selectiveClasses=[
-			'color'
+			'color',
+			{label:'ヘッダ',values:'hasHeader'},
+			{label:'フッタ',values:'hasFooter'},
+			{label:'背景色',values:['white','gray','black'],key:'body_class'}
 		];
 		
         return [
-			<table width="100%" className={classes}>
-				<tbody>
-					<tr>
-						<td>
-							<InnerBlocks/>
-						</td>
-					</tr>
-				</tbody>
-			</table>,
+			<div className={"mail_body "+body_class}>
+				<table width="100%" align="center" valign="top" className={classes}>
+					{states.hasHeader &&
+						<thead>
+							<tr>
+								<th>
+									<RichText
+										onChange={(headerText)=>{setAttributes({headerText});}}
+										value={headerText}
+									/>
+								</th>
+							</tr>
+						</thead>
+					}
+					<tbody>
+						<tr>
+							<td>
+								<center>
+									<InnerBlocks/>
+								</center>
+							</td>
+						</tr>
+					</tbody>
+					{states.hasFooter &&
+						<tfoot>
+							<tr>
+								<td>
+									<RichText
+										onChange={(footerText)=>{setAttributes({footerText});}}
+										value={footerText}
+									/>
+								</td>
+							</tr>
+						</tfoot>
+					}
+				</table>
+			</div>,
 			<InspectorControls>
 				<SelectClassPanel
 					title='クラス'
@@ -46,17 +80,34 @@
 
 
 	save({attributes,className,setAttributes}){
-        const {classes,title}=attributes;
+        const {classes,headerText,footerText}=attributes;
 		const primaryClass='wp-block-catpow-t-body';
+		var states=CP.wordsToFlags(classes);
 		return (
-			<table width="100%" className={classes}>
+			<table width="100%" align="center" valign="top" className={classes}>
+				{states.hasHeader &&
+					<thead>
+						<tr>
+							<th>{headerText}</th>
+						</tr>
+					</thead>
+				}
 				<tbody>
 					<tr>
 						<td>
-							<InnerBlocks.Content/>
+							<center>
+								<InnerBlocks.Content/>
+							</center>
 						</td>
 					</tr>
 				</tbody>
+				{states.hasFooter &&
+					<tfoot>
+						<tr>
+							<td>{footerText}</td>
+						</tr>
+					</tfoot>
+				}
 			</table>
 		);
 	}

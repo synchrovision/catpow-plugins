@@ -3,33 +3,82 @@ registerBlockType('catpow/t-body', {
 	icon: 'editor-code',
 	category: 'catpow-mail',
 	attributes: {
-		classes: { source: 'attribute', selector: 'table', attribute: 'class', default: 'wp-block-catpow-t-body' }
+		classes: { source: 'attribute', selector: 'table', attribute: 'class', default: 'wp-block-catpow-t-body hasHeader hasFooter' },
+		headerText: { source: 'children', selector: 'thead th', default: ['Title'] },
+		footerText: { source: 'children', selector: 'tfoot td', default: ['caption'] },
+		body_class: { type: 'string', default: 'white' }
 	},
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,
 		    setAttributes = _ref.setAttributes;
 		var classes = attributes.classes,
-		    title = attributes.title;
+		    headerText = attributes.headerText,
+		    footerText = attributes.footerText,
+		    body_class = attributes.body_class;
 
 		var primaryClass = 'wp-block-catpow-t-body';
 		var states = CP.wordsToFlags(classes);
 
-		var selectiveClasses = ['color'];
+		var selectiveClasses = ['color', { label: 'ヘッダ', values: 'hasHeader' }, { label: 'フッタ', values: 'hasFooter' }, { label: '背景色', values: ['white', 'gray', 'black'], key: 'body_class' }];
 
 		return [wp.element.createElement(
-			'table',
-			{ width: '100%', className: classes },
+			'div',
+			{ className: "mail_body " + body_class },
 			wp.element.createElement(
-				'tbody',
-				null,
-				wp.element.createElement(
-					'tr',
+				'table',
+				{ width: '100%', align: 'center', valign: 'top', className: classes },
+				states.hasHeader && wp.element.createElement(
+					'thead',
 					null,
 					wp.element.createElement(
-						'td',
+						'tr',
 						null,
-						wp.element.createElement(InnerBlocks, null)
+						wp.element.createElement(
+							'th',
+							null,
+							wp.element.createElement(RichText, {
+								onChange: function onChange(headerText) {
+									setAttributes({ headerText: headerText });
+								},
+								value: headerText
+							})
+						)
+					)
+				),
+				wp.element.createElement(
+					'tbody',
+					null,
+					wp.element.createElement(
+						'tr',
+						null,
+						wp.element.createElement(
+							'td',
+							null,
+							wp.element.createElement(
+								'center',
+								null,
+								wp.element.createElement(InnerBlocks, null)
+							)
+						)
+					)
+				),
+				states.hasFooter && wp.element.createElement(
+					'tfoot',
+					null,
+					wp.element.createElement(
+						'tr',
+						null,
+						wp.element.createElement(
+							'td',
+							null,
+							wp.element.createElement(RichText, {
+								onChange: function onChange(footerText) {
+									setAttributes({ footerText: footerText });
+								},
+								value: footerText
+							})
+						)
 					)
 				)
 			)
@@ -62,12 +111,27 @@ registerBlockType('catpow/t-body', {
 		    className = _ref2.className,
 		    setAttributes = _ref2.setAttributes;
 		var classes = attributes.classes,
-		    title = attributes.title;
+		    headerText = attributes.headerText,
+		    footerText = attributes.footerText;
 
 		var primaryClass = 'wp-block-catpow-t-body';
+		var states = CP.wordsToFlags(classes);
 		return wp.element.createElement(
 			'table',
-			{ width: '100%', className: classes },
+			{ width: '100%', align: 'center', valign: 'top', className: classes },
+			states.hasHeader && wp.element.createElement(
+				'thead',
+				null,
+				wp.element.createElement(
+					'tr',
+					null,
+					wp.element.createElement(
+						'th',
+						null,
+						headerText
+					)
+				)
+			),
 			wp.element.createElement(
 				'tbody',
 				null,
@@ -77,7 +141,24 @@ registerBlockType('catpow/t-body', {
 					wp.element.createElement(
 						'td',
 						null,
-						wp.element.createElement(InnerBlocks.Content, null)
+						wp.element.createElement(
+							'center',
+							null,
+							wp.element.createElement(InnerBlocks.Content, null)
+						)
+					)
+				)
+			),
+			states.hasFooter && wp.element.createElement(
+				'tfoot',
+				null,
+				wp.element.createElement(
+					'tr',
+					null,
+					wp.element.createElement(
+						'td',
+						null,
+						footerText
 					)
 				)
 			)

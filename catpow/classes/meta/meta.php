@@ -21,7 +21,6 @@ abstract class meta{
 		$this->data_path=$data_path;
 		$this->path_data=\cp::parse_data_path($data_path);
 		$this->conf=$conf;
-		$query_class=\cp::get_class_name('query',$this->path_data['data_type']);
 		
 		if(isset($data)){$this->data=$data;}
 		else{$this->load();}

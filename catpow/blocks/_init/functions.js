@@ -1337,6 +1337,15 @@ var AlignClassToolbar = function AlignClassToolbar(props) {
 		}
 	});
 };
+var VerticalAlignClassToolbar = function VerticalAlignClassToolbar(props) {
+	var aligns = ['top', 'center', 'bottom'];
+	return wp.element.createElement(BlockVerticalAlignmentToolbar, {
+		value: CP.getSelectiveClass(props, aligns),
+		onChange: function onChange(align) {
+			CP.switchSelectiveClass(props, aligns, align, props.key);
+		}
+	});
+};
 var SelectColorClass = function SelectColorClass(props) {
 	var label = props.label,
 	    help = props.help;

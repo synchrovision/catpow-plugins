@@ -999,6 +999,15 @@ const AlignClassToolbar=(props)=>{
 		/>
 	);
 }
+const VerticalAlignClassToolbar=(props)=>{
+	const aligns=['top','center','bottom'];
+	return (
+		<BlockVerticalAlignmentToolbar
+			value={CP.getSelectiveClass(props,aligns)}
+			onChange={(align)=>{CP.switchSelectiveClass(props,aligns,align,props.key)} }
+		/>
+	);
+}
 const SelectColorClass=(props)=>{
 	const {label,help}=props;
 	

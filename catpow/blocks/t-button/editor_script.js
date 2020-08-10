@@ -82,7 +82,7 @@ registerBlockType('catpow/t-button', {
 			{ className: classes, href: url },
 			wp.element.createElement(
 				'table',
-				{ width: '100%', className: classes },
+				{ width: '100%' },
 				wp.element.createElement(
 					'tbody',
 					null,

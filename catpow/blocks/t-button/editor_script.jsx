@@ -59,7 +59,7 @@
 		const primaryClass='wp-block-catpow-t-button';
 		return (
 			<a className={classes} href={url}>
-				<table width="100%" className={classes}>
+				<table width="100%">
 					<tbody>
 						<tr>
 							<td>{title}</td>

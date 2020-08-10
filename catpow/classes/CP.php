@@ -1626,6 +1626,7 @@ class CP{
 				foreach($meta_keys as $key){
 					if($val=get_post_meta($post->ID,$key)){$conf[$key]=$val;}
 				}
+				$post_type=$post->post_type;
 			}
 			elseif(is_string($conf)){
 				$post_data=self::get_default_post_data($conf);
@@ -1638,38 +1639,44 @@ class CP{
 						$conf[$key]=$post_data['meta'][$key];
 					}
 				}
+				$post_type=$post_data['post_type'];
 			}
 			else{
 				return false;
 			}
-			$front_styles=[];
-			$GLOBALS['wp_filter']['render_block_data']->callbacks[10]['collect_front_styles']=[
-				'function'=>function($block,$source_block)use(&$front_styles){
-					$block_name=explode('/',$block['blockName'])[1]??null;
-					if(empty($block_name)){return $block;}
-					if($f=self::get_file_path('blocks/'.$block_name.'/front_style.css',0733)){
-						$front_styles[]=$f;
-					}
-					return $block;
-				},
-				'accepted_args'=>2
-			];
-			$body=apply_filters('the_content',$conf['message']);
-			$css='';
-			foreach($front_styles as $front_style){
-				$css.=file_get_contents($front_style);
+			
+			if(get_post_type_object($post_type)->show_in_rest===true){
+				$front_styles=[self::get_file_path('mail.css',0733)=>true];
+				$body_class='';
+				$GLOBALS['wp_filter']['render_block_data']->callbacks[10]['collect_front_styles']=[
+					'function'=>function($block,$source_block)use(&$front_styles,&$body_class){
+						$block_name=explode('/',$block['blockName'])[1]??null;
+						if(empty($block_name)){return $block;}
+						if(isset($block['attrs']['body_class'])){$body_class=$block['attrs']['body_class'];}
+						if($f=self::get_file_path('blocks/'.$block_name.'/front_style.css',0733)){
+							$front_styles[$f]=true;
+						}
+						return $block;
+					},
+					'accepted_args'=>2
+				];
+				$body=apply_filters('the_content',$conf['message']);
+				$css='';
+				foreach($front_styles as $front_style=>$flag){
+					$css.=file_get_contents($front_style);
+				}
+				$conf['message']=
+					'<!DOCTYPE html><html lang="ja">'.
+					'<head>'.
+					'<meta name="viewport" content="width=device-width" />'.
+					'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'.
+					'<title>'.do_shortcode($conf['subject']).'</title>'.
+					'<style>'.$css.'</style>'.
+					'</head>'.
+					'<body class="mail_body '.$body_class.'">'.$body.'</body>'.
+					'</html>';
+				$conf['type']='html';
 			}
-			$conf['message']=
-				'<!DOCTYPE html><html lang="ja">'.
-				'<head>'.
-				'<meta name="viewport" content="width=device-width" />'.
-				'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'.
-				'<title>'.do_shortcode($conf['subject']).'</title>'.
-				'<style>'.$css.'</style>'.
-				'</head>'.
-				'<body class="mail">'.$body.'</body>'.
-				'</html>';
-			$conf['type']='html';
 		}
 		$conf=array_merge([
 			'subject'=>get_option('blogname'),

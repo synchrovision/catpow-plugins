@@ -1,4 +1,13 @@
 <?php
+/*cron*/
+add_filter('cron_schedules',function($schedules){
+	return $schedules+[
+		'every_minutes'=>[
+			'interval'=>60,
+			'display'=>__( 'Every Minutes','Catpow')
+		]
+	];
+});
 
 add_action('cp_init',function(){
 	cp::include_plugin_files('action/cp_init');
@@ -68,6 +77,9 @@ add_action('delete_blog',function($blog_id, $drop){
 
 
 /*cronアクション*/
+add_action('cp_cron_every_minutes',function(){
+	cp::include_plugin_files('action/cron_every_minutes');
+});
 add_action('cp_cron_hourly',function(){
 	cp::include_plugin_files('action/cron_hourly');
 });

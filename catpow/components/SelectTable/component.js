@@ -36,7 +36,7 @@ Catpow.SelectTable = function (_ref) {
 			);
 		});
 	}
-	fontSize = (360 / col - 10) / Math.max.apply(Math, babelHelpers.toConsumableArray(values.map(function (val) {
+	fontSize = (360 / col - 5) / Math.max.apply(Math, babelHelpers.toConsumableArray(values.map(function (val) {
 		return val.toString().length;
 	})));
 	if (fontSize > 20) {

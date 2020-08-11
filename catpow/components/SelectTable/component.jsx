@@ -18,7 +18,7 @@
 			}}>{key}</td>
 		));
 	}
-	fontSize=(360/col-10)/Math.max(...(values.map((val)=>val.toString().length)));
+	fontSize=(360/col-5)/Math.max(...(values.map((val)=>val.toString().length)));
 	if(fontSize>20){className+=' hasLargeFontSize';}
 	else if(fontSize>10){className+=' hasRegularFontSize';}
 	else{className+=' hasSmallFontSize';}

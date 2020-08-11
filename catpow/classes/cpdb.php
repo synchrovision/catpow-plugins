@@ -3,7 +3,7 @@ namespace Catpow;
 
 class cpdb{
 	public static $cpdb;
-	public $pdo,$last_insert_id,$host,$port,$dbname,$user,$structure,$tables,$alias,$relation;
+	public $pdo,$last_insert_id,$host,$port,$dbname,$user,$structure,$functional,$tables,$alias,$relation;
 	private function __construct(){
 		if(strpos(\DB_HOST,':')){
 			list($this->host,$this->port)=explode(':',\DB_HOST);
@@ -34,9 +34,13 @@ class cpdb{
 		$this->tables=array_keys($table_datas);
 		$this->structure=$table_datas;
 		$this->relation=[];
+		$this->functional=[];
 		foreach($table_datas as $table_name=>$table_data){
 			$this->alias[$table_data['alias']]=$table_name;
 			$this->relation[$table_name]=$table_data['children'];
+			foreach($table_data['functions'] as $function){
+				$this->functional[$function][$table_name]=$table_data;
+			}
 		}
 	}
 	

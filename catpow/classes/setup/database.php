@@ -33,7 +33,10 @@ class database implements iSetup{
 				];
 			}
 
+			$table_data[$table_name]['type']=$conf['type'];
+			$table_data[$table_name]['path']=$conf['path'];
 			$table_data[$table_name]['has_parent']=$class_name::$has_parent;
+			$table_data[$table_name]['functions']=$class_name::$functions;
 			$table_data[$table_name]['alias']=$conf['alias']??str_replace('/','_',$conf['path']);
 
 

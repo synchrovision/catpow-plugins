@@ -15,7 +15,7 @@ abstract class meta{
 		$is_bulk_output=false,
 		$is_unit_input=false,
 		$is_unit_output=false,
-		$functins=[];
+		$functions=[];
 	public $data_path,$path_data,$conf,$data;
 	
 	public function __construct($data_path,$conf,$data=null){

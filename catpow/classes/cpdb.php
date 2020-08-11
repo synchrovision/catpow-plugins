@@ -287,7 +287,8 @@ class cpdb{
 			if(isset($row['meta_id'])){
 				$meta_id=$row['meta_id'];
 				if($table_conf['has_parent']){
-					$parent_id=$this->select($_table_name,['meta_id'=>$row['meta_id']],false,'parent_id')[0];
+					$parent_id=$this->select($_table_name,['meta_id'=>$row['meta_id']],false,'parent_id');
+					$parent_id=reset($parent_id)['parent_id'];
 					$updated_rows[$parent_id][]=$meta_id;
 				}
 				$this->query(['UPDATE '.$_table_name,self::get_sql_data_set($cols),[' WHERE meta_id = ?'=>[$meta_id]]]);

@@ -27,7 +27,6 @@ function add_menus($path_data,$conf_data,$menus){
 		else{
 			$parent=get_menu_link($slug,$path_data);
 			if(is_array($parent)){$parent=key($parent);}
-			error_log(var_export($parent,1));
 			foreach($menu as $label=>$link){
 				$link=get_menu_link($link,$path_data);
 				if(is_array($link)){

@@ -29,6 +29,9 @@ abstract class structure{
 		}
 		return $rtn;
 	}
+	public static function permission_callback($req){
+		return true;
+	}
 }
 
 ?>

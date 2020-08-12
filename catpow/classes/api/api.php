@@ -7,6 +7,8 @@ namespace Catpow\api;
 abstract class api{
 	public static function call($req,$res){
 	}
+	public static function permission_callback($req){
+	}
 }
 
 ?>

@@ -4,6 +4,13 @@ register_rest_route(
 	'/(?P<content_path>(?P<data_type>[a-z]\w*)(?:/(?P<data_name>[a-z]\w*))?(?:/(?P<tmp>(?P<tmp_name>[a-z]\w*)(?:\-(?P<tmp_slug>[a-z]\w*))?))?)(?:/(?P<data_id>\d+))?(?:/(?P<action>[a-z]\w*))?(?:/(?P<param>.+))?/?',
 	[
 		'methods'=>WP_REST_Server::ALLMETHODS,
+		'permission_callback'=>function($req){
+			$api_class=cp::get_class_name('api',$req['data_type'],$req['data_name']);
+			if(class_exists($api_class)){
+				return $api_class::permission_callback($req);
+			}
+			return true;
+		},
 		'callback'=>function($req){
 			$res=new WP_REST_Response([],200);
 			try{

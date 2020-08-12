@@ -47,15 +47,16 @@ registerBlockType('catpow/ranking', {
 		countPrefix: { source: 'text', selector: '.counter .prefix', default: '' },
 		countSuffix: { source: 'text', selector: '.counter .suffix', default: '' }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes,
-			isSelected = _ref.isSelected;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var items = attributes.items,
-			classes = attributes.classes,
-			countPrefix = attributes.countPrefix,
-			countSuffix = attributes.countSuffix;
+		    classes = attributes.classes,
+		    countPrefix = attributes.countPrefix,
+		    countSuffix = attributes.countSuffix;
 
 		var primaryClass = 'wp-block-catpow-ranking';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -69,7 +70,7 @@ registerBlockType('catpow/ranking', {
 			hasLink: false
 		};
 
-		var selectiveClasses = [{ label: '画�?', values: 'hasImage' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'リンク', values: 'hasLink' }];
+		var selectiveClasses = [{ label: '画像', values: 'hasImage' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'リンク', values: 'hasLink' }];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -241,11 +242,11 @@ registerBlockType('catpow/ranking', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className;
+		    className = _ref2.className;
 		var items = attributes.items,
-			classes = attributes.classes,
-			countPrefix = attributes.countPrefix,
-			countSuffix = attributes.countSuffix;
+		    classes = attributes.classes,
+		    countPrefix = attributes.countPrefix,
+		    countSuffix = attributes.countSuffix;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 

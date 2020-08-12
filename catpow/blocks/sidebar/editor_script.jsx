@@ -5,6 +5,7 @@
 	attributes:{
 		classes:{source:'attribute',selector:'div',attribute:'class',default:'wp-block-catpow-sidebar left'},
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
         const {classes}=attributes;
 		const primaryClass='wp-block-catpow-sidebar';

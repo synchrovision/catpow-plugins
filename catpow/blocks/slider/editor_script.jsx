@@ -61,6 +61,7 @@
 		},
 		blockState:{type:'object',default:{enableBlockFormat:false}}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
 		const {classes,controlClasses,config,items}=attributes;
 		const primaryClass='wp-block-catpow-slider';

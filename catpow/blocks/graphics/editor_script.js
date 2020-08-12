@@ -1,6 +1,6 @@
 registerBlockType('catpow/graphics', {
 	title: '🐾 graphics',
-	description: '画像をレイアウ�?',
+	description: '画像をレイアウト',
 	icon: 'format-image',
 	category: 'catpow',
 	attributes: {
@@ -41,19 +41,20 @@ registerBlockType('catpow/graphics', {
 			}]
 		}
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			className = _ref.className,
-			setAttributes = _ref.setAttributes,
-			isSelected = _ref.isSelected;
+		    className = _ref.className,
+		    setAttributes = _ref.setAttributes,
+		    isSelected = _ref.isSelected;
 		var id = attributes.id,
-			classes = attributes.classes,
-			src = attributes.src,
-			srcset = attributes.srcset,
-			alt = attributes.alt,
-			height = attributes.height,
-			heightSP = attributes.heightSP,
-			items = attributes.items;
+		    classes = attributes.classes,
+		    src = attributes.src,
+		    srcset = attributes.srcset,
+		    alt = attributes.alt,
+		    height = attributes.height,
+		    heightSP = attributes.heightSP,
+		    items = attributes.items;
 
 		var primaryClass = 'wp-block-catpow-graphics';
 		var classArray = classes.split(' ');
@@ -66,7 +67,7 @@ registerBlockType('catpow/graphics', {
 		var isModeSP = attributes.EditMode == 'sp';
 
 		var cssData = {},
-			cssDataSP = {};
+		    cssDataSP = {};
 
 		var states = CP.wordsToFlags(classes);
 		var imageKeys = {
@@ -74,27 +75,27 @@ registerBlockType('catpow/graphics', {
 			image: { src: "src", srcset: "srcset", alt: "alt", items: "items" }
 		};
 		var selectiveClasses = [{
-			label: 'ベ�?ス画�?',
+			label: 'ベース画像',
 			values: 'hasBaseImage',
-			sub: [{ input: 'image', label: '画�?', keys: imageKeys.base, ofSP: isModeSP, sizes: isModeSP ? '480px' : false }]
+			sub: [{ input: 'image', label: '画像', keys: imageKeys.base, ofSP: isModeSP, sizes: isModeSP ? '480px' : false }]
 		}];
 		selectiveClasses.push({ label: '高さ', input: 'text', key: 'height' });
 		selectiveClasses.push({ label: 'SP版高さ', input: 'text', key: 'heightSP' });
-		var selectiveItemClasses = [{ label: 'タイ�?', filter: 'type', values: { isImage: '画�?', isText: '�?��ス�?' }, sub: {
-				isImage: [{ label: 'タイ�?', filter: 'imageType', values: ['type1', 'type2', 'type3'] }, { input: 'text', label: '代替�?��ス�?', key: 'alt' }, { input: 'text', label: 'リンク', key: 'link' }],
-				isText: [{ label: 'タイ�?', filter: 'textType', values: ['type1', 'type2', 'type3'] }, 'color', { label: 'ヌキ�?�?', values: 'inverse' }, { label: '見�?�?', values: 'hasTitle' }, { label: 'リー�?', values: 'hasLead' }, { label: '�?��ス�?', values: 'hasText' }]
-			} }, { label: 'フェードイン', values: 'fadeIn' }, { label: 'スライドイン', values: 'slideIn', sub: [{ type: 'radio', filer: 'slideIn', label: '方�?', values: {
+		var selectiveItemClasses = [{ label: 'タイプ', filter: 'type', values: { isImage: '画像', isText: 'テキスト' }, sub: {
+				isImage: [{ label: 'タイプ', filter: 'imageType', values: ['type1', 'type2', 'type3'] }, { input: 'text', label: '代替テキスト', key: 'alt' }, { input: 'text', label: 'リンク', key: 'link' }],
+				isText: [{ label: 'タイプ', filter: 'textType', values: ['type1', 'type2', 'type3'] }, 'color', { label: 'ヌキ文字', values: 'inverse' }, { label: '見出し', values: 'hasTitle' }, { label: 'リード', values: 'hasLead' }, { label: 'テキスト', values: 'hasText' }]
+			} }, { label: 'フェードイン', values: 'fadeIn' }, { label: 'スライドイン', values: 'slideIn', sub: [{ type: 'radio', filer: 'slideIn', label: '方向', values: {
 					slideInLeft: '左',
 					slideInRight: '右',
-					slideInUp: '�?',
-					slideInDown: '�?',
-					slideInFront: '�?',
-					slideInBack: '�?'
-				} }] }, { label: '回転', filter: 'roll', values: 'roll', sub: [{ type: 'radio', label: '方�?', values: { rollLeft: '左', rollRight: '右' } }, { type: 'radio', label: '速度', values: { rollSlow: '�?��', rollFast: '速い' } }] }, { label: 'ホバー', filter: 'hover', values: 'hover', sub: [{ label: 'フェー�?', values: 'hoverFade' }, { type: 'radio', label: '動き', values: {
-					hoverNoMove: 'な�?',
+					slideInUp: '上',
+					slideInDown: '下',
+					slideInFront: '前',
+					slideInBack: '後'
+				} }] }, { label: '回転', filter: 'roll', values: 'roll', sub: [{ type: 'radio', label: '方向', values: { rollLeft: '左', rollRight: '右' } }, { type: 'radio', label: '速度', values: { rollSlow: '遅い', rollFast: '速い' } }] }, { label: 'ホバー', filter: 'hover', values: 'hover', sub: [{ label: 'フェード', values: 'hoverFade' }, { type: 'radio', label: '動き', values: {
+					hoverNoMove: 'なし',
 					hoverZoom: 'ズーム',
 					hoverLift: 'リフト',
-					hoverJump: 'ジャン�?'
+					hoverJump: 'ジャンプ'
 				} }] }];
 
 		if (!states.hasBaseImage) {
@@ -432,18 +433,18 @@ registerBlockType('catpow/graphics', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className,
-			setAttributes = _ref2.setAttributes;
+		    className = _ref2.className,
+		    setAttributes = _ref2.setAttributes;
 		var id = attributes.id,
-			classes = attributes.classes,
-			height = attributes.height,
-			heightSP = attributes.heightSP,
-			items = attributes.items;
+		    classes = attributes.classes,
+		    height = attributes.height,
+		    heightSP = attributes.heightSP,
+		    items = attributes.items;
 
 		var classArray = classes.split(' ');
 
 		var cssData = {},
-			cssDataSP = {};
+		    cssDataSP = {};
 
 		var states = CP.wordsToFlags(classes);
 		var imageKeys = {

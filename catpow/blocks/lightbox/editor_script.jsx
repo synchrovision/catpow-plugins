@@ -47,6 +47,7 @@
 		},
 		blockState:{type:'object',default:{enableBlockFormat:false}}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {items,classes,boxClasses,blockState}=attributes;
 		const primaryClass='wp-block-catpow-lightbox';

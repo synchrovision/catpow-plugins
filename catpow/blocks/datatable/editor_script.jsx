@@ -85,6 +85,7 @@
 		blockState:{type:'object',default:{enableBlockFormat:true}},
 		loopParam:{type:'text',default:''}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {classes,rows}=attributes;
 		const primaryClass='wp-block-catpow-datatable';

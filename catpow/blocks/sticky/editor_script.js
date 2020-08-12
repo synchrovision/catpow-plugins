@@ -10,6 +10,7 @@ registerBlockType('catpow/sticky', {
 		openButtonImageSrc: { source: 'attribute', selector: '.wp-block-catpow-sticky>.stickyButton [src].open', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
 		closeButtonImageSrc: { source: 'attribute', selector: '.wp-block-catpow-sticky>.stickyButton [src].close', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

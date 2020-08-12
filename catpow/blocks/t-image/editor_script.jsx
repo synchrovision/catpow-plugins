@@ -8,6 +8,7 @@
 		alt:{source:'attribute',selector:'[src]',attribute:'alt'},
 		loopImage:{source:'text',selector:'td',default:cp.theme_url+'/images/dummy.jpg'},
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
         const {classes,src,alt,loopImage}=attributes;
 		const primaryClass='wp-block-catpow-t-image';

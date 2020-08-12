@@ -59,6 +59,7 @@
 		loopParam:{type:'text',default:''},
 		loopCount:{type:'number',default:1}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix,loopCount}=attributes;
 		const primaryClass='wp-block-catpow-listed';

@@ -43,6 +43,7 @@
 			]
 		}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
         const {id,classes,src,srcset,alt,height,heightSP,items}=attributes;
 		const primaryClass='wp-block-catpow-graphics';

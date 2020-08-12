@@ -5,6 +5,7 @@ registerBlockType('catpow/t-box', {
 	attributes: {
 		classes: { source: 'attribute', selector: 'table', attribute: 'class', default: 'wp-block-catpow-t-box large' }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

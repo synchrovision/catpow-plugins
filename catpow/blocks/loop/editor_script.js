@@ -2,12 +2,13 @@ registerBlockType('catpow/loop', {
 	title: '🐾 Loop',
 	icon: 'editor-code',
 	category: 'catpow',
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
-			setAttributes = _ref.setAttributes,
-			className = _ref.className;
+		    setAttributes = _ref.setAttributes,
+		    className = _ref.className;
 		var content_path = attributes.content_path,
-			query = attributes.query;
+		    query = attributes.query;
 
 
 		return [wp.element.createElement(
@@ -49,8 +50,8 @@ registerBlockType('catpow/loop', {
 	},
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
-			className = _ref2.className,
-			setAttributes = _ref2.setAttributes;
+		    className = _ref2.className,
+		    setAttributes = _ref2.setAttributes;
 
 		return 'null';
 	}

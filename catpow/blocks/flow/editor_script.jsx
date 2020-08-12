@@ -48,6 +48,7 @@
 		countSuffix:{source:'text',selector:'.counter .suffix',default:''},
 		blockState:{type:'object',default:{enableBlockFormat:true}}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {items,classes,countPrefix,countSuffix}=attributes;
 		const primaryClass='wp-block-catpow-flow';

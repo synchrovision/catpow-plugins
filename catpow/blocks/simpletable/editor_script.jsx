@@ -53,6 +53,7 @@
 		},
 		blockState:{type:'object',default:{enableBlockFormat:true}}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {classes,rows}=attributes;
 		

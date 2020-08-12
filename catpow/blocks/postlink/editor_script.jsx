@@ -2,6 +2,7 @@
 	title: '🐾 PostLink',
 	icon: 'editor-code',
 	category: 'catpow',
+	example:CP.example,
 	edit({attributes,setAttributes,className}){
         const {func,param}=attributes;
         

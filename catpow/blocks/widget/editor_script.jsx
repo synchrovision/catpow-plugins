@@ -22,7 +22,7 @@
 			</InspectorControls>
         ];
     },
-
+	example:CP.example,
 	save({attributes,className,setAttributes}){
 		return 'null';
 	}

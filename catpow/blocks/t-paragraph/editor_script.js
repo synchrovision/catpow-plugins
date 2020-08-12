@@ -27,6 +27,7 @@ registerBlockType('catpow/t-paragraph', {
 		classes: { source: 'attribute', selector: 'table', attribute: 'class', default: 'wp-block-catpow-t-paragraph medium' },
 		text: { source: 'children', selector: 'tbody td', default: 'text' }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

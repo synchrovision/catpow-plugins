@@ -36,6 +36,7 @@
 			})
 		}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {items,classes,countPrefix,countSuffix}=attributes;
 		const primaryClass='wp-block-catpow-icons';

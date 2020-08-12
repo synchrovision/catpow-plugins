@@ -2,6 +2,7 @@
 	title: '🐾 Tool',
 	icon: 'editor-code',
 	category: 'catpow',
+	example:CP.example,
 	edit({attributes,setAttributes,className}){
         const {content_path,query}=attributes;
 		

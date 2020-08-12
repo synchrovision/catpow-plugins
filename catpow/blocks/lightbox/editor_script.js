@@ -45,6 +45,7 @@ registerBlockType('catpow/lightbox', {
 		},
 		blockState: { type: 'object', default: { enableBlockFormat: false } }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

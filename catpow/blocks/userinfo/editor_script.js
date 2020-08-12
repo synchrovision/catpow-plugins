@@ -2,6 +2,7 @@ registerBlockType('catpow/userinfo', {
 	title: '🐾 UserInfo',
 	icon: 'admin-users',
 	category: 'catpow',
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    setAttributes = _ref.setAttributes,

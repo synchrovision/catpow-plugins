@@ -2,6 +2,7 @@ registerBlockType('catpow/postlink', {
 	title: '🐾 PostLink',
 	icon: 'editor-code',
 	category: 'catpow',
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    setAttributes = _ref.setAttributes,

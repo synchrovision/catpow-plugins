@@ -44,6 +44,7 @@ registerBlockType('catpow/faq', {
 		countPrefix: { source: 'text', selector: '.counter .prefix', default: '' },
 		countSuffix: { source: 'text', selector: '.counter .suffix', default: '' }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

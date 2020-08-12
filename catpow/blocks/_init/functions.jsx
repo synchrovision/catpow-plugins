@@ -4,6 +4,23 @@
 	listedConvertibles:['catpow/listed','catpow/flow','catpow/faq','catpow/ranking','catpow/dialog','catpow/sphere','catpow/slider','catpow/banners','catpow/lightbox'],
 	tableConvertibles:['catpow/simpletable','catpow/datatable','catpow/layouttable'],
 	
+	example:{
+		attributes:{
+			title:['吾輩は猫である。'],
+			read:['名前はまだない。どこで生れたか頓と見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。'],
+			text:['名前はまだない。どこで生れたか頓と見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。'],
+		},
+		innerBlocks: [
+			{
+				name: 'core/paragraph',
+				attributes:{
+					content: 
+						'名前はまだない。どこで生れたか頓と見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。この書生というのは時々我々を捕えて煮て食うという話である。しかしその当時は何という考もなかったから別段恐しいとも思わなかった。'
+				}
+			}
+		]
+	},
+	
 	selectImage:(keys,set,size)=>{
 		if(CP.uploder===undefined){
 			CP.uploader=wp.media({

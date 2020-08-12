@@ -74,6 +74,7 @@ registerBlockType('catpow/layouttable',{
 		file:{type:'object'},
 		blockState:{type:'object',default:{enableBlockFormat:false}}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {classes,rows}=attributes;
 		const primaryClass='wp-block-catpow-layouttable';

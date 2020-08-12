@@ -21,6 +21,7 @@
 		backgroundImageSrc:{source:'attribute',selector:'.wp-block-catpow-div>.background [src]',attribute:'src',default:cp.theme_url+'/images/dummy.jpg'},
 		backgroundImageSrcset:{source:'attribute',selector:'.wp-block-catpow-div>.background [src]',attribute:'srcset'},
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
         const {classes}=attributes;
 		const primaryClass='wp-block-catpow-div';

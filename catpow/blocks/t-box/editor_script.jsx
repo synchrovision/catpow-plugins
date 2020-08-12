@@ -5,6 +5,7 @@
 	attributes:{
 		classes:{source:'attribute',selector:'table',attribute:'class',default:'wp-block-catpow-t-box large'}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
         const {classes}=attributes;
 		const primaryClass='wp-block-catpow-t-box';

@@ -2,6 +2,7 @@
 	title: '🐾 UserInfo',
 	icon: 'admin-users',
 	category: 'catpow',
+	example:CP.example,
 	edit({attributes,setAttributes,className}){
         return [
 			<div class="embedded_content">

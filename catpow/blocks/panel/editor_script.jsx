@@ -32,6 +32,7 @@
 			})
 		}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {classes,items}=attributes;
 		const primaryClass='wp-block-catpow-panel';

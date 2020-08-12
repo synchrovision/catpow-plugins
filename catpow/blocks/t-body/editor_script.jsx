@@ -8,6 +8,7 @@
 		footerText:{source:'children',selector:'tfoot td',default:['caption']},
 		body_class:{type:'string',default:'white'}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
         const {classes,headerText,footerText,body_class}=attributes;
 		const primaryClass='wp-block-catpow-t-body';

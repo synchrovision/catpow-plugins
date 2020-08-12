@@ -30,6 +30,7 @@
 		backgroundImageSrc:{source:'attribute',selector:'.wp-block-catpow-section>.background [src]',attribute:'src',default:cp.theme_url+'/images/dummy.jpg'},
 		backgroundImageSrcset:{source:'attribute',selector:'.wp-block-catpow-section>.background [src]',attribute:'srcset'},
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
         const {id,classes,prefix,title,headerImageMime,headerImageSrc,headerImageSrcset,headerImageAlt,read,imageMime,imageSrc,imageSrcset,imageAlt,backgroundImageSrc}=attributes;
 		const primaryClass='wp-block-catpow-section';

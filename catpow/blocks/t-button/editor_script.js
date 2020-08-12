@@ -7,6 +7,7 @@ registerBlockType('catpow/t-button', {
 		title: { source: 'children', selector: 'tbody td', default: 'Title' },
 		url: { source: 'text', selector: 'a', default: cp.home_url }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

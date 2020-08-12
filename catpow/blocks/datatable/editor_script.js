@@ -71,6 +71,7 @@ registerBlockType('catpow/datatable', {
 		blockState: { type: 'object', default: { enableBlockFormat: true } },
 		loopParam: { type: 'text', default: '' }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

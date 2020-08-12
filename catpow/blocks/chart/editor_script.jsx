@@ -58,6 +58,7 @@
 			}]
 		}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {classes,graph}=attributes;
 		const primaryClass='wp-block-catpow-chart';

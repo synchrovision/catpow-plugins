@@ -8,6 +8,7 @@ registerBlockType('catpow/t-image', {
 		alt: { source: 'attribute', selector: '[src]', attribute: 'alt' },
 		loopImage: { source: 'text', selector: 'td', default: cp.theme_url + '/images/dummy.jpg' }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

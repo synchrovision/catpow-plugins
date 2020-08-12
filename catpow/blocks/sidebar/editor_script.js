@@ -5,6 +5,7 @@ registerBlockType('catpow/sidebar', {
 	attributes: {
 		classes: { source: 'attribute', selector: 'div', attribute: 'class', default: 'wp-block-catpow-sidebar left' }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

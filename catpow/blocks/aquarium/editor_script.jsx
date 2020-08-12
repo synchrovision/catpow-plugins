@@ -65,6 +65,7 @@
 			]
 		}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
 		const {classes,layers}=attributes;
 		const primaryClass='wp-block-catpow-aquarium';

@@ -27,6 +27,7 @@ registerBlockType('catpow/t-heading', {
 		classes: { source: 'attribute', selector: 'table', attribute: 'class', default: 'wp-block-catpow-t-heading header medium center' },
 		title: { source: 'children', selector: 'tbody td', default: 'Title' }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

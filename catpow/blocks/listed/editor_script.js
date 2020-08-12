@@ -57,6 +57,7 @@ registerBlockType('catpow/listed', {
 		loopParam: { type: 'text', default: '' },
 		loopCount: { type: 'number', default: 1 }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

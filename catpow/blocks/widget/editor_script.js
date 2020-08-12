@@ -36,6 +36,8 @@ registerBlockType('catpow/widget', {
 			)
 		)];
 	},
+
+	example: CP.example,
 	save: function save(_ref2) {
 		var attributes = _ref2.attributes,
 		    className = _ref2.className,

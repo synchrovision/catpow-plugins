@@ -13,6 +13,7 @@
 			},
 		]
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
         return [
 			<div className="embedded_content">

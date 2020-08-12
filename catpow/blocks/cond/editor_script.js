@@ -11,6 +11,7 @@ registerBlockType('catpow/cond', {
 			}
 		}]
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

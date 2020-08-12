@@ -39,6 +39,7 @@
 		},
 		bp:{source:'attribute',default:'0'},
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
         const {id,classes,items}=attributes;
         let {breakpoints,grid}=attributes;

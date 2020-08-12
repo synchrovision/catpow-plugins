@@ -7,6 +7,7 @@
 		title:{source:'children',selector:'tbody td',default:'Title'},
 		url:{source:'text',selector:'a',default:cp.home_url},
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
         const {classes,title}=attributes;
 		const primaryClass='wp-block-catpow-t-button';

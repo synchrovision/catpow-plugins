@@ -46,6 +46,7 @@
 		countPrefix:{source:'text',selector:'.counter .prefix',default:''},
 		countSuffix:{source:'text',selector:'.counter .suffix',default:''}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {items,classes,countPrefix,countSuffix}=attributes;
 		const primaryClass='wp-block-catpow-faq';

@@ -8,6 +8,7 @@ registerBlockType('catpow/t-body', {
 		footerText: { source: 'children', selector: 'tfoot td', default: ['caption'] },
 		body_class: { type: 'string', default: 'white' }
 	},
+	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    className = _ref.className,

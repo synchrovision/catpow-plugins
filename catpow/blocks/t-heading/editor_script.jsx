@@ -30,6 +30,7 @@
 		classes:{source:'attribute',selector:'table',attribute:'class',default:'wp-block-catpow-t-heading header medium center'},
 		title:{source:'children',selector:'tbody td',default:'Title'}
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
         const {classes,title}=attributes;
 		const primaryClass='wp-block-catpow-t-heading';

@@ -9,6 +9,7 @@
 		loopImage:{source:'text',selector:'td.imageCell',default:cp.theme_url+'/images/dummy.jpg'},
 		width:{source:'attribute',selector:'td.imageCell',attribute:'width',default:'200'},
 	},
+	example:CP.example,
 	edit({attributes,className,setAttributes}){
         const {classes,src,alt,loopImage,width}=attributes;
 		const primaryClass='wp-block-catpow-t-media-text';

@@ -91,79 +91,14 @@ registerFormatType('catpow/small', {
 	}
 });
 
-registerFormatType('catpow/sub', {
-	title: 'sub',
-	tagName: 'sub',
+registerFormatType('catpow/mark', {
+	title: 'Mark',
+	tagName: 'mark',
 	className: null,
 	edit: function edit(_ref3) {
 		var isActive = _ref3.isActive,
 		    value = _ref3.value,
 		    onChange = _ref3.onChange;
-
-		var onToggle = function onToggle() {
-			return onChange(toggleFormat(value, { type: 'catpow/sub' }));
-		};
-
-		var icon = wp.element.createElement(
-			'svg',
-			{ role: 'img', focusable: 'false', xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 20 20', 'aria-hidden': 'true' },
-			wp.element.createElement('path', { d: 'M0,17.6L5.7,2.9h2.1l6,14.7h-2.2l-1.7-4.5H3.7l-1.6,4.5H0z M4.3,11.6h5L7.7,7.5c-0.5-1.2-0.8-2.3-1-3.1 C6.5,5.4,6.2,6.3,5.9,7.2L4.3,11.6z' }),
-			wp.element.createElement('path', { d: 'M18.3,16.8c-0.3,0.3-0.7,0.5-1,0.6c-0.3,0.1-0.7,0.2-1,0.2c-0.6,0-1.1-0.1-1.4-0.4c-0.3-0.3-0.5-0.7-0.5-1.1c0-0.3,0.1-0.5,0.2-0.8c0.1-0.2,0.3-0.4,0.5-0.6c0.2-0.1,0.4-0.2,0.7-0.3c0.2-0.1,0.5-0.1,0.8-0.2c0.8-0.1,1.3-0.2,1.7-0.3 c0-0.1,0-0.2,0-0.2c0-0.4-0.1-0.7-0.3-0.8c-0.2-0.2-0.6-0.3-1.1-0.3c-0.4,0-0.8,0.1-1,0.2s-0.4,0.4-0.5,0.8l-0.9-0.1 c0.1-0.4,0.2-0.7,0.4-1c0.2-0.2,0.5-0.4,0.8-0.6c0.4-0.1,0.8-0.2,1.3-0.2c0.5,0,0.9,0,1.2,0.2c0.3,0.1,0.5,0.2,0.7,0.4 c0.1,0.2,0.2,0.4,0.3,0.6c0,0.2,0.1,0.5,0.1,0.9l0,1.3c0,0.9,0,1.4,0.1,1.7c0,0.2,0.1,0.5,0.2,0.7l-1,0 C18.4,17.3,18.3,17,18.3,16.8z M18.2,14.7c-0.3,0.1-0.9,0.3-1.5,0.4c-0.4,0.1-0.7,0.1-0.8,0.2c-0.2,0.1-0.3,0.2-0.4,0.3 c-0.1,0.1-0.1,0.3-0.1,0.5c0,0.3,0.1,0.5,0.3,0.6c0.2,0.2,0.5,0.2,0.8,0.2c0.4,0,0.7-0.1,1-0.3s0.5-0.4,0.6-0.7 c0.1-0.2,0.1-0.5,0.1-1L18.2,14.7z' })
-		);
-
-		return [wp.element.createElement(
-			Fragment,
-			null,
-			wp.element.createElement(RichTextToolbarButton, {
-				icon: icon,
-				title: 'sub',
-				onClick: onToggle,
-				isActive: isActive
-			})
-		)];
-	}
-});
-registerFormatType('catpow/sup', {
-	title: 'sup',
-	tagName: 'sup',
-	className: null,
-	edit: function edit(_ref4) {
-		var isActive = _ref4.isActive,
-		    value = _ref4.value,
-		    onChange = _ref4.onChange;
-
-		var onToggle = function onToggle() {
-			return onChange(toggleFormat(value, { type: 'catpow/sup' }));
-		};
-
-		var icon = wp.element.createElement(
-			'svg',
-			{ role: 'img', focusable: 'false', xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 20 20', 'aria-hidden': 'true' },
-			wp.element.createElement('path', { d: 'M0,17.6L5.7,2.9h2.1l6,14.7h-2.2l-1.7-4.5H3.7l-1.6,4.5H0z M4.3,11.6h5L7.7,7.5c-0.5-1.2-0.8-2.3-1-3.1 C6.5,5.4,6.2,6.3,5.9,7.2L4.3,11.6z' }),
-			wp.element.createElement('path', { d: 'M18.3,7.8c-0.3,0.3-0.7,0.5-1,0.6c-0.3,0.1-0.7,0.2-1,0.2c-0.6,0-1.1-0.1-1.4-0.4c-0.3-0.3-0.5-0.7-0.5-1.1 c0-0.3,0.1-0.5,0.2-0.8c0.1-0.2,0.3-0.4,0.5-0.6c0.2-0.1,0.4-0.2,0.7-0.3c0.2-0.1,0.5-0.1,0.8-0.2c0.8-0.1,1.3-0.2,1.7-0.3 c0-0.1,0-0.2,0-0.2c0-0.4-0.1-0.7-0.3-0.8c-0.2-0.2-0.6-0.3-1.1-0.3c-0.4,0-0.8,0.1-1,0.2s-0.4,0.4-0.5,0.8l-0.9-0.1 c0.1-0.4,0.2-0.7,0.4-1c0.2-0.2,0.5-0.4,0.8-0.6c0.4-0.1,0.8-0.2,1.3-0.2c0.5,0,0.9,0,1.2,0.2c0.3,0.1,0.5,0.2,0.7,0.4 C18.9,3.5,19,3.7,19.1,4c0,0.2,0.1,0.5,0.1,0.9l0,1.3c0,0.9,0,1.4,0.1,1.7c0,0.2,0.1,0.5,0.2,0.7l-1,0C18.4,8.3,18.3,8,18.3,7.8z M18.2,5.7c-0.3,0.1-0.9,0.3-1.5,0.4c-0.4,0.1-0.7,0.1-0.8,0.2c-0.2,0.1-0.3,0.2-0.4,0.3c-0.1,0.1-0.1,0.3-0.1,0.5 c0,0.3,0.1,0.5,0.3,0.6c0.2,0.2,0.5,0.2,0.8,0.2c0.4,0,0.7-0.1,1-0.3s0.5-0.4,0.6-0.7c0.1-0.2,0.1-0.5,0.1-1L18.2,5.7z' })
-		);
-
-		return [wp.element.createElement(
-			Fragment,
-			null,
-			wp.element.createElement(RichTextToolbarButton, {
-				icon: icon,
-				title: 'sup',
-				onClick: onToggle,
-				isActive: isActive
-			})
-		)];
-	}
-});
-
-registerFormatType('catpow/mark', {
-	title: 'Mark',
-	tagName: 'mark',
-	className: null,
-	edit: function edit(_ref5) {
-		var isActive = _ref5.isActive,
-		    value = _ref5.value,
-		    onChange = _ref5.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/mark' }));
@@ -199,10 +134,10 @@ registerFormatType('catpow/q', {
 	title: 'Quote',
 	tagName: 'q',
 	className: null,
-	edit: function edit(_ref6) {
-		var isActive = _ref6.isActive,
-		    value = _ref6.value,
-		    onChange = _ref6.onChange;
+	edit: function edit(_ref4) {
+		var isActive = _ref4.isActive,
+		    value = _ref4.value,
+		    onChange = _ref4.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/q' }));
@@ -230,10 +165,10 @@ registerFormatType('catpow/dfn', {
 	title: 'Define',
 	tagName: 'dfn',
 	className: null,
-	edit: function edit(_ref7) {
-		var isActive = _ref7.isActive,
-		    value = _ref7.value,
-		    onChange = _ref7.onChange;
+	edit: function edit(_ref5) {
+		var isActive = _ref5.isActive,
+		    value = _ref5.value,
+		    onChange = _ref5.onChange;
 
 		var onToggle = function onToggle() {
 			return onChange(toggleFormat(value, { type: 'catpow/dfn' }));
@@ -261,10 +196,10 @@ registerFormatType('catpow/span', {
 	title: 'span',
 	tagName: 'span',
 	className: 'custom',
-	edit: function edit(_ref8) {
-		var isActive = _ref8.isActive,
-		    value = _ref8.value,
-		    onChange = _ref8.onChange;
+	edit: function edit(_ref6) {
+		var isActive = _ref6.isActive,
+		    value = _ref6.value,
+		    onChange = _ref6.onChange;
 
 
 		var onToggle = function onToggle() {
@@ -304,10 +239,10 @@ registerFormatType('catpow/ul', {
 	title: 'ul',
 	tagName: 'ul',
 	className: null,
-	edit: function edit(_ref9) {
-		var isActive = _ref9.isActive,
-		    value = _ref9.value,
-		    onChange = _ref9.onChange;
+	edit: function edit(_ref7) {
+		var isActive = _ref7.isActive,
+		    value = _ref7.value,
+		    onChange = _ref7.onChange;
 
 		if (!currentBlockCanInsertBlockFormat()) {
 			return '';
@@ -360,10 +295,10 @@ registerFormatType('catpow/ol', {
 	title: 'ol',
 	tagName: 'ol',
 	className: null,
-	edit: function edit(_ref10) {
-		var isActive = _ref10.isActive,
-		    value = _ref10.value,
-		    onChange = _ref10.onChange;
+	edit: function edit(_ref8) {
+		var isActive = _ref8.isActive,
+		    value = _ref8.value,
+		    onChange = _ref8.onChange;
 
 		if (!currentBlockCanInsertBlockFormat()) {
 			return '';
@@ -403,10 +338,10 @@ registerFormatType('catpow/dl', {
 	title: 'dl',
 	tagName: 'dl',
 	className: null,
-	edit: function edit(_ref11) {
-		var isActive = _ref11.isActive,
-		    value = _ref11.value,
-		    onChange = _ref11.onChange;
+	edit: function edit(_ref9) {
+		var isActive = _ref9.isActive,
+		    value = _ref9.value,
+		    onChange = _ref9.onChange;
 
 		if (!currentBlockCanInsertBlockFormat()) {
 			return '';
@@ -457,10 +392,10 @@ registerFormatType('catpow/clear', {
 	title: 'clear',
 	tagName: 'div',
 	className: null,
-	edit: function edit(_ref12) {
-		var isActive = _ref12.isActive,
-		    value = _ref12.value,
-		    onChange = _ref12.onChange;
+	edit: function edit(_ref10) {
+		var isActive = _ref10.isActive,
+		    value = _ref10.value,
+		    onChange = _ref10.onChange;
 		var create = wp.richText.create;
 
 		return [wp.element.createElement(RichTextToolbarButton, {

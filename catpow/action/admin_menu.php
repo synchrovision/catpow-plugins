@@ -2,7 +2,7 @@
 namespace Catpow;
 add_menu_page('CATPOW','CATPOW','edit_themes','catpow-main',function(){
 	this()->render();
-});
+},'dashicons-pets');
 add_submenu_page('catpow-main','リファレンス','リファレンス','edit_themes','catpow-refelence',function(){
 	this()->render();
 });
@@ -99,7 +99,14 @@ if(isset($GLOBALS['post_types']['wp_block'])){
 	$conf=$GLOBALS['post_types']['wp_block'];
 	$label=$conf['label']??_('再利用可能ブロック','catpow');
 	if($conf['show_in_menu']??true){
-		add_menu_page($label,$label,$conf['capability']??'publish_posts','edit.php?post_type=wp_block');
+		add_menu_page(
+			$label,
+			$label,
+			$conf['capability']??'publish_posts',
+			'edit.php?post_type=wp_block',
+			null,
+			$conf['menu_icon']??'dashicons-block-default'
+		);
 	}
 }
 

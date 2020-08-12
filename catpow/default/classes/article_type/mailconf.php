@@ -5,6 +5,23 @@ namespace Catpow\article_type;
 */
 
 class mailconf extends article_type{
+	public static $allowed_block_types=[
+		'core/paragraph',
+		'core/spacer',
+		
+		'catpow/loopblock',
+		
+		'catpow/t-body',
+		'catpow/t-box',
+		
+		'catpow/t-image',
+		'catpow/t-media-text',
+		
+		'catpow/t-heading',
+		'catpow/t-paragraph',
+		
+		'catpow/t-button',
+	];
 	public function __construct($data_path,$conf,$data){
 		
 	}
@@ -13,7 +30,6 @@ class mailconf extends article_type{
 			'label'=>'メール設定',
 			'public'=>false,
 			'show_in_menu'=>false,
-			'richedit'=>false,
 			'meta'=>[
 				'name'=>['type'=>'post_name','label'=>'名前'],
 				'to'=>['type'=>'text','label'=>'送信先','size'=>30],

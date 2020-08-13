@@ -6,7 +6,7 @@
 		classes:{source:'attribute',selector:'table',attribute:'class',default:'wp-block-catpow-t-image'},
 		src:{source:'attribute',selector:'[src]',attribute:'src',default:cp.theme_url+'/images/dummy.jpg'},
 		alt:{source:'attribute',selector:'[src]',attribute:'alt'},
-		loopImage:{source:'text',selector:'td',default:cp.theme_url+'/images/dummy.jpg'},
+		loopImage:{source:'text',selector:'td',default:'[output image]'},
 	},
 	example:CP.example,
 	edit({attributes,className,setAttributes}){

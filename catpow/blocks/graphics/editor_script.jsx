@@ -6,7 +6,7 @@
 	attributes:{
 		id:{source:'attribute',selector:'.wp-block-catpow-graphics',attribute:'id',default:''},
 		classes:{source:'attribute',selector:'.wp-block-catpow-graphics',attribute:'class',default:'wp-block-catpow-graphics hasBaseImage'},
-		src:{source:'attribute',selector:'[src]',attribute:'src',default:cp.theme_url+'/images/dummy.jpg'},
+		src:{source:'attribute',selector:'[src]',attribute:'src',default:cp.theme_url+'/images/dummy_bg.jpg'},
 		srcset:{source:'attribute',selector:'[src]',attribute:'srcset'},
 		alt:{source:'attribute',selector:'[src]',attribute:'alt'},
 		height:{source:'attribute',selector:'.wp-block-catpow-graphics','attribute':'data-height',default:'60'},

@@ -31,7 +31,7 @@ registerBlockType('catpow/sphere', {
 					title: ['Title'],
 					titleCaption: ['Caption'],
 					subTitle: ['SubTitle'],
-					src: cp.theme_url + '/images/dummy.jpg',
+					src: cp.theme_url + '/images/dummy_icon.svg',
 					alt: 'dummy',
 					text: ['Text'],
 					linkUrl: cp.home_url

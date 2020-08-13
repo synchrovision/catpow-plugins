@@ -32,7 +32,7 @@ registerBlockType('catpow/listed', {
 				text: { source: 'children', selector: '.contents p' },
 				linkUrl: { source: 'attribute', selector: '.link a', attribute: 'href' },
 
-				backgroundImageSrc: { source: 'attribute', selector: '.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
+				backgroundImageSrc: { source: 'attribute', selector: '.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy_bg.jpg' },
 				backgroundImageSrcset: { source: 'attribute', selector: '.background [src]', attribute: 'srcset' }
 			},
 			default: [].concat(babelHelpers.toConsumableArray(Array(3))).map(function () {

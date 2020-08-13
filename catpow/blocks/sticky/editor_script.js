@@ -7,8 +7,8 @@ registerBlockType('catpow/sticky', {
 
 		labelText: { source: 'children', selector: '.label', defalt: ['ラベル'] },
 
-		openButtonImageSrc: { source: 'attribute', selector: '.wp-block-catpow-sticky>.stickyButton [src].open', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
-		closeButtonImageSrc: { source: 'attribute', selector: '.wp-block-catpow-sticky>.stickyButton [src].close', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' }
+		openButtonImageSrc: { source: 'attribute', selector: '.wp-block-catpow-sticky>.stickyButton [src].open', attribute: 'src', default: cp.theme_url + '/images/dummy_icon.svg' },
+		closeButtonImageSrc: { source: 'attribute', selector: '.wp-block-catpow-sticky>.stickyButton [src].close', attribute: 'src', default: cp.theme_url + '/images/dummy_icon.svg' }
 	},
 	example: CP.example,
 	edit: function edit(_ref) {

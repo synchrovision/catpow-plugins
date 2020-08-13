@@ -27,7 +27,7 @@ registerBlockType('catpow/icons', {
 			default: [].concat(babelHelpers.toConsumableArray(Array(3))).map(function () {
 				return {
 					classes: 'item',
-					src: cp.theme_url + '/images/dummy.jpg',
+					src: cp.theme_url + '/images/dummy_icon.svg',
 					alt: 'dummy',
 					href: cp.home_url
 				};

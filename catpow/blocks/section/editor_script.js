@@ -18,7 +18,7 @@ registerBlockType('catpow/section', {
 		headerImageAlt: { source: 'attribute', selector: 'header .image [src]', attribute: 'alt' },
 
 		headerBackgroundImageMime: { source: 'attribute', selector: 'header .background [src]', attribute: 'data-mime' },
-		headerBackgroundImageSrc: { source: 'attribute', selector: 'header .background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
+		headerBackgroundImageSrc: { source: 'attribute', selector: 'header .background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy_bg.jpg' },
 		headerBackgroundImageSrcset: { source: 'attribute', selector: 'header .background [src]', attribute: 'srcset' },
 		headerBackgroundImageAlt: { source: 'attribute', selector: 'header .background [src]', attribute: 'alt' },
 
@@ -27,7 +27,7 @@ registerBlockType('catpow/section', {
 		imageSrcset: { source: 'attribute', selector: '.image [src]', attribute: 'srcset' },
 		imageAlt: { source: 'attribute', selector: '.image [src]', attribute: 'alt' },
 
-		backgroundImageSrc: { source: 'attribute', selector: '.wp-block-catpow-section>.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
+		backgroundImageSrc: { source: 'attribute', selector: '.wp-block-catpow-section>.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy_bg.jpg' },
 		backgroundImageSrcset: { source: 'attribute', selector: '.wp-block-catpow-section>.background [src]', attribute: 'srcset' }
 	},
 	example: CP.example,

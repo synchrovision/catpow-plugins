@@ -54,7 +54,7 @@ registerBlockType('catpow/slider', {
 				alt: 'dummy',
 				text: ['Text'],
 				linkUrl: 'https://',
-				backgroundImageSrc: cp.theme_url + '/images/dummy.jpg',
+				backgroundImageSrc: cp.theme_url + '/images/dummy_bg.jpg',
 				backgroundImageAlt: 'dummy',
 				backgroundImageSrcset: null
 			}]

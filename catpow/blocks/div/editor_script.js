@@ -14,9 +14,9 @@ registerBlockType('catpow/div', {
 	attributes: {
 		classes: { source: 'attribute', selector: 'div', attribute: 'class', default: 'wp-block-catpow-div frame thinBorder' },
 
-		iconImageSrc: { source: 'attribute', selector: '.wp-block-catpow-div>.icon [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
+		iconImageSrc: { source: 'attribute', selector: '.wp-block-catpow-div>.icon [src]', attribute: 'src', default: cp.theme_url + '/images/dummy_icon.svg' },
 
-		backgroundImageSrc: { source: 'attribute', selector: '.wp-block-catpow-div>.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
+		backgroundImageSrc: { source: 'attribute', selector: '.wp-block-catpow-div>.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy_bg.jpg' },
 		backgroundImageSrcset: { source: 'attribute', selector: '.wp-block-catpow-div>.background [src]', attribute: 'srcset' }
 	},
 	example: CP.example,

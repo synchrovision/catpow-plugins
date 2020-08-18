@@ -37,7 +37,7 @@ class media extends meta{
 	
 	public static function get_input($path,$conf,$val){
 		if(isset($conf['dummy'])){$dummy=get_template_directory_uri('/images/'.$conf['dummy']);}
-		else{$dummy=\cp::get_file_url('images/dummy.png');}
+		else{$dummy=\cp::get_file_url('images/dummy.jpg');}
 		
 		wp_enqueue_media();
 		wp_enqueue_script('cp_media_upload');

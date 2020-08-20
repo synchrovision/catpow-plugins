@@ -1,7 +1,7 @@
 ﻿registerBlockType('catpow/form',{
 	title: '🐾 Form',
 	icon: 'editor-code',
-	category: 'catpow',
+	category: 'catpow-embed',
 	example:CP.example,
 	edit({attributes,setAttributes,className}){
         const {content_path,post_data_path,inputs,data_id,values}=attributes;

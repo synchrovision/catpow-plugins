@@ -57,8 +57,16 @@ if(function_exists('register_block_type')){
 			'title'=>"\u{1F43E} Catpow"
 		];
 		$cats[]=[
+			'slug'=>'catpow-functional',
+			'title'=>"\u{1F43E} Functional"
+		];
+		$cats[]=[
+			'slug'=>'catpow-embed',
+			'title'=>"\u{1F43E} Embed"
+		];
+		$cats[]=[
 			'slug'=>'catpow-mail',
-			'title'=>"\u{1F4E8} CatpowMail"
+			'title'=>"\u{1F4E8} Mail"
 		];
 		return $cats;
 	},10,2);

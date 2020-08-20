@@ -1,7 +1,7 @@
 ﻿registerBlockType('catpow/cond',{
 	title:'🐾 Cond',
 	icon:'editor-code',
-	category:'catpow',
+	category:'catpow-functional',
 	transforms:{
 		from: [
 			{

@@ -1,7 +1,10 @@
-﻿registerBlockType('catpow/widget',{
+﻿/*
+* 規定のテンプレートを埋め込む
+*/
+registerBlockType('catpow/widget',{
 	title: '🐾 Widget',
 	icon: 'editor-code',
-	category: 'catpow',
+	category: 'catpow-embed',
 	edit({attributes,setAttributes,className}){
         const {content_path,query}=attributes;
 		 

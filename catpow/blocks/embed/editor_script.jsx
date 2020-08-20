@@ -1,10 +1,12 @@
 ﻿/*
 * 有効化されている機能が提供する埋め込み用コード
+* functions/[funciton]/blocks.php を埋め込み、もしくは 
+* Catpow\blocks\[funciton]::render();を実行
 */
 registerBlockType('catpow/embed',{
 	title: '🐾 Embed',
 	icon: 'editor-code',
-	category: 'catpow',
+	category: 'catpow-embed',
 	example:CP.example,
 	edit({attributes,setAttributes,className}){
         const {func,param}=attributes;

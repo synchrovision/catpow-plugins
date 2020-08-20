@@ -1,7 +1,7 @@
 ﻿registerBlockType('catpow/userinfo',{
 	title: '🐾 UserInfo',
 	icon: 'admin-users',
-	category: 'catpow',
+	category: 'catpow-functional',
 	example:CP.example,
 	edit({attributes,setAttributes,className}){
         return [

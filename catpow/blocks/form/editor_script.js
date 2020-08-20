@@ -1,7 +1,7 @@
 registerBlockType('catpow/form', {
 	title: '🐾 Form',
 	icon: 'editor-code',
-	category: 'catpow',
+	category: 'catpow-embed',
 	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,

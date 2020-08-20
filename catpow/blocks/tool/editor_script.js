@@ -1,7 +1,11 @@
+/*
+* 現在の投稿を規定のテンプレートを用いて表示する
+* APIを用いて様々な操作を行うcomponentを表示する
+*/
 registerBlockType('catpow/tool', {
 	title: '🐾 Tool',
 	icon: 'editor-code',
-	category: 'catpow',
+	category: 'catpow-embed',
 	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,

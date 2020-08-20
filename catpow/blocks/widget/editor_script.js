@@ -1,7 +1,10 @@
+/*
+* 規定のテンプレートを埋め込む
+*/
 registerBlockType('catpow/widget', {
 	title: '🐾 Widget',
 	icon: 'editor-code',
-	category: 'catpow',
+	category: 'catpow-embed',
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
 		    setAttributes = _ref.setAttributes,

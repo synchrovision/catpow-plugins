@@ -11,11 +11,17 @@ abstract class template_type{
 		$permalinks=[];
 	
 	public static function preview($path_data,$conf_data,$vars){
+		if($f=static::get_preview_file($path_data,$conf_data)){
+			if($vars){extract($vars);}
+			include $f;
+			unlink($f);
+			return true;
+		}
+		return false;
+	}
+	public static function get_preview_file($path_data,$conf_data){
 		$file_name=$path_data['file_name'];
 		if(isset($path_data['file_slug'])){$file_name.='-'.$path_data['file_slug'];}
-		if(method_exists(static::class,'preview_'.$file_name)){
-			if(static::{'preview_'.$file_name}($conf_data,$vars)){return true;}
-		}
 		$template_files=static::get_template_files($conf_data);
 		
 		if(isset($template_files[$file_name.'.php'])){
@@ -27,10 +33,7 @@ abstract class template_type{
 			$tmp=tempnam(sys_get_temp_dir(),'preview');
 			$fh=fopen($tmp,'w');
 			fwrite($fh,$contents);
-			if($vars){extract($vars);}
-			include $tmp;
-			unlink($tmp);
-			return true;
+			return $tmp;
 		}
 		return false;
 	}

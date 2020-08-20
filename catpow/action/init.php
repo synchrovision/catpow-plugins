@@ -137,6 +137,9 @@ if(function_exists('register_block_type')){
 						}
 						elseif($fname === 'render'){
 							$param['render_callback']=function($attr,$content=null)use($file_path){
+								$is_preview=
+									!empty(!empty($GLOBALS['wp']->query_vars['rest_route'])) &&
+									strpos($GLOBALS['wp']->query_vars['rest_route'],'block-renderer') > 0;
 								ob_start();
 								if(!isset(cp::$content)){
 									cp::$content=new Catpow\content\loop(['parent'=>false]);

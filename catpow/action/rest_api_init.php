@@ -9,6 +9,9 @@ register_rest_route(
 			if(class_exists($api_class)){
 				return $api_class::permission_callback($req);
 			}
+			if($f=cp::get_file_path($req['content_path'].'/permission.php',cp::FROM_THEME|cp::FROM_CONFIG)){
+				return include $f;
+			}
 			return true;
 		},
 		'callback'=>function($req){

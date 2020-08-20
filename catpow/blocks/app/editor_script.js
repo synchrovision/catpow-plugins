@@ -2,8 +2,8 @@
 * 現在の投稿を規定のテンプレートを用いて表示する
 * APIを用いて様々な操作を行うcomponentを表示する
 */
-registerBlockType('catpow/tool', {
-	title: '🐾 Tool',
+registerBlockType('catpow/app', {
+	title: '🐾 App',
 	icon: 'editor-code',
 	category: 'catpow-embed',
 	example: CP.example,
@@ -15,10 +15,6 @@ registerBlockType('catpow/tool', {
 		    query = attributes.query;
 
 
-		if (attributes.postID === undefined) {
-			setAttributes({ postID: wp.data.select("core/editor").getCurrentPostId() });
-		}
-
 		return [wp.element.createElement(
 			'div',
 			{ 'class': 'embedded_content' },
@@ -27,7 +23,7 @@ registerBlockType('catpow/tool', {
 				{ 'class': 'label' },
 				content_path
 			),
-			wp.element.createElement(ServerSideRender, { block: 'catpow/tool', attributes: attributes })
+			wp.element.createElement(ServerSideRender, { block: 'catpow/app', attributes: attributes })
 		), wp.element.createElement(
 			InspectorControls,
 			null,
@@ -37,9 +33,14 @@ registerBlockType('catpow/tool', {
 				wp.element.createElement(TreeSelect, {
 					label: 'path',
 					selectedId: content_path,
-					tree: cpEmbeddablesTree.tool,
+					tree: cpEmbeddablesTree.app,
 					onChange: function onChange(content_path) {
 						setAttributes({ content_path: content_path });
+						/*
+      wp.apiFetch({path:'cp/v1/'+content_path}).then(res=>{
+      	setAttributes({content_path:content_path,props:res});
+      });
+      */
 					}
 				})
 			)

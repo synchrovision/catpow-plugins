@@ -2,5 +2,5 @@
 $attributes=[
 	'className'=>['type'=>'string'],
 	'content_path'=>['type'=>'string'],
-	'postID'=>['type'=>'int']
+	'props'=>['type'=>'string']
 ];

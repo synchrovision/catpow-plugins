@@ -1,5 +1,6 @@
 registerBlockType('catpow/flow', {
 	title: '🐾 Flow',
+	description: '手順や順番の一覧ブロックです。',
 	icon: 'editor-ol',
 	category: 'catpow',
 	transforms: {

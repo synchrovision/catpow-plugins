@@ -1,6 +1,6 @@
 registerBlockType('catpow/honeycomb', {
 	title: '🐾 honeycomb',
-	description: '六角形のパネルをレイアウト',
+	description: '六角形のパネルをレイアウトします。',
 	icon: wp.element.createElement(
 		'svg',
 		{ viewBox: '0 0 512 512' },

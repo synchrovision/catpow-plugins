@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/t-button',{
 	title:'🐾 T-Button',
+	description:'HTMLメール用のテーブルレイアウトのボタンです。',
 	icon:'editor-code',
 	category:'catpow-mail',
 	attributes:{

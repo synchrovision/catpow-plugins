@@ -1,5 +1,6 @@
 registerBlockType('catpow/userinfo', {
 	title: '🐾 UserInfo',
+	description: 'ログイン中のユーザーの情報を表示するためのコンテナです。',
 	icon: 'admin-users',
 	category: 'catpow-functional',
 	example: CP.example,

@@ -1,5 +1,6 @@
 registerBlockType('catpow/postlink', {
 	title: '🐾 PostLink',
+	description: '前の投稿・次の投稿へのリンクを表示します。',
 	icon: 'editor-code',
 	category: 'catpow',
 	example: CP.example,

@@ -1,5 +1,6 @@
 registerBlockType('catpow/slider', {
 	title: '🐾 Slider',
+	description: 'スライダーのブロックです。',
 	icon: 'video-alt3',
 	category: 'catpow',
 	transforms: {

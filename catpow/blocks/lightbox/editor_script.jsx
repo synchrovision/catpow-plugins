@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/lightbox',{
 	title: '🐾 Lightbox',
+	description:'クリックでポップアップ表示する画像です。',
 	icon: 'editor-ul',
 	category: 'catpow',
 	transforms:{

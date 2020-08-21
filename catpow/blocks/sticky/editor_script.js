@@ -1,5 +1,6 @@
 registerBlockType('catpow/sticky', {
 	title: '🐾 Sticky',
+	description: 'スクロールに追従するコンテンツを配置します。',
 	icon: 'menu',
 	category: 'catpow',
 	attributes: {

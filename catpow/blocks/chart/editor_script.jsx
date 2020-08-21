@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/chart',{
 	title: '🐾 Chart',
+	description:'グラフを表示します。',
 	icon: 'chart-bar',
 	category: 'catpow',
 	attributes:{

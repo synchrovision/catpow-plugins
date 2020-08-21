@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/buttons',{
 	title: '🐾 Buttons',
+	description:'ボタンのブロックです。',
 	icon: (
 		<svg role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
 			<path d="M19.5,11c0,2.8-2.2,5-5,5h-9c-2.8,0-5-2.2-5-5V9c0-2.8,2.2-5,5-5h9c2.8,0,5,2.2,5,5V11z M5.5,5c-2.2,0-4,1.8-4,4

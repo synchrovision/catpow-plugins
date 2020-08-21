@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/datatable',{
 	title: '🐾 DataTable',
+	description:'一行または１列の見出しを持つテーブルです。',
 	icon: 'editor-table',
 	category: 'catpow',
 	

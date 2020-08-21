@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/tabs',{
 	title:'🐾 Tabs',
+	description:'タブによる表示切り替えのブロックです。',
 	icon:'editor-code',
 	category:'catpow',
 	attributes:{

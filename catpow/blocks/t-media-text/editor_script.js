@@ -1,5 +1,6 @@
 registerBlockType('catpow/t-media-text', {
 	title: '🐾 T-media-text',
+	description: 'HTMLメール用の画像・テキストのセットのブロックです。',
 	icon: 'editor-code',
 	category: 'catpow-mail',
 	attributes: {

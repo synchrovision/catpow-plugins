@@ -1,6 +1,6 @@
 ﻿registerBlockType('catpow/section',{
 	title: '🐾 Section',
-	description:'見出しと本文のセット',
+	description:'見出しと内容のまとまりを表すセクションのブロックです。',
 	icon: 'id-alt',
 	category: 'catpow',
 	attributes:{

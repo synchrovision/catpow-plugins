@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/banners',{
 	title: '🐾 Banners',
+	description:'リンク付きのバナー画像を並べて表示するブロックです。',
 	icon: 'images-alt',
 	category: 'catpow',
 	transforms:{

@@ -1,6 +1,6 @@
 ﻿registerBlockType('catpow/aquarium',{
 	title: '🐾 aquarium',
-	description:'画像とテキストを３次元にレイアウト',
+	description:'画像とテキストを３次元にレイアウトします。',
 	icon: (
 		<svg role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
 			<path d="M18.5,19C18.5,19,18.5,19,18.5,19l0-17.9c0,0,0,0,0,0c0,0,0-0.1,0-0.1c0,0,0-0.1,0-0.1c0,0,0-0.1-0.1-0.1

@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/t-body',{
 	title:'🐾 T-Body',
+	description:'HTMLメールのベースとなるヘッダ・フッタのブロックです。',
 	icon:'editor-code',
 	category:'catpow-mail',
 	attributes:{

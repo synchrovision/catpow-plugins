@@ -1,5 +1,6 @@
 registerBlockType('catpow/icons', {
 	title: '🐾 Icons',
+	description: 'リンク付きのアイコン画像を並べて表示するブロックです。',
 	icon: 'image-filter',
 	category: 'catpow',
 	transforms: {

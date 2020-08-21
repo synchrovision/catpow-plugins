@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/t-paragraph',{
 	title:'🐾 T-Paragraph',
+	description:'HTMLメール用の段落ブロックです。',
 	icon:'editor-code',
 	category:'catpow-mail',
 	transforms:{

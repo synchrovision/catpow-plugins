@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/dialog',{
 	title: '🐾 Dialog',
+	description:'フキダシで会話を表現するブロックです。',
 	icon: 'format-chat',
 	category: 'catpow',
 	transforms:{

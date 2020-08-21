@@ -1,5 +1,6 @@
 registerBlockType('catpow/ranking', {
 	title: '🐾 Ranking',
+	description: 'ランキングの一覧ブロックです。',
 	icon: 'awards',
 	category: 'catpow',
 	transforms: {

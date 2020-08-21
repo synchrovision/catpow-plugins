@@ -1,5 +1,6 @@
 registerBlockType('catpow/buttons', {
 	title: '🐾 Buttons',
+	description: 'ボタンのブロックです。',
 	icon: wp.element.createElement(
 		'svg',
 		{ role: 'img', focusable: 'false', xmlns: 'http://www.w3.org/2000/svg', width: '20', height: '20', viewBox: '0 0 20 20', 'aria-hidden': 'true' },

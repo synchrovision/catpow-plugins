@@ -1,5 +1,6 @@
 registerBlockType('catpow/panel', {
 	title: '🐾 Panel',
+	description: '大小の矩形パネルをレイアウトします。',
 	icon: 'grid-view',
 	category: 'catpow',
 	attributes: {

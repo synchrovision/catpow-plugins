@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/form',{
 	title: '🐾 Form',
+	description:'テーマに定義されたフォームを表示します。',
 	icon: 'editor-code',
 	category: 'catpow-embed',
 	example:CP.example,

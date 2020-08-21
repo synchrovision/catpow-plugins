@@ -1,5 +1,6 @@
 ﻿registerBlockType('catpow/t-image',{
 	title:'🐾 T-Image',
+	description:'HTMLメール用の画像ブロックです。',
 	icon:'editor-code',
 	category:'catpow-mail',
 	attributes:{

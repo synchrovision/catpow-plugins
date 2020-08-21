@@ -1,6 +1,6 @@
 ﻿registerBlockType('catpow/graphics',{
 	title: '🐾 graphics',
-	description:'画像をレイアウト',
+	description:'画像を自由にレイアウトします。',
 	icon:'format-image',
 	category: 'catpow',
 	attributes:{

@@ -3,6 +3,7 @@
 */
 registerBlockType('catpow/layouttable', {
 	title: '🐾 LayoutTable',
+	description: 'セルの結合と幅の指定ができるテーブルです。',
 	icon: 'editor-table',
 	category: 'catpow',
 

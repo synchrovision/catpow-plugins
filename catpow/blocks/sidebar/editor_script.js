@@ -1,5 +1,6 @@
 registerBlockType('catpow/sidebar', {
 	title: '🐾 Sidebar',
+	description: 'サイドバーのあるコンテンツ領域のコンテナです。',
 	icon: 'editor-code',
 	category: 'catpow',
 	attributes: {

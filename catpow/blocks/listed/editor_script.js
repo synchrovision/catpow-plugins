@@ -1,5 +1,6 @@
 registerBlockType('catpow/listed', {
 	title: '🐾 Listed',
+	description: '目次やお知らせなどの一覧ブロックです。',
 	icon: 'editor-ul',
 	category: 'catpow',
 	transforms: {

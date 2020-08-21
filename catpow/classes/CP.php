@@ -1648,15 +1648,15 @@ class CP{
 			if(get_post_type_object($post_type)->show_in_rest===true){
 				$front_styles=[self::get_file_path('mail.css',0733)=>true];
 				$body_class='';
-				$GLOBALS['wp_filter']['render_block_data']->callbacks[10]['collect_front_styles']=[
-					'function'=>function($block,$source_block)use(&$front_styles,&$body_class){
+				$GLOBALS['wp_filter']['render_block']->callbacks[10]['collect_front_styles']=[
+					'function'=>function($block_content,$block)use(&$front_styles,&$body_class){
 						$block_name=explode('/',$block['blockName'])[1]??null;
-						if(empty($block_name)){return $block;}
+						if(empty($block_name)){return $block_content;}
 						if(isset($block['attrs']['body_class'])){$body_class=$block['attrs']['body_class'];}
 						if($f=self::get_file_path('blocks/'.$block_name.'/front_style.css',0733)){
 							$front_styles[$f]=true;
 						}
-						return $block;
+						return $block_content;
 					},
 					'accepted_args'=>2
 				];

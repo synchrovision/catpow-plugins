@@ -156,11 +156,11 @@ if(function_exists('register_block_type')){
 		}
 	}
 	cp::scss_compile($block_style_names);
-	add_filter('render_block_data',function($block,$source_block)use($deps){
+	add_filter('render_block',function($block_content,$block)use($deps){
 		static $done=[];
-		if(!empty($done[$block['blockName']])){return $block;}
+		if(!empty($done[$block['blockName']])){return $block_content;}
 		$block_name=explode('/',$block['blockName'])[1]??null;
-		if(empty($block_name)){return $block;}
+		if(empty($block_name)){return $block_content;}
 		if($f=cp::get_file_path('blocks/'.$block_name.'/front_init.php')){include $f;}
 		cp::enqueue_style(
 			'blocks/'.$block_name.'/front_style.css',
@@ -175,7 +175,7 @@ if(function_exists('register_block_type')){
 			$deps['component']
 		);
 		$done[$block['blockName']]=true;
-		return $block;
+		return $block_content;
 	},10,2);
 	add_action('enqueue_block_editor_assets',function()use($deps){
 		cp::include_plugin_files('blocks/_init/_init.php');

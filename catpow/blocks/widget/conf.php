@@ -1,5 +1,6 @@
 <?php
 $attributes=[
 	'className'=>['type'=>'string'],
-	'content_path'=>['type'=>'string']
+	'func'=>['type'=>'string'],
+	'param'=>['type'=>'string','default'=>'{}'],
 ];

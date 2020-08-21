@@ -245,8 +245,8 @@ class cpdb{
 			}
 		}
 		foreach($cols as $key=>&$val){
-			$col_conf=$table_conf['columns'][$key];
-			if($col_conf['multiple'] or $col_conf['has_children']){
+			$col_conf=$table_conf['columns'][$key]??[];
+			if(!empty($col_conf['multiple']) or !empty($col_conf['has_children'])){
 				if(is_array($val)){array_walk_recursive($val,function(&$v){$v=(string)$v;});}
 				$val=serialize((array)$val);
 			}

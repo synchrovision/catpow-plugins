@@ -1,5 +1,6 @@
 ﻿const CP={
 	filters:{},
+	cache:{},
 	
 	listedConvertibles:['catpow/listed','catpow/flow','catpow/faq','catpow/ranking','catpow/dialog','catpow/sphere','catpow/slider','catpow/banners','catpow/lightbox'],
 	tableConvertibles:['catpow/simpletable','catpow/datatable','catpow/layouttable'],

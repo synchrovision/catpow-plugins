@@ -17,4 +17,4 @@ if(!empty($attr['values'])){
 		else{$form->inputs->set($data_path.'/'.$key,$val);}
 	}
 }
-$form->render(null,['content'=>$content,'post_data_path'=>$attr['post_data_path']??false]);
+$form->render(null,['content'=>$content,'post_data_path'=>$attr['post_data_path']??false,'is_preview'=>$is_preview]);

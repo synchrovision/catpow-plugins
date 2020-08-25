@@ -76,7 +76,6 @@ foreach($post_types as $type=>&$type_vals){
 					$labels->menu_name=
 					$labels->name_admin_bar=
 						$type_vals['label'];
-					error_log(var_export($labels,1).__FILE__.__LINE__);
 					return $labels;
 				});
 			}

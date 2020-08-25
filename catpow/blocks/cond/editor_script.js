@@ -48,7 +48,7 @@ registerBlockType('catpow/cond', {
 					value: attributes.is_user_logged_in,
 					options: [{ label: 'していない', value: '-1' }, { label: 'どちらでも', value: '0' }, { label: 'している', value: '1' }]
 				}),
-				attributes.is_user_logged_in !== '-1' && wp.element.createElement(TextareaControl, {
+				attributes.is_user_logged_in == '1' && wp.element.createElement(TextareaControl, {
 					label: '\u6A29\u9650',
 					onChange: function onChange(current_user_can) {
 						return setAttributes({ current_user_can: current_user_can });

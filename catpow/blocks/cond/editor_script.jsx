@@ -38,7 +38,7 @@
 							{label:'している',value:'1'},
 						]}
 					/>
-					{attributes.is_user_logged_in !== '-1' &&
+					{attributes.is_user_logged_in == '1' &&
 						<TextareaControl
 							label='権限'
 							onChange={(current_user_can)=>setAttributes({current_user_can})}

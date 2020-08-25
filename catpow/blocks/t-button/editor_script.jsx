@@ -6,7 +6,7 @@
 	attributes:{
 		classes:{source:'attribute',selector:'a',attribute:'class',default:'wp-block-catpow-t-button medium'},
 		title:{source:'children',selector:'tbody td',default:'Title'},
-		url:{source:'text',selector:'a',default:cp.home_url},
+		url:{source:'attribute',selector:'a',attribute:'href',default:cp.home_url},
 	},
 	example:CP.example,
 	edit({attributes,className,setAttributes}){

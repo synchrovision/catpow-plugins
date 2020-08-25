@@ -69,22 +69,32 @@ foreach($post_types as $type=>&$type_vals){
 		case 'page':
 		case 'wp_block':
 			global $wp_post_types;
-			$wp_post_types[$type]->labels->name=$type_vals['label'];
+			if($type_vals['label']!==$type){
+				add_filter("post_type_labels_{$type}",function($labels)use($type_vals){
+					$labels->name=
+					$labels->singular_name=
+					$labels->menu_name=
+					$labels->name_admin_bar=
+						$type_vals['label'];
+					error_log(var_export($labels,1).__FILE__.__LINE__);
+					return $labels;
+				});
+			}
 			$wp_post_types[$type]->has_archive=in_array('archive',$type_vals['template']);
 			break;
 		default:
-			$prm=array(
-					'labels'=>array('name' =>$type_vals['label'],'singular_name'=>$type),
-					'public'=>$type_vals['public']??(in_array('mail',(array)$type_vals['template'])?false:true),
-					'has_archive'=>$type_vals['has_archive']??in_array('archive',(array)$type_vals['template']),
-					'menu_icon'=>$type_vals['menu_icon']??'dashicons-admin-page',
-					'menu_position'=>$type_vals['menu_position']??null,
-					'show_ui'=>current_user_can($type_vals['capability']??'edit_others_posts'),
-					'show_in_rest'=>$type_vals['richedit']??true,
-					'show_in_menu'=>$type_vals['show_in_menu']??true,
-					'hierarchical'=>$type_vals['hierarchical']??false,
-					'supports'=>$supports
-				);
+			$prm=[
+				'labels'=>array('name' =>$type_vals['label'],'singular_name'=>$type),
+				'public'=>$type_vals['public']??(in_array('mail',(array)$type_vals['template'])?false:true),
+				'has_archive'=>$type_vals['has_archive']??in_array('archive',(array)$type_vals['template']),
+				'menu_icon'=>$type_vals['menu_icon']??'dashicons-admin-page',
+				'menu_position'=>$type_vals['menu_position']??null,
+				'show_ui'=>current_user_can($type_vals['capability']??'edit_others_posts'),
+				'show_in_rest'=>$type_vals['richedit']??true,
+				'show_in_menu'=>$type_vals['show_in_menu']??true,
+				'hierarchical'=>$type_vals['hierarchical']??false,
+				'supports'=>$supports
+			];
 			$ico=get_stylesheet_directory().'/config/menu_icon/'.$type.'.png';
 			if(file_exists(get_stylesheet_directory().'/config/menu_icon/'.$type.'.png'))
 			$prm['menu_icon']=get_stylesheet_directory_uri().'/config/menu_icon/'.$type.'.png';

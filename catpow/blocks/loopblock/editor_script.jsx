@@ -17,7 +17,7 @@
 					<TextControl
 						label='content path'
 						value={content_path}
-						onChange={(query)=>{setAttributes({content_path});}}
+						onChange={(content_path)=>{setAttributes({content_path});}}
 					/>
 					<TextareaControl
 						label='query'

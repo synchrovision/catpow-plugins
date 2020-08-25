@@ -30,7 +30,7 @@ registerBlockType('catpow/loopblock', {
 				wp.element.createElement(TextControl, {
 					label: 'content path',
 					value: content_path,
-					onChange: function onChange(query) {
+					onChange: function onChange(content_path) {
 						setAttributes({ content_path: content_path });
 					}
 				}),

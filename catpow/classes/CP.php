@@ -614,6 +614,7 @@ class CP{
 	/*設定データ取得*/
 	public static function get_the_conf_data($content_path){
 		static $cache;
+		if(empty($content_path)){return [];}
 		if(isset($cache[$content_path])){return $cache[$content_path];}
 		$content_path=trim($content_path,'/');
 		$depth=substr_count($content_path,'/');

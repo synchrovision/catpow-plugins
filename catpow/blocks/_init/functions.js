@@ -876,6 +876,9 @@ var EditItems = function EditItems(props) {
 
 var SelectClassPanel = function SelectClassPanel(props) {
 	var SelectClass = function SelectClass(prm) {
+		if (prm.hasOwnProperty('cond') && !prm.cond) {
+			return false;
+		}
 		var rtn = [];
 		if (prm.filter && props.filters && props.filters[prm.filter]) {
 			props.filters[prm.filter](prm);
@@ -1514,4 +1517,10 @@ var SelectBreakPointToolbar = function SelectBreakPointToolbar(props) {
 			};
 		})
 	});
+};
+
+var DummyImage = function DummyImage(_ref22) {
+	var text = _ref22.text;
+
+	return wp.element.createElement('img', { src: cp.plugins_url + '/catpow/callee/dummy_image.php?text=' + text });
 };

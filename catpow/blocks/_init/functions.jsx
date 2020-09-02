@@ -588,6 +588,9 @@ const EditItems=(props)=>{
 
 const SelectClassPanel=(props)=>{
 	const SelectClass=(prm)=>{
+		if(prm.hasOwnProperty('cond') && !prm.cond){
+			return false;
+		}
 		let rtn=[];
 		if(prm.filter && props.filters && props.filters[prm.filter]){
 			props.filters[prm.filter](prm);
@@ -1133,4 +1136,8 @@ const SelectBreakPointToolbar=(props)=>{
 			})}
 		/>
 	);
+}
+
+const DummyImage=({text})=>{
+	return <img src={cp.plugins_url+'/catpow/callee/dummy_image.php?text='+text}/>
 }

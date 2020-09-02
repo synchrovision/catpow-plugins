@@ -4,7 +4,7 @@ namespace Catpow\api\config;
 * APIのエンドポイントのクラス
 */
 
-abstract class structure{
+class structure extends \Catpow\api{
 	public static function call($req,$res){
 		$data=[];
 		\cp::conf_data_walk(function($data_type,$data_name,$conf_data)use(&$data){
@@ -29,7 +29,7 @@ abstract class structure{
 		}
 		return $rtn;
 	}
-	public static function permission_callback($req){
+	public static function permission($req){
 		return true;
 	}
 }

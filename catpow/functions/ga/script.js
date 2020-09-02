@@ -2,7 +2,7 @@ window.Catpow = window.Catpow || {};
 
 window.Catpow.ga={
 	parseEventString:function(str){
-		// action:category<label_name=label>#value@event
+		// action:category«label_name:label»#value@event
 		if(!str){return {};}
 		var matches=str.match(/^([\d\w_]+?)?(?::([\d\w_]+?))?(?:«(?:(.+?):)?([^:]+?)?»)?(?:#(\d+))?(?:@(\w+))?$/);
 		if(!matches){return {};}

@@ -375,9 +375,9 @@
 		});
 		return (
 			<ul className={classes}>
-				{states.doLoop && '[loop '+(loopParam || '')+']'}
+				{states.doLoop && '[loop_template '+(loopParam || '')+']'}
 				{rtn}
-				{states.doLoop && '[/loop]'}
+				{states.doLoop && '[/loop_template]'}
 			</ul>
 		);
 	},

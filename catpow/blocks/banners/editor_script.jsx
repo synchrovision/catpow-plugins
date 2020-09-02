@@ -105,7 +105,7 @@
 					}
 					<a>
 						{states.isTemplate?(
-							<img src={cp.plugins_url+'/catpow/callee/dummy_image.php?text='+item.loopImage}/>
+							<DummyImage text={item.loopImage}/>
 						):(
 							<SelectResponsiveImage
 								attr={attributes}
@@ -194,7 +194,7 @@
 		
 		return (
 			<ul className={classes}>
-				{states.doLoop && '[loop '+loopParam+']'}
+				{states.doLoop && '[loop_template '+loopParam+']'}
 				{
 					items.map((item,index)=>{
 						return (
@@ -215,7 +215,7 @@
 						);
 					})
 				}
-				{states.doLoop && '[/loop]'}
+				{states.doLoop && '[/loop_template]'}
 			</ul>
 		);
 	},

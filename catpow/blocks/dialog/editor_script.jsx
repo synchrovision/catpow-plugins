@@ -170,7 +170,7 @@
         ];
     },
 	save({attributes,className}){
-		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix,linkUrl,linkText}=attributes;
+		const {items,classes,countPrefix,countSuffix,subCountPrefix,subCountSuffix,linkUrl,linkText,loopParam}=attributes;
 		var classArray=_.uniq(attributes.classes.split(' '));
 		
 		var states=CP.wordsToFlags(classes);
@@ -193,9 +193,9 @@
 		});
 		return (
 			<ul className={classes}>
-				{states.doLoop && '[/loop]'}
+				{states.doLoop && '[loop_template '+loopParam+']'}
 				{rtn}
-				{states.doLoop && '[/loop]'}
+				{states.doLoop && '[/loop_template]'}
 			</ul>
 		);
 	}

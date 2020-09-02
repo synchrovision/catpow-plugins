@@ -103,7 +103,7 @@ registerBlockType('catpow/banners', {
 				wp.element.createElement(
 					'a',
 					null,
-					states.isTemplate ? wp.element.createElement('img', { src: cp.plugins_url + '/catpow/callee/dummy_image.php?text=' + item.loopImage }) : wp.element.createElement(SelectResponsiveImage, {
+					states.isTemplate ? wp.element.createElement(DummyImage, { text: item.loopImage }) : wp.element.createElement(SelectResponsiveImage, {
 						attr: attributes,
 						set: setAttributes,
 						keys: imageKeys.image,
@@ -203,7 +203,7 @@ registerBlockType('catpow/banners', {
 		return wp.element.createElement(
 			'ul',
 			{ className: classes },
-			states.doLoop && '[loop ' + loopParam + ']',
+			states.doLoop && '[loop_template ' + loopParam + ']',
 			items.map(function (item, index) {
 				return wp.element.createElement(
 					'li',
@@ -224,7 +224,7 @@ registerBlockType('catpow/banners', {
 					)
 				);
 			}),
-			states.doLoop && '[/loop]'
+			states.doLoop && '[/loop_template]'
 		);
 	}
 });

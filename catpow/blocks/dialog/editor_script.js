@@ -206,7 +206,8 @@ registerBlockType('catpow/dialog', {
 		    subCountPrefix = attributes.subCountPrefix,
 		    subCountSuffix = attributes.subCountSuffix,
 		    linkUrl = attributes.linkUrl,
-		    linkText = attributes.linkText;
+		    linkText = attributes.linkText,
+		    loopParam = attributes.loopParam;
 
 		var classArray = _.uniq(attributes.classes.split(' '));
 
@@ -249,9 +250,9 @@ registerBlockType('catpow/dialog', {
 		return wp.element.createElement(
 			'ul',
 			{ className: classes },
-			states.doLoop && '[/loop]',
+			states.doLoop && '[loop_template ' + loopParam + ']',
 			rtn,
-			states.doLoop && '[/loop]'
+			states.doLoop && '[/loop_template]'
 		);
 	}
 });

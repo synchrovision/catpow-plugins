@@ -58,7 +58,6 @@
 			image:'medium',
 			headerImage:'medium_large'
 		};
-		console.log(states);
 		
 		const selectiveClasses=[
 			{

@@ -73,7 +73,6 @@ registerBlockType('catpow/section', {
 			image: 'medium',
 			headerImage: 'medium_large'
 		};
-		console.log(states);
 
 		var selectiveClasses = [{
 			label: 'タイプ',

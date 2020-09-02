@@ -9,8 +9,8 @@ $sizes=[
 	'xga'=>[1024,768],
 	'hd'=>[1280,720]
 ];
-$size=$sizes[$_GET['size']]??$sizes['vga'];
-$text=htmlspecialchars($_GET['text'])??'IMAGE';
+$size=$sizes[$_GET['size']??'vga']??$sizes['vga'];
+$text=htmlspecialchars($_GET['text']??'IMAGE');
 $fontSize=min($size[1]/2,$size[0]/strlen($text)*2);
 header('Content-type: image/svg+xml');
 ?>

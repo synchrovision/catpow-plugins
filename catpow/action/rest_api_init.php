@@ -7,9 +7,13 @@ register_rest_route(
 		'permission_callback'=>function($req){
 			$api_class=cp::get_class_name('api',$req['data_type'],$req['data_name']);
 			if(class_exists($api_class)){
-				return $api_class::permission_callback($req);
+				return $api_class::permission($req);
 			}
-			if($f=cp::get_file_path($req['content_path'].'/permission.php',cp::FROM_THEME|cp::FROM_CONFIG)){
+			if($f=cp::get_file_path(
+				$req['content_path'].'/api'.
+				(empty($req['action'])?'':'-'.$req['action']).'-permission.php',
+				cp::FROM_THEME|cp::FROM_CONFIG
+			)){
 				return include $f;
 			}
 			return true;

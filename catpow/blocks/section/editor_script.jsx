@@ -16,23 +16,32 @@
 		headerImageSrc:{source:'attribute',selector:'header .image [src]',attribute:'src',default:cp.theme_url+'/images/dummy.jpg'},
 		headerImageSrcset:{source:'attribute',selector:'header .image [src]',attribute:'srcset'},
 		headerImageAlt:{source:'attribute',selector:'header .image [src]',attribute:'alt'},
+		headerImageCode:{source:'text',selector:'header .image'},
 		
 		headerBackgroundImageMime:{source:'attribute',selector:'header .background [src]',attribute:'data-mime'},
 		headerBackgroundImageSrc:{source:'attribute',selector:'header .background [src]',attribute:'src',default:cp.theme_url+'/images/dummy_bg.jpg'},
 		headerBackgroundImageSrcset:{source:'attribute',selector:'header .background [src]',attribute:'srcset'},
 		headerBackgroundImageAlt:{source:'attribute',selector:'header .background [src]',attribute:'alt'},
+		headerBackgroundImageCode:{source:'text',selector:'header .background'},
 
 		imageMime:{source:'attribute',selector:'.image [src]',attribute:'data-mime'},
 		imageSrc:{source:'attribute',selector:'.image [src]',attribute:'src',default:cp.theme_url+'/images/dummy.jpg'},
 		imageSrcset:{source:'attribute',selector:'.image [src]',attribute:'srcset'},
 		imageAlt:{source:'attribute',selector:'.image [src]',attribute:'alt'},
+		imageCode:{source:'text',selector:'.image'},
 
 		backgroundImageSrc:{source:'attribute',selector:'.wp-block-catpow-section>.background [src]',attribute:'src',default:cp.theme_url+'/images/dummy_bg.jpg'},
 		backgroundImageSrcset:{source:'attribute',selector:'.wp-block-catpow-section>.background [src]',attribute:'srcset'},
+		backgroundImageCode:{source:'text',selector:'.wp-block-catpow-section>.background'},
 	},
 	example:CP.example,
 	edit({attributes,className,setAttributes}){
-        const {id,classes,prefix,title,headerImageMime,headerImageSrc,headerImageSrcset,headerImageAlt,read,imageMime,imageSrc,imageSrcset,imageAlt,backgroundImageSrc}=attributes;
+        const {
+			id,classes,prefix,title,read,
+			headerImageMime,headerImageSrc,headerImageSrcset,headerImageAlt,headerImageCode,
+			imageMime,imageSrc,imageSrcset,imageAlt,imageCode,
+			backgroundImageSrc,backgroundImageCode
+		}=attributes;
 		const primaryClass='wp-block-catpow-section';
 		var classArray=_.uniq((className+' '+classes).split(' '));
 		
@@ -49,6 +58,7 @@
 			image:'medium',
 			headerImage:'medium_large'
 		};
+		console.log(states);
 		
 		const selectiveClasses=[
 			{
@@ -89,15 +99,24 @@
 							label:'テンプレート',
 							values:'isTemplate',
 							sub:[
-								{label:'ヘッダ画像',values:'hasHeaderImage',sub:[
-									{input:'text',key:'headerImageSrc'}
-								]},
-								{label:'ヘッダ背景画像',values:'hasHeaderBackgroundImage',sub:[
-									{input:'text',key:'headerBackgroundImageSrc'},
-								]},
-								{label:'背景画像',values:'hasBackgroundImage',sub:[
-									{input:'text',key:'backgroundImageSrc'},
-								]},
+								{
+									input:'text',
+									label:'ヘッダ画像コード',
+									key:'headerImageCode',
+									cond:states.hasHeaderImage
+								},
+								{
+									input:'text',
+									label:'ヘッダ背景画像コード',
+									key:'headerBackgroundImageCode',
+									cond:states.hasHeaderBackgroundImage
+								},
+								{
+									input:'text',
+									label:'背景画像コード',
+									key:'backgroundImageCode',
+									cond:states.hasBackgroundImage
+								}
 							]
 						}
 					],
@@ -106,12 +125,22 @@
 						{label:'レベル',values:{level2:'2',level3:'3',level4:'4'}},
 						{label:'見出しタイプ',filter:'heading_type',values:{header:'ヘッダ',headline:'ヘッドライン',catch:'キャッチ'}},
 						{label:'ヘッダ画像',values:'hasHeaderImage',sub:[
-							{input:'image',keys:imageKeys.headerImage,size:imageSizes.headerImage}
+							{
+								input:'image',keys:imageKeys.headerImage,size:imageSizes.headerImage,
+								cond:(!states.isTemplate || !headerImageCode)
+							}
 						]},
 						{label:'リード',values:'hasRead'},
 						{label:'背景画像',values:'hasBackgroundImage',sub:[
-							{input:'image',label:'PC版背景画像',keys:imageKeys.backgroundImage},
-							{input:'image',label:'SP版背景画像',keys:imageKeys.backgroundImage,ofSP:true,sizes:'480px'},
+							{
+								input:'image',label:'PC版背景画像',keys:imageKeys.backgroundImage,
+								cond:(!states.isTemplate || !backgroundImageCode)
+							},
+							{
+								input:'image',label:'SP版背景画像',keys:imageKeys.backgroundImage,
+								ofSP:true,sizes:'480px',
+								cond:(!states.isTemplate || !backgroundImageCode)
+							},
 							{label:'薄く',values:'paleBG'}
 						]},
 						{label:'背景色',values:'hasBackgroundColor'},
@@ -122,12 +151,18 @@
 							label:'テンプレート',
 							values:'isTemplate',
 							sub:[
-								{label:'ヘッダ画像',values:'hasHeaderImage',sub:[
-									{input:'text',key:'headerImageSrc'}
-								]},
-								{label:'背景画像',values:'hasBackgroundImage',sub:[
-									{input:'text',key:'backgroundImageSrc'},
-								]},
+								{
+									input:'text',
+									label:'ヘッダ画像コード',
+									key:'headerImageCode',
+									cond:states.hasHeaderImage
+								},
+								{
+									input:'text',
+									label:'背景画像コード',
+									key:'backgroundImageCode',
+									cond:states.hasBackgroundImage
+								}
 							]
 						}
 					],
@@ -155,12 +190,18 @@
 							label:'テンプレート',
 							values:'isTemplate',
 							sub:[
-								{label:'画像',values:'hasImage',sub:[
-									{input:'text',key:'imageSrc'}
-								]},
-								{label:'背景画像',values:'hasBackgroundImage',sub:[
-									{input:'text',key:'backgroundImageSrc'},
-								]},
+								{
+									input:'text',
+									label:'画像コード',
+									key:'imageCode',
+									cond:states.hasImage
+								},
+								{
+									input:'text',
+									label:'背景画像コード',
+									key:'backgroundImageCode',
+									cond:states.hasBackgroundImage
+								}
 							]
 						}
 					]
@@ -174,6 +215,7 @@
 		
 		var level=CP.getNumberClass({attr:attributes},'level');
 		
+		console.log(headerImageCode);
 		
         return [
 			<BlockControls>
@@ -182,12 +224,16 @@
 			<section id={id} className={classArray.join(' ')}>
 				{states.hasImage && 
 					<div class="image">
-						<SelectResponsiveImage
-							attr={attributes}
-							set={setAttributes}
-							keys={imageKeys.image}
-							size={imageSizes.image}
-						/>
+						{(states.isTemplate && imageCode)?(
+							<DummyImage text={imageCode}/>
+						):(
+							<SelectResponsiveImage
+								attr={attributes}
+								set={setAttributes}
+								keys={imageKeys.image}
+								size={imageSizes.image}
+							/>
+						)}
 					</div>
 				}
 				<div class='contents'>
@@ -200,12 +246,16 @@
 							}
 							{states.hasHeaderImage &&
 								<div class="image">
-									<SelectResponsiveImage
-										set={setAttributes}
-										attr={attributes}
-										keys={imageKeys.headerImage}
-										size={imageSizes.headerImage}
-									/>
+									{(states.isTemplate && headerImageCode)?(
+										<DummyImage text={headerImageCode}/>
+									):(
+										<SelectResponsiveImage
+											set={setAttributes}
+											attr={attributes}
+											keys={imageKeys.headerImage}
+											size={imageSizes.headerImage}
+										/>
+									)}
 								</div>
 							}
 							{el('h'+level,{className:'heading'},<RichText tagName="div" value={title} onChange={(title)=>setAttributes({title:title})}/>)}
@@ -216,11 +266,15 @@
 						
 						{states.hasHeaderBackgroundImage && 
 							<div class="background">
-								<SelectResponsiveImage
-									set={setAttributes}
-									attr={attributes}
-									keys={imageKeys.headerBackgroundImage}
-								/>
+								{(states.isTemplate && headerBackgroundImageCode)?(
+									<DummyImage text={headerBackgroundImageCode}/>
+								):(
+									<SelectResponsiveImage
+										set={setAttributes}
+										attr={attributes}
+										keys={imageKeys.headerBackgroundImage}
+									/>
+								)}
 							</div>
 						}
 					</header>
@@ -228,11 +282,15 @@
 				</div>
 				{states.hasBackgroundImage && 
 					<div class="background">
-						<SelectResponsiveImage
-							set={setAttributes}
-							attr={attributes}
-							keys={imageKeys.backgroundImage}
-						/>
+						{(states.isTemplate && backgroundImageCode)?(
+							<DummyImage text={backgroundImageCode}/>
+						):(
+							<SelectResponsiveImage
+								set={setAttributes}
+								attr={attributes}
+								keys={imageKeys.backgroundImage}
+							/>
+						)}
 					</div>
 				}
 			</section>,
@@ -263,7 +321,12 @@
         ];
     },
 	save({attributes,className,setAttributes}){
-        const {id,icon,classes,prefix,title,headerImageSrc,headerImageSrcset,headerImageAlt,read,imageSrc,imageSrcset,imageAlt,backgroundImageSrc}=attributes;
+        const {
+			id,icon,classes,prefix,title,read,
+			headerImageSrc,headerImageSrcset,headerImageAlt,headerImageCode,
+			imageSrc,imageSrcset,imageAlt,imageCode,
+			backgroundImageSrc,backgroundImageCode
+		}=attributes;
 		
 		var states=CP.wordsToFlags(classes);
 		var level=CP.getNumberClass({attr:attributes},'level');
@@ -280,11 +343,15 @@
 			<section id={id} className={classes} data-icon={icon}>
 				{states.hasImage && 
 					<div class="image">
-						<ResponsiveImage
-							attr={attributes}
-							keys={imageKeys.image}
-							size='medium_large'
-						/>
+						{(states.isTemplate && imageCode)?(
+							imageCode
+						):(
+							<ResponsiveImage
+								attr={attributes}
+								keys={imageKeys.image}
+								size='medium_large'
+							/>
+						)}
 					</div>
 				}
 				<div class="contents">
@@ -295,10 +362,14 @@
 							}
 							{states.hasHeaderImage &&
 								<div class="image">
-									<ResponsiveImage
-										attr={attributes}
-										keys={imageKeys.headerImage}
-									/>
+									{(states.isTemplate && headerImageCode)?(
+										headerImageCode
+									):(
+										<ResponsiveImage
+											attr={attributes}
+											keys={imageKeys.headerImage}
+										/>
+									)}
 								</div>
 							}
 							{el('h'+level,{className:'heading'},title)}
@@ -306,10 +377,14 @@
 						</div>
 						{states.hasHeaderBackgroundImage &&
 							<div class="background">
-								<ResponsiveImage
-									attr={attributes}
-									keys={imageKeys.headerBackgroundImage}
-								/>
+								{(states.isTemplate && headerBackgroundImageCode)?(
+									headerBackgroundImageCode
+								):(
+									<ResponsiveImage
+										attr={attributes}
+										keys={imageKeys.headerBackgroundImage}
+									/>
+								)}
 							</div>
 						}
 					</header>
@@ -317,10 +392,14 @@
 				</div>
 				{states.hasBackgroundImage && 
 					<div class="background">
-						<ResponsiveImage
-							attr={attributes}
-							keys={imageKeys.backgroundImage}
-						/>
+						{(states.isTemplate && backgroundImageCode)?(
+							backgroundImageCode
+						):(
+							<ResponsiveImage
+								attr={attributes}
+								keys={imageKeys.backgroundImage}
+							/>
+						)}
 					</div>
 				}
 			</section>

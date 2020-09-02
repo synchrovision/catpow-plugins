@@ -16,19 +16,23 @@ registerBlockType('catpow/section', {
 		headerImageSrc: { source: 'attribute', selector: 'header .image [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
 		headerImageSrcset: { source: 'attribute', selector: 'header .image [src]', attribute: 'srcset' },
 		headerImageAlt: { source: 'attribute', selector: 'header .image [src]', attribute: 'alt' },
+		headerImageCode: { source: 'text', selector: 'header .image' },
 
 		headerBackgroundImageMime: { source: 'attribute', selector: 'header .background [src]', attribute: 'data-mime' },
 		headerBackgroundImageSrc: { source: 'attribute', selector: 'header .background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy_bg.jpg' },
 		headerBackgroundImageSrcset: { source: 'attribute', selector: 'header .background [src]', attribute: 'srcset' },
 		headerBackgroundImageAlt: { source: 'attribute', selector: 'header .background [src]', attribute: 'alt' },
+		headerBackgroundImageCode: { source: 'text', selector: 'header .background' },
 
 		imageMime: { source: 'attribute', selector: '.image [src]', attribute: 'data-mime' },
 		imageSrc: { source: 'attribute', selector: '.image [src]', attribute: 'src', default: cp.theme_url + '/images/dummy.jpg' },
 		imageSrcset: { source: 'attribute', selector: '.image [src]', attribute: 'srcset' },
 		imageAlt: { source: 'attribute', selector: '.image [src]', attribute: 'alt' },
+		imageCode: { source: 'text', selector: '.image' },
 
 		backgroundImageSrc: { source: 'attribute', selector: '.wp-block-catpow-section>.background [src]', attribute: 'src', default: cp.theme_url + '/images/dummy_bg.jpg' },
-		backgroundImageSrcset: { source: 'attribute', selector: '.wp-block-catpow-section>.background [src]', attribute: 'srcset' }
+		backgroundImageSrcset: { source: 'attribute', selector: '.wp-block-catpow-section>.background [src]', attribute: 'srcset' },
+		backgroundImageCode: { source: 'text', selector: '.wp-block-catpow-section>.background' }
 	},
 	example: CP.example,
 	edit: function edit(_ref) {
@@ -39,16 +43,19 @@ registerBlockType('catpow/section', {
 		    classes = attributes.classes,
 		    prefix = attributes.prefix,
 		    title = attributes.title,
+		    read = attributes.read,
 		    headerImageMime = attributes.headerImageMime,
 		    headerImageSrc = attributes.headerImageSrc,
 		    headerImageSrcset = attributes.headerImageSrcset,
 		    headerImageAlt = attributes.headerImageAlt,
-		    read = attributes.read,
+		    headerImageCode = attributes.headerImageCode,
 		    imageMime = attributes.imageMime,
 		    imageSrc = attributes.imageSrc,
 		    imageSrcset = attributes.imageSrcset,
 		    imageAlt = attributes.imageAlt,
-		    backgroundImageSrc = attributes.backgroundImageSrc;
+		    imageCode = attributes.imageCode,
+		    backgroundImageSrc = attributes.backgroundImageSrc,
+		    backgroundImageCode = attributes.backgroundImageCode;
 
 		var primaryClass = 'wp-block-catpow-section';
 		var classArray = _.uniq((className + ' ' + classes).split(' '));
@@ -66,6 +73,7 @@ registerBlockType('catpow/section', {
 			image: 'medium',
 			headerImage: 'medium_large'
 		};
+		console.log(states);
 
 		var selectiveClasses = [{
 			label: 'タイプ',
@@ -75,17 +83,62 @@ registerBlockType('catpow/section', {
 				scene: ['color', 'pattern', { label: 'プレフィクス', values: 'hasPrefix' }, { label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{ input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage }] }, { label: 'ヘッダ背景画像', values: 'hasHeaderBackgroundImage', sub: [{ input: 'image', label: 'PC版背景画像', keys: imageKeys.headerBackgroundImage }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.headerBackgroundImage, ofSP: true, sizes: '480px' }, { label: '薄く', values: 'paleHeaderBG' }] }, { label: '抜き色文字', values: 'inverseText', sub: [{ label: 'ヘッダ背景色', values: 'hasHeaderBackgroundColor' }] }, { label: 'リード', values: 'hasRead' }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', label: 'PC版背景画像', keys: imageKeys.backgroundImage }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.backgroundImage, ofSP: true, sizes: '480px' }, { label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }, {
 					label: 'テンプレート',
 					values: 'isTemplate',
-					sub: [{ label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{ input: 'text', key: 'headerImageSrc' }] }, { label: 'ヘッダ背景画像', values: 'hasHeaderBackgroundImage', sub: [{ input: 'text', key: 'headerBackgroundImageSrc' }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'text', key: 'backgroundImageSrc' }] }]
+					sub: [{
+						input: 'text',
+						label: 'ヘッダ画像コード',
+						key: 'headerImageCode',
+						cond: states.hasHeaderImage
+					}, {
+						input: 'text',
+						label: 'ヘッダ背景画像コード',
+						key: 'headerBackgroundImageCode',
+						cond: states.hasHeaderBackgroundImage
+					}, {
+						input: 'text',
+						label: '背景画像コード',
+						key: 'backgroundImageCode',
+						cond: states.hasBackgroundImage
+					}]
 				}],
-				article: ['color', { label: 'レベル', values: { level2: '2', level3: '3', level4: '4' } }, { label: '見出しタイプ', filter: 'heading_type', values: { header: 'ヘッダ', headline: 'ヘッドライン', catch: 'キャッチ' } }, { label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{ input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage }] }, { label: 'リード', values: 'hasRead' }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', label: 'PC版背景画像', keys: imageKeys.backgroundImage }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.backgroundImage, ofSP: true, sizes: '480px' }, { label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }, {
+				article: ['color', { label: 'レベル', values: { level2: '2', level3: '3', level4: '4' } }, { label: '見出しタイプ', filter: 'heading_type', values: { header: 'ヘッダ', headline: 'ヘッドライン', catch: 'キャッチ' } }, { label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{
+						input: 'image', keys: imageKeys.headerImage, size: imageSizes.headerImage,
+						cond: !states.isTemplate || !headerImageCode
+					}] }, { label: 'リード', values: 'hasRead' }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{
+						input: 'image', label: 'PC版背景画像', keys: imageKeys.backgroundImage,
+						cond: !states.isTemplate || !backgroundImageCode
+					}, {
+						input: 'image', label: 'SP版背景画像', keys: imageKeys.backgroundImage,
+						ofSP: true, sizes: '480px',
+						cond: !states.isTemplate || !backgroundImageCode
+					}, { label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }, {
 					label: 'テンプレート',
 					values: 'isTemplate',
-					sub: [{ label: 'ヘッダ画像', values: 'hasHeaderImage', sub: [{ input: 'text', key: 'headerImageSrc' }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'text', key: 'backgroundImageSrc' }] }]
+					sub: [{
+						input: 'text',
+						label: 'ヘッダ画像コード',
+						key: 'headerImageCode',
+						cond: states.hasHeaderImage
+					}, {
+						input: 'text',
+						label: '背景画像コード',
+						key: 'backgroundImageCode',
+						cond: states.hasBackgroundImage
+					}]
 				}],
 				column: ['color', 'pattern', { label: 'アイコン', values: 'hasIcon', sub: [{ label: '種類', values: ['check', 'help', 'alert', 'caution', 'warn'] }] }, { label: '画像', values: 'hasImage', sub: [{ input: 'image', keys: imageKeys.image }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'image', label: 'PC版背景画像', keys: imageKeys.backgroundImage }, { input: 'image', label: 'SP版背景画像', keys: imageKeys.backgroundImage, ofSP: true, sizes: '480px' }, { label: '薄く', values: 'paleBG' }] }, { label: '線', values: { no_border: 'なし', thin_border: '細', bold_border: '太' } }, { label: '角丸', values: 'round' }, { label: '影', values: 'shadow', sub: [{ label: '内側', values: 'inset' }] }, { label: 'メニューアイコン', values: 'hasNavIcon', sub: [{ input: 'image', label: 'アイコン', keys: imageKeys.icon, size: 'thumbnail' }] }, {
 					label: 'テンプレート',
 					values: 'isTemplate',
-					sub: [{ label: '画像', values: 'hasImage', sub: [{ input: 'text', key: 'imageSrc' }] }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ input: 'text', key: 'backgroundImageSrc' }] }]
+					sub: [{
+						input: 'text',
+						label: '画像コード',
+						key: 'imageCode',
+						cond: states.hasImage
+					}, {
+						input: 'text',
+						label: '背景画像コード',
+						key: 'backgroundImageCode',
+						cond: states.hasBackgroundImage
+					}]
 				}]
 			},
 			bind: {
@@ -95,6 +148,8 @@ registerBlockType('catpow/section', {
 		}];
 
 		var level = CP.getNumberClass({ attr: attributes }, 'level');
+
+		console.log(headerImageCode);
 
 		return [wp.element.createElement(
 			BlockControls,
@@ -106,7 +161,7 @@ registerBlockType('catpow/section', {
 			states.hasImage && wp.element.createElement(
 				'div',
 				{ 'class': 'image' },
-				wp.element.createElement(SelectResponsiveImage, {
+				states.isTemplate && imageCode ? wp.element.createElement(DummyImage, { text: imageCode }) : wp.element.createElement(SelectResponsiveImage, {
 					attr: attributes,
 					set: setAttributes,
 					keys: imageKeys.image,
@@ -132,7 +187,7 @@ registerBlockType('catpow/section', {
 						states.hasHeaderImage && wp.element.createElement(
 							'div',
 							{ 'class': 'image' },
-							wp.element.createElement(SelectResponsiveImage, {
+							states.isTemplate && headerImageCode ? wp.element.createElement(DummyImage, { text: headerImageCode }) : wp.element.createElement(SelectResponsiveImage, {
 								set: setAttributes,
 								attr: attributes,
 								keys: imageKeys.headerImage,
@@ -153,7 +208,7 @@ registerBlockType('catpow/section', {
 					states.hasHeaderBackgroundImage && wp.element.createElement(
 						'div',
 						{ 'class': 'background' },
-						wp.element.createElement(SelectResponsiveImage, {
+						states.isTemplate && headerBackgroundImageCode ? wp.element.createElement(DummyImage, { text: headerBackgroundImageCode }) : wp.element.createElement(SelectResponsiveImage, {
 							set: setAttributes,
 							attr: attributes,
 							keys: imageKeys.headerBackgroundImage
@@ -169,7 +224,7 @@ registerBlockType('catpow/section', {
 			states.hasBackgroundImage && wp.element.createElement(
 				'div',
 				{ 'class': 'background' },
-				wp.element.createElement(SelectResponsiveImage, {
+				states.isTemplate && backgroundImageCode ? wp.element.createElement(DummyImage, { text: backgroundImageCode }) : wp.element.createElement(SelectResponsiveImage, {
 					set: setAttributes,
 					attr: attributes,
 					keys: imageKeys.backgroundImage
@@ -219,14 +274,17 @@ registerBlockType('catpow/section', {
 		    classes = attributes.classes,
 		    prefix = attributes.prefix,
 		    title = attributes.title,
+		    read = attributes.read,
 		    headerImageSrc = attributes.headerImageSrc,
 		    headerImageSrcset = attributes.headerImageSrcset,
 		    headerImageAlt = attributes.headerImageAlt,
-		    read = attributes.read,
+		    headerImageCode = attributes.headerImageCode,
 		    imageSrc = attributes.imageSrc,
 		    imageSrcset = attributes.imageSrcset,
 		    imageAlt = attributes.imageAlt,
-		    backgroundImageSrc = attributes.backgroundImageSrc;
+		    imageCode = attributes.imageCode,
+		    backgroundImageSrc = attributes.backgroundImageSrc,
+		    backgroundImageCode = attributes.backgroundImageCode;
 
 
 		var states = CP.wordsToFlags(classes);
@@ -246,7 +304,7 @@ registerBlockType('catpow/section', {
 			states.hasImage && wp.element.createElement(
 				'div',
 				{ 'class': 'image' },
-				wp.element.createElement(ResponsiveImage, {
+				states.isTemplate && imageCode ? imageCode : wp.element.createElement(ResponsiveImage, {
 					attr: attributes,
 					keys: imageKeys.image,
 					size: 'medium_large'
@@ -269,7 +327,7 @@ registerBlockType('catpow/section', {
 						states.hasHeaderImage && wp.element.createElement(
 							'div',
 							{ 'class': 'image' },
-							wp.element.createElement(ResponsiveImage, {
+							states.isTemplate && headerImageCode ? headerImageCode : wp.element.createElement(ResponsiveImage, {
 								attr: attributes,
 								keys: imageKeys.headerImage
 							})
@@ -284,7 +342,7 @@ registerBlockType('catpow/section', {
 					states.hasHeaderBackgroundImage && wp.element.createElement(
 						'div',
 						{ 'class': 'background' },
-						wp.element.createElement(ResponsiveImage, {
+						states.isTemplate && headerBackgroundImageCode ? headerBackgroundImageCode : wp.element.createElement(ResponsiveImage, {
 							attr: attributes,
 							keys: imageKeys.headerBackgroundImage
 						})
@@ -299,7 +357,7 @@ registerBlockType('catpow/section', {
 			states.hasBackgroundImage && wp.element.createElement(
 				'div',
 				{ 'class': 'background' },
-				wp.element.createElement(ResponsiveImage, {
+				states.isTemplate && backgroundImageCode ? backgroundImageCode : wp.element.createElement(ResponsiveImage, {
 					attr: attributes,
 					keys: imageKeys.backgroundImage
 				})

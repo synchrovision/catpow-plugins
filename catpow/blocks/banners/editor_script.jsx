@@ -28,6 +28,7 @@
 				alt:{source:'attribute',selector:'[src]',attribute:'alt'},
 				linkUrl:{source:'attribute',selector:'a',attribute:'href'},
 				target:{source:'attribute',selector:'a',attribute:'target'},
+				event:{source:'attribute',selector:'a',attribute:'data-event'},
 				loopImage:{source:'text',selector:'a'}
 			},
 			default:[...Array(3)].map(()=>{
@@ -74,7 +75,8 @@
 			{input:'image',label:'PC版画像',keys:imageKeys.image},
 			{input:'image',label:'SP版画像',keys:imageKeys.image,ofSP:true,sizes:'480px'},
 			{input:'text',label:'alt',key:'alt'},
-			{input:'text',label:'target',key:'target'}
+			{input:'text',label:'target',key:'target'},
+			'event'
 		];
 		const itemTemplateSelectiveClasses=[
 			{input:'text',label:'画像',key:'loopImage'}
@@ -200,7 +202,7 @@
 						return (
 							<li className={item.classes}>
 								{states.hasTitle && <h3>{item.title}</h3>}
-								<a href={item.linkUrl} target={item.target} rel={item.target?'noopener noreferrer':''}>
+								<a href={item.linkUrl} target={item.target} data-event={item.event} rel={item.target?'noopener noreferrer':''}>
 									{states.isTemplate?(
 										item.loopImage
 									):(

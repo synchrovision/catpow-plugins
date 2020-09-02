@@ -26,6 +26,7 @@ registerBlockType('catpow/banners', {
 				alt: { source: 'attribute', selector: '[src]', attribute: 'alt' },
 				linkUrl: { source: 'attribute', selector: 'a', attribute: 'href' },
 				target: { source: 'attribute', selector: 'a', attribute: 'target' },
+				event: { source: 'attribute', selector: 'a', attribute: 'data-event' },
 				loopImage: { source: 'text', selector: 'a' }
 			},
 			default: [].concat(babelHelpers.toConsumableArray(Array(3))).map(function () {
@@ -67,7 +68,7 @@ registerBlockType('catpow/banners', {
 			values: 'isTemplate',
 			sub: [{ label: 'ループ', values: 'doLoop', sub: [{ label: 'パラメータ', input: 'text', key: 'loopParam' }, { label: 'ループ数', input: 'range', key: 'loopCount', min: 1, max: 16 }] }]
 		}];
-		var selectiveItemClasses = [{ input: 'image', label: 'PC版画像', keys: imageKeys.image }, { input: 'image', label: 'SP版画像', keys: imageKeys.image, ofSP: true, sizes: '480px' }, { input: 'text', label: 'alt', key: 'alt' }, { input: 'text', label: 'target', key: 'target' }];
+		var selectiveItemClasses = [{ input: 'image', label: 'PC版画像', keys: imageKeys.image }, { input: 'image', label: 'SP版画像', keys: imageKeys.image, ofSP: true, sizes: '480px' }, { input: 'text', label: 'alt', key: 'alt' }, { input: 'text', label: 'target', key: 'target' }, 'event'];
 		var itemTemplateSelectiveClasses = [{ input: 'text', label: '画像', key: 'loopImage' }];
 
 		var itemsCopy = items.map(function (obj) {
@@ -215,7 +216,7 @@ registerBlockType('catpow/banners', {
 					),
 					wp.element.createElement(
 						'a',
-						{ href: item.linkUrl, target: item.target, rel: item.target ? 'noopener noreferrer' : '' },
+						{ href: item.linkUrl, target: item.target, 'data-event': item.event, rel: item.target ? 'noopener noreferrer' : '' },
 						states.isTemplate ? item.loopImage : wp.element.createElement(ResponsiveImage, {
 							attr: attributes,
 							keys: imageKeys.image,

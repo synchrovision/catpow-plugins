@@ -89,7 +89,9 @@
 						{label:'サブタイトル',values:'hasSubTitle'},
 						{label:'リンク',values:'hasLink'}
 					],
-					news:[],
+					news:[
+						{label:'リンク',values:'hasLink'}
+					],
 					index:[
 						{label:'レベル','values':['level0','level1','level2','level3']}
 					],
@@ -266,12 +268,15 @@
 							/>
 						</div>
 					}
-					{states.hasLink &&
+					{states.hasLink && isSelected &&
 						<div className='link'>
-							<TextControl onChange={(linkUrl)=>{
-								itemsCopy[index].linkUrl=linkUrl;
-								setAttributes({items:itemsCopy});
-							}} value={item.linkUrl} placeholder='URLを入力'/>
+							<p
+								contentEditable
+								onBlur={(e)=>{
+									itemsCopy[index].linkUrl=e.currentTarget.innerHTML;
+									setAttributes({items:itemsCopy});
+								}}
+							>{item.linkUrl}</p>
 						</div>
 					}
 				</Item>

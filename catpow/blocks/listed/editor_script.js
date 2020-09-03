@@ -89,7 +89,7 @@ registerBlockType('catpow/listed', {
 			},
 			sub: {
 				orderd: [{ label: '画像', values: 'hasImage' }, { input: 'text', label: '番号前置テキスト', key: 'countPrefix' }, { input: 'text', label: '番号後置テキスト', key: 'countSuffix' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'サブタイトル', values: 'hasSubTitle' }, { label: 'リンク', values: 'hasLink' }],
-				news: [],
+				news: [{ label: 'リンク', values: 'hasLink' }],
 				index: [{ label: 'レベル', 'values': ['level0', 'level1', 'level2', 'level3'] }],
 				menu: [{ label: 'サイズ', values: ['small', 'medium', 'large'] }, { label: '画像', values: { noImage: 'なし', hasImage: '大', hasHeaderImage: '小' } }, { label: '背景画像', values: 'hasBackgroundImage', sub: [{ label: '薄く', values: 'paleBG' }] }, { label: '背景色', values: 'hasBackgroundColor' }, { label: '抜き色文字', values: 'inverseText' }, { label: 'タイトルキャプション', values: 'hasTitleCaption' }, { label: 'テキスト', values: 'hasText' }, { label: 'リンク', values: 'hasLink' }]
 			},
@@ -272,13 +272,20 @@ registerBlockType('catpow/listed', {
 						index: index
 					})
 				),
-				states.hasLink && wp.element.createElement(
+				states.hasLink && isSelected && wp.element.createElement(
 					'div',
 					{ className: 'link' },
-					wp.element.createElement(TextControl, { onChange: function onChange(linkUrl) {
-							itemsCopy[index].linkUrl = linkUrl;
-							setAttributes({ items: itemsCopy });
-						}, value: item.linkUrl, placeholder: 'URL\u3092\u5165\u529B' })
+					wp.element.createElement(
+						'p',
+						{
+							contentEditable: true,
+							onBlur: function onBlur(e) {
+								itemsCopy[index].linkUrl = e.currentTarget.innerHTML;
+								setAttributes({ items: itemsCopy });
+							}
+						},
+						item.linkUrl
+					)
 				)
 			));
 		});

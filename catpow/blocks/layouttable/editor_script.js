@@ -595,7 +595,7 @@ registerBlockType('catpow/layouttable', {
 						null,
 						row.cells.map(function (cell) {
 							cell.style = CP.parseStyleString(cell.style);
-							return el(cell.classes && cell.classes.split(' ').includes('th') ? 'th' : 'td', { className: cell.classes, rowspan: cell.rowspan, colspan: cell.colspan, style: cell.style }, cell.text);
+							return el(cell.classes && cell.classes.split(' ').includes('th') ? 'th' : 'td', { className: cell.classes, rowspan: cell.rowspan, colspan: cell.colspan, style: cell.style }, wp.element.createElement(RichText.Content, { value: cell.text }));
 						})
 					);
 				})

@@ -201,7 +201,7 @@
 					items.map((item,index)=>{
 						return (
 							<li className={item.classes}>
-								{states.hasTitle && <h3>{item.title}</h3>}
+								{states.hasTitle && <h3><RichText.Content value={item.title}/></h3>}
 								<a href={item.linkUrl} target={item.target} data-event={item.event} rel={item.target?'noopener noreferrer':''}>
 									{states.isTemplate?(
 										item.loopImage

@@ -155,12 +155,12 @@ registerBlockType('catpow/simpletable', {
 						wp.element.createElement(
 							'th',
 							{ className: row.cells[0].classes },
-							row.cells[0].text
+							wp.element.createElement(RichText.Content, { value: row.cells[0].text })
 						),
 						wp.element.createElement(
 							'td',
 							{ className: row.cells[1].classes },
-							row.cells[1].text
+							wp.element.createElement(RichText.Content, { value: row.cells[1].text })
 						)
 					);
 				})

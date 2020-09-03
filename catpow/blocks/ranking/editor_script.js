@@ -303,12 +303,12 @@ registerBlockType('catpow/ranking', {
 						wp.element.createElement(
 							'h3',
 							null,
-							item.title
+							wp.element.createElement(RichText.Content, { value: item.title })
 						),
 						states.hasTitle && states.hasTitleCaption && wp.element.createElement(
 							'p',
 							null,
-							item.titleCaption
+							wp.element.createElement(RichText.Content, { value: item.titleCaption })
 						)
 					)
 				),
@@ -318,12 +318,12 @@ registerBlockType('catpow/ranking', {
 					states.hasSubTitle && wp.element.createElement(
 						'h4',
 						null,
-						item.subTitle
+						wp.element.createElement(RichText.Content, { value: item.subTitle })
 					),
 					states.hasText && wp.element.createElement(
 						'p',
 						null,
-						item.text
+						wp.element.createElement(RichText.Content, { value: item.text })
 					)
 				),
 				states.hasLink && item.linkUrl && wp.element.createElement(

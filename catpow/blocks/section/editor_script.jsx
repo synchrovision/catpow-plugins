@@ -357,7 +357,7 @@
 					<header>
 						<div class="title">
 							{states.hasPrefix && 
-								<div class="prefix">{prefix}</div>
+								<div class="prefix"><RichText.Content value={prefix}/></div>
 							}
 							{states.hasHeaderImage &&
 								<div class="image">
@@ -372,7 +372,7 @@
 								</div>
 							}
 							{el('h'+level,{className:'heading'},title)}
-							{states.hasRead && <p>{read}</p>}
+							{states.hasRead && <p><RichText.Content value={read}/></p>}
 						</div>
 						{states.hasHeaderBackgroundImage &&
 							<div class="background">

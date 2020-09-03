@@ -256,14 +256,14 @@
 							<header>
 								{states.hasHeaderImage && <div class='image'><img src={item.headerImageSrc} alt={item.headerImageAlt}/></div>}
 								<div className='text'>
-									{states.hasTitle && <h3>{item.title}</h3>}
-									{states.hasTitle && states.hasTitleCaption && <p>{item.titleCaption}</p>}
+									{states.hasTitle && <h3><RichText.Content value={item.title}/></h3>}
+									{states.hasTitle && states.hasTitleCaption && <p><RichText.Content value={item.titleCaption}/></p>}
 								</div>
 							</header>
 							<div class={boxClasses}>
-								{states.hasSubTitle && <header className="title"><h4>{item.subTitle}</h4></header>}
+								{states.hasSubTitle && <header className="title"><h4><RichText.Content value={item.subTitle}/></h4></header>}
 								{states.hasImage && <div className='image'><img src={item.src} alt={item.alt}/></div>}
-								{states.hasText && <div className="text">{item.text}</div>}
+								{states.hasText && <div className="text"><RichText.Content value={item.text}/></div>}
 							</div>
 						</li>
 					);

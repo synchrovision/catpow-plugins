@@ -382,12 +382,12 @@ registerBlockType('catpow/pricecard', {
 						states.hasTitle && wp.element.createElement(
 							'h3',
 							null,
-							item.title
+							wp.element.createElement(RichText.Content, { value: item.title })
 						),
 						states.hasTitle && states.hasTitleCaption && wp.element.createElement(
 							'p',
 							null,
-							item.titleCaption
+							wp.element.createElement(RichText.Content, { value: item.titleCaption })
 						),
 						wp.element.createElement(
 							'div',
@@ -433,7 +433,7 @@ registerBlockType('catpow/pricecard', {
 							wp.element.createElement(
 								'span',
 								{ 'class': 'priceCaption' },
-								priceCaption
+								wp.element.createElement(RichText.Content, { value: priceCaption })
 							)
 						)
 					)
@@ -444,12 +444,12 @@ registerBlockType('catpow/pricecard', {
 					states.hasSubTitle && wp.element.createElement(
 						'h4',
 						null,
-						item.subTitle
+						wp.element.createElement(RichText.Content, { value: item.subTitle })
 					),
 					states.hasText && wp.element.createElement(
 						'p',
 						null,
-						item.text
+						wp.element.createElement(RichText.Content, { value: item.text })
 					),
 					states.hasSpec && wp.element.createElement(
 						'dl',
@@ -458,11 +458,11 @@ registerBlockType('catpow/pricecard', {
 							return [wp.element.createElement(
 								'dt',
 								null,
-								items[index].specLabels[specIndex].text
+								wp.element.createElement(RichText.Content, { value: items[index].specLabels[specIndex].text })
 							), wp.element.createElement(
 								'dd',
 								null,
-								items[index].specValues[specIndex].text
+								wp.element.createElement(RichText.Content, { value: items[index].specValues[specIndex].text })
 							)];
 						})
 					),

@@ -182,11 +182,11 @@
 					<header>
 						<div class='image'><img src={item.headerImageSrc} alt={item.headerImageAlt}/></div>
 						<div className='text'>
-							<h3>{item.title}</h3>
+							<h3><RichText.Content value={item.title}/></h3>
 						</div>
 					</header>
 						<div class="contents">
-						<p>{item.text}</p>
+						<p><RichText.Content value={item.text}/></p>
 					</div>
 				</li>
 			);

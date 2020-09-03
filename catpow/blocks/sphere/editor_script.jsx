@@ -182,8 +182,8 @@
 				<li className={item.classes}>
 					<div class="contents">
 						{states.hasSubImage && <div className='image'><img src={item.subImageSrc} alt={item.subImageAlt}/></div>}
-						{states.hasSubTitle && <h4>{item.subTitle}</h4>}
-						{states.hasText && <p>{item.text}</p>}
+						{states.hasSubTitle && <h4><RichText.Content value={item.subTitle}/></h4>}
+						{states.hasText && <p><RichText.Content value={item.text}/></p>}
 					</div>
 				</li>
 			);

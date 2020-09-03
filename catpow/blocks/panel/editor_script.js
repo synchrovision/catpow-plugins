@@ -278,12 +278,12 @@ registerBlockType('catpow/panel', {
 					itemStates.hasTitle && wp.element.createElement(
 						'h3',
 						null,
-						item.title
+						wp.element.createElement(RichText.Content, { value: item.title })
 					),
 					itemStates.hasText && wp.element.createElement(
 						'p',
 						null,
-						item.text
+						wp.element.createElement(RichText.Content, { value: item.text })
 					),
 					itemStates.hasLink && wp.element.createElement(
 						'div',

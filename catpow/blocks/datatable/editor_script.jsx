@@ -261,7 +261,7 @@
 						<tr>
 							{rows[0].cells.map((cell,index)=>{
 								return (
-									<th className={cell.classes}>{cell.text}</th>
+									<th className={cell.classes}><RichText.Content value={cell.text}/></th>
 								);
 							})}
 						</tr>

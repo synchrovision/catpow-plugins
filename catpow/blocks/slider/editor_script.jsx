@@ -406,9 +406,9 @@
 					}
 					{(states.hasTitle || states.hasSubTitle || states.hasText) && 
 						<div class="text">
-							{states.hasTitle && <h3>{item.title}</h3>}
-							{states.hasSubTitle && <h4>{item.subTitle}</h4>}
-							{states.hasText && <p>{item.text}</p>}
+							{states.hasTitle && <h3><RichText.Content value={item.title}/></h3>}
+							{states.hasSubTitle && <h4><RichText.Content value={item.subTitle}/></h4>}
+							{states.hasText && <p><RichText.Content value={item.text}/></p>}
 						</div>
 					}
 					{states.hasBackgroundImage &&
@@ -524,9 +524,9 @@
 								</div>
 							}
 							<div class="text">
-								{states.hasTitle && <h3>{item.title}</h3>}
-								{states.hasSubTitle && <h4>{item.subTitle}</h4>}
-								{states.hasText && <p>{item.text}</p>}
+								{states.hasTitle && <h3><RichText.Content value={item.title}/></h3>}
+								{states.hasSubTitle && <h4><RichText.Content value={item.subTitle}/></h4>}
+								{states.hasText && <p><RichText.Content value={item.text}/></p>}
 							</div>
 						</li>
 					);

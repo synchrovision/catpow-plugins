@@ -228,13 +228,13 @@
 							</div>
 						}
 						<div className='text'>
-							<h3>{item.title}</h3>
-							{states.hasTitle && states.hasTitleCaption && <p>{item.titleCaption}</p>}
+							<h3><RichText.Content value={item.title}/></h3>
+							{states.hasTitle && states.hasTitleCaption && <p><RichText.Content value={item.titleCaption}/></p>}
 						</div>
 					</header>
 					<div class="contents">
-						{states.hasSubTitle && <h4>{item.subTitle}</h4>}
-						<div className="text">{item.text}</div>
+						{states.hasSubTitle && <h4><RichText.Content value={item.subTitle}/></h4>}
+						<div className="text"><RichText.Content value={item.text}/></div>
 					</div>
 					{states.hasLink && item.linkUrl && <div className='link'><a href={item.linkUrl}> </a></div>}
 				</li>
@@ -304,13 +304,13 @@
 									</div>
 								}
 								<div className='text'>
-									<h3>{item.title}</h3>
-									{states.hasTitle && states.hasTitleCaption && <p>{item.titleCaption}</p>}
+									<h3><RichText.Content value={item.title}/></h3>
+									{states.hasTitle && states.hasTitleCaption && <p><RichText.Content value={item.titleCaption}/></p>}
 								</div>
 							</header>
 							<div class="contents">
-								{states.hasSubTitle && <h4>{item.subTitle}</h4>}
-								<p>{item.text}</p>
+								{states.hasSubTitle && <h4><RichText.Content value={item.subTitle}/></h4>}
+								<p><RichText.Content value={item.text}/></p>
 							</div>
 							{states.hasLink && item.linkUrl && <div className='link'><a href={item.linkUrl}> </a></div>}
 						</li>

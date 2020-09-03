@@ -94,7 +94,7 @@ registerBlockType('catpow/t-button', {
 						wp.element.createElement(
 							'td',
 							null,
-							title
+							wp.element.createElement(RichText.Content, { value: title })
 						)
 					)
 				)

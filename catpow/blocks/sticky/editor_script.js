@@ -161,7 +161,7 @@ registerBlockType('catpow/sticky', {
 					states.labelButton && wp.element.createElement(
 						'div',
 						{ className: 'label' },
-						labelText
+						wp.element.createElement(RichText.Content, { value: labelText })
 					),
 					states.imageButton && [wp.element.createElement(ResponsiveImage, {
 						className: 'open',
@@ -180,7 +180,7 @@ registerBlockType('catpow/sticky', {
 				states.label && wp.element.createElement(
 					'div',
 					{ className: 'label' },
-					labelText
+					wp.element.createElement(RichText.Content, { value: labelText })
 				),
 				(states.container || states.collapsible) && wp.element.createElement(InnerBlocks.Content, null)
 			)

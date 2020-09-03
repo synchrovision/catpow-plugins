@@ -325,10 +325,10 @@
 					<header>
 						<div className='text'>
 							{states.hasTitle &&
-								<h3>{item.title}</h3>
+								<h3><RichText.Content value={item.title}/></h3>
 							}
 							{states.hasTitle && states.hasTitleCaption && 
-								<p>{item.titleCaption}</p>
+								<p><RichText.Content value={item.titleCaption}/></p>
 							}
 							<div class="price">
 								<span class="listPrice">
@@ -341,24 +341,24 @@
 									<span class="number">{item.price}</span>
 									{states.unitAfter && <span class="unit">{priceUnit}</span>}
 								</span>
-								<span class="priceCaption">{priceCaption}</span>
+								<span class="priceCaption"><RichText.Content value={priceCaption}/></span>
 							</div>
 						</div>
 					</header>
 					{(states.hasSubTitle || states.hasText || states.hasSpec || states.hasLink) && 
 						<div class="contents">
 							{states.hasSubTitle &&
-								<h4>{item.subTitle}</h4>
+								<h4><RichText.Content value={item.subTitle}/></h4>
 							}
 							{states.hasText && 
-								<p>{item.text}</p>
+								<p><RichText.Content value={item.text}/></p>
 							}
 							{states.hasSpec && 
 								<dl className="spec">
 									{item.specLabels.map((label,specIndex)=>{
 										return [
-											<dt>{items[index].specLabels[specIndex].text}</dt>,
-											<dd>{items[index].specValues[specIndex].text}</dd>
+											<dt><RichText.Content value={items[index].specLabels[specIndex].text}/></dt>,
+											<dd><RichText.Content value={items[index].specValues[specIndex].text}/></dd>
 										];
 									})}
 								</dl>

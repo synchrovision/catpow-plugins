@@ -87,7 +87,7 @@
 			<table width="100%" className={classes}>
 				<tbody>
 					<tr>
-						<td>{title}</td>
+						<td><RichText.Content value={title}/></td>
 					</tr>
 				</tbody>
 			</table>

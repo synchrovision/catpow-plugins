@@ -401,17 +401,17 @@ registerBlockType('catpow/slider', {
 					states.hasTitle && wp.element.createElement(
 						'h3',
 						null,
-						item.title
+						wp.element.createElement(RichText.Content, { value: item.title })
 					),
 					states.hasSubTitle && wp.element.createElement(
 						'h4',
 						null,
-						item.subTitle
+						wp.element.createElement(RichText.Content, { value: item.subTitle })
 					),
 					states.hasText && wp.element.createElement(
 						'p',
 						null,
-						item.text
+						wp.element.createElement(RichText.Content, { value: item.text })
 					)
 				),
 				states.hasBackgroundImage && wp.element.createElement(
@@ -581,17 +581,17 @@ registerBlockType('catpow/slider', {
 						states.hasTitle && wp.element.createElement(
 							'h3',
 							null,
-							item.title
+							wp.element.createElement(RichText.Content, { value: item.title })
 						),
 						states.hasSubTitle && wp.element.createElement(
 							'h4',
 							null,
-							item.subTitle
+							wp.element.createElement(RichText.Content, { value: item.subTitle })
 						),
 						states.hasText && wp.element.createElement(
 							'p',
 							null,
-							item.text
+							wp.element.createElement(RichText.Content, { value: item.text })
 						)
 					)
 				));

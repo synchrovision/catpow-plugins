@@ -365,8 +365,8 @@
 							}
 							{states.hasHeaderImage && <div class='image'><img src={item.headerImageSrc} alt={item.headerImageAlt}/></div>}
 							<div className='text'>
-								{states.hasTitle && <h3>{item.title}</h3>}
-								{states.hasTitle && states.hasTitleCaption && <p>{item.titleCaption}</p>}
+								{states.hasTitle && <h3><RichText.Content value={item.title}/></h3>}
+								{states.hasTitle && states.hasTitleCaption && <p><RichText.Content value={item.titleCaption}/></p>}
 							</div>
 						</header>
 					}
@@ -380,8 +380,8 @@
 								</div>
 							}
 							{states.hasSubImage && <div className='image'><img src={item.subImageSrc} alt={item.subImageAlt}/></div>}
-							{states.hasSubTitle && <h4>{item.subTitle}</h4>}
-							{states.hasText && <p>{item.text}</p>}
+							{states.hasSubTitle && <h4><RichText.Content value={item.subTitle}/></h4>}
+							{states.hasText && <p><RichText.Content value={item.text}/></p>}
 						</div>
 					}
 					{states.hasBackgroundImage && 

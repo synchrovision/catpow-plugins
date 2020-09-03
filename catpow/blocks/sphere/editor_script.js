@@ -226,12 +226,12 @@ registerBlockType('catpow/sphere', {
 					states.hasSubTitle && wp.element.createElement(
 						'h4',
 						null,
-						item.subTitle
+						wp.element.createElement(RichText.Content, { value: item.subTitle })
 					),
 					states.hasText && wp.element.createElement(
 						'p',
 						null,
-						item.text
+						wp.element.createElement(RichText.Content, { value: item.text })
 					)
 				)
 			));

@@ -139,7 +139,7 @@
 					<div class="stickyButton">
 						<div class="stickyButtonIcon">
 							{states.labelButton &&
-								<div className='label'>{labelText}</div>
+								<div className='label'><RichText.Content value={labelText}/></div>
 							}
 							{states.imageButton && [
 								<ResponsiveImage
@@ -157,7 +157,7 @@
 					</div>
 				}
 				<div class="content">
-					{states.label && <div className="label">{labelText}</div>}
+					{states.label && <div className="label"><RichText.Content value={labelText}/></div>}
 					{(states.container || states.collapsible) && <InnerBlocks.Content/>}
 				</div>
 			</div>

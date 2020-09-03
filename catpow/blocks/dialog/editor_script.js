@@ -232,7 +232,7 @@ registerBlockType('catpow/dialog', {
 						wp.element.createElement(
 							'h3',
 							null,
-							item.title
+							wp.element.createElement(RichText.Content, { value: item.title })
 						)
 					)
 				),
@@ -242,7 +242,7 @@ registerBlockType('catpow/dialog', {
 					wp.element.createElement(
 						'p',
 						null,
-						item.text
+						wp.element.createElement(RichText.Content, { value: item.text })
 					)
 				)
 			));

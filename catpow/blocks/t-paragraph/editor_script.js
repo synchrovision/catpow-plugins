@@ -110,7 +110,7 @@ registerBlockType('catpow/t-paragraph', {
 					wp.element.createElement(
 						'td',
 						null,
-						text
+						wp.element.createElement(RichText.Content, { value: text })
 					)
 				)
 			)

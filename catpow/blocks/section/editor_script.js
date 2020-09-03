@@ -321,7 +321,7 @@ registerBlockType('catpow/section', {
 						states.hasPrefix && wp.element.createElement(
 							'div',
 							{ 'class': 'prefix' },
-							prefix
+							wp.element.createElement(RichText.Content, { value: prefix })
 						),
 						states.hasHeaderImage && wp.element.createElement(
 							'div',
@@ -335,7 +335,7 @@ registerBlockType('catpow/section', {
 						states.hasRead && wp.element.createElement(
 							'p',
 							null,
-							read
+							wp.element.createElement(RichText.Content, { value: read })
 						)
 					),
 					states.hasHeaderBackgroundImage && wp.element.createElement(

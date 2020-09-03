@@ -293,7 +293,7 @@ registerBlockType('catpow/datatable', {
 						return wp.element.createElement(
 							'th',
 							{ className: cell.classes },
-							cell.text
+							wp.element.createElement(RichText.Content, { value: cell.text })
 						);
 					})
 				)

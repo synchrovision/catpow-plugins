@@ -73,7 +73,7 @@
 		let rtn=[];
 		items.map((item,index)=>{
 			rtn.push(
-				<li className='item'><h3>{item.title}</h3></li>
+				<li className='item'><h3><RichText.Content value={item.title}/></h3></li>
 			);
 		});
 		

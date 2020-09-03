@@ -130,7 +130,7 @@ registerBlockType('catpow/t-body', {
 					wp.element.createElement(
 						'th',
 						null,
-						headerText
+						wp.element.createElement(RichText.Content, { value: headerText })
 					)
 				)
 			),
@@ -160,7 +160,7 @@ registerBlockType('catpow/t-body', {
 					wp.element.createElement(
 						'td',
 						null,
-						footerText
+						wp.element.createElement(RichText.Content, { value: footerText })
 					)
 				)
 			)

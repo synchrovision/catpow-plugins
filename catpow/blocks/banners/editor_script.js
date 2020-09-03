@@ -212,7 +212,7 @@ registerBlockType('catpow/banners', {
 					states.hasTitle && wp.element.createElement(
 						'h3',
 						null,
-						item.title
+						wp.element.createElement(RichText.Content, { value: item.title })
 					),
 					wp.element.createElement(
 						'a',

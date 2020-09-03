@@ -90,7 +90,7 @@
 				{states.hasHeader &&
 					<thead>
 						<tr>
-							<th>{headerText}</th>
+							<th><RichText.Content value={headerText}/></th>
 						</tr>
 					</thead>
 				}
@@ -106,7 +106,7 @@
 				{states.hasFooter &&
 					<tfoot>
 						<tr>
-							<td>{footerText}</td>
+							<td><RichText.Content value={footerText}/></td>
 						</tr>
 					</tfoot>
 				}

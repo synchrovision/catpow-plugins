@@ -260,8 +260,8 @@
 					{itemStates.hasImage && <div className='image'><img src={item.src} alt={item.alt}/></div>}
 					<div class="text">
 						{itemStates.hasIcon && <div class="icon"><img src={item.iconSrc} alt={item.iconAlt}/></div>}
-						{itemStates.hasTitle && <h3>{item.title}</h3>}
-						{itemStates.hasText && <p>{item.text}</p>}
+						{itemStates.hasTitle && <h3><RichText.Content value={item.title}/></h3>}
+						{itemStates.hasText && <p><RichText.Content value={item.text}/></p>}
 						{itemStates.hasLink &&
 							<div className='link'>
 								<a

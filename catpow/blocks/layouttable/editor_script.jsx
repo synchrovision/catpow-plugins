@@ -502,7 +502,7 @@ registerBlockType('catpow/layouttable',{
 							return el(
 								(cell.classes && cell.classes.split(' ').includes('th'))?'th':'td',
 								{className:cell.classes,rowspan:cell.rowspan,colspan:cell.colspan,style:cell.style},
-								cell.text
+								<RichText.Content value={cell.text}/>
 							);
 						})}
 					</tr>

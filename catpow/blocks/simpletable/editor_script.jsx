@@ -152,8 +152,8 @@
 				{rows.map((row,index)=>{
 					return (
 						<tr className={row.classes} data-refine-cond={row.cond}>
-							<th className={row.cells[0].classes}>{row.cells[0].text}</th>
-							<td className={row.cells[1].classes}>{row.cells[1].text}</td>
+							<th className={row.cells[0].classes}><RichText.Content value={row.cells[0].text}/></th>
+							<td className={row.cells[1].classes}><RichText.Content value={row.cells[1].text}/></td>
 						</tr>
 					);
 				})}

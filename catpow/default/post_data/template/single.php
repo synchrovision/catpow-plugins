@@ -1,9 +1,9 @@
 <?php
-$article_conf_data=$GLOBALS['post_types'][rtrim($post_type,'_tmpl')]['meta'];
+$article_conf_data=$GLOBALS['post_types'][substr($post_type,0,-5)]??[];
 $post_data['post_title']=$article_conf_data['label'];
 $metas_primary=[];
 $metas_has_children=[];
-foreach($article_conf_data as $name=>$conf){
+foreach($article_conf_data['meta']??[] as $name=>$conf){
 	$meta_class=\cp::get_class_name('meta',$conf['type']);
 	if($meta_class::$has_children && !$meta_class::$is_unit_input){
 		$metas_has_children[$name]=$conf;

@@ -9,12 +9,16 @@ class gmap extends data{
 		$val=$meta->value;
 		static $token,$mapOptions_default,$markerOptions_default,$is_called;
 		
+		if($prm === 'url'){
+			return 'google.com/maps/search/?api=1&query='.$val[0]['address'][0];
+		}
+		
 		wp_enqueue_script('cp_gmap');
 		
 		if(empty($token)){
 			$gauth_conf=get_option('gauth_conf');
 			if(empty($gauth_conf[0]['api_key'][0])){
-				return '<p class="caution">'._('gmapを使うにはGoogleAPIキーが必要です').'</p>';
+				return '<p class="caution">'.__('gmapを使うにはGoogleAPIキーが必要です','Catpow').'</p>';
 			}
 			$token=$gauth_conf[0]['api_key'][0];
 		}

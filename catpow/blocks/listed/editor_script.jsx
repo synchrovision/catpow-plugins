@@ -25,12 +25,19 @@
 				classes:{source:'attribute',attribute:'class'},
 				title:{source:'children',selector:'header .text h3'},
 				titleCaption:{source:'children',selector:'header .text p'},
+				
 				headerImageSrc:{source:'attribute',selector:'header .image [src]',attribute:'src'},
 				headerImageAlt:{source:'attribute',selector:'header .image [src]',attribute:'alt'},
+				headerImageCode:{source:'text',selector:'header .image'},
+				
 				subImageSrc:{source:'attribute',selector:'.contents .image [src]',attribute:'src'},
 				subImageAlt:{source:'attribute',selector:'.contents .image [src]',attribute:'alt'},
+				subImageCode:{source:'text',selector:'.contents .image'},
+				
 				src:{source:'attribute',selector:'li>.image [src]',attribute:'src'},
 				alt:{source:'attribute',selector:'li>.image [src]',attribute:'alt'},
+				imageCode:{source:'text',selector:'li>.image'},
+				
 				subTitle:{source:'children',selector:'.contents h4'},
 				text:{source:'children',selector:'.contents p'},
 				linkUrl:{source:'attribute',selector:'.link a',attribute:'href'},
@@ -133,18 +140,24 @@
 			}
 		];
 		const itemTemplateSelectiveClasses=[
-			{label:'画像',values:'loopImage',sub:[
-				{label:'src',input:'text',key:'src'},
-				{label:'alt',input:'text',key:'alt'},
-			]},
-			{label:'ヘッダ画像',values:'loopHeaderImage',sub:[
-				{label:'headerImageSrc',input:'text',key:'headerImageSrc'},
-				{label:'headerImageAlt',input:'text',key:'headerImageAlt'},
-			]},
-			{label:'サブ画像',values:'loopSubImage',sub:[
-				{label:'subImageSrc',input:'text',key:'subImageSrc'},
-				{label:'subImageAlt',input:'text',key:'subImageAlt'},
-			]}
+			{
+				input:'text',
+				label:'画像コード',
+				key:'imageCode',
+				cond:states.hasImage
+			},
+			{
+				input:'text',
+				label:'ヘッダ画像コード',
+				key:'headerImageCode',
+				cond:states.hasHeaderImage
+			},
+			{
+				input:'text',
+				label:'サブ画像コード',
+				key:'subImageCode',
+				cond:states.hasSubImage
+			}
 		];
 		
 		let itemsCopy=items.map((obj)=>jQuery.extend(true,{},obj));
@@ -168,15 +181,19 @@
 					index={index}
 					isSelected={isSelected}
 				>
-					{states.hasImage &&
-						<div className='image'>
-							<SelectResponsiveImage
-								attr={attributes}
-								set={setAttributes}
-								keys={imageKeys.image}
-								index={index}
-								size='vga'
-							/>
+					{states.hasImage && 
+						<div class="image">
+							{(states.isTemplate && item.imageCode)?(
+								<DummyImage text={item.imageCode}/>
+							):(
+								<SelectResponsiveImage
+									attr={attributes}
+									set={setAttributes}
+									keys={imageKeys.image}
+									index={index}
+									size='vga'
+								/>
+							)}
 						</div>
 					}
 					{states.hasHeader &&
@@ -188,15 +205,19 @@
 									{countSuffix && <span class="suffix">{countSuffix}</span>}
 								</div>
 							}
-							{states.hasHeaderImage &&
-								<div className='image'>
-									<SelectResponsiveImage
-										attr={attributes}
-										set={setAttributes}
-										keys={imageKeys.headerImage}
-										index={index}
-										size='thumbnail'
-									/>
+							{states.hasHeaderImage && 
+								<div class="image">
+									{(states.isTemplate && item.headerImageCode)?(
+										<DummyImage text={item.headerImageCode}/>
+									):(
+										<SelectResponsiveImage
+											attr={attributes}
+											set={setAttributes}
+											keys={imageKeys.headerImage}
+											index={index}
+											size='thumbnail'
+										/>
+									)}
 								</div>
 							}
 							<div className='text'>
@@ -228,15 +249,19 @@
 									{subCountSuffix && <span class="suffix">{subCountSuffix}</span>}
 								</div>
 							}
-							{states.hasSubImage &&
-								<div className='image'>
-									<SelectResponsiveImage
-										attr={attributes}
-										set={setAttributes}
-										keys={imageKeys.subImage}
-										index={index}
-										size='medium'
-									/>
+							{states.hasSubImage && 
+								<div class="image">
+									{(states.isTemplate && item.subImageCode)?(
+										<DummyImage text={item.subImageCode}/>
+									):(
+										<SelectResponsiveImage
+											attr={attributes}
+											set={setAttributes}
+											keys={imageKeys.subImage}
+											index={index}
+											size='medium'
+										/>
+									)}
 								</div>
 							}
 							{states.hasSubTitle &&
@@ -358,7 +383,15 @@
 		items.map((item,index)=>{
 			rtn.push(
 				<li className={item.classes}>
-					{states.hasImage && <div className='image'><img src={item.src} alt={item.alt}/></div>}
+					{states.hasImage &&
+						<div className='image'>
+							{(states.isTemplate && item.imageCode)?(
+								item.imageCode
+							):(
+								<img src={item.src} alt={item.alt}/>
+							)}
+						</div>
+					}
 					{states.hasHeader &&
 						<header>
 							{states.hasCounter &&
@@ -368,7 +401,15 @@
 									{countSuffix && <span class="suffix">{countSuffix}</span>}
 								</div>
 							}
-							{states.hasHeaderImage && <div class='image'><img src={item.headerImageSrc} alt={item.headerImageAlt}/></div>}
+							{states.hasHeaderImage &&
+								<div className='image'>
+									{(states.isTemplate && item.headerImageCode)?(
+										item.headerImageCode
+									):(
+										<img src={item.headerImageSrc} alt={item.headerImageAlt}/>
+									)}
+								</div>
+							}
 							<div className='text'>
 								{states.hasTitle && <h3><RichText.Content value={item.title}/></h3>}
 								{states.hasTitle && states.hasTitleCaption && <p><RichText.Content value={item.titleCaption}/></p>}
@@ -384,7 +425,15 @@
 									{subCountSuffix && <span class="suffix">{subCountSuffix}</span>}
 								</div>
 							}
-							{states.hasSubImage && <div className='image'><img src={item.subImageSrc} alt={item.subImageAlt}/></div>}
+							{states.hasSubImage &&
+								<div className='image'>
+									{(states.isTemplate && item.subImageCode)?(
+										item.subImageCode
+									):(
+										<img src={item.subImageSrc} alt={item.subImageAlt}/>
+									)}
+								</div>
+							}
 							{states.hasSubTitle && <h4><RichText.Content value={item.subTitle}/></h4>}
 							{states.hasText && <p><RichText.Content value={item.text}/></p>}
 						</div>

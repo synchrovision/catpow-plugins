@@ -23,12 +23,19 @@ registerBlockType('catpow/listed', {
 				classes: { source: 'attribute', attribute: 'class' },
 				title: { source: 'children', selector: 'header .text h3' },
 				titleCaption: { source: 'children', selector: 'header .text p' },
+
 				headerImageSrc: { source: 'attribute', selector: 'header .image [src]', attribute: 'src' },
 				headerImageAlt: { source: 'attribute', selector: 'header .image [src]', attribute: 'alt' },
+				headerImageCode: { source: 'text', selector: 'header .image' },
+
 				subImageSrc: { source: 'attribute', selector: '.contents .image [src]', attribute: 'src' },
 				subImageAlt: { source: 'attribute', selector: '.contents .image [src]', attribute: 'alt' },
+				subImageCode: { source: 'text', selector: '.contents .image' },
+
 				src: { source: 'attribute', selector: 'li>.image [src]', attribute: 'src' },
 				alt: { source: 'attribute', selector: 'li>.image [src]', attribute: 'alt' },
+				imageCode: { source: 'text', selector: 'li>.image' },
+
 				subTitle: { source: 'children', selector: '.contents h4' },
 				text: { source: 'children', selector: '.contents p' },
 				linkUrl: { source: 'attribute', selector: '.link a', attribute: 'href' },
@@ -110,7 +117,22 @@ registerBlockType('catpow/listed', {
 			values: 'isTemplate',
 			sub: [{ label: 'ループ', values: 'doLoop', sub: [{ label: 'パラメータ', input: 'text', key: 'loopParam' }, { label: 'ループ数', input: 'range', key: 'loopCount', min: 1, max: 16 }] }]
 		}];
-		var itemTemplateSelectiveClasses = [{ label: '画像', values: 'loopImage', sub: [{ label: 'src', input: 'text', key: 'src' }, { label: 'alt', input: 'text', key: 'alt' }] }, { label: 'ヘッダ画像', values: 'loopHeaderImage', sub: [{ label: 'headerImageSrc', input: 'text', key: 'headerImageSrc' }, { label: 'headerImageAlt', input: 'text', key: 'headerImageAlt' }] }, { label: 'サブ画像', values: 'loopSubImage', sub: [{ label: 'subImageSrc', input: 'text', key: 'subImageSrc' }, { label: 'subImageAlt', input: 'text', key: 'subImageAlt' }] }];
+		var itemTemplateSelectiveClasses = [{
+			input: 'text',
+			label: '画像コード',
+			key: 'imageCode',
+			cond: states.hasImage
+		}, {
+			input: 'text',
+			label: 'ヘッダ画像コード',
+			key: 'headerImageCode',
+			cond: states.hasHeaderImage
+		}, {
+			input: 'text',
+			label: 'サブ画像コード',
+			key: 'subImageCode',
+			cond: states.hasSubImage
+		}];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -140,8 +162,8 @@ registerBlockType('catpow/listed', {
 				},
 				states.hasImage && wp.element.createElement(
 					'div',
-					{ className: 'image' },
-					wp.element.createElement(SelectResponsiveImage, {
+					{ 'class': 'image' },
+					states.isTemplate && item.imageCode ? wp.element.createElement(DummyImage, { text: item.imageCode }) : wp.element.createElement(SelectResponsiveImage, {
 						attr: attributes,
 						set: setAttributes,
 						keys: imageKeys.image,
@@ -173,8 +195,8 @@ registerBlockType('catpow/listed', {
 					),
 					states.hasHeaderImage && wp.element.createElement(
 						'div',
-						{ className: 'image' },
-						wp.element.createElement(SelectResponsiveImage, {
+						{ 'class': 'image' },
+						states.isTemplate && item.headerImageCode ? wp.element.createElement(DummyImage, { text: item.headerImageCode }) : wp.element.createElement(SelectResponsiveImage, {
 							attr: attributes,
 							set: setAttributes,
 							keys: imageKeys.headerImage,
@@ -231,8 +253,8 @@ registerBlockType('catpow/listed', {
 					),
 					states.hasSubImage && wp.element.createElement(
 						'div',
-						{ className: 'image' },
-						wp.element.createElement(SelectResponsiveImage, {
+						{ 'class': 'image' },
+						states.isTemplate && item.subImageCode ? wp.element.createElement(DummyImage, { text: item.subImageCode }) : wp.element.createElement(SelectResponsiveImage, {
 							attr: attributes,
 							set: setAttributes,
 							keys: imageKeys.subImage,
@@ -387,7 +409,7 @@ registerBlockType('catpow/listed', {
 				states.hasImage && wp.element.createElement(
 					'div',
 					{ className: 'image' },
-					wp.element.createElement('img', { src: item.src, alt: item.alt })
+					states.isTemplate && item.imageCode ? item.imageCode : wp.element.createElement('img', { src: item.src, alt: item.alt })
 				),
 				states.hasHeader && wp.element.createElement(
 					'header',
@@ -413,8 +435,8 @@ registerBlockType('catpow/listed', {
 					),
 					states.hasHeaderImage && wp.element.createElement(
 						'div',
-						{ 'class': 'image' },
-						wp.element.createElement('img', { src: item.headerImageSrc, alt: item.headerImageAlt })
+						{ className: 'image' },
+						states.isTemplate && item.headerImageCode ? item.headerImageCode : wp.element.createElement('img', { src: item.headerImageSrc, alt: item.headerImageAlt })
 					),
 					wp.element.createElement(
 						'div',
@@ -456,7 +478,7 @@ registerBlockType('catpow/listed', {
 					states.hasSubImage && wp.element.createElement(
 						'div',
 						{ className: 'image' },
-						wp.element.createElement('img', { src: item.subImageSrc, alt: item.subImageAlt })
+						states.isTemplate && item.subImageCode ? item.subImageCode : wp.element.createElement('img', { src: item.subImageSrc, alt: item.subImageAlt })
 					),
 					states.hasSubTitle && wp.element.createElement(
 						'h4',

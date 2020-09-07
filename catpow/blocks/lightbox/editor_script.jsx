@@ -147,24 +147,24 @@
 											/>
 										</div>
 									}
-									<div className='text'>
-										{states.hasTitle &&
+									{states.hasTitle &&
+										<div className='text'>
 											<h3>
 												<RichText
 													onChange={(text)=>{itemsCopy[index].title=text;setAttributes({items:itemsCopy});}}
 													value={item.title}
 												/>
 											</h3>
-										}
-										{states.hasTitle && states.hasTitleCaption && 
-											<p>
-												<RichText
-													onChange={(text)=>{itemsCopy[index].titleCaption=text;setAttributes({items:itemsCopy});}}
-													value={item.titleCaption}
-												/>
-											</p>
-										}
-									</div>
+											{states.hasTitle && 
+												<p>
+													<RichText
+														onChange={(text)=>{itemsCopy[index].titleCaption=text;setAttributes({items:itemsCopy});}}
+														value={item.titleCaption}
+													/>
+												</p>
+											}
+										</div>
+									}
 								</header>
 							</Item>
 						);
@@ -255,10 +255,12 @@
 						<li className={item.classes}>
 							<header>
 								{states.hasHeaderImage && <div class='image'><img src={item.headerImageSrc} alt={item.headerImageAlt}/></div>}
-								<div className='text'>
-									{states.hasTitle && <h3><RichText.Content value={item.title}/></h3>}
-									{states.hasTitle && states.hasTitleCaption && <p><RichText.Content value={item.titleCaption}/></p>}
-								</div>
+								{states.hasTitle &&
+									<div className='text'>
+										<h3><RichText.Content value={item.title}/></h3>
+										{tates.hasTitleCaption && <p><RichText.Content value={item.titleCaption}/></p>}
+									</div>
+								}
 							</header>
 							<div class={boxClasses}>
 								{states.hasSubTitle && <header className="title"><h4><RichText.Content value={item.subTitle}/></h4></header>}

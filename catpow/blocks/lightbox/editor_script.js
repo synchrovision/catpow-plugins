@@ -164,10 +164,10 @@ registerBlockType('catpow/lightbox', {
 									size: 'vga'
 								})
 							),
-							wp.element.createElement(
+							states.hasTitle && wp.element.createElement(
 								'div',
 								{ className: 'text' },
-								states.hasTitle && wp.element.createElement(
+								wp.element.createElement(
 									'h3',
 									null,
 									wp.element.createElement(RichText, {
@@ -177,7 +177,7 @@ registerBlockType('catpow/lightbox', {
 										value: item.title
 									})
 								),
-								states.hasTitle && states.hasTitleCaption && wp.element.createElement(
+								states.hasTitle && wp.element.createElement(
 									'p',
 									null,
 									wp.element.createElement(RichText, {
@@ -314,15 +314,15 @@ registerBlockType('catpow/lightbox', {
 							{ 'class': 'image' },
 							wp.element.createElement('img', { src: item.headerImageSrc, alt: item.headerImageAlt })
 						),
-						wp.element.createElement(
+						states.hasTitle && wp.element.createElement(
 							'div',
 							{ className: 'text' },
-							states.hasTitle && wp.element.createElement(
+							wp.element.createElement(
 								'h3',
 								null,
 								wp.element.createElement(RichText.Content, { value: item.title })
 							),
-							states.hasTitle && states.hasTitleCaption && wp.element.createElement(
+							tates.hasTitleCaption && wp.element.createElement(
 								'p',
 								null,
 								wp.element.createElement(RichText.Content, { value: item.titleCaption })

@@ -3,8 +3,8 @@ ul.wp-block-catpow-pricelist li.item {
   position: relative; }
   ul.wp-block-catpow-pricelist li.item .itemControl {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem; }
+    top: 1rem;
+    right: -8rem; }
   ul.wp-block-catpow-pricelist li.item > .link {
     position: absolute;
     top: 0px;

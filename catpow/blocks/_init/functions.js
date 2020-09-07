@@ -1152,6 +1152,9 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 	}
 
 	var selectItemClass = function selectItemClass(prm) {
+		if (prm.hasOwnProperty('cond') && !prm.cond) {
+			return false;
+		}
 		var rtn = [];
 		if (prm.filter && props.filters && props.filters[prm.filter]) {
 			props.filters[prm.filter](prm);

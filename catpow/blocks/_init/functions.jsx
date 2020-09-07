@@ -841,6 +841,9 @@ const SelectItemClassPanel=(props)=>{
 	
 
 	const selectItemClass=(prm)=>{
+		if(prm.hasOwnProperty('cond') && !prm.cond){
+			return false;
+		}
 		let rtn=[];
 		if(prm.filter && props.filters && props.filters[prm.filter]){
 			props.filters[prm.filter](prm);

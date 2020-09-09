@@ -1355,6 +1355,7 @@ var AlignClassToolbar = function AlignClassToolbar(props) {
 	var aligns = ['left', 'center', 'right'];
 	return wp.element.createElement(BlockAlignmentToolbar, {
 		value: CP.getSelectiveClass(props, aligns),
+		controls: props.aligns || aligns,
 		onChange: function onChange(align) {
 			CP.switchSelectiveClass(props, aligns, align, props.key);
 		}
@@ -1364,6 +1365,7 @@ var VerticalAlignClassToolbar = function VerticalAlignClassToolbar(props) {
 	var aligns = ['top', 'center', 'bottom'];
 	return wp.element.createElement(BlockVerticalAlignmentToolbar, {
 		value: CP.getSelectiveClass(props, aligns),
+		controls: props.aligns || aligns,
 		onChange: function onChange(align) {
 			CP.switchSelectiveClass(props, aligns, align, props.key);
 		}

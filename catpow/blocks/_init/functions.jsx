@@ -1021,6 +1021,7 @@ const AlignClassToolbar=(props)=>{
 	return (
 		<BlockAlignmentToolbar
 			value={CP.getSelectiveClass(props,aligns)}
+			controls={props.aligns || aligns}
 			onChange={(align)=>{CP.switchSelectiveClass(props,aligns,align,props.key)} }
 		/>
 	);
@@ -1030,6 +1031,7 @@ const VerticalAlignClassToolbar=(props)=>{
 	return (
 		<BlockVerticalAlignmentToolbar
 			value={CP.getSelectiveClass(props,aligns)}
+			controls={props.aligns || aligns}
 			onChange={(align)=>{CP.switchSelectiveClass(props,aligns,align,props.key)} }
 		/>
 	);

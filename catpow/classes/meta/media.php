@@ -16,7 +16,7 @@ class media extends meta{
 		$prm=(array)$prm;
 		switch(substr($post->post_mime_type,0,5)){
 			case 'image':
-				return wp_get_attachment_image($val,$prm['size']??'full');
+				return wp_get_attachment_image($val,has_image_size($prm[0])?$prm[0]:($prm['size']??'full'));
 			case 'video':
 				return sprintf(
 					'<video src="%s"%s></video>',

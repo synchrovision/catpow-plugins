@@ -39,6 +39,7 @@
         const {
 			id,classes,prefix,title,read,
 			headerImageMime,headerImageSrc,headerImageSrcset,headerImageAlt,headerImageCode,
+			headerBackgroundImageCode,
 			imageMime,imageSrc,imageSrcset,imageAlt,imageCode,
 			backgroundImageSrc,backgroundImageCode
 		}=attributes;
@@ -323,6 +324,7 @@
         const {
 			id,icon,classes,prefix,title,read,
 			headerImageSrc,headerImageSrcset,headerImageAlt,headerImageCode,
+			headerBackgroundImageCode,
 			imageSrc,imageSrcset,imageAlt,imageCode,
 			backgroundImageSrc,backgroundImageCode
 		}=attributes;

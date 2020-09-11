@@ -223,6 +223,7 @@ if(function_exists('register_block_type')){
 
 /*shortcode*/
 add_shortcode('home_url',function(){return home_url();});
+add_shortcode('home_href',function(){static $cache;return $cache??($cache=explode('://',home_url())[1]);});
 add_shortcode('home_path',function(){static $cache;return $cache??($cache=ltrim(parse_url(home_url('/'),PHP_URL_PATH),'/'));});
 add_shortcode('theme_url',function(){return get_stylesheet_directory_uri();});
 foreach(cp::get_file_paths('shortcode') as $sc_dir){

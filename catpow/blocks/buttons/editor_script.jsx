@@ -23,7 +23,7 @@
 				iconAlt:{source:'attribute',selector:'.icon img',attribute:'alt'},
 			},
 			default:[
-				{classes:'item mail primary',event:'',text:'お問合せ',url:'[home_href]/contact'}
+				{classes:'item mail primary',event:'',text:'お問合せ',url:'[home_url]/contact'}
 			]
 		},
 		loopParam:{type:'text'},

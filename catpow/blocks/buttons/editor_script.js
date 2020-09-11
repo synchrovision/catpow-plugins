@@ -21,7 +21,7 @@ registerBlockType('catpow/buttons', {
 				iconSrc: { source: 'attribute', selector: '.icon img', attribute: 'src' },
 				iconAlt: { source: 'attribute', selector: '.icon img', attribute: 'alt' }
 			},
-			default: [{ classes: 'item mail primary', event: '', text: 'お問合せ', url: '[home_href]/contact' }]
+			default: [{ classes: 'item mail primary', event: '', text: 'お問合せ', url: '[home_url]/contact' }]
 		},
 		loopParam: { type: 'text' },
 		loopCount: { type: 'number', default: 1 }

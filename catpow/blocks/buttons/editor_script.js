@@ -17,9 +17,11 @@ registerBlockType('catpow/buttons', {
 				classes: { source: 'attribute', attribute: 'class' },
 				event: { source: 'attribute', selector: '.button', attribute: 'data-event' },
 				text: { source: 'text', selector: '.button' },
-				url: { source: 'attribute', selector: '.button', attribute: 'href' }
+				url: { source: 'attribute', selector: '.button', attribute: 'href' },
+				iconSrc: { source: 'attribute', selector: '.icon img', attribute: 'src' },
+				iconAlt: { source: 'attribute', selector: '.icon img', attribute: 'alt' }
 			},
-			default: [{ classes: 'item mail primary', event: '', text: 'お問合せ', url: '/[home_path]contact' }]
+			default: [{ classes: 'item mail primary', event: '', text: 'お問合せ', url: '[home_href]/contact' }]
 		},
 		loopParam: { type: 'text' },
 		loopCount: { type: 'number', default: 1 }
@@ -43,7 +45,7 @@ registerBlockType('catpow/buttons', {
 			values: 'isTemplate',
 			sub: [{ label: 'ループ', values: 'doLoop', sub: [{ label: 'パラメータ', input: 'text', key: 'loopParam' }, { label: 'ループ数', input: 'range', key: 'loopCount', min: 1, max: 16 }] }]
 		}];
-		var itemClasses = ['color', { label: '属性', filter: 'rank', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', values: 'hasIcon', sub: [{ label: '種類', filter: 'icon', 'values': ['noIcon', 'play', 'next', 'back', 'file', 'home', 'trash', 'cart', 'mail', 'search', 'caution', 'help', 'open', 'close', 'plus', 'minus', 'refresh', 'edit', 'check'] }] }, 'event'];
+		var itemClasses = ['color', { label: '属性', filter: 'rank', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', values: 'hasIcon', sub: [{ input: 'icon' }] }, 'event'];
 
 		var itemsCopy = items.map(function (obj) {
 			return jQuery.extend(true, {}, obj);
@@ -52,6 +54,7 @@ registerBlockType('catpow/buttons', {
 		var rtn = [];
 
 		itemsCopy.map(function (item, index) {
+			var itemStates = CP.wordsToFlags(item.classes);
 			rtn.push(wp.element.createElement(
 				Item,
 				{
@@ -65,6 +68,11 @@ registerBlockType('catpow/buttons', {
 				wp.element.createElement(
 					'div',
 					{ 'class': 'button' },
+					itemStates.hasIcon && wp.element.createElement(
+						'span',
+						{ className: 'icon' },
+						wp.element.createElement('img', { src: item.iconSrc, alt: item.iconAlt })
+					),
 					wp.element.createElement(
 						'span',
 						{
@@ -155,17 +163,22 @@ registerBlockType('catpow/buttons', {
 		    classes = attributes.classes,
 		    loopParam = attributes.loopParam;
 
-
 		var states = CP.wordsToFlags(classes);
 
 		var rtn = [];
 		items.map(function (item, index) {
+			var itemStates = CP.wordsToFlags(item.classes);
 			rtn.push(wp.element.createElement(
 				'li',
 				{ className: item.classes },
 				wp.element.createElement(
 					'a',
 					{ href: item.url, className: 'button', 'data-event': item.event },
+					itemStates.hasIcon && wp.element.createElement(
+						'span',
+						{ className: 'icon' },
+						wp.element.createElement('img', { src: item.iconSrc, alt: item.iconAlt })
+					),
 					item.text
 				)
 			));

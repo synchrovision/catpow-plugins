@@ -19,9 +19,11 @@
 				event:{source:'attribute',selector:'.button',attribute:'data-event'},
 				text:{source:'text',selector:'.button'},
 				url:{source:'attribute',selector:'.button',attribute:'href'},
+				iconSrc:{source:'attribute',selector:'.icon img',attribute:'src'},
+				iconAlt:{source:'attribute',selector:'.icon img',attribute:'alt'},
 			},
 			default:[
-				{classes:'item mail primary',event:'',text:'お問合せ',url:'/[home_path]contact'}
+				{classes:'item mail primary',event:'',text:'お問合せ',url:'[home_href]/contact'}
 			]
 		},
 		loopParam:{type:'text'},
@@ -53,16 +55,7 @@
 			'color',
 			{label:'属性',filter:'rank',values:['default','primary','negative','danger','secure']},
 			{label:'アイコン',values:'hasIcon',sub:[
-				{label:'種類',filter:'icon','values':[
-					'noIcon',
-					'play','next','back',
-					'file','home','trash',
-					'cart','mail','search',
-					'caution','help',
-					'open','close',
-					'plus','minus',
-					'refresh','edit','check'
-				]},
+				{input:'icon'}
 			]},
 			'event'
 		];
@@ -72,6 +65,7 @@
 		let rtn=[];
 		
 		itemsCopy.map((item,index)=>{
+			const itemStates=CP.wordsToFlags(item.classes);
 			rtn.push(
 				<Item
 					tag='li'
@@ -82,6 +76,11 @@
 					isSelected={isSelected}
 				>
 					<div class="button">
+						{itemStates.hasIcon && 
+							<span className="icon">
+								<img src={item.iconSrc} alt={item.iconAlt}/>
+							</span>
+						}
 						<span
 							onInput={(e)=>{
 								itemsCopy[index].text=e.target.innerText;
@@ -148,14 +147,21 @@
     },
 	save({attributes,className}){
 		const {items,classes,loopParam}=attributes;
-		
-		var states=CP.wordsToFlags(classes);
+		const states=CP.wordsToFlags(classes);
 		
 		let rtn=[];
 		items.map((item,index)=>{
+			const itemStates=CP.wordsToFlags(item.classes);
 			rtn.push(
 				<li className={item.classes}>
-					<a href={item.url} className='button' data-event={item.event}>{item.text}</a>
+					<a href={item.url} className='button' data-event={item.event}>
+						{itemStates.hasIcon && 
+							<span className="icon">
+								<img src={item.iconSrc} alt={item.iconAlt}/>
+							</span>
+						}
+						{item.text}
+					</a>
 				</li>
 			);
 		});

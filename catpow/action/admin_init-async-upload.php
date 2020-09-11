@@ -2,8 +2,12 @@
 namespace Catpow;
 
 add_action("add_attachment",function($id){
-	$actions=$GLOBALS['post_types']['attachment']['bind']??null;
-	if(empty($actions)){return;}
+	$default_actions=[
+		'/^(?P<type>icon|symbol|pattern)\-(?P<name>[^\.]+)/'=>function($post,$matches){
+			add_post_meta($post->ID,'is_'.$matches['type'],1);
+		}
+	];
+	$actions=array_merge($default_actions,$GLOBALS['post_types']['attachment']['bind']??[]);
 	$post=get_post($id);
 	foreach($actions as $pattern=>$action){
 		if(preg_match($pattern,$post->post_title,$matches)){

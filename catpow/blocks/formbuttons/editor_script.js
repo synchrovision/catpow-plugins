@@ -3,20 +3,6 @@ registerBlockType('catpow/formbuttons', {
 	description: 'フォーム用のボタンです。',
 	icon: 'upload',
 	category: 'catpow',
-	attributes: {
-		version: { type: 'number', default: 0 },
-		classes: { source: 'attribute', selector: 'ul', attribute: 'class', default: 'wp-block-catpow-formbuttons buttons' },
-		items: {
-			source: 'query',
-			selector: 'li.item',
-			query: {
-				classes: { source: 'attribute', attribute: 'class' },
-				event: { source: 'attribute', attribute: 'data-event' },
-				button: { source: 'text' }
-			},
-			default: [{ classes: 'item', button: '[button 送信 send]' }]
-		}
-	},
 	example: CP.example,
 	edit: function edit(_ref) {
 		var attributes = _ref.attributes,
@@ -31,82 +17,58 @@ registerBlockType('catpow/formbuttons', {
 		var classNameArray = className.split(' ');
 
 		var selectiveClasses = [{ label: 'サイズ', filter: 'size', values: { l: '大', m: '中', s: '小', ss: '極小' } }, { label: 'インライン', values: 'i' }];
-		var itemClasses = ['color', { label: '属性', filter: 'rank', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', filter: 'icon', 'values': ['play', 'next', 'back', 'file', 'home', 'trash', 'cart', 'mail', 'search', 'caution', 'help', 'open', 'close', 'plus', 'minus', 'refresh', 'edit', 'check'] }, 'event'];
+		var itemClasses = ['color', { label: '属性', filter: 'rank', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', values: 'hasIcon', sub: [{ input: 'icon' }] }, 'event'];
 
-		var itemsCopy = items.map(function (obj) {
-			return jQuery.extend(true, {}, obj);
-		});
+		var saveItems = function saveItems() {
+			setAttributes({ items: JSON.parse(JSON.stringify(items)) });
+		};
 
 		var rtn = [];
 
-		var parseButtonShortCode = function parseButtonShortCode(code) {
-			var matches = code.match(/^\[button ([^ ]+) ([^ ]+)( ignore_message\=1)?\]$/);
-			if (matches) {
-				var _rtn = { content: matches[1], action: matches[2] };
-				if (matches[3]) {
-					_rtn.ignore_message = 1;
-				}
-				return _rtn;
-			}
-			return { content: '送信' };
-		};
-		var createButtonShortCode = function createButtonShortCode(prm) {
-			var rtn = '[button ' + prm.content + ' ' + prm.action;
-			if (prm.ignore_message) {
-				rtn += ' ignore_message=1';
-			}
-			if (prm.evet) {
-				rtn += ' event=' + prm.event;
-			}
-			rtn += ']';
-			return rtn;
-		};
-
-		itemsCopy.map(function (item, index) {
+		items.map(function (item, index) {
 			if (!item.controlClasses) {
 				item.controlClasses = 'control';
 			}
-			var buttonParam = parseButtonShortCode(item.button);
+			var itemStates = CP.wordsToFlags(item.classes);
 			rtn.push(wp.element.createElement(
 				Item,
 				{
 					tag: 'li',
 					set: setAttributes,
 					attr: attributes,
-					items: itemsCopy,
+					items: items,
 					index: index,
 					isSelected: isSelected
 				},
 				wp.element.createElement(
 					'div',
 					{ 'class': 'button' },
+					itemStates.hasIcon && wp.element.createElement(
+						'span',
+						{ className: 'icon' },
+						wp.element.createElement('img', { src: item.iconSrc, alt: item.iconAlt })
+					),
 					wp.element.createElement(
 						'span',
 						{
 							onInput: function onInput(e) {
-								buttonParam.content = e.target.innerText;
-								itemsCopy[index].button = createButtonShortCode(buttonParam);
+								item.text = e.target.innerText;
 							},
-							onBlur: function onBlur(e) {
-								setAttributes({ items: itemsCopy });
-							},
+							onBlur: saveItems,
 							contentEditable: 'true'
 						},
-						buttonParam.content
+						item.text
 					),
 					wp.element.createElement(
 						'span',
 						{ 'class': 'action',
 							onInput: function onInput(e) {
-								buttonParam.action = e.target.innerText;
-								itemsCopy[index].button = createButtonShortCode(buttonParam);
+								item.action = e.target.innerText;
 							},
-							onBlur: function onBlur(e) {
-								setAttributes({ items: itemsCopy });
-							},
+							onBlur: saveItems,
 							contentEditable: 'true'
 						},
-						buttonParam.action
+						item.action
 					)
 				)
 			));
@@ -136,7 +98,7 @@ registerBlockType('catpow/formbuttons', {
 				icon: 'edit',
 				set: setAttributes,
 				attr: attributes,
-				items: itemsCopy,
+				items: items,
 				index: attributes.currentItemIndex,
 				itemClasses: itemClasses,
 				filters: CP.filters.buttons || {}
@@ -169,10 +131,26 @@ registerBlockType('catpow/formbuttons', {
 
 		var rtn = [];
 		items.map(function (item, index) {
+			var itemStates = CP.wordsToFlags(item.classes);
 			rtn.push(wp.element.createElement(
 				'li',
-				{ className: item.classes, 'data-event': item.event },
-				item.button
+				{ className: item.classes },
+				wp.element.createElement(
+					'div',
+					{
+						className: 'button',
+						'data-action': item.action,
+						'data-target': item.target,
+						'ignore-message': item.ignoreMessage,
+						'data-event': item.event
+					},
+					itemStates.hasIcon && wp.element.createElement(
+						'span',
+						{ className: 'icon' },
+						wp.element.createElement('img', { src: item.iconSrc, alt: item.iconAlt })
+					),
+					item.text
+				)
 			));
 		});
 		return wp.element.createElement(

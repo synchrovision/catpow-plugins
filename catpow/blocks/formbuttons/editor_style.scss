@@ -1,9 +1,8 @@
 @import 'admin_style_config.scss';
 
-ul.wp-block-catpow-formbuttons{
+.wp-block-catpow-formbuttons{
 	li.item{
-		@include bnd((w:a,mg:20 a,pd:0));
-		@include flx((w:w,c:1));
+		@include bnd((p:r));
 		@include txt((l:n));
 		.itemControl{
 			@include bnd((p:a,t:-2rem,r:0));

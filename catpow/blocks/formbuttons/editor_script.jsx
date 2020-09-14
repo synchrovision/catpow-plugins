@@ -3,22 +3,6 @@
 	description:'フォーム用のボタンです。',
 	icon: 'upload',
 	category: 'catpow',
-	attributes:{
-		version:{type:'number',default:0},
-		classes:{source:'attribute',selector:'ul',attribute:'class',default:'wp-block-catpow-formbuttons buttons'},
-		items:{
-			source:'query',
-			selector:'li.item',
-			query:{
-				classes:{source:'attribute',attribute:'class'},
-				event:{source:'attribute',attribute:'data-event'},
-				button:{source:'text'}
-			},
-			default:[
-				{classes:'item',button:'[button 送信 send]'}
-			]
-		}
-	},
 	example:CP.example,
 	edit({attributes,className,setAttributes,isSelected}){
 		const {items,classes}=attributes;
@@ -34,68 +18,46 @@
 		const itemClasses=[
 			'color',
 			{label:'属性',filter:'rank',values:['default','primary','negative','danger','secure']},
-			{label:'アイコン',filter:'icon','values':[
-				'play','next','back',
-				'file','home','trash',
-				'cart','mail','search',
-				'caution','help',
-				'open','close',
-				'plus','minus',
-				'refresh','edit','check'
+			{label:'アイコン',values:'hasIcon',sub:[
+				{input:'icon'}
 			]},
 			'event'
 		];
 		
-		let itemsCopy=items.map((obj)=>jQuery.extend(true,{},obj));
+		const saveItems=()=>{
+			setAttributes({items:JSON.parse(JSON.stringify(items))});
+		}
 		
 		let rtn=[];
 		
-		const parseButtonShortCode=(code)=>{
-			let matches=code.match(/^\[button ([^ ]+) ([^ ]+)( ignore_message\=1)?\]$/);
-			if(matches){
-				let rtn={content:matches[1],action:matches[2]};
-				if(matches[3]){rtn.ignore_message=1;}
-				return rtn;
-			}
-			return {content:'送信'}
-		};
-		const createButtonShortCode=(prm)=>{
-			let rtn='[button '+prm.content+' '+prm.action;
-			if(prm.ignore_message){rtn+=' ignore_message=1';}
-			if(prm.evet){rtn+=' event='+prm.event;}
-			rtn+=']';
-			return rtn;
-		};
-		
-		itemsCopy.map((item,index)=>{
+		items.map((item,index)=>{
 			if(!item.controlClasses){item.controlClasses='control';}
-			let buttonParam=parseButtonShortCode(item.button);
+			const itemStates=CP.wordsToFlags(item.classes);
 			rtn.push(
 				<Item
 					tag='li'
 					set={setAttributes}
 					attr={attributes}
-					items={itemsCopy}
+					items={items}
 					index={index}
 					isSelected={isSelected}
 				>
 					<div class="button">
+						{itemStates.hasIcon && 
+							<span className="icon">
+								<img src={item.iconSrc} alt={item.iconAlt}/>
+							</span>
+						}
 						<span
-							onInput={(e)=>{
-								buttonParam.content=e.target.innerText;
-								itemsCopy[index].button=createButtonShortCode(buttonParam);
-							}}
-							onBlur={(e)=>{setAttributes({items:itemsCopy});}}
+							onInput={(e)=>{item.text=e.target.innerText;}}
+							onBlur={saveItems}
 							contentEditable="true"
-						>{buttonParam.content}</span>
+						>{item.text}</span>
 						<span class="action"
-							onInput={(e)=>{
-								buttonParam.action=e.target.innerText;
-								itemsCopy[index].button=createButtonShortCode(buttonParam);
-							}}
-							onBlur={(e)=>{setAttributes({items:itemsCopy});}}
+							onInput={(e)=>{item.action=e.target.innerText;}}
+							onBlur={saveItems}
 							contentEditable="true"
-						>{buttonParam.action}</span>
+						>{item.action}</span>
 					</div>
 				</Item>
 			);
@@ -119,7 +81,7 @@
 					icon='edit'
 					set={setAttributes}
 					attr={attributes}
-					items={itemsCopy}
+					items={items}
 					index={attributes.currentItemIndex}
 					itemClasses={itemClasses}
 					filters={CP.filters.buttons || {}}
@@ -145,8 +107,24 @@
 		
 		let rtn=[];
 		items.map((item,index)=>{
+			const itemStates=CP.wordsToFlags(item.classes);
 			rtn.push(
-				<li className={item.classes} data-event={item.event}>{item.button}</li>
+				<li className={item.classes}>
+					<div
+						className="button"
+						data-action={item.action}
+						data-target={item.target}
+						ignore-message={item.ignoreMessage}
+						data-event={item.event}
+					>
+						{itemStates.hasIcon && 
+							<span className="icon">
+								<img src={item.iconSrc} alt={item.iconAlt}/>
+							</span>
+						}
+						{item.text}
+					</div>
+				</li>
 			);
 		});
 		return <ul className={classes}>{rtn}</ul>;

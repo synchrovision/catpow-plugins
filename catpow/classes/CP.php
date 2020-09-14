@@ -1752,6 +1752,18 @@ class CP{
 		}
 	}
 	
+	/*テーマ画像取得*/
+	public static function get_logo_url(){
+		if($id=get_theme_mod('costom_logo')){
+			return wp_get_attachment_image_src($id,'full')[0];
+		}
+		$fs=glob(get_stylesheet_directory().'/images/logo.{png,svg,jpg,gif}',GLOB_BRACE);
+		if($fs[0]){return get_stylesheet_directory_uri().'/images/'.basename($fs[0]);}
+		$fs=glob(get_template_directory().'/images/logo.{png,svg,jpg,gif}',GLOB_BRACE);
+		if($fs[0]){return get_template_directory_uri().'/images/'.basename($fs[0]);}
+		return false;
+	}
+	
 	/*パスワード*/
 	public static function reset_user_pass_url($user_id){
 		static $urls;

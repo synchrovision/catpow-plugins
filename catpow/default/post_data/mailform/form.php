@@ -1,4 +1,12 @@
-<?php ob_start(); ?>
+<?php
+$post_data['meta']=[
+	'clear'=>[1],
+	'receive'=>[-1],
+	'push'=>[-1],
+	'send_mail'=>[],
+	'check_task'=>[-1]
+];
+ob_start(); ?>
 <!-- wp:catpow/simpletable -->
 <table class="wp-block-catpow-simpletable inputs"><tbody><?php
 	foreach($conf_data['meta']['mail']['meta'] as $name=>$conf){
@@ -11,8 +19,7 @@
 <!-- /wp:catpow/simpletable -->
 
 <!-- wp:catpow/formbuttons -->
-<ul class="wp-block-catpow-formbuttons buttons"><li class="item primary check">[button 確認
- confirm]</li></ul>
+<ul class="wp-block-catpow-formbuttons buttons m"><li class="item"><div class="button" data-action="confirm">確認</div></li></ul>
 <!-- /wp:catpow/formbuttons -->
 
 <?php

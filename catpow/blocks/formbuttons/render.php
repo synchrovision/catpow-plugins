@@ -7,7 +7,7 @@ if(!empty($form)){
 			'(?: data\-param="(?P<param>[\w_\-]+)")|'.
 			'(?: data\-target="(?P<target>[\w_\-]+)")|'.
 			'(?: ignore\-message="(?P<ignoreMessage>1)")'.
-		')+/',
+		')*/',
 		function($matches)use($form){
 			return $form->button_attr(
 				$matches['action'],

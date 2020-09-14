@@ -6,7 +6,7 @@
 	attributes:{
 		id:{source:'attribute',selector:'section',attribute:'id'},
 		classes:{source:'attribute',selector:'section',attribute:'class',default:'wp-block-catpow-section article level3 center catch'},
-		icon:{source:'attribute',selector:'section',attribute:'data-icon'},
+		navIcon:{source:'attribute',selector:'section',attribute:'data-icon'},
 
 		prefix:{source:'children',selector:'header div.prefix'},
 		title:{type:'array',source:'children',selector:'header h2,header .heading',default:['Title']},
@@ -33,6 +33,9 @@
 		backgroundImageSrc:{source:'attribute',selector:'.wp-block-catpow-section>.background [src]',attribute:'src',default:cp.theme_url+'/images/dummy_bg.jpg'},
 		backgroundImageSrcset:{source:'attribute',selector:'.wp-block-catpow-section>.background [src]',attribute:'srcset'},
 		backgroundImageCode:{source:'text',selector:'.wp-block-catpow-section>.background'},
+		
+		iconSrc:{source:'attribute',selector:'.icon [src]',attribute:'src',default:cp.theme_url+'/images/dummy_icon.svg'},
+		iconAlt:{source:'attribute',selector:'.icon [src]',attribute:'alt'},
 	},
 	example:CP.example,
 	edit({attributes,className,setAttributes}){
@@ -41,7 +44,8 @@
 			headerImageMime,headerImageSrc,headerImageSrcset,headerImageAlt,headerImageCode,
 			headerBackgroundImageCode,
 			imageMime,imageSrc,imageSrcset,imageAlt,imageCode,
-			backgroundImageSrc,backgroundImageCode
+			backgroundImageSrc,backgroundImageCode,
+			iconSrc,iconAlt
 		}=attributes;
 		const primaryClass='wp-block-catpow-section';
 		var classArray=_.uniq((className+' '+classes).split(' '));
@@ -49,7 +53,7 @@
 		var states=CP.wordsToFlags(classes);
 		
 		const imageKeys={
-			icon:{src:"icon"},
+			navIcon:{src:"navIcon"},
 			image:{mime:"imageMime",src:"imageSrc",alt:"imageAlt",srcset:"imageSrcset"},
 			headerImage:{mime:"headerImageMime",src:"headerImageSrc",alt:"headerImageAlt",srcset:"headerImageSrcset"},
 			headerBackgroundImage:{mime:"headerBackgroundImageMime",src:"headerBackgroundImageSrc",alt:"headerBackgroundImageAlt",srcset:"headerBackgroundImageSrcset"},
@@ -93,7 +97,7 @@
 						]},
 						{label:'背景色',values:'hasBackgroundColor'},
 						{label:'メニューアイコン',values:'hasNavIcon',sub:[
-							{input:'image',label:'アイコン',keys:imageKeys.icon,size:'thumbnail'}
+							{input:'image',label:'アイコン',keys:imageKeys.navIcon,size:'thumbnail'}
 						]},
 						{
 							label:'テンプレート',
@@ -145,7 +149,7 @@
 						]},
 						{label:'背景色',values:'hasBackgroundColor'},
 						{label:'メニューアイコン',values:'hasNavIcon',sub:[
-							{input:'image',label:'アイコン',keys:imageKeys.icon,size:'thumbnail'}
+							{input:'image',label:'アイコン',keys:imageKeys.navIcon,size:'thumbnail'}
 						]},
 						{
 							label:'テンプレート',
@@ -170,7 +174,7 @@
 						'color',
 						'pattern',
 						{label:'アイコン',values:'hasIcon',sub:[
-							{label:'種類',values:['check','help','alert','caution','warn']}
+							{input:'icon'}
 						]},
 						{label:'画像',values:'hasImage',sub:[
 							{input:'image',keys:imageKeys.image}
@@ -184,7 +188,7 @@
 						{label:'角丸',values:'round'},
 						{label:'影',values:'shadow',sub:[{label:'内側',values:'inset'}]},
 						{label:'メニューアイコン',values:'hasNavIcon',sub:[
-							{input:'image',label:'アイコン',keys:imageKeys.icon,size:'thumbnail'}
+							{input:'image',label:'アイコン',keys:imageKeys.navIcon,size:'thumbnail'}
 						]},
 						{
 							label:'テンプレート',
@@ -215,8 +219,6 @@
 		
 		var level=CP.getNumberClass({attr:attributes},'level');
 		
-		console.log(headerImageCode);
-		
         return [
 			<BlockControls>
 				<AlignClassToolbar set={setAttributes} attr={attributes}/>
@@ -239,6 +241,11 @@
 				<div class='contents'>
 					<header>
 						<div class="title">
+							{states.hasIcon && 
+								<div class="icon">
+									<img src={iconSrc} alt={iconAlt}/>
+								</div>
+							}
 							{states.hasPrefix && 
 								<div class="prefix">
 									<RichText tagName="div" value={prefix} onChange={(prefix)=>setAttributes({prefix:prefix})}/>
@@ -326,7 +333,8 @@
 			headerImageSrc,headerImageSrcset,headerImageAlt,headerImageCode,
 			headerBackgroundImageCode,
 			imageSrc,imageSrcset,imageAlt,imageCode,
-			backgroundImageSrc,backgroundImageCode
+			backgroundImageSrc,backgroundImageCode,
+			iconSrc,iconAlt
 		}=attributes;
 		
 		var states=CP.wordsToFlags(classes);
@@ -358,6 +366,11 @@
 				<div class="contents">
 					<header>
 						<div class="title">
+							{states.hasIcon && 
+								<div class="icon">
+									<img src={iconSrc} alt={iconAlt}/>
+								</div>
+							}
 							{states.hasPrefix && 
 								<div class="prefix"><RichText.Content value={prefix}/></div>
 							}

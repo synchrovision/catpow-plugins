@@ -93,10 +93,9 @@ trait formTrait{
 	}
 	public function button_attr($action=false,$callback=null,$param=null,$target=null,$ignore_message=null){
 		if(is_null($target)){$target=!empty($param)?'action':(is_a($this,form_section::class)?'section':'form');}
-		if(is_null($callback)){$callback=($target=='form')?'replace':'update_section';}
 		if(is_null($ignore_message)){$ignore_message=in_array($action,['close','cancel','back','prev','reset']);}
 		if(is_array($callback)){$callback=implode(',',$callback);}
-		$rtn=sprintf('data-role="cp_form_submit_%s" data-callback="%s"',$target,$callback);
+		$rtn=sprintf('data-role="cp_form_submit_%s" data-callback="%s"',$target,$callback??'replace');
 		if(!empty($action)){$this->allow_action($action);$rtn.=' data-action="'.$action.'"';}
 		if($ignore_message)$rtn.=' data-ignore-message=1';
 		if($param)$rtn.=sprintf(' data-param=\'%s\'',json_encode((array)$param));

@@ -47,13 +47,13 @@ registerBlockType('catpow/buttons', {
 		}];
 		var itemClasses = ['color', { label: '属性', filter: 'rank', values: ['default', 'primary', 'negative', 'danger', 'secure'] }, { label: 'アイコン', values: 'hasIcon', sub: [{ input: 'icon' }] }, 'event'];
 
-		var itemsCopy = items.map(function (obj) {
-			return jQuery.extend(true, {}, obj);
-		});
+		var saveItems = function saveItems() {
+			setAttributes({ rows: JSON.parse(JSON.stringify(rows)) });
+		};
 
 		var rtn = [];
 
-		itemsCopy.map(function (item, index) {
+		items.map(function (item, index) {
 			var itemStates = CP.wordsToFlags(item.classes);
 			rtn.push(wp.element.createElement(
 				Item,
@@ -61,7 +61,7 @@ registerBlockType('catpow/buttons', {
 					tag: 'li',
 					set: setAttributes,
 					attr: attributes,
-					items: itemsCopy,
+					items: items,
 					index: index,
 					isSelected: isSelected
 				},
@@ -77,10 +77,10 @@ registerBlockType('catpow/buttons', {
 						'span',
 						{
 							onInput: function onInput(e) {
-								itemsCopy[index].text = e.target.innerText;
+								item.text = e.target.innerText;
 							},
 							onBlur: function onBlur(e) {
-								setAttributes({ items: itemsCopy });
+								saveItems();
 							},
 							contentEditable: 'true'
 						},
@@ -90,10 +90,10 @@ registerBlockType('catpow/buttons', {
 						'span',
 						{ 'class': 'url',
 							onInput: function onInput(e) {
-								itemsCopy[index].url = e.target.innerText;
+								item.url = e.target.innerText;
 							},
 							onBlur: function onBlur(e) {
-								setAttributes({ items: itemsCopy });
+								saveItems();
 							},
 							contentEditable: 'true'
 						},
@@ -133,7 +133,7 @@ registerBlockType('catpow/buttons', {
 				icon: 'edit',
 				set: setAttributes,
 				attr: attributes,
-				items: itemsCopy,
+				items: items,
 				index: attributes.currentItemIndex,
 				itemClasses: itemClasses,
 				filters: CP.filters.buttons || {}
@@ -173,7 +173,11 @@ registerBlockType('catpow/buttons', {
 				{ className: item.classes },
 				wp.element.createElement(
 					'a',
-					{ href: item.url, className: 'button', 'data-event': item.event },
+					{
+						href: item.url,
+						className: 'button',
+						'data-event': item.event
+					},
 					itemStates.hasIcon && wp.element.createElement(
 						'span',
 						{ className: 'icon' },

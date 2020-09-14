@@ -60,18 +60,20 @@
 			'event'
 		];
 		
-		let itemsCopy=items.map((obj)=>jQuery.extend(true,{},obj));
+		const saveItems=()=>{
+			setAttributes({rows:JSON.parse(JSON.stringify(rows))});
+		}
 		
 		let rtn=[];
 		
-		itemsCopy.map((item,index)=>{
+		items.map((item,index)=>{
 			const itemStates=CP.wordsToFlags(item.classes);
 			rtn.push(
 				<Item
 					tag='li'
 					set={setAttributes}
 					attr={attributes}
-					items={itemsCopy}
+					items={items}
 					index={index}
 					isSelected={isSelected}
 				>
@@ -83,17 +85,17 @@
 						}
 						<span
 							onInput={(e)=>{
-								itemsCopy[index].text=e.target.innerText;
+								item.text=e.target.innerText;
 							}}
-							onBlur={(e)=>{setAttributes({items:itemsCopy});}}
+							onBlur={(e)=>{saveItems();}}
 							contentEditable="true"
 						>{item.text}</span>
 						{isSelected &&
 							<span class="url"
 								onInput={(e)=>{
-									itemsCopy[index].url=e.target.innerText;
+									item.url=e.target.innerText;
 								}}
-								onBlur={(e)=>{setAttributes({items:itemsCopy});}}
+								onBlur={(e)=>{saveItems();}}
 								contentEditable="true"
 							>{item.url}</span>
 						}
@@ -126,7 +128,7 @@
 					icon='edit'
 					set={setAttributes}
 					attr={attributes}
-					items={itemsCopy}
+					items={items}
 					index={attributes.currentItemIndex}
 					itemClasses={itemClasses}
 					filters={CP.filters.buttons || {}}
@@ -154,7 +156,11 @@
 			const itemStates=CP.wordsToFlags(item.classes);
 			rtn.push(
 				<li className={item.classes}>
-					<a href={item.url} className='button' data-event={item.event}>
+					<a
+						href={item.url}
+						className='button'
+						data-event={item.event}
+					>
 						{itemStates.hasIcon && 
 							<span className="icon">
 								<img src={item.iconSrc} alt={item.iconAlt}/>

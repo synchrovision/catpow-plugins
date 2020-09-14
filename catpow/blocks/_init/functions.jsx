@@ -489,6 +489,43 @@ const ResponsiveImage=({className,attr,keys,index,sizes})=>{
 	);
 }
 
+const SelectPreparedImage=({className,attr,set,name,keys,index,...otherProps})=>{
+	let onClick;
+	const [images,setImages]=wp.element.useState([]);
+	wp.apiFetch({path:'cp/v1/images/'+name}).then(setImages);
+	if(keys.items){
+		item=attr[keys.items][index];
+		onClick=(e)=>{
+			let items=JSON.parse(JSON.stringify(attr[keys.items]));
+			items[index][keys.src]=e.currentTarget.src;
+			items[index][keys.alt]=e.currentTarget.alt;
+			set({[keys.items]:items});
+		};
+	}
+	else{
+		item=attr;
+		onClick=(e)=>set({
+			[keys.src]:e.currentTarget.src,
+			[keys.alt]:e.currentTarget.alt
+		});
+	}
+	return (
+		<ul className={'selectPreparedImage '+name+' '+className} {...otherProps}>
+			{images.map((image)=>{
+				return (
+					<li className={'item '+((item[keys.src]==image.url)?'active':'')}>
+						<img
+							src={image.url}
+							alt={image.alt}
+							onClick={onClick}
+						/>
+					</li>
+				);
+			})}
+		</ul>
+	);
+}
+
 const Item=(props)=>{
 	const {tag,items,itemsKey,index,set,attr,triggerClasses,children}=props;
 	let {itemClasses}=props;
@@ -732,6 +769,24 @@ const SelectClassPanel=(props)=>{
 								disable={prm.disable}
 							/>
 						);
+					case 'icon':
+					case 'symbol':
+					case 'pattern':
+						prm.keys=prm.keys || {};
+						prm.keys.src=prm.keys.src || prm.input+'Src';
+						prm.keys.alt=prm.keys.alt || prm.input+'Alt';
+						if(prm.label){
+							rtn.push(<h5>{prm.label}</h5>);
+						}
+						rtn.push(
+							<SelectPreparedImage
+								set={props.set}
+								attr={props.attr}
+								name={prm.input}
+								keys={prm.keys}
+							/>
+						);
+						break;
                 }
             }
             else if(_.isObject(prm.values)){
@@ -948,7 +1003,26 @@ const SelectItemClassPanel=(props)=>{
 						/>
 					);
 					break;
-					
+				case 'icon':
+				case 'symbol':
+				case 'pattern':
+					prm.keys=prm.keys || {};
+					prm.keys.items=prm.keys.items || itemsKey;
+					prm.keys.src=prm.keys.src || prm.input+'Src';
+					prm.keys.alt=prm.keys.alt || prm.input+'Alt';
+					if(prm.label){
+						rtn.push(<h5>{prm.label}</h5>);
+					}
+					rtn.push(
+						<SelectPreparedImage
+							set={props.set}
+							attr={props.attr}
+							name={prm.input}
+							keys={prm.keys}
+							index={index}
+						/>
+					);
+					break;
 			}
 		}
 		else if(_.isObject(prm.values)){

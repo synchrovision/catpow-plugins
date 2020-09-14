@@ -699,6 +699,56 @@ var ResponsiveImage = function ResponsiveImage(_ref21) {
 	});
 };
 
+var SelectPreparedImage = function SelectPreparedImage(_ref22) {
+	var className = _ref22.className,
+	    attr = _ref22.attr,
+	    set = _ref22.set,
+	    name = _ref22.name,
+	    keys = _ref22.keys,
+	    index = _ref22.index,
+	    otherProps = babelHelpers.objectWithoutProperties(_ref22, ['className', 'attr', 'set', 'name', 'keys', 'index']);
+
+	var onClick = void 0;
+
+	var _wp$element$useState = wp.element.useState([]),
+	    _wp$element$useState2 = babelHelpers.slicedToArray(_wp$element$useState, 2),
+	    images = _wp$element$useState2[0],
+	    setImages = _wp$element$useState2[1];
+
+	wp.apiFetch({ path: 'cp/v1/images/' + name }).then(setImages);
+	if (keys.items) {
+		item = attr[keys.items][index];
+		onClick = function onClick(e) {
+			var items = JSON.parse(JSON.stringify(attr[keys.items]));
+			items[index][keys.src] = e.currentTarget.src;
+			items[index][keys.alt] = e.currentTarget.alt;
+			set(babelHelpers.defineProperty({}, keys.items, items));
+		};
+	} else {
+		item = attr;
+		onClick = function onClick(e) {
+			var _set9;
+
+			return set((_set9 = {}, babelHelpers.defineProperty(_set9, keys.src, e.currentTarget.src), babelHelpers.defineProperty(_set9, keys.alt, e.currentTarget.alt), _set9));
+		};
+	}
+	return wp.element.createElement(
+		'ul',
+		babelHelpers.extends({ className: 'selectPreparedImage ' + name + ' ' + className }, otherProps),
+		images.map(function (image) {
+			return wp.element.createElement(
+				'li',
+				{ className: 'item ' + (item[keys.src] == image.url ? 'active' : '') },
+				wp.element.createElement('img', {
+					src: image.url,
+					alt: image.alt,
+					onClick: onClick
+				})
+			);
+		})
+	);
+};
+
 var Item = function Item(props) {
 	var tag = props.tag,
 	    items = props.items,
@@ -1020,6 +1070,26 @@ var SelectClassPanel = function SelectClassPanel(props) {
 							help: prm.help,
 							disable: prm.disable
 						}));
+					case 'icon':
+					case 'symbol':
+					case 'pattern':
+						prm.keys = prm.keys || {};
+						prm.keys.src = prm.keys.src || prm.input + 'Src';
+						prm.keys.alt = prm.keys.alt || prm.input + 'Alt';
+						if (prm.label) {
+							rtn.push(wp.element.createElement(
+								'h5',
+								null,
+								prm.label
+							));
+						}
+						rtn.push(wp.element.createElement(SelectPreparedImage, {
+							set: props.set,
+							attr: props.attr,
+							name: prm.input,
+							keys: prm.keys
+						}));
+						break;
 				}
 			} else if (_.isObject(prm.values)) {
 				var subClasses = CP.getSubClasses(prm);
@@ -1268,7 +1338,28 @@ var SelectItemClassPanel = function SelectItemClassPanel(props) {
 						ofSP: prm.ofSP
 					}));
 					break;
-
+				case 'icon':
+				case 'symbol':
+				case 'pattern':
+					prm.keys = prm.keys || {};
+					prm.keys.items = prm.keys.items || itemsKey;
+					prm.keys.src = prm.keys.src || prm.input + 'Src';
+					prm.keys.alt = prm.keys.alt || prm.input + 'Alt';
+					if (prm.label) {
+						rtn.push(wp.element.createElement(
+							'h5',
+							null,
+							prm.label
+						));
+					}
+					rtn.push(wp.element.createElement(SelectPreparedImage, {
+						set: props.set,
+						attr: props.attr,
+						name: prm.input,
+						keys: prm.keys,
+						index: index
+					}));
+					break;
 			}
 		} else if (_.isObject(prm.values)) {
 			var options = void 0;
@@ -1524,8 +1615,8 @@ var SelectBreakPointToolbar = function SelectBreakPointToolbar(props) {
 	});
 };
 
-var DummyImage = function DummyImage(_ref22) {
-	var text = _ref22.text;
+var DummyImage = function DummyImage(_ref23) {
+	var text = _ref23.text;
 
 	return wp.element.createElement('img', { src: cp.plugins_url + '/catpow/callee/dummy_image.php?text=' + text });
 };

@@ -10,8 +10,8 @@ this()->clear();
 <?php endif; ?>
 <h2><?=$fnc;?></h2>
 <?php if($f=cp::get_file_path('functions/'.$fnc.'/panel.php')): ?>
-<ul class="wp-block-catpow-buttons s center">
-	<li class="item"><?php button('パネルを開く','panel','lightbox'); ?></li>
+<ul class="buttons">
+	<li><?php button('<i class="fas fa-list-alt"></i>パネルを開く','panel','lightbox'); ?></li>
 </ul>
 <?php endif; ?>
 <?php if($f=cp::get_file_path('functions/'.$fnc.'/desc.php')): ?>

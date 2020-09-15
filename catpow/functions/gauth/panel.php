@@ -37,7 +37,7 @@ use Catpow\gauth\cpgc;
 		</p>
 	</li>
 </ul>
-<ul class="wp-block-catpow-buttons m">
-	<li class="item edit"><?php button('登録','action','message'); ?></li>
+<ul class="buttons">
+	<li><?php button('<i class="fas fa-sync-alt"></i>登録','action','message'); ?></li>
 </ul>
 <?php §message(); ?>

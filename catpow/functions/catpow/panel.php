@@ -2,45 +2,45 @@
 <ul>
 	<li>
 		<h3>テーマ</h3>
-		<ul class="wp-block-catpow-buttons m">
-			<li class="item refresh">
-				<?php button('新規テーマ作成','action','replace',['setup_type'=>'theme']);?>
+		<p>新規のCatpow対応テーマを作成、または設定ファイルからテーマのファイルを生成します。</p>
+		<ul class="buttons">
+			<li>
+				<?php button('<i class="fas fa-folder-plus"></i>新規テーマ作成','action','replace',['setup_type'=>'theme']);?>
 				<small>新規のcatpowテーマを作成します</small>
 			</li>
-			<li class="item refresh">
-				<?php button('テンプレート生成','action','replace',['setup_type'=>'template']);?>
-				<small>
-					config/system_config.phpの設定を元にテーマにテンプレートファイルを生成します。
-				</small>
+			<li>
+				<?php button('<i class="fas fa-file-code"></i>テンプレート生成','action','replace',['setup_type'=>'template']);?>
+				<small>設定ファイルからテンプレートファイルを生成します。</small>
 			</li>
 		</ul>
 	</li>
 	<li>
 		<h3>データ</h3>
-		<ul class="wp-block-catpow-buttons m">
-			<li class="item refresh">
-				<?php button('投稿生成','action','replace',['setup_type'=>'posts']);?>
-				<small>使用するテンプレートタイプを元に投稿を生成します</small>
+		<p>テーマの設定ファイルの設定をWordPressの投稿・設定に反映します。</p>
+		<ul class="buttons">
+			<li>
+				<?php button('<i class="fas fa-file"></i>投稿生成','action','replace',['setup_type'=>'posts']);?>
+				<small>$post_typesの設定を元に投稿を生成します</small>
 			</li>
-			<li class="item refresh">
-				<?php button('ロール生成','action','replace',['setup_type'=>'role']);?>
-				<small>config/system_config.phpの$user_datasの設定を元にユーザのロールを更新します</small>
+			<li>
+				<?php button('<i class="fas fa-users"></i>ロール生成','action','replace',['setup_type'=>'role']);?>
+				<small>$user_datasの設定を元にユーザのロールを更新します</small>
 			</li>
-			<li class="item refresh">
-				<?php button('メニュー生成','action','replace',['setup_type'=>'menu']);?>
-				<small>config/system_config.phpの$menu_datasの設定を元にメニューを更新します</small>
+			<li>
+				<?php button('<i class="fas fa-bars"></i>メニュー生成','action','replace',['setup_type'=>'menu']);?>
+				<small>$menu_datasの設定を元にメニューを更新します</small>
 			</li>
 		</ul>
 	</li>
 	<li>
 		<h3>データベース</h3>
-		<ul class="wp-block-catpow-buttons m">
-			<li class="item refresh">
-				<?php button('データベース更新','action','replace',['setup_type'=>'database']);?>
-				<small>
-					system_config.phpの設定を元にデータベーステーブルを生成・削除・更新します。
-					この操作はsystem_config.phpにおいて削除されたデータベースのテーブル、あるいはカラムを削除します。
-				</small>
+		<p>
+			system_config.phpの設定を元にデータベーステーブルを生成・削除・更新します。
+			この操作はsystem_config.phpにおいて削除されたデータベースのテーブル、あるいはカラムを削除します。
+		</p>
+		<ul class="buttons">
+			<li>
+				<?php button('<i class="fas fa-database"></i>データベース更新','action','replace',['setup_type'=>'database']);?>
 			</li>
 		</ul>
 	</li>

@@ -13,21 +13,23 @@ class media extends meta{
 		if(empty($post=get_post($val))){return '';}
 		if($prm=='type'){return $post->post_mime_type;}
 		if($prm==='alt'){return $post->_wp_attachment_image_alt;}
-		$prm=(array)$prm;
 		switch(substr($post->post_mime_type,0,5)){
 			case 'image':
-				return wp_get_attachment_image($val,has_image_size($prm[0])?$prm[0]:($prm['size']??'full'));
+				if(is_array($prm)){
+					return wp_get_attachment_image($val,$prm['size']??'full');
+				}
+				return wp_get_attachment_image($val,has_image_size($prm)?$prm:'full');
 			case 'video':
 				return sprintf(
 					'<video src="%s"%s></video>',
 					wp_get_attachment_url($val),
-					static::get_player_attr(array_merge($meta->conf,$prm))
+					static::get_player_attr(array_merge($meta->conf,(array)$prm))
 				);
 			case 'audio':
 				return sprintf(
 					'<audio src="%s"%s></audio>',
 					wp_get_attachment_url($val),
-					static::get_player_attr(array_merge($meta->conf,$prm))
+					static::get_player_attr(array_merge($meta->conf,(array)$prm))
 				);
 		}
 	}

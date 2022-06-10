@@ -211,6 +211,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/guzzle/guzzle/zipball/724562fa861e21a4071c652c8a159934e4f05592",
                 "reference": "724562fa861e21a4071c652c8a159934e4f05592",
+
                 "shasum": ""
             },
             "require": {
@@ -297,6 +298,7 @@
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
                 "source": "https://github.com/guzzle/guzzle/tree/6.5.7"
+
             },
             "funding": [
                 {
